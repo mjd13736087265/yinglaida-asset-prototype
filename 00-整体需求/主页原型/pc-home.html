@@ -1,0 +1,414 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>工作台 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  a.mi{color:inherit;text-decoration:none}
+  /* 房态分段条四色（对应字典默认演示色） */
+  .seg i.rent{background:var(--st-rent)}
+  .seg i.free{background:var(--st-free)}
+  .seg i.due{background:var(--st-due)}
+  .seg i.fix{background:var(--st-fix)}
+
+  /* 片区概览行内区块 */
+  .area{width:150px;flex-shrink:0}
+  .rate{width:64px;flex-shrink:0;text-align:right;font-size:16px;font-weight:700}
+  .a-link{width:56px;flex-shrink:0;text-align:right;font-size:12.5px;color:var(--brand);white-space:nowrap;cursor:pointer}
+  .a-link:hover{color:var(--brand-d)}
+
+  /* 快捷入口图标底色 */
+  .qi.bg-brand{background:var(--brand-bg);color:var(--brand)}
+  .qi.bg-green{background:var(--green-bg);color:var(--green)}
+  .qi.bg-orange{background:var(--orange-bg);color:var(--orange)}
+  .qi.bg-cyan{background:var(--cyan-bg);color:var(--cyan)}
+  .qi.bg-red{background:var(--red-bg);color:var(--red)}
+  .qi.bg-purple{background:var(--purple-bg);color:var(--purple)}
+
+  /* 快捷入口「预留」角标 */
+  .quick .q{position:relative}
+  .qmark{position:absolute;top:6px;right:8px;font-size:10.5px;color:var(--st-due);background:var(--st-due-bg);border-radius:4px;padding:0 5px;line-height:1.7}
+
+  /* 片区范围选择 */
+  .scope{display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel);color:var(--ink2);font-size:13px;cursor:pointer}
+  .scope:hover{border-color:var(--brand);color:var(--brand)}
+
+  /* KPI 卡场景配色：右上彩色图标方块 + 大数字着色 */
+  .kpi{position:relative}
+  .kic{position:absolute;top:14px;right:14px;width:34px;height:34px;border-radius:10px;display:flex;align-items:center;justify-content:center}
+  .kic svg{width:19px;height:19px}
+  .kic.c-blue{background:var(--brand-bg);color:var(--brand)}
+  .kic.c-cyan{background:var(--cyan-bg);color:var(--cyan)}
+  .kic.c-green{background:var(--green-bg);color:var(--green)}
+  .kic.c-orange{background:var(--orange-bg);color:var(--orange)}
+  .kic.c-red{background:var(--red-bg);color:var(--red)}
+  .vl.c-blue{color:var(--brand)}
+  .vl.c-cyan{color:var(--cyan)}
+  .vl.c-green{color:var(--green)}
+  .vl.c-orange{color:var(--orange)}
+  .vl.c-red{color:var(--red)}
+
+  /* ===== 垂直密度压缩（仅本页覆盖，目标 1440×900 一屏可见；字号不动，只收间距与图高） ===== */
+  .content{padding:6px 24px 8px}
+  .row{gap:10px;margin-bottom:8px}
+  .col{gap:8px}
+  /* KPI 卡 */
+  .kpi{padding:7px 18px 6px}
+  .kpi .lb{line-height:1.25}
+  .kpi .vl{margin-top:2px;line-height:1.1}
+  .kpi .sub{margin-top:2px;line-height:1.25}
+  .kic{top:8px}
+  /* 面板头/体 */
+  .panel .ph{padding:6px 18px}
+  .panel .pb{padding:6px 18px}
+  /* 列表行 */
+  .li-row{padding:3px 18px}
+  .li-row .t{line-height:1.3}
+  .li-row .s{line-height:1.3;margin-top:0}
+  /* 快捷入口格子 */
+  .quick .q{padding:8px 10px 7px;gap:5px}
+  .quick .q .qi{width:32px;height:32px;border-radius:9px}
+  /* 收款趋势柱状图 */
+  .bars{height:58px;padding-top:0}
+  .bars .b{gap:3px}
+  .bars .b span{line-height:1.2}
+  /* 页脚说明备注签收紧 */
+  .content>.note, .content>div>.note{padding-top:4px;padding-bottom:4px}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ========== 左侧导航 ========== -->
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="mark">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16"/>
+          <path d="M14 9h5a1 1 0 0 1 1 1v11"/>
+          <path d="M2 21h20"/>
+          <path d="M7 8h2M7 12h2M7 16h2M17 13h1M17 17h1"/>
+        </svg>
+      </span>
+      <span style="font-size:14px">英莱达资产管理系统<small>YINGLAIDA AMS</small></span>
+    </div>
+    <nav class="menu">
+      <div class="mg">运营</div>
+      <div class="mi on">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span>
+        工作台
+      </div>
+      <a class="mi" href="../../02-片区管理/原型/pc-area-list.html">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5.5-2.5v-13L9 7l6-2.5L20.5 7v13L15 17.5 9 20z"/><path d="M9 7v13M15 4.5v13"/></svg></span>
+        片区管理
+      </a>
+      <a class="mi" href="../../02-片区管理/原型/pc-room-list.html">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5"/><path d="M10 21v-6h4v6"/></svg></span>
+        房源管理
+      </a>
+      <a class="mi" href="../../02-片区管理/原型/pc-room-map.html">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 14v-3M11 14V8M15 14v-4"/><path d="M9 21h6"/></svg></span>
+        房态监控
+      </a>
+      <div class="mg">财务</div>
+      <div class="mi">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4"/><path d="M9 12h6M9 16h6"/></svg></span>
+        合同管理<span class="lock">后续</span>
+      </div>
+      <div class="mi">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9.5h6M9 13h6M12 7.5v9"/><path d="M10.5 9.5c0 2 3 2 3 3.5"/></svg></span>
+        收租管理<span class="lock">后续</span>
+      </div>
+      <div class="mi">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L5 13.5h5L10 22l8-11.5h-5L13 2z"/></svg></span>
+        水电管理<span class="lock">后续</span>
+      </div>
+      <div class="mg">服务</div>
+      <div class="mi">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.8 2.8-2-2 2.8-2.8z"/></svg></span>
+        物业服务（报修）<span class="lock">后续</span>
+      </div>
+      <div class="mi">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11.5l2 2 4-4.5"/><path d="M7 3h10a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/></svg></span>
+        审批中心<span class="lock">后续</span>
+      </div>
+      <div class="mg">系统</div>
+      <div class="mi">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2-1.2L14.2 3h-4l-.4 2.7a7 7 0 0 0-2 1.2l-2.3-1-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 2 1.2l.4 2.7h4l.4-2.7a7 7 0 0 0 2-1.2l2.3 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z"/></svg></span>
+        系统管理<span class="lock">后续</span>
+      </div>
+    </nav>
+    <details class="endsw">
+      <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h11l-3.5-3.5"/><path d="M17 16H6l3.5 3.5"/></svg>切换演示端<span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></summary>
+      <div class="endsw-menu">
+        <a href="m-admin-home.html">移动管理端（小程序）</a>
+        <a href="m-user-home.html">移动用户端（小程序）</a>
+      </div>
+    </details>
+    <div class="who">V1 原型 · 仅工作台为本期范围</div>
+  </aside>
+
+  <!-- ========== 主区域 ========== -->
+  <div class="main">
+
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="crumb"><span>首页 / </span>工作台</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：全部片区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 内容区 -->
+    <div class="content">
+
+      <!-- 第 1 行：KPI -->
+      <div class="row">
+        <div class="kpi">
+          <span class="kic c-blue"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5.5-2.5v-13L9 7l6-2.5L20.5 7v13L15 17.5 9 20z"/><path d="M9 7v13M15 4.5v13"/></svg></span>
+          <div class="lb">片区总数</div>
+          <div class="vl num c-blue">6<small>个</small></div>
+          <div class="sub">公寓业态 · 全部启用中</div>
+        </div>
+        <div class="kpi">
+          <span class="kic c-cyan"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/><path d="M11 21v-3h2v3"/></svg></span>
+          <div class="lb">房源总数</div>
+          <div class="vl num c-cyan">1,248<small>间</small></div>
+          <div class="sub">在租 <b class="num">1,093</b> · 空置 <b class="num">98</b></div>
+        </div>
+        <div class="kpi">
+          <span class="kic c-green"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M19 5L5 19"/><circle cx="7.2" cy="7.2" r="2.6"/><circle cx="16.8" cy="16.8" r="2.6"/></svg></span>
+          <div class="lb">综合出租率</div>
+          <div class="vl num c-green">87.6<small>%</small></div>
+          <div class="sub">环比 <span class="up num">+1.2%</span></div>
+        </div>
+        <div class="kpi">
+          <span class="kic c-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 8l3.5 4.5L15.5 8"/><path d="M12 12.5V17"/><path d="M9.5 13.5h5"/></svg></span>
+          <div class="lb">本月实收</div>
+          <div class="vl num c-orange">96.40<small>万元</small></div>
+          <div class="sub">应收 <b class="num">105.7</b> 万 · 回款率 <b class="num">91.2%</b></div>
+        </div>
+        <div class="kpi">
+          <span class="kic c-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5h14V21l-2.3-1.7L14 21l-2-1.7L10 21l-2.3-1.7L5 21z"/><path d="M12 7.5v4.5"/><path d="M12 15.5h.01"/></svg></span>
+          <div class="lb">欠费总额</div>
+          <div class="vl num c-red">5.76<small>万元</small></div>
+          <div class="sub">欠费 <b class="num">23</b> 户 · 环比 <span class="down num">+0.4 万</span></div>
+        </div>
+      </div>
+
+      <!-- 第 2 行：片区概览 + 待办 -->
+      <div class="row">
+        <div class="panel" style="flex:2;min-width:0">
+          <div class="ph">
+            <h3>各片区经营概览</h3>
+            <a class="more" href="../../02-片区管理/原型/pc-area-list.html">查看全部 →</a>
+          </div>
+          <div class="pb flush">
+            <div class="li-row">
+              <div class="area"><div class="t">兴业人才公寓</div><div class="s num">320 间</div></div>
+              <div class="seg grow">
+                <i class="rent" style="width:92.2%"></i><i class="free" style="width:5.6%"></i><i class="due" style="width:1.6%"></i><i class="fix" style="width:0.6%"></i>
+              </div>
+              <div class="rate num">92.3%</div>
+              <a class="a-link" href="../../02-片区管理/原型/pc-room-list.html">进入 →</a>
+            </div>
+            <div class="li-row">
+              <div class="area"><div class="t">云谷创业园区</div><div class="s num">260 间</div></div>
+              <div class="seg grow">
+                <i class="rent" style="width:88.5%"></i><i class="free" style="width:7.7%"></i><i class="due" style="width:2.7%"></i><i class="fix" style="width:1.1%"></i>
+              </div>
+              <div class="rate num">88.5%</div>
+              <a class="a-link" href="../../02-片区管理/原型/pc-room-list.html">进入 →</a>
+            </div>
+            <div class="li-row">
+              <div class="area"><div class="t">学府青年园区</div><div class="s num">240 间</div></div>
+              <div class="seg grow">
+                <i class="rent" style="width:85.0%"></i><i class="free" style="width:9.2%"></i><i class="due" style="width:3.7%"></i><i class="fix" style="width:2.1%"></i>
+              </div>
+              <div class="rate num">85.0%</div>
+              <a class="a-link" href="../../02-片区管理/原型/pc-room-list.html">进入 →</a>
+            </div>
+            <div class="li-row">
+              <div class="area"><div class="t">临港智造园区</div><div class="s num">98 间</div></div>
+              <div class="seg grow">
+                <i class="rent" style="width:89.8%"></i><i class="free" style="width:8.2%"></i><i class="due" style="width:1.0%"></i><i class="fix" style="width:1.0%"></i>
+              </div>
+              <div class="rate num">90.2%</div>
+              <a class="a-link" href="../../02-片区管理/原型/pc-room-list.html">进入 →</a>
+            </div>
+            <div class="li-row">
+              <div class="area"><div class="t">滨江科创园区</div><div class="s num">208 间</div></div>
+              <div class="seg grow">
+                <i class="rent" style="width:86.1%"></i><i class="free" style="width:8.7%"></i><i class="due" style="width:3.8%"></i><i class="fix" style="width:1.4%"></i>
+              </div>
+              <div class="rate num">86.1%</div>
+              <a class="a-link" href="../../02-片区管理/原型/pc-room-list.html">进入 →</a>
+            </div>
+            <div class="li-row">
+              <div class="area"><div class="t">梧桐公寓楼</div><div class="s num">122 间</div></div>
+              <div class="seg grow">
+                <i class="rent" style="width:79.5%"></i><i class="free" style="width:9.8%"></i><i class="due" style="width:6.6%"></i><i class="fix" style="width:4.1%"></i>
+              </div>
+              <div class="rate num">79.5%</div>
+              <a class="a-link" href="../../02-片区管理/原型/pc-room-list.html">进入 →</a>
+            </div>
+          </div>
+          <div class="pb" style="border-top:1px solid var(--line2)">
+            <div class="legend">
+              <span class="li"><i class="dot rent"></i>在租</span>
+              <span class="li"><i class="dot free"></i>空置</span>
+              <span class="li"><i class="dot due"></i>即将到期</span>
+              <span class="li"><i class="dot fix"></i>维修中</span>
+              <span class="note" style="margin-left:auto">房态状态项与颜色来源于 系统管理 - 字典配置，可按需增删</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="flex:1;min-width:0">
+          <div class="ph">
+            <div class="tabs">
+              <div class="tb on">审批<span class="n">2</span></div>
+              <div class="tb">合同到期<span class="n">2</span></div>
+              <div class="tb">欠费<span class="n">1</span></div>
+              <div class="tb">工单<span class="n">1</span></div>
+            </div>
+          </div>
+          <div class="pb flush">
+            <div class="li-row">
+              <div class="grow"><div class="t">退租审批 · 滨江 3-502 · 王女士</div><div class="s">承租人申请提前退租，待运营主管审批</div></div>
+              <span class="tag due">待审批</span>
+            </div>
+            <div class="li-row">
+              <div class="grow"><div class="t">换租审批 · 城东 1-806 · 李先生</div><div class="s">申请由一居室换至两居室，差价待核算</div></div>
+              <span class="tag due">待审批</span>
+            </div>
+            <div class="li-row">
+              <div class="grow"><div class="t">合同 15 天后到期 · 城东 2-1103</div><div class="s">租户 张先生 · 月租 2,300 元 · 待跟进续签</div></div>
+              <span class="tag rsv">到期提醒</span>
+            </div>
+            <div class="li-row">
+              <div class="grow"><div class="t">合同 21 天后到期 · 临港 4-1201</div><div class="s">租户 周女士 · 月租 1,850 元 · 已发续签通知</div></div>
+              <span class="tag rsv">到期提醒</span>
+            </div>
+            <div class="li-row">
+              <div class="grow"><div class="t">欠费催缴 · 高新 7-208 · 欠 2,400 元</div><div class="s">已逾期 32 天 · 本月第二次催缴提醒</div></div>
+              <span class="tag red">欠费</span>
+            </div>
+            <div class="li-row">
+              <div class="grow"><div class="t">报修派单 · 大学城 5-301 · 水管漏水</div><div class="s">租户报修 2 小时前 · 待指派维修师傅</div></div>
+              <span class="tag fix">待派单</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 第 3 行：快捷入口 + 趋势/到期 -->
+      <div class="row">
+        <div class="panel" style="flex:1;min-width:0">
+          <div class="ph"><h3>快捷入口</h3></div>
+          <div class="quick">
+            <a class="q" href="../../02-片区管理/原型/pc-area-edit.html">
+              <span class="qi bg-brand"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5.5-2.5v-13L9 7l6-2.5L20.5 7v13L15 17.5 9 20z"/><path d="M9 7v13M15 4.5v13"/><path d="M12 11.5h0"/></svg></span>
+              <span class="qt">新增片区</span>
+            </a>
+            <a class="q" href="../../02-片区管理/原型/pc-room-import.html">
+              <span class="qi bg-cyan"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11"/><path d="M8.5 10.5L12 14l3.5-3.5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg></span>
+              <span class="qt">房源批量导入</span>
+            </a>
+            <div class="q">
+              <span class="qmark">预留</span>
+              <span class="qi bg-green"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4"/><path d="M9 15.5l2 2 4-4"/></svg></span>
+              <span class="qt">合同签署</span>
+            </div>
+            <div class="q">
+              <span class="qi bg-orange"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="M3 10h18"/><path d="M7 15h4"/></svg></span>
+              <span class="qt">账单核销</span>
+            </div>
+            <div class="q">
+              <span class="qmark">预留</span>
+              <span class="qi bg-purple"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 4h14v16l-2.5-1.8L14 20l-2-1.8L10 20l-2.5-1.8L5 20V4z"/><path d="M9 9h6M9 13h4"/></svg></span>
+              <span class="qt">开票审核</span>
+            </div>
+            <div class="q">
+              <span class="qmark">预留</span>
+              <span class="qi bg-brand"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 3h4a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1h-4"/><path d="M10 17l5-5-5-5"/><path d="M15 12H3"/></svg></span>
+              <span class="qt">入住办理</span>
+            </div>
+            <div class="q">
+              <span class="qmark">预留</span>
+              <span class="qi bg-red"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 21H5a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1h4"/><path d="M16 17l-5-5 5-5"/><path d="M11 12h10"/></svg></span>
+              <span class="qt">退房办理</span>
+            </div>
+            <div class="q">
+              <span class="qi bg-cyan"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.8 2.8-2-2 2.8-2.8z"/></svg></span>
+              <span class="qt">报修派单</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="col" style="flex:1;min-width:0">
+          <div class="panel">
+            <div class="ph"><h3>近 6 个月收款趋势</h3><span class="more">单位：万元</span></div>
+            <div class="pb">
+              <div class="bars">
+                <div class="b dim"><span class="num">82.1</span><i style="height:36px"></i><span>4月</span></div>
+                <div class="b dim"><span class="num">85.4</span><i style="height:38px"></i><span>5月</span></div>
+                <div class="b dim"><span class="num">88.9</span><i style="height:40px"></i><span>6月</span></div>
+                <div class="b dim"><span class="num">90.2</span><i style="height:42px"></i><span>7月</span></div>
+                <div class="b dim"><span class="num">93.8</span><i style="height:45px"></i><span>8月</span></div>
+                <div class="b"><span class="num" style="color:var(--brand);font-weight:600">96.4</span><i style="height:48px"></i><span>9月</span></div>
+              </div>
+            </div>
+          </div>
+          <div class="panel">
+            <div class="ph"><h3>即将到期合同</h3><span class="more">查看全部 →</span></div>
+            <div class="pb flush">
+              <div class="li-row">
+                <div class="grow"><div class="t">城东 2-1103 · 张先生</div><div class="s">月租 2,300 元 · 已签 11 个月</div></div>
+                <span class="tag due num">15 天后</span>
+              </div>
+              <div class="li-row">
+                <div class="grow"><div class="t">临港 4-1201 · 周女士</div><div class="s">月租 1,850 元 · 已签 1 年</div></div>
+                <span class="tag due num">21 天后</span>
+              </div>
+              <div class="li-row">
+                <div class="grow"><div class="t">高新 6-904 · 吴先生</div><div class="s">月租 2,650 元 · 已签 2 年</div></div>
+                <span class="tag due num">28 天后</span>
+              </div>
+              <div class="li-row">
+                <div class="grow"><div class="t">大学城 1-405 · 郑同学</div><div class="s">月租 1,200 元 · 已签 10 个月</div></div>
+                <span class="tag due num">34 天后</span>
+              </div>
+              <div class="li-row">
+                <div class="grow"><div class="t">滨江 5-1702 · 林女士</div><div class="s">月租 3,100 元 · 已签 1 年</div></div>
+                <span class="tag due num">42 天后</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 页脚说明 -->
+      <div>
+        <span class="note">本页为 V1 原型，所有数据均为演示数据；左侧导航中标注『后续』的模块将在后续迭代逐一设计</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

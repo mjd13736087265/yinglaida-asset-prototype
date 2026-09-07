@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 工作台 · 英莱达资管</title>
+<link rel="stylesheet" href="assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .m-head .loc svg{width:16px;height:16px;flex-shrink:0}
+  .m-head .m-bell svg{width:17px;height:17px}
+  .m-stats .c .vl.red{color:var(--red)}
+  .m-stats .c .vl.blue{color:var(--brand)}
+  .m-stats .c .vl.orange{color:var(--orange)}
+  .m-tiles .tl .ti svg{width:24px;height:24px}
+  .m-apps .ap .ai svg{width:26px;height:26px}
+  /* 宫格浅底色轮换 */
+  .m-apps .ap .ai.b{background:var(--brand-bg);color:var(--brand)}
+  .m-apps .ap .ai.g{background:var(--green-bg);color:var(--green)}
+  .m-apps .ap .ai.o{background:var(--orange-bg);color:var(--orange)}
+  .m-apps .ap .ai.c{background:var(--cyan-bg);color:var(--cyan)}
+  .m-apps .ap .ai.r{background:var(--red-bg);color:var(--red)}
+  .m-apps .ap .ai.p{background:var(--purple-bg);color:var(--purple)}
+  .m-sec .note{margin-top:12px}
+  /* 演示数据角标下移，避开头部铃铛与「用户端」切换按钮 */
+  .demo-mark{top:118px}
+  /* 画板 iframe 无缝嵌入模式（?embed=1）：去手机壳与舞台底 */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 工作台</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 蓝色头部 -->
+      <div class="m-head">
+        <div class="loc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s-6.5-5.5-6.5-10a6.5 6.5 0 1 1 13 0c0 4.5-6.5 10-6.5 10z"/><circle cx="12" cy="11.5" r="2.4"/></svg>
+          <span>全部片区 · <b>陈志远</b> ▾</span>
+          <div class="m-bell">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18.5 9.5a6.5 6.5 0 1 0-13 0c0 5.5-2 6.5-2 6.5h17s-2-1-2-6.5z"/><path d="M10 19.5a2.2 2.2 0 0 0 4 0"/></svg>
+            <span class="bdg">3</span>
+          </div>
+          <details class="esw">
+            <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h11l-3.5-3.5"/><path d="M17 16H6l3.5 3.5"/></svg></summary>
+            <div class="esw-menu">
+              <a href="pc-home.html">PC 管理端</a>
+              <a href="m-user-home.html">移动用户端</a>
+            </div>
+          </details>
+        </div>
+        <div class="big-lb">本月实收（万元）</div>
+        <div class="big num">96.40</div>
+        <div class="sub-line"><span>应收 <span class="num">105.7</span> 万</span><span>回款率 <span class="num">91.2%</span></span></div>
+      </div>
+
+      <!-- 悬浮统计卡 -->
+      <div class="m-stats">
+        <div class="c"><div class="lb">欠费总额</div><div class="vl num red">5.76<small> 万</small></div></div>
+        <div class="c"><div class="lb">出租率</div><div class="vl num blue">87.6<small> %</small></div></div>
+        <div class="c"><div class="lb">待办</div><div class="vl num orange">6<small> 项</small></div></div>
+      </div>
+
+      <!-- 常用功能 2x2 -->
+      <div class="m-sec">
+        <div class="st">常用功能</div>
+        <div class="m-tiles">
+          <div class="tl c-red">
+            <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10v4a1 1 0 0 0 1 1h2l4.5 4V5L6.5 9h-2a1 1 0 0 0-1 1z"/><path d="M14.5 9.5a3.5 3.5 0 0 1 0 5"/><path d="M17.5 7a7 7 0 0 1 0 10"/></svg></div>
+            <div><div class="tt">催缴通知</div><div class="ts">微信·短信催收</div></div>
+          </div>
+          <div class="tl c-green">
+            <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="16" r="4.5"/><circle cx="7.5" cy="16" r="1.6"/><path d="M10.5 13L19.5 4"/><path d="M15.5 8l2.5 2.5"/><path d="M18 5.5l2 2"/></svg></div>
+            <div><div class="tt">入住办理</div><div class="ts">选房·签约入住</div></div>
+          </div>
+          <div class="tl c-orange">
+            <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 3.5H19a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1h-5.5"/><path d="M9.5 8l-4.5 4 4.5 4"/><path d="M5 12h10"/></svg></div>
+            <div><div class="tt">退房结算</div><div class="ts">交接·退押金</div></div>
+          </div>
+          <div class="tl c-blue">
+            <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h8l3.5 3.5V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5 20V4.5A1.5 1.5 0 0 1 6.5 3z"/><path d="M14.5 3v3.5H18"/><path d="M14.2 10.2a2.6 2.6 0 0 0-3.5 3.5l-3.2 3.2v1.6h1.6l3.2-3.2a2.6 2.6 0 0 0 3.5-3.5l-1.8 1.8-1-1 1.4-2.4z"/></svg></div>
+            <div><div class="tt">报修派单</div><div class="ts">现场派单维修</div></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 全部应用 8 宫格 -->
+      <div class="m-sec">
+        <div class="st">全部应用</div>
+        <div class="m-apps">
+          <a class="ap" href="../../02-片区管理/原型/m-admin-map.html" style="color:inherit">
+            <div class="ai b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5V9.5a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v11"/><path d="M10.5 20.5V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v16.5"/><path d="M2.5 20.5h19"/><path d="M13.5 6.5h2M13.5 10h2M13.5 13.5h2"/><path d="M6 12h1.5M6 15.5h1.5"/></svg></div>
+            <div class="at">产业管理</div>
+          </a>
+          <div class="ap">
+            <div class="ai g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 8l3.5 4.5L15.5 8"/><path d="M12 12.5V17"/><path d="M9.5 13.5h5"/></svg></div>
+            <div class="at">收租管理</div>
+          </div>
+          <div class="ap">
+            <div class="ai o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v4h4"/><path d="M9 8h3"/><path d="M8.8 17.2l.7-2.6 4.3-4.3 1.9 1.9-4.3 4.3-2.6.7z"/></svg></div>
+            <div class="at">合同管理</div>
+          </div>
+          <div class="ap">
+            <div class="ai c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5s6 6.2 6 10a6 6 0 1 1-12 0c0-3.8 6-10 6-10z"/><path d="M12.6 8.5l-2.8 4h2.4l-1 3.5 3.3-4.5h-2.3l.4-3z"/></svg></div>
+            <div class="at">水电管理</div>
+          </div>
+          <div class="ap">
+            <div class="ai r"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 6.5a4.2 4.2 0 0 0-5.6 5.6L4 17v3h3l4.9-4.9a4.2 4.2 0 0 0 5.6-5.6l-2.7 2.7-2-.7-.7-2 2.4-3z"/><path d="M4.5 4.5l4 4"/><path d="M8.5 8.5l7 7"/><path d="M15.5 15.5l2.8 2.8"/><path d="M17.5 19.1l1.6-1.6"/></svg></div>
+            <div class="at">物业报修</div>
+          </div>
+          <div class="ap">
+            <div class="ai p"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5V11"/><path d="M12 11c-3 0-5.5 1-6.5 3L4 21.5h16L18.5 14c-1-2-3.5-3-6.5-3z"/><path d="M9 14.5L8 20"/><path d="M15 14.5l1 5.5"/><path d="M12 15v6"/></svg></div>
+            <div class="at">客房清扫</div>
+          </div>
+          <div class="ap">
+            <div class="ai b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 20.5h16.5"/><path d="M7.5 20.5v-5M12 20.5V12M16.5 20.5v-7"/><path d="M6 11l4-4 3.5 3 5-5.5"/><path d="M16 4.5h2.5V7"/></svg></div>
+            <div class="at">数据报表</div>
+          </div>
+          <div class="ap">
+            <div class="ai g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M8 12.3l2.7 2.7 5.3-5.8"/></svg></div>
+            <div class="at">审批中心</div>
+          </div>
+        </div>
+        <div class="note">客房清扫、数据报表等为后续模块预留入口</div>
+      </div>
+
+    </div>
+
+    <!-- 底部 Tab -->
+    <div class="m-tab">
+      <div class="ti on">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="3.5" width="7" height="7" rx="1.5"/><rect x="3.5" y="13.5" width="7" height="7" rx="1.5"/><rect x="13.5" y="13.5" width="7" height="7" rx="1.5"/></svg>
+        工作台
+      </div>
+      <a class="ti" href="../../02-片区管理/原型/m-admin-map.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/><path d="M11 21v-3h2v3"/></svg>
+        产业
+      </a>
+      <div class="ti">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 8l3.5 4.5L15.5 8"/><path d="M12 12.5V17"/><path d="M9.5 13.5h5"/></svg>
+        收租
+      </div>
+      <div class="ti">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.8" r="3.6"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg>
+        我的
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

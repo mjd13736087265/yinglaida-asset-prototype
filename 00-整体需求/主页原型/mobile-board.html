@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>双机画板 · 移动端主页原型 · 英莱达资管</title>
+<link rel="stylesheet" href="assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .board-tt{width:100%;text-align:center;font-size:16px;font-weight:600;color:var(--ink);letter-spacing:.5px}
+  .board-tt small{display:block;font-size:12px;font-weight:400;color:var(--ink3);margin-top:3px}
+  .phone iframe{border:0;width:375px;flex:1;display:block;background:var(--paper)}
+</style>
+</head>
+<body class="stage">
+
+<div class="board-tt">
+  英莱达资管 · 移动端主页原型（演示数据）
+  <small>移动管理端工作台 与 移动用户端首页 并排对比 · 供评审汇报使用</small>
+</div>
+
+<div class="device">
+  <div class="cap">管理端 · 工作台</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <iframe src="m-admin-home.html?embed=1" title="移动管理端 · 工作台"></iframe>
+  </div>
+</div>
+
+<div class="device">
+  <div class="cap">用户端 · 首页</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <iframe src="m-user-home.html?embed=1" title="移动用户端 · 首页"></iframe>
+  </div>
+</div>
+
+</body>
+</html>
