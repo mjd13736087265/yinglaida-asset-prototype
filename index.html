@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>英莱达资产管理系统 · 原型总览</title>
+<link rel="stylesheet" href="00-整体需求/主页原型/assets/app.css">
+<style>
+  body{background:var(--paper);font-family:-apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:var(--ink);margin:0}
+  .portal{max-width:960px;margin:0 auto;padding:72px 32px 80px}
+  .p-head{text-align:center;margin-bottom:48px}
+  .p-head h1{font-size:30px;margin:0 0 10px;letter-spacing:1px}
+  .p-head p{margin:0;color:var(--ink2);font-size:14px}
+  .p-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:18px}
+  .p-card{display:block;background:var(--panel);border:1px solid var(--line);border-radius:14px;padding:34px 24px 28px;text-decoration:none;color:var(--ink);text-align:center;transition:border-color .15s,transform .15s}
+  .p-card:hover{border-color:var(--brand);transform:translateY(-2px)}
+  .p-ic{width:60px;height:60px;margin:0 auto 16px;border-radius:16px;display:flex;align-items:center;justify-content:center}
+  .p-ic svg{width:30px;height:30px}
+  .p-ic.b{background:var(--brand-bg);color:var(--brand)}
+  .p-ic.g{background:var(--st-free-bg);color:var(--st-free)}
+  .p-ic.o{background:var(--st-due-bg);color:var(--st-due)}
+  .p-card b{display:block;font-size:18px;margin-bottom:8px}
+  .p-card span{font-size:13px;color:var(--ink2);line-height:1.7}
+  .p-foot{text-align:center;margin-top:40px;font-size:12px;color:var(--ink3)}
+  @media (max-width:760px){.p-cards{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<div class="portal">
+  <div class="p-head">
+    <h1>英莱达资产管理系统 · 原型</h1>
+    <p>YINGLAIDA PMS PROTOTYPES · V1.1 · 本期范围：片区管理（公寓业态）</p>
+  </div>
+
+  <div class="p-cards">
+    <a class="p-card" href="00-整体需求/主页原型/pc-home.html">
+      <div class="p-ic b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="12" rx="2"/><path d="M9 20h6M12 16v4"/></svg></div>
+      <b>PC 管理端</b>
+      <span>运营工作台 · 片区 / 房源 / 房态<br>后台管理主端</span>
+    </a>
+    <a class="p-card" href="00-整体需求/主页原型/m-admin-home.html">
+      <div class="p-ic g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/><path d="M10 2.5h4"/></svg></div>
+      <b>移动管理端</b>
+      <span>微信小程序 · 管理侧<br>移动办公 · 现场操作</span>
+    </a>
+    <a class="p-card" href="00-整体需求/主页原型/m-user-home.html">
+      <div class="p-ic o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.6"/><path d="M5 20a7 7 0 0 1 14 0"/></svg></div>
+      <b>移动用户端</b>
+      <span>微信小程序 · 租户侧<br>找房 · 我的房源 · 在线服务</span>
+    </a>
+  </div>
+
+  <div class="p-foot">进入任意一端后，可通过页面内导航到达本期全部原型页面</div>
+</div>
+</body>
+</html>
