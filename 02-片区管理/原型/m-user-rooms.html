@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动用户端 · 找房列表 · 英莱达资管</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .w-top{display:flex;align-items:center;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 12px;flex-shrink:0}
+  .w-top .tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .w-top .side{width:32px;flex-shrink:0}
+  .u-search{margin:10px 14px 0;background:var(--line2);border-radius:999px;padding:9px 14px;display:flex;align-items:center;gap:8px;color:var(--ink3);font-size:13px;flex-shrink:0}
+  .u-search svg{width:16px;height:16px;flex-shrink:0}
+  /* 房源图渐变占位 */
+  .m-room .pic.p1{background:linear-gradient(135deg,var(--brand),var(--purple))}
+  .m-room .pic.p2{background:linear-gradient(135deg,var(--cyan),var(--green))}
+  .m-room .pic.p3{background:linear-gradient(135deg,var(--orange),var(--red))}
+  .m-room .pic.p4{background:linear-gradient(135deg,var(--brand),var(--cyan))}
+  .m-room .pic.p5{background:linear-gradient(135deg,var(--green),var(--purple))}
+  /* 白色顶栏下 demo-mark 反色 */
+  .demo-mark{color:var(--ink3);border-color:var(--line)}
+  /* 画板 iframe 无缝嵌入模式（?embed=1）：去手机壳与舞台底 */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">用户端 · 找房列表</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 白色顶栏 -->
+      <div class="w-top">
+        <div class="side"></div>
+        <div class="tt">找房</div>
+        <div class="side"></div>
+      </div>
+
+      <!-- 搜索框 -->
+      <div class="u-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6"/><path d="M20 20l-3.5-3.5"/></svg>
+        搜索公寓 / 户型 / 价格
+      </div>
+
+      <!-- 筛选 chips -->
+      <div class="chips">
+        <div class="chip on">全部</div>
+        <div class="chip">可预订</div>
+        <div class="chip">热租中</div>
+        <div class="chip">一室一厅</div>
+        <div class="chip">两室一厅</div>
+        <div class="chip num">¥1500 以下</div>
+        <div class="chip num">¥1500–2500</div>
+      </div>
+
+      <!-- 房源列表 -->
+      <div class="m-sec">
+
+        <a class="m-room" href="m-user-room.html" style="color:inherit">
+          <div class="pic p1"><span class="tag free">可预订</span></div>
+          <div class="grow">
+            <div class="t">滨江青年公寓 · 一室一厅</div>
+            <div class="s"><span class="num">45㎡</span> · 朝南 · 精装</div>
+            <div class="p num">¥1,850<small>/月</small></div>
+          </div>
+        </a>
+
+        <a class="m-room" href="m-user-room.html" style="color:inherit">
+          <div class="pic p2"><span class="tag red">热租中</span></div>
+          <div class="grow">
+            <div class="t">高新人才公寓 · 单间</div>
+            <div class="s"><span class="num">32㎡</span> · 近地铁</div>
+            <div class="p num">¥1,380<small>/月</small></div>
+          </div>
+        </a>
+
+        <a class="m-room" href="m-user-room.html" style="color:inherit">
+          <div class="pic p3"><span class="tag free">可预订</span></div>
+          <div class="grow">
+            <div class="t">大学城学府公寓 · 两室一厅</div>
+            <div class="s"><span class="num">68㎡</span> · 整租</div>
+            <div class="p num">¥2,600<small>/月</small></div>
+          </div>
+        </a>
+
+        <a class="m-room" href="m-user-room.html" style="color:inherit">
+          <div class="pic p4"><span class="tag free">可预订</span></div>
+          <div class="grow">
+            <div class="t">临港海景公寓 · 单间</div>
+            <div class="s"><span class="num">35㎡</span> · 独立卫浴</div>
+            <div class="p num">¥1,580<small>/月</small></div>
+          </div>
+        </a>
+
+        <a class="m-room" href="m-user-room.html" style="color:inherit">
+          <div class="pic p5"><span class="tag red">热租中</span></div>
+          <div class="grow">
+            <div class="t">城西阳光公寓 · 一室一厅</div>
+            <div class="s"><span class="num">42㎡</span> · 押一付一</div>
+            <div class="p num">¥1,650<small>/月</small></div>
+          </div>
+        </a>
+
+      </div>
+
+    </div>
+
+    <!-- 底部 Tab -->
+    <div class="m-tab">
+      <a class="ti" href="../../00-整体需求/主页原型/m-user-home.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l8-6 8 6"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></svg>
+        首页
+      </a>
+      <div class="ti on">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/><path d="M11 21v-3h2v3"/></svg>
+        房源
+      </div>
+      <div class="ti">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg>
+        消息
+      </div>
+      <div class="ti">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
+        我的
+      </div>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

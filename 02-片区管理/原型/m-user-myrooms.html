@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动用户端 · 我的房源 · 英莱达资管</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .w-top{display:flex;align-items:center;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 12px;flex-shrink:0}
+  .w-top .bk{width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink);flex-shrink:0}
+  .w-top .bk svg{width:20px;height:20px}
+  .w-top .tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .w-top .side{width:32px;flex-shrink:0}
+  /* 白色顶栏下 demo-mark 反色 */
+  .demo-mark{color:var(--ink3);border-color:var(--line)}
+  /* 概要行 */
+  .my-sum{padding:12px 14px 0;font-size:13px;color:var(--ink2)}
+  .my-sum b{color:var(--ink);font-weight:600}
+  /* 房源卡（整卡可点，快捷操作压在上层） */
+  .my-card{position:relative;display:block;margin:10px 14px 0;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:14px}
+  .my-card .card-go{position:absolute;inset:0;z-index:1;border-radius:inherit;cursor:pointer}
+  .my-card .ch{display:flex;align-items:center;gap:8px}
+  .my-card .ch .rn{font-size:16px;font-weight:700}
+  .my-card .cs{font-size:12.5px;color:var(--ink3);margin-top:6px}
+  .my-card .cr{display:flex;align-items:baseline;margin-top:8px}
+  .my-card .cp{color:var(--red);font-weight:700;font-size:16px}
+  .my-card .cp small{font-size:11px;color:var(--ink3);font-weight:400}
+  .my-card .ct{margin-left:auto;font-size:12px;color:var(--ink3)}
+  .my-card .ct b{color:var(--orange);font-weight:600}
+  /* 快捷操作：预留视觉（灰字 + 预留角标） */
+  .my-card .ops{display:flex;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line2)}
+  .my-card .ops a{flex:1;position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:5px;height:32px;border:1px solid var(--line);border-radius:8px;font-size:12.5px;color:var(--ink3);text-decoration:none}
+  .my-card .ops .soon{font-size:10px;color:var(--ink3);border:1px solid var(--line);border-radius:4px;padding:0 4px;line-height:1.5}
+  /* 页底说明 */
+  .my-note{margin:12px 14px 0}
+  /* 画板 iframe 无缝嵌入模式（?embed=1）：去手机壳与舞台底 */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">用户端 · 我的房源</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 白色顶栏 -->
+      <div class="w-top">
+        <a class="bk" href="../../00-整体需求/主页原型/m-user-home.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </a>
+        <div class="tt">我的房源</div>
+        <div class="side"></div>
+      </div>
+
+      <!-- 概要行 -->
+      <div class="my-sum">共 <b class="num">2</b> 套在租 · 月租金合计 <b class="num">¥3,230</b></div>
+
+      <!-- 房源卡 ① -->
+      <div class="my-card">
+        <a class="card-go" href="m-user-room.html" title="点击查看房源详情"></a>
+        <div class="ch">
+          <span class="rn">1 栋 - 301</span>
+          <span class="tag rent">在租</span>
+        </div>
+        <div class="cs">一室一厅 · <span class="num">45㎡</span> · 朝南 · 精装</div>
+        <div class="cr">
+          <span class="cp num">¥1,850<small>/月</small></span>
+          <span class="ct num">合同期 2025-12-01 ~ 2026-11-30</span>
+        </div>
+        <div class="ops">
+          <a href="javascript:void(0)">缴租<span class="soon">预留</span></a>
+          <a href="javascript:void(0)">报修<span class="soon">预留</span></a>
+          <a href="javascript:void(0)">看合同<span class="soon">预留</span></a>
+        </div>
+      </div>
+
+      <!-- 房源卡 ② -->
+      <div class="my-card">
+        <a class="card-go" href="m-user-room.html" title="点击查看房源详情"></a>
+        <div class="ch">
+          <span class="rn">2 栋 - 401</span>
+          <span class="tag due">即将到期</span>
+        </div>
+        <div class="cs">单间 · <span class="num">32㎡</span></div>
+        <div class="cr">
+          <span class="cp num">¥1,380<small>/月</small></span>
+          <span class="ct num">合同至 2026-09-19 · 剩 <b class="num">15</b> 天</span>
+        </div>
+        <div class="ops">
+          <a href="javascript:void(0)">缴租<span class="soon">预留</span></a>
+          <a href="javascript:void(0)">报修<span class="soon">预留</span></a>
+          <a href="javascript:void(0)">看合同<span class="soon">预留</span></a>
+        </div>
+      </div>
+
+      <!-- 页底说明 -->
+      <div class="note my-note">缴租 / 报修 / 合同为后续模块功能，本期预留入口</div>
+
+    </div>
+
+    <!-- 底部 Tab（与找房列表一致，本页不高亮任何 tab） -->
+    <div class="m-tab">
+      <a class="ti" href="../../00-整体需求/主页原型/m-user-home.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l8-6 8 6"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></svg>
+        首页
+      </a>
+      <a class="ti" href="m-user-rooms.html">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/><path d="M11 21v-3h2v3"/></svg>
+        房源
+      </a>
+      <div class="ti">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg>
+        消息
+      </div>
+      <a class="ti" href="javascript:void(0)">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
+        我的
+      </a>
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

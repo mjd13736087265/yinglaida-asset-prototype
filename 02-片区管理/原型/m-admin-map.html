@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 房态查看 · 英莱达资管</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .m-head{padding:44px 18px 18px;border-radius:0 0 18px 18px}
+  .mh-row{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:600}
+  .mh-row svg{width:20px;height:20px;flex-shrink:0}
+  .m-head .loc{margin-top:10px;font-size:13px}
+  .m-head .loc svg{width:15px;height:15px;flex-shrink:0}
+  .map-note{margin:2px 14px 16px}
+  /* 新增房源入口（房态盘下方虚线通栏按钮） */
+  .room-add{display:block;margin:12px 14px 12px;padding:12px;text-align:center;border:1px dashed var(--line);border-radius:8px;background:#fff;font-size:13.5px;color:var(--ink2);text-decoration:none}
+  .room-add b{color:var(--brand);font-weight:600}
+  /* 画板 iframe 无缝嵌入模式（?embed=1）：去手机壳与舞台底 */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 房态查看</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 蓝色头部 -->
+      <div class="m-head">
+        <div class="mh-row">
+          <a href="../../00-整体需求/主页原型/m-admin-home.html" style="color:inherit;display:flex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>
+          房态查看
+        </div>
+        <div class="loc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21s-6-5.1-6-9.5a6 6 0 1 1 12 0C18 15.9 12 21 12 21z"/><circle cx="12" cy="11.5" r="2.2"/></svg>
+          <b>滨江科创园区</b> ▾
+        </div>
+      </div>
+
+      <!-- 楼栋 / 楼层选择 -->
+      <div class="m-sel">
+        <div class="ms"><span class="num">1</span> 栋 ▾</div>
+        <div class="ms"><span class="num">3</span>F ▾</div>
+      </div>
+
+      <!-- 状态筛选 -->
+      <div class="chips">
+        <div class="chip on">全部 <span class="num">10</span></div>
+        <div class="chip">在租 <span class="num">6</span></div>
+        <div class="chip">空置 <span class="num">2</span></div>
+        <div class="chip">将到期 <span class="num">1</span></div>
+        <div class="chip">维修 <span class="num">1</span></div>
+      </div>
+
+      <!-- 房态盘 4 列 -->
+      <div class="m-rgrid">
+        <a class="room rent" href="m-admin-room.html"><div class="no num">301</div><div class="meta">张女士</div></a>
+        <a class="room rent" href="m-admin-room.html"><div class="no num">302</div><div class="meta">李先生</div></a>
+        <a class="room due" href="m-admin-room.html"><div class="no num">303</div><div class="meta">剩<span class="num">21</span>天</div></a>
+        <a class="room free" href="m-admin-room.html"><div class="no num">304</div><div class="meta num">45㎡</div></a>
+        <a class="room rent" href="m-admin-room.html"><div class="no num">305</div><div class="meta">陈先生</div></a>
+        <a class="room fix" href="m-admin-room.html"><div class="no num">306</div><div class="meta">维修中</div></a>
+        <a class="room rent" href="m-admin-room.html"><div class="no num">307</div><div class="meta">周女士</div></a>
+        <a class="room free" href="m-admin-room.html"><div class="no num">308</div><div class="meta num">45㎡</div></a>
+        <a class="room rent" href="m-admin-room.html"><div class="no num">309</div><div class="meta">吴先生</div></a>
+        <a class="room rent" href="m-admin-room.html"><div class="no num">310</div><div class="meta">郑女士</div></a>
+      </div>
+
+      <!-- 新增房源入口（原型指向房源详情/编辑页演示） -->
+      <a class="room-add" href="m-admin-room.html"><b>＋ 新增房源</b> · 录入房号 / 户型 / 租金</a>
+
+      <div class="note map-note">状态项与颜色来源于 系统管理-字典配置；房间按楼层+房号自动排列</div>
+
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>
