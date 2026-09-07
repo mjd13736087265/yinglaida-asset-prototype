@@ -1,0 +1,411 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>编辑房源 · 滨江 1 栋-303 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  /* 侧边栏链接项保持原色 */
+  a.mi{color:var(--navy-tx)}
+
+  /* 只读输入框（灰底） */
+  .inp.ro{background:var(--paper);color:var(--ink2);cursor:default}
+
+  /* 带单位后缀的输入框 */
+  .inp-wrap{position:relative}
+  .inp-wrap .inp{padding-right:40px}
+  .inp-wrap .u{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--ink3);pointer-events:none}
+
+  /* 绑定占位框：文字区伸展、按钮靠右 */
+  .bind-box .bb-main{flex:1;min-width:0}
+  .bind-box+.bind-box{margin-top:10px}
+
+  /* 开关区块内多条提示纵向排列 */
+  .f-sec .note{display:flex;margin-top:8px}
+
+  /* 房间资产表操作行（添加按钮靠右） */
+  .ast-ops{display:flex;justify-content:flex-end;margin-bottom:10px}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ========== 左侧导航 ========== -->
+  <aside class="sidebar">
+    <div class="logo">
+      <span class="mark">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M4 21V5a1 1 0 0 1 1-1h8a1 1 0 0 1 1 1v16"/>
+          <path d="M14 9h5a1 1 0 0 1 1 1v11"/>
+          <path d="M2 21h20"/>
+          <path d="M7 8h2M7 12h2M7 16h2M17 13h1M17 17h1"/>
+        </svg>
+      </span>
+      <span style="font-size:14px">英莱达资产管理系统<small>YINGLAIDA AMS</small></span>
+    </div>
+    <nav class="menu">
+      <div class="mg">运营</div>
+      <a class="mi" href="../../00-整体需求/主页原型/pc-home.html">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="9" rx="1.5"/><rect x="14" y="3" width="7" height="5" rx="1.5"/><rect x="14" y="12" width="7" height="9" rx="1.5"/><rect x="3" y="16" width="7" height="5" rx="1.5"/></svg></span>
+        工作台
+      </a>
+      <a class="mi" href="pc-area-list.html">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 20l-5.5-2.5v-13L9 7l6-2.5L20.5 7v13L15 17.5 9 20z"/><path d="M9 7v13M15 4.5v13"/></svg></span>
+        片区管理
+      </a>
+      <div class="mi on">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5"/><path d="M10 21v-6h4v6"/></svg></span>
+        房源管理
+      </div>
+      <a class="mi" href="pc-room-map.html">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 14v-3M11 14V8M15 14v-4"/><path d="M9 21h6"/></svg></span>
+        房态监控
+      </a>
+      <div class="mg">财务</div>
+      <div class="mi">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4"/><path d="M9 12h6M9 16h6"/></svg></span>
+        合同管理<span class="lock">后续</span>
+      </div>
+      <div class="mi">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9.5h6M9 13h6M12 7.5v9"/><path d="M10.5 9.5c0 2 3 2 3 3.5"/></svg></span>
+        收租管理<span class="lock">后续</span>
+      </div>
+      <div class="mi">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L5 13.5h5L10 22l8-11.5h-5L13 2z"/></svg></span>
+        水电管理<span class="lock">后续</span>
+      </div>
+      <div class="mg">服务</div>
+      <div class="mi">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M14.7 6.3a4 4 0 0 0-5.4 5.4L3 18v3h3l6.3-6.3a4 4 0 0 0 5.4-5.4l-2.8 2.8-2-2 2.8-2.8z"/></svg></span>
+        物业服务（报修）<span class="lock">后续</span>
+      </div>
+      <div class="mi">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11.5l2 2 4-4.5"/><path d="M7 3h10a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/></svg></span>
+        审批中心<span class="lock">后续</span>
+      </div>
+      <div class="mg">系统</div>
+      <div class="mi">
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2-1.2L14.2 3h-4l-.4 2.7a7 7 0 0 0-2 1.2l-2.3-1-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 2 1.2l.4 2.7h4l.4-2.7a7 7 0 0 0 2-1.2l2.3 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z"/></svg></span>
+        系统管理<span class="lock">后续</span>
+      </div>
+    </nav>
+    <details class="endsw">
+      <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h11l-3.5-3.5"/><path d="M17 16H6l3.5 3.5"/></svg>切换演示端<span class="arr"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 15l6-6 6 6"/></svg></span></summary>
+      <div class="endsw-menu">
+        <a href="../../00-整体需求/主页原型/m-admin-home.html">移动管理端（小程序）</a>
+        <a href="../../00-整体需求/主页原型/m-user-home.html">移动用户端（小程序）</a>
+      </div>
+    </details>
+    <div class="who">V1.1 原型 · 片区管理-房源模块</div>
+  </aside>
+
+  <!-- ========== 主区域 ========== -->
+  <div class="main">
+
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="crumb"><span>片区管理 / 滨江科创园区 / </span>编辑房源</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：全部片区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 内容区 -->
+    <div class="content">
+
+      <div class="panel">
+        <div class="form">
+
+          <!-- 基础信息 -->
+          <div class="f-sec">
+            <h4>基础信息</h4>
+            <div class="f-grid">
+              <div class="f-item">
+                <label>所属片区</label>
+                <input class="inp ro" value="滨江科创园区" readonly>
+              </div>
+              <div class="f-item">
+                <label><span class="req">*</span>所属楼栋</label>
+                <select class="sel">
+                  <option selected>1 栋</option>
+                  <option>2 栋</option>
+                  <option>3 栋</option>
+                </select>
+              </div>
+              <div class="f-item">
+                <label><span class="req">*</span>房号</label>
+                <input class="inp num" value="303">
+              </div>
+              <div class="f-item">
+                <label><span class="req">*</span>楼层</label>
+                <select class="sel">
+                  <option>1F</option>
+                  <option>2F</option>
+                  <option selected>3F</option>
+                  <option>4F</option>
+                  <option>5F</option>
+                  <option>6F</option>
+                  <option>7F</option>
+                  <option>8F</option>
+                </select>
+              </div>
+              <div class="f-item">
+                <label><span class="req">*</span>户型</label>
+                <select class="sel">
+                  <option selected>单间</option>
+                  <option>一室一厅</option>
+                  <option>两室一厅</option>
+                  <option>三室一厅</option>
+                </select>
+              </div>
+              <div class="f-item">
+                <label><span class="req">*</span>建筑面积</label>
+                <div class="inp-wrap">
+                  <input class="inp num" value="32">
+                  <span class="u">㎡</span>
+                </div>
+              </div>
+              <div class="f-item">
+                <label>朝向</label>
+                <select class="sel">
+                  <option selected>南</option>
+                  <option>北</option>
+                  <option>东</option>
+                  <option>西</option>
+                  <option>东南</option>
+                  <option>西南</option>
+                </select>
+              </div>
+              <div class="f-item">
+                <label>装修标准</label>
+                <select class="sel">
+                  <option selected>精装</option>
+                  <option>简装</option>
+                  <option>毛坯</option>
+                </select>
+              </div>
+              <div class="f-item">
+                <label><span class="req">*</span>月租金</label>
+                <input class="inp num" value="1380">
+                <div class="help">单位 元/月</div>
+              </div>
+              <div class="f-item">
+                <label>押金方式</label>
+                <select class="sel">
+                  <option selected>押一付一</option>
+                  <option>押一付三</option>
+                  <option>押二付一</option>
+                  <option>免押金</option>
+                </select>
+              </div>
+              <div class="f-item">
+                <label><span class="req">*</span>房间状态</label>
+                <select class="sel">
+                  <option>在租</option>
+                  <option>空置</option>
+                  <option selected>即将到期</option>
+                  <option>维修中</option>
+                </select>
+                <div class="help">状态项来源于 系统管理-字典配置</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 对客展示 -->
+          <div class="f-sec">
+            <h4>对客展示</h4>
+            <div class="f-grid">
+              <div class="f-item full">
+                <div class="sw-row">
+                  <span class="switch on"></span>
+                  房源闲置时对客展示
+                </div>
+                <span class="note">该房即将到期，开启后到期当天自动对客展示</span>
+                <span class="note">在租房源仅租户本人可见；房态字典来源于 系统管理-字典配置</span>
+              </div>
+              <div class="f-item full">
+                <label>房源亮点</label>
+                <textarea class="ta">近地铁 8 号线 · 朝南采光好 · 独立卫浴 · 拎包入住</textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- 配套设施（对客展示） -->
+          <div class="f-sec">
+            <h4>配套设施（对客展示）</h4>
+            <div class="f-grid">
+              <div class="f-item full">
+                <div class="feat-chips">
+                  <span class="feat-chip on">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="5" width="18" height="7" rx="2"/><path d="M7 9h10"/><path d="M8 16c.6 1.4-.6 2.4 0 4M12 16c.6 1.4-.6 2.4 0 4M16 16c.6 1.4-.6 2.4 0 4"/></svg>
+                    空调
+                  </span>
+                  <span class="feat-chip on">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="3" width="10" height="15" rx="3"/><circle cx="12" cy="10" r="2.5"/><path d="M9 18v2M15 18v2"/></svg>
+                    热水器
+                  </span>
+                  <span class="feat-chip on">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v3"/><path d="M6 10a6 6 0 0 1 12 0z"/><path d="M8 14v2M12 14v3M16 14v2"/></svg>
+                    淋浴
+                  </span>
+                  <span class="feat-chip on">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h4v6H7z"/><path d="M7 9h12a5 5 0 0 1-5 5H9a2 2 0 0 1-2-2V9"/><path d="M9 19l1-3M15 19l-1-3"/></svg>
+                    独立卫生间
+                  </span>
+                  <span class="feat-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="3" width="16" height="18" rx="2"/><circle cx="12" cy="13" r="4.5"/><path d="M7 6.5h2"/></svg>
+                    洗衣机
+                  </span>
+                  <span class="feat-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2" width="10" height="20" rx="2"/><path d="M7 10h10"/><path d="M14 5v3M14 13v3"/></svg>
+                    冰箱
+                  </span>
+                  <span class="feat-chip on">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 18V6"/><path d="M4 14h16v4"/><path d="M20 14v-2a2 2 0 0 0-2-2h-8v4"/><circle cx="8" cy="10.5" r="1.5"/></svg>
+                    床
+                  </span>
+                  <span class="feat-chip on">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="17" rx="1.5"/><path d="M12 3v17"/><path d="M10 10v2M14 10v2"/></svg>
+                    衣柜
+                  </span>
+                  <span class="feat-chip on">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8h18"/><path d="M5 8v11M19 8v11"/><path d="M5 12h6v4H5z"/></svg>
+                    书桌
+                  </span>
+                  <span class="feat-chip on">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 9.5a13 13 0 0 1 17 0"/><path d="M6.5 13a8.5 8.5 0 0 1 11 0"/><path d="M9.5 16.5a4 4 0 0 1 5 0"/><circle cx="12" cy="19.5" r="1"/></svg>
+                    WiFi
+                  </span>
+                  <span class="feat-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="8" width="18" height="12" rx="1.5"/><circle cx="9" cy="14" r="2.5"/><circle cx="15" cy="14" r="2.5"/><path d="M8 8V6M16 8V6"/></svg>
+                    简易厨房
+                  </span>
+                  <span class="feat-chip">
+                    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="17" cy="6" r="2.5"/><path d="M3 21h18"/><path d="M5 21v-8h14v8"/><path d="M5 17h14"/><path d="M9 13v8M15 13v8"/></svg>
+                    阳台
+                  </span>
+                </div>
+                <span class="note">设施类型为系统预置字典，勾选项将在用户端房源详情展示</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 房间资产（入住/退住验收） -->
+          <div class="f-sec">
+            <h4>房间资产</h4>
+            <div class="f-grid">
+              <div class="f-item full">
+                <div class="ast-ops">
+                  <a class="btn ghost" href="javascript:void(0)">＋ 添加资产</a>
+                </div>
+                <table class="tb">
+                  <thead>
+                    <tr>
+                      <th>资产名称</th><th>类别</th><th>数量</th><th>状态</th><th>备注</th><th>操作</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>美的空调 KFR-35GW</td><td>电器</td><td class="num">1</td>
+                      <td><span class="tag-asset ok">完好</span></td><td>壁挂式 · 2019 年购置</td>
+                      <td><a href="javascript:void(0)">编辑</a> · <a href="javascript:void(0)">删除</a></td>
+                    </tr>
+                    <tr>
+                      <td>海尔电热水器 60L</td><td>电器</td><td class="num">1</td>
+                      <td><span class="tag-asset ok">完好</span></td><td>—</td>
+                      <td><a href="javascript:void(0)">编辑</a> · <a href="javascript:void(0)">删除</a></td>
+                    </tr>
+                    <tr>
+                      <td>实木床 1.5m（含床垫）</td><td>家具</td><td class="num">1</td>
+                      <td><span class="tag-asset ok">完好</span></td><td>—</td>
+                      <td><a href="javascript:void(0)">编辑</a> · <a href="javascript:void(0)">删除</a></td>
+                    </tr>
+                    <tr>
+                      <td>双门衣柜</td><td>家具</td><td class="num">1</td>
+                      <td><span class="tag-asset bad">损坏</span></td><td>柜门合页松动，退住验收时定责</td>
+                      <td><a href="javascript:void(0)">编辑</a> · <a href="javascript:void(0)">删除</a></td>
+                    </tr>
+                    <tr>
+                      <td>淋浴花洒套装</td><td>卫浴</td><td class="num">1</td>
+                      <td><span class="tag-asset ok">完好</span></td><td>—</td>
+                      <td><a href="javascript:void(0)">编辑</a> · <a href="javascript:void(0)">删除</a></td>
+                    </tr>
+                  </tbody>
+                </table>
+                <span class="note">资产清单供入住/退住验收逐项点验；后期与资产管理模块关联，本期手动维护</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 水电表绑定（预留） -->
+          <div class="f-sec">
+            <h4>水电表绑定（预留）</h4>
+            <div class="bind-box">
+              <span class="bb-ic">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L5 13.5h5L10 22l8-11.5h-5L13 2z"/></svg>
+              </span>
+              <div class="bb-main">
+                <div class="bb-t">电表 · 暂未绑定</div>
+                <div class="bb-s">表具选型待定，功能预留，待水电表模块上线后启用</div>
+              </div>
+              <button class="btn ghost">选择电表</button>
+            </div>
+            <div class="bind-box">
+              <span class="bb-ic">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.6 6 11a6 6 0 0 1-12 0c0-4.4 6-11 6-11z"/><path d="M9.5 14a2.5 2.5 0 0 0 2.5 2.5"/></svg>
+              </span>
+              <div class="bb-main">
+                <div class="bb-t">水表 · 暂未绑定</div>
+                <div class="bb-s">表具选型待定，功能预留，待水电表模块上线后启用</div>
+              </div>
+              <button class="btn ghost">选择水表</button>
+            </div>
+          </div>
+
+          <!-- 合同信息（预留） -->
+          <div class="f-sec">
+            <h4>合同信息（预留）</h4>
+            <div class="bind-box">
+              <span class="bb-ic">
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4"/><path d="M9 12h6M9 16h6"/></svg>
+              </span>
+              <div class="bb-main">
+                <div class="bb-t">当前合同 · 王同学</div>
+                <div class="bb-s"><span class="num">2025-09-24</span> 至 <span class="num">2026-09-23</span> · 月租金 <span class="num">1,380</span> 元 · 剩 <span class="num">21</span> 天到期 · 合同模块上线后可查看详情</div>
+              </div>
+              <button class="btn ghost">查看合同</button>
+            </div>
+          </div>
+
+          <!-- 操作 -->
+          <div class="f-actions">
+            <a class="btn primary" href="pc-room-list.html">保存</a>
+            <a class="btn ghost" href="pc-room-list.html">取消</a>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- 备注 -->
+      <div style="margin-top:14px">
+        <span class="note">带（预留）标记的区块仅占位，待对应模块设计完成后补充详情</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+</body>
+</html>

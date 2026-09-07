@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>片区管理模块 · 原型导航 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式：封面分组 */
+  .cover{justify-content:flex-start}
+  .grp{width:100%;max-width:880px;margin-top:34px}
+  .grp .gt{font-size:13px;color:#7d92b8;letter-spacing:2px;display:flex;align-items:center;gap:12px}
+  .grp .gt::after{content:"";flex:1;height:1px;background:#24365c}
+  .grp .cards{margin-top:14px;justify-content:flex-start}
+  .cover .cd{width:262px}
+</style>
+</head>
+<body>
+<div class="cover">
+  <h1>片区管理模块 · 原型 V1</h1>
+  <div class="sub">英莱达资产管理系统 · 演示数据</div>
+
+  <!-- PC 管理后台 -->
+  <div class="grp">
+    <div class="gt">PC 管理后台</div>
+    <div class="cards">
+      <div class="cd" onclick="location.href='pc-area-list.html'">
+        <h3>片区列表</h3>
+        <p>片区卡片矩阵：地址、负责人、房源数 / 出租率、房态分段分布条，支持搜索与新增片区。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-area-edit.html'">
+        <h3>编辑片区</h3>
+        <p>片区基础信息表单：名称、地址、负责人、楼栋结构配置与备注说明。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-room-list.html'">
+        <h3>房源管理</h3>
+        <p>片区-楼栋-单元树 + 房源表：按状态筛选、对客展示开关、水电表/合同预留列。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-room-map.html'">
+        <h3>楼层房态图</h3>
+        <p>楼层切换 + 房间状态色块矩阵，一屏看清在租 / 空置 / 将到期 / 维修分布。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-room-edit.html'">
+        <h3>编辑房源</h3>
+        <p>房源信息表单：户型、面积、朝向、租金、押金方式，水电表绑定为预留位。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-room-import.html'">
+        <h3>批量导入</h3>
+        <p>模板下载、文件上传、校验结果分步引导，房源批量建档一次完成。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 移动管理端 -->
+  <div class="grp">
+    <div class="gt">移动管理端（微信小程序）</div>
+    <div class="cards">
+      <div class="cd" onclick="location.href='m-admin-map.html'">
+        <h3>房态查看</h3>
+        <p>片区 / 楼栋 / 楼层切换，状态筛选 chips + 4 列房态盘，现场查房一屏直达。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-room.html'">
+        <h3>房源详情</h3>
+        <p>房源信息、当前租约与水电表（均为预留位），底部「调整状态 / 编辑房源」操作栏。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 移动用户端 -->
+  <div class="grp">
+    <div class="gt">移动用户端（微信小程序）</div>
+    <div class="cards">
+      <div class="cd" onclick="location.href='m-user-rooms.html'">
+        <h3>找房列表</h3>
+        <p>搜索 + 筛选 chips + 房源卡片列表，可预订 / 热租中标签，面向租户找房场景。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-user-room.html'">
+        <h3>房源详情</h3>
+        <p>渐变头图 + 上叠信息卡，房源信息、配套设施、公寓简介与预约看房入口。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">共享设计系统：02-需求设计/00-整体需求/主页原型/assets/app.css</div>
+</div>
+</body>
+</html>
