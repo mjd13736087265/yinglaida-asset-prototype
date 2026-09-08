@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>模块封面 · 收费管理 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式：封面分组（照片区管理封面） */
+  .cover{justify-content:flex-start}
+  .grp{width:100%;max-width:1180px;margin-top:34px}
+  .grp .gt{font-size:13px;color:#7d92b8;letter-spacing:2px;display:flex;align-items:center;gap:12px}
+  .grp .gt::after{content:"";flex:1;height:1px;background:#24365c}
+  .grp .cards{margin-top:14px;justify-content:flex-start}
+  .cover .cd{width:262px}
+  /* 待开工置灰卡片 */
+  .cover .cd.off{opacity:.45;cursor:default}
+  .cover .cd.off:hover{border-color:#24365c;transform:none}
+  .cover .cd .soon{display:inline-block;font-size:10.5px;color:#e0a53c;border:1px solid #5a4a24;border-radius:4px;padding:0 6px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="cover">
+  <h1>收费管理模块 · 原型 V1</h1>
+  <div class="sub">英莱达资产管理系统 · 租金 · 押金 · 欠费 · 票据 · 演示数据</div>
+
+  <!-- PC 管理后台 -->
+  <div class="grp">
+    <div class="gt">PC 管理后台</div>
+    <div class="cards">
+      <div class="cd" onclick="location.href='pc-charge-home.html'">
+        <h3>收费工作台</h3>
+        <p>本月应收 / 实收 / 欠费 / 待核销 KPI，今日数据条、分片区回款分布、待办与快捷入口、最近收款记录。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-bills.html'">
+        <h3>账单管理</h3>
+        <p>租金 / 水电 / 其他账单四页签 + 生成规则；账单状态机与核销来源留痕，账单号含片区编号段。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-verify.html'">
+        <h3>收款核销</h3>
+        <p>人工核销（永久保留）+ 自动核销记录（只读）双通道，支持转账 / 现金收款登记与差额处理。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-overdue.html'">
+        <h3>欠费管理</h3>
+        <p>欠费台账红橙黄分层、重点关注名单、催收记录、断水断电申请留痕与收款日报。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-deposit.html'">
+        <h3>押金管理</h3>
+        <p>押金台账（余额 / 状态）、收取与退还登记、押抵租（必须审批）与押金流水。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-special.html'">
+        <h3>特殊处理</h3>
+        <p>押金抵扣 / 部分核销挂账 / 坏账登记 / 异常退房扣缴四类单据，统一审批 + 留痕，二级收纳。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-invoice.html'">
+        <h3>票据管理</h3>
+        <p>收据管理与模板（打印预览）、发票申请处理流程、开票权限名单（单人 + 批量）。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-charge-settings.html'">
+        <h3>规则配置</h3>
+        <p>账期与提前生成天数、欠费提醒阶梯（自由增删 + 话术 + 通道）、滞纳金规则预留位。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-bill-detail.html'">
+        <h3>账单详情</h3>
+        <p>账单信息 / 费用明细 / 关联合同房源（只读不跳转）/ 收款与票据状态，核销、催缴、开收据、打印操作。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 移动管理端 -->
+  <div class="grp">
+    <div class="gt">移动管理端（微信小程序）</div>
+    <div class="cards">
+      <div class="cd off">
+        <h3>移动管理端 · 收费 <span class="soon">待做</span></h3>
+        <p>移动收费工作台、待核销与催缴处理。待 PC 端评审后开工。</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 移动用户端 -->
+  <div class="grp">
+    <div class="gt">移动用户端（微信小程序 · 英莱达公寓）</div>
+    <div class="cards">
+      <div class="cd off">
+        <h3>移动用户端 · 缴租 <span class="soon">待做</span></h3>
+        <p>租户账单查看、在线缴租（银联对接中）、收据 / 发票申请。待 PC 端评审后开工。</p>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">共享设计系统：02-需求设计/00-整体需求/主页原型/assets/app.css</div>
+</div>
+</body>
+</html>
