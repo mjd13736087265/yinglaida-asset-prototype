@@ -94,7 +94,7 @@
         物业服务（报修）<span class="lock">后续</span>
       </div>
       <div class="mi">
-        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11.5l2 2 4-4.5"/><path d="M7 3h10a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/></svg></span>
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11.5l2 2 4-4.5"/><path d="M7 3h10a1 1 0 0 1 1 1v16a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1-1-1z"/></svg></span>
         审批中心<span class="lock">后续</span>
       </div>
       <div class="mg">系统</div>
@@ -118,7 +118,7 @@
 
     <!-- 顶栏 -->
     <header class="topbar">
-      <div class="crumb"><span><a href="pc-area-list.html" style="color:inherit">片区管理</a> / 滨江科创园区 / </span>房源管理</div>
+      <div class="crumb"><span><a href="pc-area-list.html" style="color:inherit">片区管理</a> / <a href="pc-area-detail.html" style="color:inherit">滨江科创园区</a> / 滨江人才公寓 / </span>房源管理</div>
       <div class="right">
         <div class="scope">
           片区范围：全部片区
@@ -142,8 +142,8 @@
       <div class="panel abar" style="margin-bottom:16px">
         <div class="a-top">
           <div>
-            <div class="a-name"><span class="a-switch">滨江科创园区 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg></span><span class="tag free">启用中</span></div>
-            <div class="a-sub">滨江区江南大道 1288 号 · 负责人 王建国 <span class="num">13805716621</span></div>
+            <div class="a-name"><span class="a-switch">滨江科创园区 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg></span><span class="a-switch" style="font-size:13.5px;font-weight:600">滨江人才公寓 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg></span><span class="tag free">启用中</span></div>
+            <div class="a-sub">滨江区江南大道 1288 号 · 负责人 王建国 <span class="num">13805716621</span> · 本期仅公寓业态可切换</div>
           </div>
           <div class="a-stats">
             <div class="a-st"><div class="v num">208</div><div class="l">房源（间）</div></div>
@@ -162,7 +162,7 @@
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="8" height="8" rx="1.5"/><rect x="13" y="3" width="8" height="8" rx="1.5"/><rect x="3" y="13" width="8" height="8" rx="1.5"/><rect x="13" y="13" width="8" height="8" rx="1.5"/></svg>
             房态图
           </a>
-          <span class="note tab-note">房源列表按单个片区查看，点击片区名称可切换</span>
+          <span class="note tab-note">房源按 片区 → 业态 两级切换：先选片区再选其下业态；本期每片区仅 1 个公寓业态，占位业态不出现在切换器；「全部片区」展示全部公寓房源</span>
         </div>
       </div>
 
@@ -189,10 +189,10 @@
         </div>
 
         <div class="cols3">
-          <!-- 左：片区-楼栋-单元树 -->
+          <!-- 左：业态-楼栋-单元树（楼栋挂在业态 L2 下） -->
           <div class="tree">
             <div class="tnode root">
-              <span class="arr">▾</span>滨江科创园区<span class="cnt num">208</span>
+              <span class="arr">▾</span>滨江人才公寓<span class="cnt num">208</span>
             </div>
             <div class="tnode l2">
               <span class="arr">▾</span>1 栋<span class="cnt num">80</span>

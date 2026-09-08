@@ -26,12 +26,22 @@
     <div class="cards">
       <div class="cd" onclick="location.href='pc-area-list.html'">
         <h3>片区列表</h3>
-        <p>片区卡片矩阵：地址、负责人、房源数 / 出租率、房态分段分布条，支持搜索与新增片区。</p>
+        <p>片区卡片矩阵：地址、负责人、业态构成摘要（公寓间数 / 出租率 + 预留业态），支持搜索与新增片区。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-area-detail.html'">
+        <h3>片区详情 · 业态列表</h3>
+        <p>片区信息条 + 业态卡：公寓业态可进入管理（房源管理 / 编辑业态），酒店 / 停车场等占位业态置灰预留。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-format-edit.html'">
+        <h3>新建 / 编辑业态</h3>
+        <p>业态名称、业态类型（字典配置）、楼栋结构配置（楼栋 × 层数 × 每层间数自动汇总）与备注。</p>
         <div class="go">打开页面 →</div>
       </div>
       <div class="cd" onclick="location.href='pc-area-edit.html'">
         <h3>编辑片区</h3>
-        <p>片区基础信息表单：名称、地址、负责人、楼栋结构配置与备注说明。</p>
+        <p>片区基础信息表单：名称、地址、负责人、数据权限与备注说明（楼栋结构已下沉至业态层）。</p>
         <div class="go">打开页面 →</div>
       </div>
       <div class="cd" onclick="location.href='pc-room-list.html'">
@@ -61,9 +71,19 @@
   <div class="grp">
     <div class="gt">移动管理端（微信小程序）</div>
     <div class="cards">
+      <div class="cd" onclick="location.href='m-admin-areas.html'">
+        <h3>片区列表</h3>
+        <p>片区卡列表：地址、负责人、业态构成摘要，点击进入片区业态；右上角可切换演示端。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-area-detail.html'">
+        <h3>片区详情 · 业态列表</h3>
+        <p>片区信息条 + 业态卡：公寓卡进房态，占位业态置灰；底部新建业态为预留入口。</p>
+        <div class="go">打开页面 →</div>
+      </div>
       <div class="cd" onclick="location.href='m-admin-map.html'">
         <h3>房态查看</h3>
-        <p>片区 / 楼栋 / 楼层切换，状态筛选 chips + 4 列房态盘，现场查房一屏直达。</p>
+        <p>片区 / 业态 / 楼栋 / 楼层切换，状态筛选 chips + 4 列房态盘，现场查房一屏直达。</p>
         <div class="go">打开页面 →</div>
       </div>
       <div class="cd" onclick="location.href='m-admin-room.html'">

@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 云谷创业园区 · 业态列表 · 英莱达资管</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .m-head{padding:44px 18px 18px;border-radius:0 0 18px 18px}
+  .mh-row{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:600}
+  .mh-row svg{width:20px;height:20px;flex-shrink:0}
+  .mh-row .esw{margin-left:auto}
+  /* 片区信息条（紧凑单行） */
+  .a-bar{display:flex;align-items:center;gap:8px;margin:12px 14px 0;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:10px 12px;font-size:12.5px;color:var(--ink2)}
+  .a-bar .ed{margin-left:auto;font-size:12.5px;color:var(--brand);text-decoration:none;flex-shrink:0}
+  /* 业态卡 */
+  .fl{display:flex;flex-direction:column;gap:10px;margin:12px 14px 0}
+  .fc{position:relative;display:block;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:13px 14px}
+  .fc .t{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600}
+  .fc .s{font-size:12.5px;color:var(--ink2);margin-top:6px}
+  .fc .s b{color:var(--brand);font-weight:600}
+  .fc .card-go{position:absolute;inset:0;z-index:1;border-radius:inherit;cursor:pointer}
+  .fc .ops{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line2)}
+  .fc .ops a{position:relative;z-index:2;flex:1;height:30px;display:flex;align-items:center;justify-content:center;border:1px solid var(--line);border-radius:8px;font-size:12.5px;color:var(--ink2);text-decoration:none}
+  /* 占位业态卡：置灰不可点 */
+  .fc.off{background:var(--paper);color:var(--ink3)}
+  .fc.off .t{color:var(--ink2);font-weight:600}
+  .fc .hold{font-size:12px;color:var(--ink3);margin-top:6px}
+  /* 底部新建大按钮 */
+  .big-add{display:block;margin:12px 14px 12px;padding:13px;text-align:center;border:1px dashed var(--line);border-radius:10px;background:#fff;font-size:14px;color:var(--ink2);text-decoration:none}
+  .big-add b{color:var(--brand);font-weight:600}
+  /* 画板 iframe 无缝嵌入模式（?embed=1）：去手机壳与舞台底 */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 片区详情（业态列表）</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 蓝色头部 -->
+      <div class="m-head">
+        <div class="mh-row">
+          <a href="m-admin-areas.html" style="color:inherit;display:flex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>
+          云谷创业园区
+          <details class="esw">
+            <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h11l-3.5-3.5"/><path d="M17 16H6l3.5 3.5"/></svg></summary>
+            <div class="esw-menu">
+              <a href="pc-area-detail.html">PC 管理端</a>
+              <a href="../../00-整体需求/主页原型/m-user-home.html">移动用户端</a>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <!-- 片区信息条 -->
+      <div class="a-bar">
+        余杭区云谷路 199 号 · 负责人 张伟东
+        <a class="ed" href="javascript:void(0)">编辑</a>
+      </div>
+
+      <!-- 业态卡列表 -->
+      <div class="fl">
+
+        <!-- 公寓业态卡（可进入管理） -->
+        <div class="fc">
+          <a class="card-go" href="m-admin-map.html" title="进入该业态房态"></a>
+          <div class="t">云谷人才公寓<span class="tag-business">公寓</span><span class="tag free" style="margin-left:auto">启用中</span></div>
+          <div class="s"><span class="num">260</span> 间 · 出租率 <b class="num">88.5%</b> · <span class="num">3</span> 栋楼</div>
+          <div class="ops">
+            <a href="m-admin-room.html">房源</a>
+            <a href="javascript:void(0)">编辑<span style="font-size:10px;color:var(--ink3);border:1px solid var(--line);border-radius:4px;padding:0 4px;margin-left:4px">预留</span></a>
+          </div>
+        </div>
+
+        <!-- 占位业态卡：酒店 -->
+        <div class="fc off">
+          <span class="mark-soon">预留</span>
+          <div class="t">酒店<span class="tag-business" style="background:var(--st-fix-bg);color:var(--st-fix)">酒店</span></div>
+          <div class="hold">酒店业态将在后续版本开放</div>
+        </div>
+
+        <!-- 占位业态卡：停车场 -->
+        <div class="fc off">
+          <span class="mark-soon">预留</span>
+          <div class="t">停车场<span class="tag-business" style="background:var(--st-fix-bg);color:var(--st-fix)">车位</span></div>
+          <div class="hold">停车场业态将在后续版本开放</div>
+        </div>
+
+      </div>
+
+      <!-- 新建业态（预留态，不跳转） -->
+      <a class="big-add" href="javascript:void(0)"><b>＋ 新建业态</b> · 业态建档请在 PC 端操作</a>
+
+      <div class="note" style="margin:0 14px 14px">业态类型来源于 系统管理 - 字典配置；本期仅「公寓」业态开放管理，酒店 / 停车场 / 商业等业态为预留占位</div>
+
+    </div>
+
+  </div>
+</div>
+
+</body>
+</html>

@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>编辑片区 · 英莱达资产管理系统</title>
+<title>编辑业态 · 云谷人才公寓 · 英莱达资产管理系统</title>
 <link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
 <style>
   /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
@@ -11,21 +11,18 @@
   .scope{display:flex;align-items:center;gap:6px;height:34px;padding:0 12px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel);color:var(--ink2);font-size:13px;cursor:pointer}
   .scope:hover{border-color:var(--brand);color:var(--brand)}
 
-  /* 业态选择 chip */
-  .type-chips{display:flex;gap:10px;flex-wrap:wrap}
-  .type-chip{display:inline-flex;align-items:center;gap:7px;height:36px;padding:0 16px;border-radius:var(--r-sm);border:1px solid var(--line);background:var(--panel);color:var(--ink2);font-size:13.5px;cursor:pointer;user-select:none}
-  .type-chip:hover{border-color:var(--brand);color:var(--brand)}
-  .type-chip.on{border-color:var(--brand);background:var(--brand-bg);color:var(--brand);font-weight:600}
-  .type-chip.off{color:var(--ink3);background:var(--paper);cursor:not-allowed}
-  .type-chip.off:hover{border-color:var(--line);color:var(--ink3)}
-
-  /* 数据权限员工标签 */
-  .staff-chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-  .staff-chip{display:inline-flex;align-items:center;gap:6px;height:30px;padding:0 8px 0 12px;border-radius:999px;background:var(--brand-bg);color:var(--brand);font-size:13px;font-weight:500}
-  .staff-chip .x{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;cursor:pointer;color:var(--brand)}
-  .staff-chip .x:hover{background:var(--brand);color:#fff}
-  .staff-add{display:inline-flex;align-items:center;gap:5px;height:30px;padding:0 12px;border-radius:999px;border:1px dashed var(--line);color:var(--ink3);font-size:13px;cursor:pointer;background:var(--panel)}
-  .staff-add:hover{border-color:var(--brand);color:var(--brand)}
+  /* 楼栋结构配置行 */
+  .bld-row{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 34px;gap:12px;align-items:end;padding:12px 0;border-bottom:1px solid var(--line2)}
+  .bld-row:last-of-type{border-bottom:none}
+  .bld-row .f-item{gap:5px}
+  .bld-row .subtotal{font-size:14px;color:var(--ink);font-weight:600;padding-bottom:9px;white-space:nowrap}
+  .bld-row .subtotal small{font-size:12px;color:var(--ink3);font-weight:400;margin-left:4px}
+  .bld-del{width:34px;height:36px;border:1px solid var(--line);border-radius:var(--r-sm);background:var(--panel);color:var(--ink3);display:flex;align-items:center;justify-content:center;cursor:pointer}
+  .bld-del:hover{border-color:var(--red);color:var(--red)}
+  .bld-add{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:1px dashed var(--line);border-radius:var(--r-sm);background:var(--panel);color:var(--ink2);font-size:13px;cursor:pointer;margin-top:12px}
+  .bld-add:hover{border-color:var(--brand);color:var(--brand)}
+  .bld-sum{margin-top:12px;font-size:13.5px;color:var(--ink2);display:flex;align-items:center;gap:8px}
+  .bld-sum b{color:var(--brand);font-weight:700}
 </style>
 </head>
 <body>
@@ -86,7 +83,7 @@
       </div>
       <div class="mg">系统</div>
       <div class="mi">
-        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2-1.2L14.2 3h-4l-.4 2.7a7 7 0 0 0-2 1.2l-2.3-1-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 2 1.2l.4 2.7h4l.4-2.7a7 7 0 0 0 2-1.2l2.3 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z"/></svg></span>
+        <span class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M19 12a7 7 0 0 0-.1-1.2l2-1.5-2-3.4-2.3 1a7 7 0 0 0-2-1.2L14.2 3h-4l-.4 2.7a7 7 0 0 0 2 1.2l-2.3-1-2 3.4 2 1.5A7 7 0 0 0 5 12c0 .4 0 .8.1 1.2l-2 1.5 2 3.4 2.3-1a7 7 0 0 0 2 1.2l.4 2.7h4l.4-2.7a7 7 0 0 0 2-1.2l2.3 1 2-3.4-2-1.5c.1-.4.1-.8.1-1.2z"/></svg></span>
         系统管理<span class="lock">后续</span>
       </div>
     </nav>
@@ -105,7 +102,7 @@
 
     <!-- 顶栏 -->
     <header class="topbar">
-      <div class="crumb"><span>片区管理 / </span>编辑片区</div>
+      <div class="crumb"><span><a href="../../00-整体需求/主页原型/pc-home.html" style="color:inherit">首页</a> / <a href="pc-area-list.html" style="color:inherit">片区管理</a> / <a href="pc-area-detail.html" style="color:inherit">云谷创业园区</a> / </span>编辑业态</div>
       <div class="right">
         <div class="scope">
           片区范围：全部片区
@@ -133,77 +130,79 @@
             <h4>基础信息</h4>
             <div class="f-grid">
               <div class="f-item">
-                <label><span class="req">*</span>片区名称</label>
-                <input class="inp" value="滨江科创园区">
+                <label><span class="req">*</span>业态名称</label>
+                <input class="inp" value="云谷人才公寓">
+                <span class="help">同一片区下允许存在多个同类型业态，名称需片区内唯一</span>
               </div>
               <div class="f-item">
-                <label><span class="req">*</span>片区编码</label>
-                <input class="inp num" value="AREA-BJ">
-                <span class="help">用于单据编号前缀，创建后不可改</span>
-              </div>
-              <div class="f-item">
-                <label>所在城市</label>
-                <select class="sel">
-                  <option selected>杭州市</option>
-                  <option>宁波市</option>
-                  <option>温州市</option>
-                </select>
-              </div>
-              <div class="f-item">
-                <label>所在区域</label>
-                <select class="sel">
-                  <option selected>滨江区</option>
-                  <option>西湖区</option>
-                  <option>拱墅区</option>
-                  <option>余杭区</option>
-                </select>
+                <label>所属片区</label>
+                <input class="inp ro" value="云谷创业园区" readonly>
               </div>
               <div class="f-item full">
-                <label><span class="req">*</span>详细地址</label>
-                <input class="inp" value="滨江区江南大道 1288 号">
-              </div>
-              <div class="f-item">
-                <label><span class="req">*</span>负责人</label>
-                <input class="inp" value="王建国">
-              </div>
-              <div class="f-item">
-                <label><span class="req">*</span>联系电话</label>
-                <input class="inp num" value="13805716621">
-              </div>
-              <div class="f-item full">
-                <label>片区简介</label>
-                <textarea class="ta">滨江科创园区位于江南大道沿线，紧邻地铁 1 号线江陵路站，通勤便利。片区共 3 栋 208 间公寓房源，主力户型为一居室与两居室，面向周边高新企业员工出租。</textarea>
+                <label><span class="req">*</span>业态类型</label>
+                <select class="sel">
+                  <option selected>公寓</option>
+                  <option>酒店</option>
+                  <option>停车场</option>
+                  <option>写字楼</option>
+                  <option>商业</option>
+                </select>
+                <span class="note" style="margin-top:4px">业态类型来源于 系统管理 - 字典配置，可按需增删；本期仅「公寓」类型开放后续管理功能</span>
               </div>
             </div>
           </div>
 
-          <!-- 数据权限 -->
+          <!-- 楼栋结构配置 -->
           <div class="f-sec">
-            <h4>数据权限</h4>
+            <h4>楼栋结构配置</h4>
             <div class="f-grid">
               <div class="f-item full">
-                <label>管理员工</label>
-                <div class="staff-chips">
-                  <span class="staff-chip">陈志远
-                    <span class="x"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
-                  </span>
-                  <span class="staff-chip">李梅
-                    <span class="x"><svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M6 6l12 12M18 6L6 18"/></svg></span>
-                  </span>
-                  <span class="staff-add">
-                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
-                    添加员工
-                  </span>
+                <div class="bld-row">
+                  <div class="f-item"><label>楼栋名称</label><input class="inp" value="1 栋"></div>
+                  <div class="f-item"><label>层数</label><input class="inp num" value="10"></div>
+                  <div class="f-item"><label>每层间数</label><input class="inp num" value="10"></div>
+                  <div class="subtotal num">100 间<small>自动计算</small></div>
+                  <span class="bld-del"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6.5 7l1 13h9l1-13"/></svg></span>
                 </div>
-                <span class="help">被授权员工可在 PC 与移动管理端查看、操作本片区数据</span>
+                <div class="bld-row">
+                  <div class="f-item"><label>楼栋名称</label><input class="inp" value="2 栋"></div>
+                  <div class="f-item"><label>层数</label><input class="inp num" value="10"></div>
+                  <div class="f-item"><label>每层间数</label><input class="inp num" value="10"></div>
+                  <div class="subtotal num">100 间<small>自动计算</small></div>
+                  <span class="bld-del"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6.5 7l1 13h9l1-13"/></svg></span>
+                </div>
+                <div class="bld-row">
+                  <div class="f-item"><label>楼栋名称</label><input class="inp" value="3 栋"></div>
+                  <div class="f-item"><label>层数</label><input class="inp num" value="6"></div>
+                  <div class="f-item"><label>每层间数</label><input class="inp num" value="10"></div>
+                  <div class="subtotal num">60 间<small>自动计算</small></div>
+                  <span class="bld-del"><svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 7h16"/><path d="M9 7V4h6v3"/><path d="M6.5 7l1 13h9l1-13"/></svg></span>
+                </div>
+                <span class="bld-add">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                  添加楼栋
+                </span>
+                <div class="bld-sum">共 <b class="num">3</b> 栋 · 合计 <b class="num">260</b> 间（层数 × 每层间数自动汇总）</div>
+                <span class="help" style="margin-top:6px">已存在房源/合同数据的楼栋不可删除，仅可停用；房间号按「楼层+序号」自动生成</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 备注 -->
+          <div class="f-sec">
+            <h4>备注</h4>
+            <div class="f-grid">
+              <div class="f-item full">
+                <label>业态备注</label>
+                <textarea class="ta">云谷人才公寓面向园区企业员工出租，主力户型为一居室与单间，配套共享食堂与健身房。</textarea>
               </div>
             </div>
           </div>
 
           <!-- 操作 -->
           <div class="f-actions">
-            <a class="btn primary" href="pc-area-list.html">保存</a>
-            <a class="btn ghost" href="pc-area-list.html">取消</a>
+            <a class="btn primary" href="pc-area-detail.html">保存</a>
+            <a class="btn ghost" href="pc-area-detail.html">取消</a>
           </div>
 
         </div>
@@ -211,7 +210,7 @@
 
       <!-- 页脚说明 -->
       <div style="margin-top:16px">
-        <span class="note">片区下已存在房源/合同数据时不可删除，仅可停用；停用后不影响存量业务，新业务不可再选该片区；业态与楼栋结构配置已下沉至「片区详情 - 业态」层维护</span>
+        <span class="note">楼栋结构属于业态（L2），不随片区（L1）；业态下已存在房源/合同数据时不可删除，仅可停用</span>
       </div>
 
     </div>
