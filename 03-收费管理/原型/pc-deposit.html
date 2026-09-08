@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>押金管理 · 收费管理 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  /* 操作列文字链 */
+  .op{color:var(--brand);cursor:pointer;font-size:13px;text-decoration:none;white-space:nowrap}
+  .op:hover{color:var(--brand-d)}
+  .op+.op{margin-left:10px}
+
+  /* 分页占位行 */
+  .pgbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3)}
+  .pgbar>span{white-space:nowrap}
+  .pgbar .pgs{display:flex;align-items:center;gap:6px}
+  .pgbar .pg{min-width:26px;height:26px;border:1px solid var(--line);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink2);cursor:pointer;background:var(--panel)}
+  .pgbar .pg.on{background:var(--brand);border-color:var(--brand);color:#fff}
+
+  /* 流程条（详情弹窗内流程进度） */
+  .flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .fstep{display:flex;align-items:center;gap:9px;background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:9px 14px;min-width:0}
+  .fstep .fno{width:24px;height:24px;border-radius:50%;background:var(--brand-bg);color:var(--brand);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;flex-shrink:0}
+  .fstep.done .fno{background:var(--st-free-bg);color:var(--st-free)}
+  .fstep.cur{border-color:var(--st-due)}
+  .fstep.cur .fno{background:var(--st-due-bg);color:var(--st-due)}
+  .fstep .ft{font-size:13.5px;font-weight:600;white-space:nowrap}
+  .fstep .fs{font-size:11.5px;color:var(--ink3);white-space:nowrap}
+  .farr{color:var(--ink3);display:flex;align-items:center;flex-shrink:0}
+
+  /* 审批时间线（弹窗内） */
+  .tl{position:relative;padding-left:20px;margin-top:4px}
+  .tl::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:var(--line)}
+  .tl .ti{position:relative;padding:5px 0 10px}
+  .tl .ti:last-child{padding-bottom:2px}
+  .tl .ti::before{content:"";position:absolute;left:-18px;top:11px;width:8px;height:8px;border-radius:50%;background:var(--brand);border:2px solid #fff}
+  .tl .ti.done::before{background:var(--green)}
+  .tl .ti.wait::before{background:var(--st-due)}
+  .tl .tt{font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .tl .tt .who{color:var(--ink2);font-weight:500;font-size:12.5px}
+  .tl .ts{font-size:12.5px;color:var(--ink3);margin-top:2px}
+
+  /* 金额正负着色 */
+  .amt-in{color:var(--green);font-weight:600}
+  .amt-out{color:var(--red);font-weight:600}
+
+  /* 弹窗表单行 */
+  .mfrm .fr{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .mfrm .fr.top{align-items:flex-start}
+  .mfrm .fr .lb{width:88px;flex-shrink:0;font-size:13.5px;color:var(--ink2);text-align:right;line-height:36px}
+  .mfrm .fr.top .lb{line-height:1.6;padding-top:8px}
+  .mfrm .fr .inp,.mfrm .fr .sel{flex:1}
+  .mfrm .fr .rd{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:var(--ink);margin-right:16px;cursor:pointer}
+  .mfrm textarea{flex:1;border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 12px;font-size:13.5px;font-family:inherit;min-height:60px;resize:vertical;color:var(--ink);outline:none}
+  .mfrm textarea:focus{border-color:var(--brand)}
+  .mfrm .ro{flex:1;font-size:13.5px;color:var(--ink);line-height:36px}
+
+  /* 弹窗内分段标题 */
+  .seg{font-size:12.5px;color:var(--ink3);font-weight:600;margin:16px 0 10px;padding-top:14px;border-top:1px dashed var(--line)}
+  .kv{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;font-size:13.5px}
+  .kv .k{color:var(--ink3);font-size:12.5px;margin-right:4px}
+
+  /* 弹窗内容可滚动 */
+  .modal .mb{max-height:72vh;overflow-y:auto}
+  /* hidden 属性被 .mask{display:flex} 覆盖，显式恢复 */
+  .mask[hidden]{display:none}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ========== 左侧导航（共享组件 nav.js 渲染，菜单唯一数据源见该文件） ========== -->
+  <aside class="sidebar" id="amsNav" data-active="charge-deposit" data-ver="V1.0 原型 · 收费管理模块"></aside>
+
+  <!-- ========== 主区域 ========== -->
+  <div class="main">
+
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="crumb"><span>收费管理 / </span>押金管理</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：全部片区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 内容区 -->
+    <div class="content">
+
+      <!-- 模块边界说明 -->
+      <div style="margin-bottom:16px">
+        <span class="note">押金由收费管理模块统一收取 / 退还 / 扣缴；退房办理（M6 租务运营，待建）只读取押金余额，不在本系统外变动押金</span>
+      </div>
+
+      <!-- 页签条 -->
+      <div class="tabs" style="margin-bottom:14px">
+        <a class="tb on" id="tab-ledger" onclick="swTab(this,'pane-ledger')">押金台账</a>
+        <a class="tb" id="tab-flow" onclick="swTab(this,'pane-flow')">押金流水</a>
+        <a class="tb" id="tab-ydz" onclick="swTab(this,'pane-ydz')">押抵租记录<span class="n num">2</span></a>
+      </div>
+
+      <!-- ==================== 页签一：押金台账 ==================== -->
+      <div class="tabpane" id="pane-ledger">
+
+        <!-- KPI 行 -->
+        <div class="row" style="margin-bottom:8px">
+          <div class="kpi">
+            <div class="lb">在押押金总额</div>
+            <div class="vl num">¥186.4<small>万</small></div>
+            <div class="sub">覆盖在租 <b class="num">1,093</b> 户 · 含冻结 <b class="num">1</b> 户</div>
+          </div>
+          <div class="kpi">
+            <div class="lb">本月收取</div>
+            <div class="vl num">¥12.6<small>万</small></div>
+            <div class="sub"><span class="up">较上月 +8.4%</span> · 新入住 <b class="num">58</b> 户</div>
+          </div>
+          <div class="kpi">
+            <div class="lb">本月退还</div>
+            <div class="vl num">¥4.2<small>万</small></div>
+            <div class="sub">退房结清 <b class="num">26</b> 户 · 平均退还周期 <b class="num">2.3</b> 天</div>
+          </div>
+        </div>
+        <div style="margin-bottom:16px">
+          <span class="note">数据范围=当前所选片区 × 所选时间</span>
+        </div>
+
+        <!-- 押金台账 -->
+        <div class="panel" style="margin-bottom:16px">
+          <div class="ph">
+            <h3>押金台账</h3>
+            <span class="note" style="margin-left:6px">余额=实收-已退还-已抵扣-已扣缴；冻结中的押金不可退还/抵扣</span>
+          </div>
+          <div class="fbar">
+            <div class="search">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5L16 16"/></svg>
+              <input placeholder="租户姓名 / 房号">
+            </div>
+            <select class="sel">
+              <option>全部状态</option><option>在押</option><option>冻结</option><option>部分抵扣</option><option>已退</option>
+            </select>
+            <select class="sel">
+              <option>业态：公寓</option><option disabled>写字楼（待 M10）</option><option disabled>商业（待 M11）</option>
+            </select>
+            <button class="btn ghost">查询</button>
+            <span class="sp"></span>
+            <button class="btn ghost" onclick="openM('m-refund')">退还登记</button>
+            <button class="btn primary" onclick="openM('m-collect')">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              收取押金
+            </button>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="tb" style="min-width:980px">
+              <thead>
+                <tr>
+                  <th>租户</th><th>片区 · 房号</th><th>押金标准</th><th>实收</th><th>余额</th><th>状态</th><th>最近变动</th><th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight:600">张女士</td>
+                  <td>滨江科创园区 · 1 栋-301</td>
+                  <td>押一付一 <span class="num">¥1,850</span></td>
+                  <td class="num">¥1,850</td>
+                  <td class="num" style="font-weight:600">¥1,850</td>
+                  <td><span class="tag rent">在押</span></td>
+                  <td class="num">2025-12-01 收取</td>
+                  <td><a class="op" onclick="swTab(document.getElementById('tab-flow'),'pane-flow')">流水</a><a class="op" onclick="openM('m-refund')">退还</a><a class="op" onclick="openM('m-deduct')">押抵租</a></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600">恒创科技公司</td>
+                  <td>云谷创业园区 · 1-整层</td>
+                  <td>押二付一 <span class="num">¥32,000</span></td>
+                  <td class="num">¥32,000</td>
+                  <td class="num" style="font-weight:600">¥18,000</td>
+                  <td><span class="tag rsv">部分抵扣</span></td>
+                  <td class="num">2026-08-16 押抵租 -¥14,000</td>
+                  <td><a class="op" onclick="swTab(document.getElementById('tab-flow'),'pane-flow')">流水</a><a class="op" onclick="openM('m-refund')">退还</a><a class="op" onclick="openM('m-deduct')">押抵租</a></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600">赵某</td>
+                  <td>学府青年园区 · 3 栋-208</td>
+                  <td>押一付一 <span class="num">¥1,380</span></td>
+                  <td class="num">¥1,500</td>
+                  <td class="num" style="font-weight:600">¥1,500</td>
+                  <td><span class="tag fix">冻结</span></td>
+                  <td class="num">2026-09-02 异常退房冻结</td>
+                  <td><a class="op" onclick="swTab(document.getElementById('tab-flow'),'pane-flow')">流水</a><span style="color:var(--ink3);font-size:13px">冻结中，处置见 特殊处理</span></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600">李先生</td>
+                  <td>滨江科创园区 · 1 栋-302</td>
+                  <td>押一付一 <span class="num">¥1,850</span></td>
+                  <td class="num">¥1,850</td>
+                  <td class="num" style="font-weight:600">¥1,850</td>
+                  <td><span class="tag rent">在押</span></td>
+                  <td class="num">2026-03-01 收取</td>
+                  <td><a class="op" onclick="swTab(document.getElementById('tab-flow'),'pane-flow')">流水</a><a class="op" onclick="openM('m-refund')">退还</a><a class="op" onclick="openM('m-deduct')">押抵租</a></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600">王同学</td>
+                  <td>滨江科创园区 · 1 栋-303</td>
+                  <td>押一付一 <span class="num">¥1,380</span></td>
+                  <td class="num">¥1,380</td>
+                  <td class="num" style="font-weight:600">¥1,380</td>
+                  <td><span class="tag rent">在押</span></td>
+                  <td class="num">2025-09-20 收取</td>
+                  <td><a class="op" onclick="swTab(document.getElementById('tab-flow'),'pane-flow')">流水</a><a class="op" onclick="openM('m-refund')">退还</a><a class="op" onclick="openM('m-deduct')">押抵租</a></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600">陈先生</td>
+                  <td>滨江科创园区 · 1 栋-305</td>
+                  <td>押一付一 <span class="num">¥2,600</span></td>
+                  <td class="num">¥2,600</td>
+                  <td class="num" style="font-weight:600">¥2,600</td>
+                  <td><span class="tag rent">在押</span></td>
+                  <td class="num">2026-08-28 收取</td>
+                  <td><a class="op" onclick="swTab(document.getElementById('tab-flow'),'pane-flow')">流水</a><a class="op" onclick="openM('m-refund')">退还</a><a class="op" onclick="openM('m-deduct')">押抵租</a></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600">周女士</td>
+                  <td>滨江科创园区 · 1 栋-307</td>
+                  <td>押一付一 <span class="num">¥1,880</span></td>
+                  <td class="num">¥1,880</td>
+                  <td class="num" style="font-weight:600">¥1,880</td>
+                  <td><span class="tag rent">在押</span></td>
+                  <td class="num">2026-08-12 收取</td>
+                  <td><a class="op" onclick="swTab(document.getElementById('tab-flow'),'pane-flow')">流水</a><a class="op" onclick="openM('m-refund')">退还</a><a class="op" onclick="openM('m-deduct')">押抵租</a></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600">吴先生</td>
+                  <td>滨江科创园区 · 1 栋-309</td>
+                  <td>押一付一 <span class="num">¥1,400</span></td>
+                  <td class="num">¥1,400</td>
+                  <td class="num" style="font-weight:600">¥1,400</td>
+                  <td><span class="tag rent">在押</span></td>
+                  <td class="num">2026-09-04 收取</td>
+                  <td><a class="op" onclick="swTab(document.getElementById('tab-flow'),'pane-flow')">流水</a><a class="op" onclick="openM('m-refund')">退还</a><a class="op" onclick="openM('m-deduct')">押抵租</a></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600">孙女士</td>
+                  <td>兴业人才公寓 · 2 栋-506</td>
+                  <td>押一付一 <span class="num">¥1,600</span></td>
+                  <td class="num">¥1,600</td>
+                  <td class="num" style="font-weight:600;color:var(--ink3)">¥0</td>
+                  <td><span class="tag due">已退</span></td>
+                  <td class="num">2026-09-06 退还 ¥1,600</td>
+                  <td><a class="op" onclick="swTab(document.getElementById('tab-flow'),'pane-flow')">流水</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pgbar">
+            <span>共 <b class="num" style="color:var(--ink2)">1,093</b> 条</span>
+            <div class="pgs">
+              <span class="pg"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></span>
+              <span class="pg on num">1</span><span class="pg num">2</span><span class="pg num">3</span><span class="pg num">4</span>
+              <span class="pg"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+            </div>
+            <span class="num">1/110 页</span>
+            <span style="margin-left:auto">
+              <span class="note">押抵租仅管理员可发起，用户端无此入口；押金状态项来源于 系统管理-字典配置；押金标准来源于 合同管理（待建）</span>
+            </span>
+          </div>
+        </div>
+
+        <!-- 底部说明 -->
+        <div>
+          <span class="note">异常退房导致的押金扣缴请走 特殊处理（pc-special.html），统一审批留痕，本页不提供直接扣缴入口</span>
+        </div>
+      </div>
+
+      <!-- ==================== 页签二：押金流水 ==================== -->
+      <div class="tabpane" id="pane-flow" hidden>
+        <div class="panel" style="margin-bottom:16px">
+          <div class="ph">
+            <h3>押金流水</h3>
+            <span class="note" style="margin-left:6px">单据编号含片区编号段，各片区独立流水</span>
+            <button class="btn ghost" style="margin-left:auto">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v11"/><path d="M8.5 10.5L12 14l3.5-3.5"/><path d="M4 16v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+              导出（按当前筛选）
+            </button>
+          </div>
+          <div class="fbar">
+            <input class="inp num" type="text" value="2026-08-01" style="width:130px">
+            <span style="color:var(--ink3);font-size:13px">至</span>
+            <input class="inp num" type="text" value="2026-09-08" style="width:130px">
+            <div class="search">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5L16 16"/></svg>
+              <input placeholder="租户姓名">
+            </div>
+            <select class="sel">
+              <option>全部类型</option><option>收取</option><option>退还</option><option>抵扣</option><option>扣缴</option>
+            </select>
+            <button class="btn ghost">查询</button>
+          </div>
+          <div style="overflow-x:auto">
+            <table class="tb" style="min-width:920px">
+              <thead>
+                <tr>
+                  <th>时间</th><th>租户</th><th>类型</th><th>金额</th><th>变动后余额</th><th>经办人</th><th>关联单号</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="num">2026-09-06 14:20</td><td>孙女士</td>
+                  <td><span class="tag due">退还</span></td>
+                  <td class="num amt-out">-¥1,600</td><td class="num">¥0</td>
+                  <td>陈志远</td><td class="num">YJTH-XQ01-2026-0031</td>
+                </tr>
+                <tr>
+                  <td class="num">2026-09-04 09:30</td><td>吴先生</td>
+                  <td><span class="tag free">收取</span></td>
+                  <td class="num amt-in">+¥1,400</td><td class="num">¥1,400</td>
+                  <td>王倩</td><td class="num">YJSQ-XQ05-2026-0198</td>
+                </tr>
+                <tr>
+                  <td class="num">2026-08-28 11:10</td><td>陈先生</td>
+                  <td><span class="tag free">收取</span></td>
+                  <td class="num amt-in">+¥2,600</td><td class="num">¥2,600</td>
+                  <td>陈志远</td><td class="num">YJSQ-XQ05-2026-0187</td>
+                </tr>
+                <tr>
+                  <td class="num">2026-08-16 15:40</td><td>恒创科技公司</td>
+                  <td><span class="tag rsv">抵扣</span></td>
+                  <td class="num amt-out">-¥14,000</td><td class="num">¥18,000</td>
+                  <td>系统自动</td><td class="num">YDZ-XQ02-2026-0012</td>
+                </tr>
+                <tr>
+                  <td class="num">2026-08-12 16:22</td><td>周女士</td>
+                  <td><span class="tag free">收取</span></td>
+                  <td class="num amt-in">+¥1,880</td><td class="num">¥1,880</td>
+                  <td>李芳</td><td class="num">YJSQ-XQ05-2026-0175</td>
+                </tr>
+                <tr>
+                  <td class="num">2026-08-05 14:15</td><td>钱先生</td>
+                  <td><span class="tag due">退还</span></td>
+                  <td class="num amt-out">-¥1,380</td><td class="num">¥0</td>
+                  <td>陈志远</td><td class="num">YJTH-XQ04-2026-0019</td>
+                </tr>
+                <tr>
+                  <td class="num">2026-07-28 09:55</td><td>赵阿姨</td>
+                  <td><span class="tag red">扣缴</span></td>
+                  <td class="num amt-out">-¥200</td><td class="num">¥1,180</td>
+                  <td>王倩</td><td class="num">YJKC-XQ06-2026-0007</td>
+                </tr>
+                <tr>
+                  <td class="num">2025-12-01 09:20</td><td>张女士</td>
+                  <td><span class="tag free">收取</span></td>
+                  <td class="num amt-in">+¥1,850</td><td class="num">¥1,850</td>
+                  <td>陈志远</td><td class="num">YJSQ-XQ05-2025-0001</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pgbar">
+            <span>共 <b class="num" style="color:var(--ink2)">8</b> 条</span>
+            <div class="pgs">
+              <span class="pg"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></span>
+              <span class="pg on num">1</span>
+              <span class="pg"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+            </div>
+            <span class="num">1/1 页</span>
+            <span style="margin-left:auto">
+              <span class="note">数据范围=当前所选片区 × 所选时间</span>
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ==================== 页签三：押抵租记录 ==================== -->
+      <div class="tabpane" id="pane-ydz" hidden>
+        <div class="panel" style="margin-bottom:16px">
+          <div class="ph">
+            <h3>押抵租记录</h3>
+            <a class="more" href="pc-special.html">抵扣单据统一审批，见 特殊处理 →</a>
+          </div>
+          <div class="pb" style="display:flex;flex-direction:column;gap:14px">
+            <span class="note">押抵租必须走审批（对接 M8 审批中心，待建），通过后自动冲减押金余额并通知租户；支持全额 / 部分抵扣；点击行内「详情」查看流程进度与审批时间线</span>
+            <table class="tb" style="border:1px solid var(--line2);border-radius:8px;overflow:hidden">
+              <thead>
+                <tr>
+                  <th>单号</th><th>租户</th><th>抵扣方式</th><th>抵扣金额</th><th>抵用账单</th><th>审批状态</th><th>租户通知</th><th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="num">YDZ-XQ02-2026-0012</td>
+                  <td style="font-weight:600">恒创科技公司</td>
+                  <td>部分抵扣</td>
+                  <td class="num" style="font-weight:600">¥14,000</td>
+                  <td>抵 <span class="num">2026-08</span> 租金（应收 <span class="num">¥32,000</span>）</td>
+                  <td><span class="tag free">已通过</span></td>
+                  <td>已通知 · 短信+小程序 <span class="num">2026-08-16</span></td>
+                  <td><a class="op" onclick="openM('m-ydz1')">详情</a></td>
+                </tr>
+                <tr>
+                  <td class="num">YDZ-XQ05-2026-0015</td>
+                  <td style="font-weight:600">吴先生</td>
+                  <td>全额抵扣</td>
+                  <td class="num" style="font-weight:600">¥1,400</td>
+                  <td>抵 <span class="num">2026-09</span> 租金（应收 <span class="num">¥1,400</span>）</td>
+                  <td><span class="tag due">审批中</span></td>
+                  <td style="color:var(--ink3)">待审批通过后通知</td>
+                  <td><a class="op" onclick="openM('m-ydz2')">详情</a></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ========== 弹窗：收取押金 ========== -->
+<div class="mask" id="m-collect" hidden onclick="if(event.target===this)closeM(this)">
+  <div class="modal">
+    <div class="mh">收取押金<a class="x" onclick="closeM(this)">×</a></div>
+    <div class="mb mfrm">
+      <div class="fr">
+        <span class="lb">租户 / 房号</span>
+        <select class="sel">
+          <option>张女士 · 滨江科创园区 1 栋-301</option>
+          <option>李先生 · 滨江科创园区 1 栋-302</option>
+          <option>王同学 · 滨江科创园区 1 栋-303</option>
+        </select>
+      </div>
+      <div class="fr">
+        <span class="lb">应收押金</span>
+        <input class="inp num" value="¥1,850（押一付一，按合同自动带出）" disabled>
+      </div>
+      <div class="fr">
+        <span class="lb">实收金额</span>
+        <input class="inp num" value="¥1,850">
+      </div>
+      <div class="fr">
+        <span class="lb">收款方式</span>
+        <select class="sel">
+          <option>转账</option><option>现金</option><option>银联</option>
+        </select>
+      </div>
+      <div class="fr top">
+        <span class="lb">备注</span>
+        <textarea placeholder="选填"></textarea>
+      </div>
+      <span class="note" style="display:flex;margin-top:4px">押金标准来源于 合同管理（待建）；收款后生成押金流水，编号含片区编号段</span>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" onclick="closeM(this)">取消</button>
+      <button class="btn primary" onclick="closeM(this)">确认收取</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 弹窗：退还登记 ========== -->
+<div class="mask" id="m-refund" hidden onclick="if(event.target===this)closeM(this)">
+  <div class="modal">
+    <div class="mh">押金退还登记<a class="x" onclick="closeM(this)">×</a></div>
+    <div class="mb mfrm">
+      <div class="fr">
+        <span class="lb">租户 / 房号</span>
+        <select class="sel">
+          <option>张女士 · 滨江科创园区 1 栋-301</option>
+          <option>孙女士 · 兴业人才公寓 2 栋-506</option>
+        </select>
+      </div>
+      <div class="fr">
+        <span class="lb">押金余额</span>
+        <input class="inp num" value="¥1,850（按所选租户自动带出）" disabled>
+      </div>
+      <div class="fr">
+        <span class="lb">退还金额</span>
+        <input class="inp num" value="¥1,850">
+      </div>
+      <div class="fr">
+        <span class="lb">退回方式</span>
+        <select class="sel" onchange="document.getElementById('bank-fields').hidden=this.value!=='银行转账'">
+          <option>原路退回</option><option>银行转账</option>
+        </select>
+      </div>
+      <div id="bank-fields" hidden>
+        <div class="fr"><span class="lb">收款户名</span><input class="inp" placeholder="与租户实名一致"></div>
+        <div class="fr"><span class="lb">收款账号</span><input class="inp num" placeholder="银行卡号"></div>
+        <div class="fr"><span class="lb">开户行</span><input class="inp" placeholder="如：工商银行城西支行"></div>
+      </div>
+      <div class="fr">
+        <span class="lb">关联退住单</span>
+        <input class="inp" value="TZ-XQ05-2026-0052（占位）" disabled>
+      </div>
+      <div class="fr top">
+        <span class="lb">备注</span>
+        <textarea placeholder="选填"></textarea>
+      </div>
+      <span class="note" style="display:flex;margin-top:4px">关联退住单来源于 M6 租务运营（待建）；冻结中的押金不可退还</span>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" onclick="closeM(this)">取消</button>
+      <button class="btn primary" onclick="closeM(this)">提交</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 弹窗：押金抵扣（押抵租）· 与特殊处理页「发起抵扣」为同一组件 ========== -->
+<div class="mask" id="m-deduct" hidden onclick="if(event.target===this)closeM(this)">
+  <div class="modal">
+    <div class="mh">发起押金抵扣（押抵租）<a class="x" onclick="closeM(this)">×</a></div>
+    <div class="mb mfrm">
+      <div class="fr">
+        <span class="lb">抵扣类型</span>
+        <span style="flex:1">
+          <label class="rd"><input type="radio" name="dtype" checked> 转租金</label>
+          <label class="rd"><input type="radio" name="dtype"> 抵欠费</label>
+        </span>
+      </div>
+      <div class="fr">
+        <span class="lb">抵扣方式</span>
+        <span style="flex:1;display:flex;align-items:center">
+          <label class="rd"><input type="radio" name="dmode" checked> 全额</label>
+          <label class="rd"><input type="radio" name="dmode"> 部分</label>
+          <input class="inp num" value="¥14,000" style="width:130px" placeholder="部分抵扣金额">
+        </span>
+      </div>
+      <div class="fr">
+        <span class="lb">租户 / 房号</span>
+        <select class="sel">
+          <option>恒创科技公司 · 云谷创业园区 1-整层</option>
+          <option>张女士 · 滨江科创园区 1 栋-301</option>
+          <option>吴先生 · 滨江科创园区 1 栋-309</option>
+        </select>
+      </div>
+      <div class="fr">
+        <span class="lb">押金余额</span>
+        <span class="ro num" style="font-weight:600">¥18,000<span style="color:var(--ink3);font-weight:400;font-size:12.5px">（选择租户后自动带出）</span></span>
+      </div>
+      <div class="fr">
+        <span class="lb">关联账单</span>
+        <select class="sel">
+          <option>2026-08 租金账单 ZD-XQ02-2026-0733 · 应收 ¥32,000</option>
+          <option>2026-09 租金账单 ZD-XQ02-2026-0801 · 应收 ¥32,000</option>
+        </select>
+      </div>
+      <div class="fr top">
+        <span class="lb">原因说明</span>
+        <textarea placeholder="必填：如 租户经营困难，申请部分押抵租"></textarea>
+      </div>
+      <span class="note" style="display:flex;margin-top:4px">对接 M8 审批中心；通过后自动通知租户；仅管理员可发起，用户端无此入口</span>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" onclick="closeM(this)">取消</button>
+      <button class="btn primary" onclick="closeM(this)">提交审批</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 弹窗：押抵租详情 · YDZ-XQ02-2026-0012（恒创，已通过） ========== -->
+<div class="mask" id="m-ydz1" hidden onclick="if(event.target===this)closeM(this)">
+  <div class="modal" style="width:640px">
+    <div class="mh">押抵租详情 · YDZ-XQ02-2026-0012<a class="x" onclick="closeM(this)">×</a></div>
+    <div class="mb">
+      <div class="kv">
+        <div><span class="k">租户</span>恒创科技公司 · 云谷创业园区 1-整层</div>
+        <div><span class="k">抵扣方式</span>部分抵扣 <b class="num">¥14,000</b></div>
+        <div><span class="k">抵用账单</span>2026-08 租金（应收 <span class="num">¥32,000</span>）</div>
+        <div><span class="k">审批状态</span><span class="tag free">已通过</span></div>
+        <div><span class="k">租户通知</span>已通知 · 短信+小程序 <span class="num">2026-08-16</span></div>
+        <div><span class="k">押金余额</span><span class="num">¥32,000 → ¥18,000</span></div>
+      </div>
+      <div class="seg">流程进度</div>
+      <div class="flow">
+        <div class="fstep done"><span class="fno num">1</span><span><span class="ft">发起申请</span><div class="fs">王倩（客服代录）</div></span></div>
+        <span class="farr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+        <div class="fstep done"><span class="fno num">2</span><span><span class="ft">审批</span><div class="fs">M8 审批中心（待建）</div></span></div>
+        <span class="farr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+        <div class="fstep done"><span class="fno num">3</span><span><span class="ft">抵扣执行</span><div class="fs">冲减余额 + 核销账单</div></span></div>
+        <span class="farr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+        <div class="fstep done"><span class="fno num">4</span><span><span class="ft">通知租户</span><div class="fs">短信 / 小程序服务通知</div></span></div>
+      </div>
+      <div class="seg">审批时间线</div>
+      <div class="tl">
+        <div class="ti done">
+          <div class="tt">提交申请 <span class="who">申请人：王倩（客服代录） · <span class="num">2026-08-14 10:22</span></span></div>
+          <div class="ts">意见：租户经营困难，申请部分押抵租，抵扣 8 月租金 ¥14,000。</div>
+        </div>
+        <div class="ti done">
+          <div class="tt">片区负责人审批 <span class="who">审批人：张伟东（云谷创业园区） · <span class="num">2026-08-15 09:10</span></span></div>
+          <div class="ts">意见：情况属实，同意抵扣，建议同步签订补充协议。</div>
+        </div>
+        <div class="ti done">
+          <div class="tt">财务审批 <span class="who">审批人：陈志远（运营主管） · <span class="num">2026-08-15 16:40</span></span></div>
+          <div class="ts">意见：同意，抵扣金额 ¥14,000。</div>
+        </div>
+        <div class="ti done">
+          <div class="tt">执行完成 <span class="who">系统自动 · <span class="num">2026-08-16 09:00</span></span></div>
+          <div class="ts">押金余额冲减 ¥14,000，账单 ZD-XQ02-2026-0733 部分核销；已短信+小程序通知租户。</div>
+        </div>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" onclick="closeM(this)">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 弹窗：押抵租详情 · YDZ-XQ05-2026-0015（吴先生，审批中） ========== -->
+<div class="mask" id="m-ydz2" hidden onclick="if(event.target===this)closeM(this)">
+  <div class="modal" style="width:640px">
+    <div class="mh">押抵租详情 · YDZ-XQ05-2026-0015<a class="x" onclick="closeM(this)">×</a></div>
+    <div class="mb">
+      <div class="kv">
+        <div><span class="k">租户</span>吴先生 · 滨江科创园区 1 栋-309</div>
+        <div><span class="k">抵扣方式</span>全额抵扣 <b class="num">¥1,400</b></div>
+        <div><span class="k">抵用账单</span>2026-09 租金（应收 <span class="num">¥1,400</span>）</div>
+        <div><span class="k">审批状态</span><span class="tag due">审批中</span></div>
+        <div><span class="k">租户通知</span><span style="color:var(--ink3)">待审批通过后通知</span></div>
+        <div><span class="k">押金余额</span><span class="num">¥1,400（抵扣后 ¥0）</span></div>
+      </div>
+      <div class="seg">流程进度</div>
+      <div class="flow">
+        <div class="fstep done"><span class="fno num">1</span><span><span class="ft">发起申请</span><div class="fs">陈志远（运营主管）</div></span></div>
+        <span class="farr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+        <div class="fstep cur"><span class="fno num">2</span><span><span class="ft">审批</span><div class="fs">M8 审批中心（待建）</div></span></div>
+        <span class="farr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+        <div class="fstep"><span class="fno num">3</span><span><span class="ft">抵扣执行</span><div class="fs">冲减余额 + 核销账单</div></span></div>
+        <span class="farr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+        <div class="fstep"><span class="fno num">4</span><span><span class="ft">通知租户</span><div class="fs">短信 / 小程序服务通知</div></span></div>
+      </div>
+      <div class="seg">审批时间线</div>
+      <div class="tl">
+        <div class="ti done">
+          <div class="tt">提交申请 <span class="who">申请人：陈志远（运营主管） · <span class="num">2026-09-05 11:08</span></span></div>
+          <div class="ts">意见：租户短期周转困难，申请全额押抵租，抵扣 9 月租金 ¥1,400。</div>
+        </div>
+        <div class="ti wait">
+          <div class="tt">片区负责人审批 <span class="who">待审批 · 王建国（滨江科创园区）</span></div>
+          <div class="ts">审批通过后由财务复核，自动执行抵扣并通知租户。</div>
+        </div>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" onclick="closeM(this)">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 页签切换
+  function swTab(btn,id){
+    document.querySelectorAll('.tabs .tb').forEach(function(t){t.classList.remove('on')});
+    btn.classList.add('on');
+    document.querySelectorAll('.tabpane').forEach(function(p){p.hidden=true});
+    document.getElementById(id).hidden=false;
+  }
+  // 弹窗开关
+  function openM(id){document.getElementById(id).hidden=false}
+  function closeM(el){el.closest('.mask').hidden=true}
+</script>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

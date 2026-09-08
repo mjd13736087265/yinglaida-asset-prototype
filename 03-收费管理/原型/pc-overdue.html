@@ -1,0 +1,554 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>欠费管理 · 收费管理 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  .note.block{display:flex;width:100%}
+
+  /* 统计条 */
+  .statbar{display:flex;align-items:center;gap:0;padding:14px 18px;border-bottom:1px solid var(--line2);flex-wrap:wrap}
+  .sstat{padding:0 26px;text-align:center}
+  .sstat+.sstat{border-left:1px solid var(--line)}
+  .sstat:first-child{padding-left:4px}
+  .sstat .v{font-size:22px;font-weight:700;line-height:1.25}
+  .sstat .l{font-size:12px;color:var(--ink3);margin-top:2px}
+  .statbar .note{margin-left:auto}
+
+  /* 费用类型 chips（复用 fchip 规格） */
+  .chipbar{display:flex;gap:8px;align-items:center;padding:12px 18px;border-bottom:1px solid var(--line2);flex-wrap:wrap}
+  .fchip.dis{opacity:.45;cursor:default}
+  .fchip.dis:hover{border-color:var(--line);color:var(--ink2)}
+
+  /* 逾期分层 tag：红(30+) / 橙(8~30) / 黄(1~7，描边琥珀) */
+  .tag.lv-r{background:var(--red-bg);color:var(--red);font-weight:600}
+  .tag.lv-o{background:var(--orange-bg);color:var(--orange);font-weight:600}
+  .tag.lv-y{background:var(--panel);border:1px solid var(--st-due);color:var(--st-due)}
+
+  /* 催缴大按钮 */
+  .btn.urge{height:42px;padding:0 24px;font-size:14.5px;font-weight:600}
+
+  /* 批量操作栏 */
+  .batchbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-bottom:1px solid var(--line2);background:var(--brand-bg);flex-wrap:wrap}
+  .batchbar label{display:flex;align-items:center;gap:7px;font-size:13.5px;cursor:pointer;color:var(--ink2)}
+  .batchbar input[type=checkbox]{width:17px;height:17px;accent-color:var(--brand)}
+  .tb input.rowchk{width:16px;height:16px;accent-color:var(--brand);cursor:pointer}
+
+  /* 催缴弹窗：话术模板卡 / 通道勾选 / 防骚扰提示 */
+  .tpl{display:flex;gap:10px;align-items:flex-start;border:1px solid var(--line);border-radius:var(--r-sm);padding:10px 12px;background:var(--panel);cursor:pointer;font-size:13px}
+  .tpl.on{border-color:var(--brand);background:var(--brand-bg)}
+  .tpl input[type=radio]{width:16px;height:16px;margin-top:2px;accent-color:var(--brand);flex-shrink:0}
+  .tpl .tt{font-weight:600}
+  .tpl .ts{color:var(--ink2);margin-top:2px;line-height:1.5}
+  .chk-row{display:flex;gap:22px;align-items:center;font-size:14px}
+  .chk-row label{display:flex;align-items:center;gap:7px;cursor:pointer}
+  .chk-row input[type=checkbox]{width:17px;height:17px;accent-color:var(--brand)}
+  .uhint{font-size:12px;color:var(--ink3);line-height:1.8;border-top:1px dashed var(--line);padding-top:8px}
+
+  /* 重点关注名单卡片 */
+  .focus-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;padding:16px 18px}
+  .fcard{border:1px solid var(--line);border-radius:var(--r-md);padding:16px;background:var(--panel)}
+  .fcard .fh{display:flex;align-items:center;gap:8px}
+  .fcard .fn{font-size:15px;font-weight:700}
+  .fcard .fr{font-size:12.5px;color:var(--ink3);margin-top:2px}
+  .fcard .amt{font-size:24px;font-weight:700;color:var(--red);margin-top:12px}
+  .fcard .amt small{font-size:12px;color:var(--ink3);font-weight:400;margin-left:4px}
+  .fcard .hist{margin-top:12px;border-top:1px solid var(--line2);padding-top:10px;font-size:12.5px;color:var(--ink2);display:flex;flex-direction:column;gap:6px}
+  .fcard .hist .hi{display:flex;gap:6px;align-items:flex-start}
+  .fcard .fop{margin-top:14px;display:flex;gap:10px}
+  .fcard .oplog{margin-top:12px;border-top:1px dashed var(--line);padding-top:8px;font-size:12px;color:var(--ink3);line-height:1.7}
+
+  /* 流程示意条 */
+  .flow{display:flex;align-items:center;gap:0;padding:16px 18px;border-bottom:1px solid var(--line2)}
+  .fstep{display:flex;align-items:center;gap:8px;font-size:13.5px;font-weight:600}
+  .fstep .no{width:26px;height:26px;border-radius:50%;background:var(--brand);color:#fff;display:inline-flex;align-items:center;justify-content:center;font-size:13px}
+  .fstep .conn{width:64px;height:2px;background:var(--line);margin:0 14px}
+  .fstep .fs-sub{font-size:11.5px;color:var(--ink3);font-weight:400}
+
+  /* 收款日报汇总 */
+  .daily-sum{display:flex;gap:14px;padding:16px 18px;flex-wrap:wrap}
+  .ds-card{flex:1;min-width:180px;border:1px solid var(--line);border-radius:var(--r-md);padding:14px 16px;background:var(--panel)}
+  .ds-card .dl{font-size:12.5px;color:var(--ink3)}
+  .ds-card .dv{font-size:20px;font-weight:700;margin-top:3px}
+  .ds-card .ds{font-size:12px;color:var(--ink3);margin-top:2px}
+
+  /* 操作列文字链 */
+  .op{color:var(--brand);cursor:pointer;font-size:13px;white-space:nowrap}
+  .op:hover{color:var(--brand-d)}
+  .op+.op{margin-left:10px}
+  .btn.sm{height:34px;padding:0 14px;font-size:13px}
+
+  /* 分页占位行 */
+  .pgbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3);flex-wrap:wrap}
+  .pgbar>span{white-space:nowrap}
+
+  /* 页签内容切换 */
+  .tabpane{display:none}
+  .tabpane.on{display:block}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ========== 左侧导航（共享组件 nav.js 渲染，菜单唯一数据源见该文件） ========== -->
+  <aside class="sidebar" id="amsNav" data-active="charge-overdue" data-ver="V1.0 原型 · 收费管理模块"></aside>
+
+  <!-- ========== 主区域 ========== -->
+  <div class="main">
+
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="crumb"><span>收费管理 / </span>欠费管理</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：全部片区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 内容区 -->
+    <div class="content">
+
+      <!-- 页签 -->
+      <div class="panel" style="margin-bottom:16px">
+        <div class="tabs" style="padding:10px 14px">
+          <span class="tb on" data-tab="t1">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
+            欠费台账<span class="n">23</span>
+          </span>
+          <span class="tb" data-tab="t2">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l2.4 4.9 5.4.8-3.9 3.8.9 5.4-4.8-2.5-4.8 2.5.9-5.4L4.2 8.7l5.4-.8L12 3z"/></svg>
+            重点关注名单<span class="n">3</span>
+          </span>
+          <span class="tb" data-tab="t3">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 1 1-3.2-6.4"/><path d="M21 4l-9 9"/><path d="M15 4h6v6"/></svg>
+            催收与提醒记录
+          </span>
+          <span class="tb" data-tab="t4">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L5 13.5h5L10 22l8-11.5h-5L13 2z"/></svg>
+            断水断电处置申请<span class="n">2</span>
+          </span>
+          <span class="tb" data-tab="t5">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
+            收款日报
+          </span>
+          <span class="note" style="margin-left:auto;align-self:center">数据范围 = 当前所选片区（当前：全部片区）· 业态 = 公寓 · 片区由顶栏全局选择器统一控制</span>
+        </div>
+      </div>
+
+      <!-- ========== 页签 1：欠费台账（默认） ========== -->
+      <div class="tabpane on" id="t1">
+        <div class="panel">
+          <div class="statbar">
+            <div class="sstat"><div class="v num" style="color:var(--red)">¥5.76<small style="font-size:13px;color:var(--ink3)"> 万</small></div><div class="l">欠费总额</div></div>
+            <div class="sstat"><div class="v num">23</div><div class="l">欠费户数</div></div>
+            <div class="sstat"><div class="v num" style="color:var(--red)">3</div><div class="l">逾期 30 天以上</div></div>
+            <span class="note">数据范围 = 当前所选片区；默认按逾期天数倒序，红 = 逾期 30 天以上，橙 = 8~30 天，黄 = 1~7 天</span>
+          </div>
+          <div class="chipbar">
+            <span style="font-size:13px;color:var(--ink2)">费用类型：</span>
+            <span class="fchip on">全部</span>
+            <span class="fchip on">租金</span>
+            <span class="fchip on">押金</span>
+            <span class="fchip dis">水电费</span>
+            <span class="fchip dis">其他</span>
+            <span class="note">本期租金 / 押金展开，水电费、其他只列类型（水电账单待 M5 水电模块对接）</span>
+          </div>
+
+          <!-- 批量操作栏 -->
+          <div class="batchbar">
+            <label><input type="checkbox" id="chkAll">全选本页</label>
+            <span style="font-size:14px;font-weight:600;color:var(--ink)">已选 <b class="num" id="selCnt" style="color:var(--brand)">3</b> 人</span>
+            <button class="btn primary urge" data-open="mUrge">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H8l-4 4V5z"/><path d="M8 9h8M8 12.5h5"/></svg>
+              批量催缴
+            </button>
+            <span class="note">勾选多户后一键批量催缴；单户点每行「催缴」，同一个弹窗</span>
+          </div>
+
+          <div class="pb flush">
+            <table class="tb">
+              <thead>
+                <tr><th style="width:36px"></th><th>租户</th><th>片区 · 房号</th><th>费用类型</th><th>欠费金额</th><th>逾期天数</th><th>最近提醒</th><th>操作</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td><input type="checkbox" class="rowchk" checked></td>
+                  <td style="font-weight:600">刘某</td><td>梧桐公寓楼 · 2-502</td><td>租金</td>
+                  <td class="num" style="font-weight:700;color:var(--red)">¥8,200</td>
+                  <td><span class="tag lv-r num">67 天</span></td>
+                  <td>逾期第 7 天 · 短信已发 <span class="num">09-05</span></td>
+                  <td><button class="btn primary urge" data-open="mUrge">催缴</button></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="rowchk" checked></td>
+                  <td style="font-weight:600">恒创科技公司</td><td>云谷创业园区 · 1-整层</td><td>租金</td>
+                  <td class="num" style="font-weight:700;color:var(--red)">¥32,000</td>
+                  <td><span class="tag lv-r num">45 天</span></td>
+                  <td>催缴函已发 <span class="num">09-03</span></td>
+                  <td><button class="btn primary urge" data-open="mUrge">催缴</button></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="rowchk" checked></td>
+                  <td style="font-weight:600">赵某</td><td>学府青年园区 · 3-208</td><td>租金</td>
+                  <td class="num" style="font-weight:700;color:var(--red)">¥4,140</td>
+                  <td><span class="tag lv-r num">38 天</span></td>
+                  <td>电话催收 <span class="num">09-06</span> · 未果</td>
+                  <td><button class="btn primary urge" data-open="mUrge">催缴</button></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="rowchk"></td>
+                  <td style="font-weight:600">周先生</td><td>滨江科创园区 · 2-1105</td><td>租金</td>
+                  <td class="num" style="font-weight:700">¥2,600</td>
+                  <td><span class="tag lv-o num">22 天</span></td>
+                  <td>逾期第 15 天 · 催缴函已发 <span class="num">09-01</span></td>
+                  <td><button class="btn primary urge" data-open="mUrge">催缴</button></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="rowchk"></td>
+                  <td style="font-weight:600">陈女士</td><td>兴业人才公寓 · 1-806</td><td>押金</td>
+                  <td class="num" style="font-weight:700">¥1,850</td>
+                  <td><span class="tag lv-o num">15 天</span></td>
+                  <td>逾期第 7 天 · 短信已发 <span class="num">09-02</span></td>
+                  <td><button class="btn primary urge" data-open="mUrge">催缴</button></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="rowchk"></td>
+                  <td style="font-weight:600">吴先生</td><td>临港智造园区 · 1-305</td><td>租金</td>
+                  <td class="num" style="font-weight:700">¥1,600</td>
+                  <td><span class="tag lv-o num">9 天</span></td>
+                  <td>逾期第 7 天 · 服务通知已发 <span class="num">09-04</span></td>
+                  <td><button class="btn primary urge" data-open="mUrge">催缴</button></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="rowchk"></td>
+                  <td style="font-weight:600">郑女士</td><td>学府青年园区 · 2-512</td><td>租金</td>
+                  <td class="num" style="font-weight:700">¥1,450</td>
+                  <td><span class="tag lv-y num">5 天</span></td>
+                  <td>逾期第 1 天 · 短信已发 <span class="num">09-06</span></td>
+                  <td><button class="btn primary urge" data-open="mUrge">催缴</button></td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="rowchk"></td>
+                  <td style="font-weight:600">王同学</td><td>云谷创业园区 · 3-602</td><td>租金</td>
+                  <td class="num" style="font-weight:700">¥1,380</td>
+                  <td><span class="tag lv-y num">2 天</span></td>
+                  <td>逾期第 1 天 · 短信已发 <span class="num">09-07</span></td>
+                  <td><button class="btn primary urge" data-open="mUrge">催缴</button></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="pgbar">
+              <span>共 <b class="num" style="color:var(--ink2)">23</b> 户 · 本页显示前 <b class="num" style="color:var(--ink2)">8</b> 条</span>
+              <span style="margin-left:auto"><span class="note">逾期分层颜色与文案来源于 系统管理-字典配置；阶梯触发天数在 规则配置 页维护</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 页签 2：重点关注名单 ========== -->
+      <div class="tabpane" id="t2">
+        <div class="panel">
+          <div class="ph">
+            <h3>重点关注名单</h3>
+            <span class="note">逾期 30 天自动列入（阶梯可配）；仅名单内租户可发起断水断电处置申请</span>
+          </div>
+          <div class="focus-cards">
+            <div class="fcard">
+              <div class="fh"><span class="fn">刘某</span><span class="tag lv-r num">逾期 67 天</span></div>
+              <div class="fr">梧桐公寓楼 · 2-502 · 个人租户</div>
+              <div class="amt num">¥8,200<small>欠租</small></div>
+              <div class="hist">
+                <div class="hi"><span class="dot due" style="margin-top:6px"></span>断水断电申请：<b>已审批 · 待执行</b>（09-06 张经理批）</div>
+                <div class="hi"><span class="dot fix" style="margin-top:6px"></span>电话催收 <span class="num">2</span> 次 · 短信 <span class="num">4</span> 条</div>
+                <div class="hi"><span class="dot fix" style="margin-top:6px"></span>最近承诺：09 月初缴清，未兑现</div>
+              </div>
+              <div class="fop">
+                <button class="btn ghost sm">移出名单</button>
+                <a class="op" style="align-self:center">查看台账</a>
+              </div>
+              <div class="oplog">操作记录：09-06 王芳重新列入 · 分期协议未兑现；09-01 王芳移出 → 已签分期协议；08-02 系统自动列入 · 逾期满 30 天</div>
+            </div>
+            <div class="fcard">
+              <div class="fh"><span class="fn">恒创科技公司</span><span class="tag lv-r num">逾期 45 天</span></div>
+              <div class="fr">云谷创业园区 · 1-整层 · 企业租户</div>
+              <div class="amt num">¥32,000<small>欠租</small></div>
+              <div class="hist">
+                <div class="hi"><span class="dot rent" style="margin-top:6px"></span>押抵租审批记录：部分抵扣 <span class="num">¥20,000</span>（押金余额不足覆盖）</div>
+                <div class="hi"><span class="dot due" style="margin-top:6px"></span>断水断电申请：<b>审批中</b>（09-07 提交）</div>
+                <div class="hi"><span class="dot fix" style="margin-top:6px"></span>催缴函已发 <span class="num">09-03</span> · 已签收</div>
+              </div>
+              <div class="fop">
+                <button class="btn ghost sm">移出名单</button>
+                <a class="op" style="align-self:center">查看台账</a>
+              </div>
+              <div class="oplog">操作记录：09-01 王芳备注 → 押抵租 ¥20,000 审批中，维持名单；08-24 系统自动列入 · 逾期满 30 天</div>
+            </div>
+            <div class="fcard">
+              <div class="fh"><span class="fn">赵某</span><span class="tag lv-r num">逾期 38 天</span></div>
+              <div class="fr">学府青年园区 · 3-208 · 个人租户</div>
+              <div class="amt num">¥4,140<small>欠租</small></div>
+              <div class="hist">
+                <div class="hi"><span class="dot fix" style="margin-top:6px"></span>电话催收 <span class="num">3</span> 次未果（最近 <span class="num">09-06</span>）</div>
+                <div class="hi"><span class="dot fix" style="margin-top:6px"></span>短信 <span class="num">3</span> 条 · 服务通知 <span class="num">2</span> 条</div>
+                <div class="hi"><span class="dot fix" style="margin-top:6px"></span>暂无断水断电 / 押抵租记录</div>
+              </div>
+              <div class="fop">
+                <button class="btn ghost sm">移出名单</button>
+                <a class="op" style="align-self:center">查看台账</a>
+              </div>
+              <div class="oplog">操作记录：09-05 王芳跟进 → 电话催收 3 次未果，维持名单；08-31 系统自动列入 · 逾期满 30 天</div>
+            </div>
+          </div>
+          <div class="pgbar">
+            <span class="note">移出名单需填写原因并留痕；列入 / 移出均留痕（见各卡片底部操作记录）；名单规则（逾期天数阈值）在 规则配置 页维护，操作日志存 系统管理（M1，待建）</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 页签 3：催收与提醒记录 ========== -->
+      <div class="tabpane" id="t3">
+        <div class="panel">
+          <div class="ph">
+            <h3>催收与提醒记录</h3>
+            <span class="note">系统自动提醒与人工催收统一留痕；电话催收待办由提醒阶梯第 3 阶自动生成，完成后在此标记</span>
+          </div>
+          <div class="fbar">
+            <input class="inp" placeholder="租户姓名 / 房号" style="width:150px">
+            <input class="inp num" type="date" value="2026-08-01">
+            <span style="color:var(--ink3)">至</span>
+            <input class="inp num" type="date" value="2026-09-08">
+            <select class="sel"><option>全部状态</option><option>待办中</option><option>已完成</option></select>
+            <button class="btn ghost">查询</button>
+          </div>
+          <div class="pb flush">
+            <table class="tb">
+              <thead>
+                <tr><th>时间</th><th>租户</th><th>类型</th><th>通道</th><th>内容摘要</th><th>经办人</th><th>结果</th><th>状态</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="num">09-08 09:05</td><td>刘某</td><td>电话催收待办 · 第 3 阶（逾期满 7 天）</td><td>电话</td><td>系统生成待办，待拨打</td><td>王芳</td><td style="color:var(--ink3)">—</td><td><span class="tag fix">待办中</span> <a class="op">标记完成</a></td></tr>
+                <tr><td class="num">09-08 09:00</td><td>周先生</td><td>电话催收待办 · 第 3 阶（逾期满 7 天）</td><td>电话</td><td>系统生成待办，待拨打</td><td>李国栋</td><td style="color:var(--ink3)">—</td><td><span class="tag fix">待办中</span> <a class="op">标记完成</a></td></tr>
+                <tr><td class="num">09-06 14:20</td><td>赵某</td><td>电话催收</td><td>电话</td><td>承诺本周内缴清（第 3 次）</td><td>王芳</td><td><span class="tag due">未果</span></td><td><span class="tag rent">已完成</span></td></tr>
+                <tr><td class="num">09-06 09:00</td><td>郑女士</td><td>短信提醒 · 第 2 阶（逾期第 1 天）</td><td>短信</td><td>逾期提醒，请尽快缴费</td><td>系统</td><td><span class="tag free">已送达</span></td><td><span class="tag rent">已完成</span></td></tr>
+                <tr><td class="num">09-05 10:22</td><td>刘某</td><td>短信提醒 · 第 2 阶（逾期第 7 天）</td><td>短信</td><td>模板 A 友好提醒</td><td>系统</td><td><span class="tag free">已送达</span></td><td><span class="tag rent">已完成</span></td></tr>
+                <tr><td class="num">09-04 16:10</td><td>吴先生</td><td>短信提醒 · 第 2 阶（逾期第 7 天）</td><td>服务通知</td><td>逾期 7 天提醒</td><td>系统</td><td><span class="tag free">已读</span></td><td><span class="tag rent">已完成</span></td></tr>
+                <tr><td class="num">09-03 11:30</td><td>恒创科技公司</td><td>催缴函</td><td>纸质 + 服务通知</td><td>正式催缴函，限 7 日内缴清</td><td>王芳</td><td><span class="tag free">已签收</span></td><td><span class="tag rent">已完成</span></td></tr>
+                <tr><td class="num">09-01 15:40</td><td>刘某</td><td>短信提醒 · 第 1 阶（前 3 天）</td><td>服务通知</td><td>账期将至提醒</td><td>系统</td><td><span class="tag free">已读</span></td><td><span class="tag rent">已完成</span></td></tr>
+                <tr><td class="num">08-29 10:05</td><td>赵某</td><td>电话催收</td><td>电话</td><td>称工资延后，申请宽限</td><td>王芳</td><td><span class="tag due">未果</span></td><td><span class="tag rent">已完成</span></td></tr>
+                <tr><td class="num">08-28 09:15</td><td>刘某</td><td>电话催收</td><td>电话</td><td>承诺 9 月初缴清</td><td>王芳</td><td><span class="tag due">未兑现</span></td><td><span class="tag rent">已完成</span></td></tr>
+              </tbody>
+            </table>
+            <div class="pgbar">
+              <span>共 <b class="num" style="color:var(--ink2)">10</b> 条（演示数据）</span>
+              <span style="margin-left:auto"><span class="note">短信 / 服务通知发送走 系统管理-消息推送中心（待建）</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 页签 4：断水断电处置申请 ========== -->
+      <div class="tabpane" id="t4">
+        <div class="panel">
+          <div class="ph"><h3>断水断电处置申请</h3></div>
+          <div class="flow">
+            <div class="fstep"><span class="no num">1</span>提交申请<span class="fs-sub">仅重点关注名单内租户</span></div>
+            <div class="conn"></div>
+            <div class="fstep"><span class="no num">2</span>审批<span class="fs-sub">对接 M8 审批中心（待建）</span></div>
+            <div class="conn"></div>
+            <div class="fstep"><span class="no num">3</span>人工执行登记<span class="fs-sub">现场操作后登记留痕</span></div>
+          </div>
+          <div class="pb flush">
+            <table class="tb">
+              <thead>
+                <tr><th>租户</th><th>片区 · 房号</th><th>欠费金额</th><th>申请时间</th><th>申请人</th><th>审批状态</th><th>执行状态</th><th>操作</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td style="font-weight:600">刘某</td><td>梧桐公寓楼 · 2-502</td><td class="num">¥8,200</td>
+                  <td class="num">09-02 10:15</td><td>王芳</td>
+                  <td><span class="tag free">已审批 · 张经理</span></td>
+                  <td><span class="tag due">待执行</span></td>
+                  <td><button class="btn primary sm">执行登记</button></td>
+                </tr>
+                <tr>
+                  <td style="font-weight:600">恒创科技公司</td><td>云谷创业园区 · 1-整层</td><td class="num">¥32,000</td>
+                  <td class="num">09-07 09:40</td><td>王芳</td>
+                  <td><span class="tag due">审批中</span></td>
+                  <td style="color:var(--ink3)">—</td>
+                  <td><a class="op">查看进度</a></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="pgbar" style="display:block">
+              <span class="note block" style="border-color:var(--red);background:var(--red-bg);color:var(--red);font-weight:600">断水断电永不自动执行，必须人工审批通过后人工操作；依赖智能水电表模块联动，未对接前仅支持人工执行留痕</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 页签 5：收款日报 ========== -->
+      <div class="tabpane" id="t5">
+        <div class="panel">
+          <div class="ph"><h3>收款日报</h3></div>
+          <div class="fbar">
+            <input class="inp num" type="date" value="2026-09-08">
+            <button class="btn ghost">查询</button>
+            <span class="sp"></span>
+            <span class="note">片区由顶栏全局选择器统一控制，页内不再设片区下拉</span>
+            <button class="btn primary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 21h16"/></svg>
+              导出
+            </button>
+          </div>
+          <div class="daily-sum">
+            <div class="ds-card">
+              <div class="dl">今日收款（2026-09-08）</div>
+              <div class="dv num">¥3.86<small style="font-size:13px;color:var(--ink3)"> 万</small></div>
+              <div class="ds num">共 9 笔</div>
+            </div>
+            <div class="ds-card">
+              <div class="dl">银联（在线 · 自动核销）</div>
+              <div class="dv num">¥2.14<small style="font-size:13px;color:var(--ink3)"> 万</small></div>
+              <div class="ds num">4 笔</div>
+            </div>
+            <div class="ds-card">
+              <div class="dl">转账</div>
+              <div class="dv num">¥1.11<small style="font-size:13px;color:var(--ink3)"> 万</small></div>
+              <div class="ds num">3 笔</div>
+            </div>
+            <div class="ds-card">
+              <div class="dl">现金</div>
+              <div class="dv num">¥0.61<small style="font-size:13px;color:var(--ink3)"> 万</small></div>
+              <div class="ds num">2 笔</div>
+            </div>
+          </div>
+          <div class="pb flush">
+            <table class="tb">
+              <thead>
+                <tr><th>经办人</th><th>笔数</th><th>收款金额</th><th>主要方式</th><th>操作</th></tr>
+              </thead>
+              <tbody>
+                <tr><td style="font-weight:600">王芳</td><td class="num">5 笔</td><td class="num" style="font-weight:700">¥2.41 万</td><td>银联 / 现金</td><td><a class="op">明细</a></td></tr>
+                <tr><td style="font-weight:600">李国栋</td><td class="num">4 笔</td><td class="num" style="font-weight:700">¥1.45 万</td><td>转账 / 现金</td><td><a class="op">明细</a></td></tr>
+                <tr style="background:#fafbfc"><td style="font-weight:600">合计</td><td class="num" style="font-weight:700">9 笔</td><td class="num" style="font-weight:700">¥3.86 万</td><td style="color:var(--ink3)">—</td><td></td></tr>
+              </tbody>
+            </table>
+            <div class="pgbar">
+              <span class="note">日报维度：当日笔数 / 总额、按支付方式（银联/转账/现金）、按经办人，支持 日期 筛选导出；现金 / 转账登记来源于 收款核销-收款登记弹窗</span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 底部说明 -->
+      <div class="note block" style="margin-top:16px">提醒阶梯与话术在 <a href="pc-charge-settings.html">规则配置</a> 页维护；短信 / 服务通知发送走 系统管理-消息推送中心（待建）</div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ========== 弹窗：催缴（单户 / 批量共用） ========== -->
+<div class="mask" id="mUrge" style="display:none">
+  <div class="modal" style="width:640px">
+    <div class="mh">
+      催缴 · 已选 <span class="num">3</span> 人
+      <span class="x" data-close="mUrge">×</span>
+    </div>
+    <div class="mb" style="display:flex;flex-direction:column;gap:14px">
+      <div style="font-size:13px;color:var(--ink2);line-height:1.8">
+        刘某（梧桐公寓楼 2-502 · 欠租 <span class="num">¥8,200</span> · 逾期 <span class="num">67</span> 天）<br>
+        恒创科技公司（云谷创业园区 1-整层 · 欠租 <span class="num">¥32,000</span> · 逾期 <span class="num">45</span> 天）<br>
+        赵某（学府青年园区 3-208 · 欠租 <span class="num">¥4,140</span> · 逾期 <span class="num">38</span> 天）
+      </div>
+      <div>
+        <div style="font-size:13px;color:var(--ink2);margin-bottom:8px">选择话术模板（单选）</div>
+        <div style="display:flex;flex-direction:column;gap:8px">
+          <label class="tpl on">
+            <input type="radio" name="tpl" checked>
+            <span><span class="tt">模板 A · 友好提醒</span><span class="ts" style="display:block">尊敬的租户，您的租金已逾期，请尽快登录「英莱达公寓」小程序完成缴费，如有困难请联系管家。</span></span>
+          </label>
+          <label class="tpl">
+            <input type="radio" name="tpl">
+            <span><span class="tt">模板 B · 正式催缴</span><span class="ts" style="display:block">您已逾期 {天数} 天，欠费 {金额}。请于 3 日内缴清，逾期将按合同约定处理并影响续租资格。</span></span>
+          </label>
+          <label class="tpl">
+            <input type="radio" name="tpl">
+            <span><span class="tt">模板 C · 最后告知</span><span class="ts" style="display:block">经多次提醒仍未缴清，现已列入重点关注名单，后续将启动合同约定处置流程。</span></span>
+          </label>
+        </div>
+      </div>
+      <div>
+        <div style="font-size:13px;color:var(--ink2);margin-bottom:8px">发送通道（仅两种，可双发）</div>
+        <div class="chk-row">
+          <label><input type="checkbox" checked>短信</label>
+          <label><input type="checkbox" checked>小程序服务通知</label>
+        </div>
+      </div>
+      <div class="uhint">
+        防骚扰提示（每户一行）：<br>
+        · 刘某：该户近 30 天已提醒 <span class="num">3</span> 次，最近：<span class="num">09-05</span> 短信<br>
+        · 恒创科技公司：该户近 30 天已提醒 <span class="num">2</span> 次，最近：<span class="num">09-03</span> 催缴函<br>
+        · 赵某：该户近 30 天已提醒 <span class="num">3</span> 次，最近：<span class="num">09-06</span> 电话
+      </div>
+      <div style="font-size:12.5px;color:var(--ink2);display:flex;flex-direction:column;gap:5px">
+        <b style="font-size:13px">发送记录（以刘某为例）</b>
+        · <span class="num">09-05 10:22</span> 短信 · 模板A · 已送达（系统）<br>
+        · <span class="num">09-01 15:40</span> 服务通知 · 模板A · 已读（系统）<br>
+        · <span class="num">08-28 09:15</span> 电话催收 · 承诺 9 月初缴（王芳）
+      </div>
+      <span class="note">演示为静态：单户与批量共用本弹窗，正式系统按实际选中户数渲染名单与防骚扰提示；话术模板与发送阶梯在 规则配置 页维护</span>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" data-close="mUrge">取消</button>
+      <button class="btn primary urge">发送催缴（短信 + 服务通知）</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* 极简页签切换（静态原型用） */
+  document.querySelectorAll('.tabs .tb[data-tab]').forEach(function (tb) {
+    tb.addEventListener('click', function () {
+      document.querySelectorAll('.tabs .tb').forEach(function (x) { x.classList.remove('on') })
+      document.querySelectorAll('.tabpane').forEach(function (x) { x.classList.remove('on') })
+      tb.classList.add('on')
+      document.getElementById(tb.getAttribute('data-tab')).classList.add('on')
+      window.scrollTo(0, 0)
+    })
+  })
+
+  /* 弹窗开关 */
+  document.querySelectorAll('[data-open]').forEach(function (b) {
+    b.addEventListener('click', function () { document.getElementById(b.getAttribute('data-open')).style.display = 'flex' })
+  })
+  document.querySelectorAll('[data-close]').forEach(function (b) {
+    b.addEventListener('click', function () { document.getElementById(b.getAttribute('data-close')).style.display = 'none' })
+  })
+
+  /* 欠费台账勾选计数（全选 / 单选） */
+  var selCnt = document.getElementById('selCnt')
+  var chkAll = document.getElementById('chkAll')
+  function refreshCnt () { selCnt.textContent = document.querySelectorAll('.rowchk:checked').length }
+  document.querySelectorAll('.rowchk').forEach(function (c) { c.addEventListener('change', refreshCnt) })
+  chkAll.addEventListener('change', function () {
+    document.querySelectorAll('.rowchk').forEach(function (c) { c.checked = chkAll.checked })
+    refreshCnt()
+  })
+</script>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

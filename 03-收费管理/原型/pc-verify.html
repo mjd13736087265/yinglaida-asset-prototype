@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>收款核销 · 收费管理 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  .note.block{display:flex;width:100%}
+
+  /* 匹配结果标签 */
+  .mtag{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:500;line-height:1.6;white-space:nowrap}
+  .mtag.ok{background:var(--green-bg);color:var(--green)}
+  .mtag.wait{background:var(--orange-bg);color:var(--orange)}
+  .mtag.diff{background:var(--red-bg);color:var(--red)}
+
+  /* 操作列文字链 / 小按钮 */
+  .op{color:var(--brand);cursor:pointer;font-size:13px;white-space:nowrap}
+  .op:hover{color:var(--brand-d)}
+  .op+.op{margin-left:10px}
+  .btn.sm{height:34px;padding:0 14px;font-size:13px}
+
+  /* 差额金额强调 */
+  .diff-amt{color:var(--red);font-weight:700}
+
+  /* 单选行（弹窗内付款方式 / 处理方式） */
+  .rrow{display:flex;gap:22px;align-items:center;font-size:14px;color:var(--ink);flex-wrap:wrap}
+  .rrow label{display:flex;align-items:center;gap:7px;cursor:pointer;font-size:14px}
+  .rrow input[type=radio]{width:17px;height:17px;accent-color:var(--brand)}
+
+  /* 只读标记 */
+  .ro-tag{font-size:11px;color:var(--ink3);border:1px solid var(--line);border-radius:4px;padding:1px 7px}
+
+  /* 分页器 */
+  .pgbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3);flex-wrap:wrap}
+  .pgbar>span{white-space:nowrap}
+  .pgn{display:inline-flex;align-items:center;gap:6px}
+  .pgn .pgb{min-width:28px;height:28px;padding:0 8px;border:1px solid var(--line);border-radius:var(--r-sm);display:inline-flex;align-items:center;justify-content:center;font-size:12.5px;color:var(--ink2);background:var(--panel);cursor:pointer}
+  .pgn .pgb.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .pgn .pgb.dis{opacity:.45;cursor:default}
+
+  /* 弹窗内上传框 */
+  .upl-mini{border:1px dashed var(--line);border-radius:var(--r-sm);padding:12px 14px;display:flex;align-items:center;gap:10px;color:var(--ink2);font-size:13px;cursor:pointer}
+  .upl-mini svg{color:var(--brand)}
+
+  /* 页签内容切换 */
+  .tabpane{display:none}
+  .tabpane.on{display:block}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ========== 左侧导航（共享组件 nav.js 渲染，菜单唯一数据源见该文件） ========== -->
+  <aside class="sidebar" id="amsNav" data-active="charge-verify" data-ver="V1.0 原型 · 收费管理模块"></aside>
+
+  <!-- ========== 主区域 ========== -->
+  <div class="main">
+
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="crumb"><span>收费管理 / </span>收款核销</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：全部片区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 内容区 -->
+    <div class="content">
+
+      <!-- 核心概念说明 -->
+      <div class="panel" style="margin-bottom:16px">
+        <div class="pb" style="display:flex;flex-direction:column;gap:10px">
+          <span class="note block" style="font-size:13px">核销 = 确认钱到了，并把它对应到某张账单、标记为「已缴」。银行到账但还没对上账单的钱，都在下面「待人工核销」里，逐笔确认即可。</span>
+          <span class="note block">数据范围 = 当前所选片区（当前：全部片区）· 业态 = 公寓，其他业态（写字楼/商业/厂房）待 M10/M11 预留 · 片区由顶栏全局选择器统一控制，页内不再单独设片区下拉</span>
+        </div>
+      </div>
+
+      <!-- 页签 -->
+      <div class="panel" style="margin-bottom:16px">
+        <div class="tabs" style="padding:10px 14px">
+          <span class="tb on" data-tab="v1">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M8 6h13M8 12h13M8 18h13"/><path d="M3.5 6h.01M3.5 12h.01M3.5 18h.01"/></svg>
+            待人工核销<span class="n">8</span>
+          </span>
+          <span class="tb" data-tab="v2">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L5 13.5h5L10 22l8-11.5h-5L13 2z"/></svg>
+            自动核销记录
+          </span>
+          <span class="tb" data-tab="v3">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20 20l-3.5-3.5"/></svg>
+            收款记录查询
+          </span>
+          <span class="note" style="margin-left:auto;align-self:center">双通道：人工核销永久保留 + 自动核销只读记录；收款登记、差额处理均为弹窗操作</span>
+        </div>
+      </div>
+
+      <!-- ========== 页签 1：待人工核销（默认） ========== -->
+      <div class="tabpane on" id="v1">
+        <div class="panel">
+          <div class="ph">
+            <h3>待人工核销</h3>
+            <span class="tag due">待处理 <b class="num">8</b> 笔</span>
+            <span style="margin-left:auto;display:flex;gap:10px">
+              <button class="btn primary" data-open="mReg">
+                <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                收款登记
+              </button>
+            </span>
+          </div>
+          <div class="pb flush">
+            <table class="tb">
+              <thead>
+                <tr>
+                  <th>到账时间</th><th>付款人</th><th>金额</th><th>支付方式</th><th>凭证</th><th style="width:32%">匹配账单</th><th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="num">09-08 09:12</td><td>张女士</td><td class="num" style="font-weight:600">¥1,850.00</td><td>转账</td>
+                  <td><a class="op">查看</a></td>
+                  <td>1栋-301 · 张女士 · <span class="num">¥1,850</span> 待缴 <span class="mtag ok">按金额+姓名匹配</span></td>
+                  <td><button class="btn primary sm">核销</button></td>
+                </tr>
+                <tr>
+                  <td class="num">09-08 08:47</td><td>李先生</td><td class="num" style="font-weight:600">¥1,850.00</td><td>转账</td>
+                  <td><a class="op">查看</a></td>
+                  <td>1栋-302 · 李先生 · <span class="num">¥1,850</span> 待缴 <span class="mtag ok">按金额+姓名匹配</span></td>
+                  <td><button class="btn primary sm">核销</button></td>
+                </tr>
+                <tr>
+                  <td class="num">09-07 17:20</td><td>恒创科技有限公司</td><td class="num" style="font-weight:600">¥32,000.00</td><td>转账</td>
+                  <td><a class="op">查看</a></td>
+                  <td><span class="mtag wait">未匹配 · 需人工选择</span> <span style="font-size:12px;color:var(--ink3)">该户在欠费台账中</span></td>
+                  <td><button class="btn primary sm">核销</button></td>
+                </tr>
+                <tr>
+                  <td class="num">09-07 15:03</td><td>周女士</td><td class="num" style="font-weight:600">¥1,880.00</td><td>转账</td>
+                  <td><a class="op">查看</a></td>
+                  <td>1栋-307 · 周女士 · <span class="num">¥1,880</span> 待缴 <span class="mtag ok">按金额+姓名匹配</span></td>
+                  <td><button class="btn primary sm">核销</button></td>
+                </tr>
+                <tr>
+                  <td class="num">09-07 11:36</td><td>王**</td><td class="num" style="font-weight:600">¥1,380.00</td><td>现金</td>
+                  <td><a class="op">查看</a></td>
+                  <td>2栋-303 · 王同学 · <span class="num">¥1,380</span> 待缴 <span class="mtag ok">按金额+房号匹配</span></td>
+                  <td><button class="btn primary sm">核销</button></td>
+                </tr>
+                <tr>
+                  <td class="num">09-06 16:55</td><td>陈**</td><td class="num" style="font-weight:600">¥2,600.00</td><td>现金</td>
+                  <td><a class="op">查看</a></td>
+                  <td>1栋-305 · 陈先生 · <span class="num">¥2,600</span> 待缴 <span class="mtag ok">按金额+房号匹配</span></td>
+                  <td><button class="btn primary sm">核销</button></td>
+                </tr>
+                <tr style="background:var(--red-bg)">
+                  <td class="num">09-06 10:24</td><td>张女士</td><td class="num" style="font-weight:600">¥1,850.00</td><td>转账</td>
+                  <td><a class="op">查看</a></td>
+                  <td>2栋-401 · 张女士 · <span class="num">¥1,850.50</span> 待缴 <span class="mtag diff">少付差额 <span class="num diff-amt">¥0.50</span></span></td>
+                  <td>
+                    <button class="btn primary sm">核销</button>
+                    <button class="btn ghost sm" data-open="mDiff">差额处理</button>
+                    <div class="note" style="margin-top:6px">差额走 部分核销/挂账 弹窗审批，与 特殊处理 页同一组件</div>
+                  </td>
+                </tr>
+                <tr>
+                  <td class="num">09-05 14:10</td><td>郑女士</td><td class="num" style="font-weight:600">¥2,600.00</td><td>转账</td>
+                  <td><a class="op">查看</a></td>
+                  <td><span class="mtag wait">未匹配 · 需人工选择</span></td>
+                  <td><button class="btn primary sm">核销</button></td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="pgbar">
+              <span>共 <b class="num" style="color:var(--ink2)">8</b> 条（演示数据）</span>
+              <span class="pgn"><span class="pgb dis">上一页</span><span class="pgb on num">1</span><span class="pgb">下一页</span></span>
+              <span style="margin-left:auto"><span class="note">匹配规则：系统按 金额 → 付款人姓名 → 房号 依次模糊匹配，匹不上的一律留人工选择，绝不自动销账</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 页签 2：自动核销记录（只读） ========== -->
+      <div class="tabpane" id="v2">
+        <div class="panel">
+          <div class="ph">
+            <h3>自动核销记录</h3>
+            <span class="ro-tag">只读</span>
+          </div>
+          <div class="pb" style="border-bottom:1px solid var(--line2)">
+            <span class="note block" style="font-size:13px;font-weight:600">银联对接中：当前所有收款均走人工核销；对接完成后线上支付自动核销，本页保留人工通道，永不取消</span>
+          </div>
+          <div class="pb flush">
+            <table class="tb">
+              <thead>
+                <tr><th>时间</th><th>租户</th><th>账单号</th><th>金额</th><th>核销来源</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="num">09-08 08:30</td><td>吴先生 · 临港人才公寓 1-305</td><td class="num">ZD-XQ04-2026-0091</td><td class="num">¥1,600.00</td><td><span class="tag rent">银联 · 自动</span></td></tr>
+                <tr><td class="num">09-08 07:58</td><td>孙女士 · 兴业公寓 2-602</td><td class="num">ZD-XQ01-2026-0143</td><td class="num">¥1,720.00</td><td><span class="tag rent">银联 · 自动</span></td></tr>
+                <tr><td class="num">09-07 21:14</td><td>钱先生 · 滨江人才公寓 3-204</td><td class="num">ZD-XQ05-2026-0177</td><td class="num">¥2,150.00</td><td><span class="tag rent">银联 · 自动</span></td></tr>
+                <tr><td class="num">09-07 19:42</td><td>冯女士 · 学府青年公寓 2-511</td><td class="num">ZD-XQ03-2026-0068</td><td class="num">¥1,450.00</td><td><span class="tag rent">银联 · 自动</span></td></tr>
+                <tr><td class="num">09-07 12:05</td><td>何先生 · 梧桐公寓 1-301</td><td class="num">ZD-XQ06-2026-0032</td><td class="num">¥1,280.00</td><td><span class="tag rent">银联 · 自动</span></td></tr>
+              </tbody>
+            </table>
+            <div class="pgbar">
+              <span>共 <b class="num" style="color:var(--ink2)">5</b> 条（演示数据）</span>
+              <span class="pgn"><span class="pgb dis">上一页</span><span class="pgb on num">1</span><span class="pgb">下一页</span></span>
+              <span style="margin-left:auto"><span class="note">以上为银联联调环境回灌的演示流水，正式对接后实时写入</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- ========== 页签 3：收款记录查询 ========== -->
+      <div class="tabpane" id="v3">
+        <div class="panel">
+          <div class="ph"><h3>收款记录查询</h3></div>
+          <div class="fbar">
+            <input class="inp num" type="date" value="2026-09-01">
+            <span style="color:var(--ink3)">至</span>
+            <input class="inp num" type="date" value="2026-09-08">
+            <input class="inp" placeholder="租户姓名 / 房号" style="width:150px">
+            <select class="sel"><option>全部支付方式</option><option>银联（在线）</option><option>转账</option><option>现金</option></select>
+            <select class="sel"><option>全部核销状态</option><option>已缴 · 自动</option><option>已缴 · 人工</option><option>待核销</option></select>
+            <button class="btn ghost">查询</button>
+            <span class="sp"></span>
+            <button class="btn primary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 21h16"/></svg>
+              导出（按当前筛选）
+            </button>
+            <span class="note">财务月底对账用 · 编号含片区编号段，各片区独立流水</span>
+          </div>
+          <div class="pb flush">
+            <table class="tb">
+              <thead>
+                <tr><th>时间</th><th>租户</th><th>房号</th><th>金额</th><th>方式</th><th>登记人</th><th>核销状态</th><th>票据状态</th><th>操作</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="num">09-08 09:12</td><td>张女士</td><td>滨江 1栋-301</td><td class="num">¥1,850.00</td><td>转账</td><td style="color:var(--ink3)">—（待核销）</td><td><span class="tag due">待核销</span></td><td><span class="tag fix">未开</span></td><td><a class="op">去核销</a></td></tr>
+                <tr><td class="num">09-08 08:30</td><td>吴先生</td><td>临港 1-305</td><td class="num">¥1,600.00</td><td>银联</td><td>系统 · 自动</td><td><span class="tag free">已缴 · 自动</span></td><td><span class="tag rent">收据已开</span></td><td><a class="op">详情</a></td></tr>
+                <tr><td class="num">09-08 08:12</td><td>周女士</td><td>滨江 1栋-307</td><td class="num">¥1,880.00</td><td>现金</td><td>王芳</td><td><span class="tag free">已缴 · 人工</span></td><td><span class="tag rent">收据已开</span></td><td><a class="op">详情</a></td></tr>
+                <tr><td class="num">09-07 19:42</td><td>冯女士</td><td>学府 2-511</td><td class="num">¥1,450.00</td><td>银联</td><td>系统 · 自动</td><td><span class="tag free">已缴 · 自动</span></td><td><span class="tag rsv">发票已开</span></td><td><a class="op">详情</a></td></tr>
+                <tr><td class="num">09-07 16:20</td><td>陈先生</td><td>滨江 1栋-305</td><td class="num">¥2,600.00</td><td>现金</td><td>王芳</td><td><span class="tag free">已缴 · 人工</span></td><td><span class="tag fix">未开</span></td><td><a class="op">开收据</a></td></tr>
+                <tr><td class="num">09-06 15:44</td><td>孙女士</td><td>兴业 2-602</td><td class="num">¥1,720.00</td><td>银联</td><td>系统 · 自动</td><td><span class="tag free">已缴 · 自动</span></td><td><span class="tag rent">收据已开</span></td><td><a class="op">详情</a></td></tr>
+                <tr><td class="num">09-05 11:02</td><td>钱先生</td><td>滨江 3-204</td><td class="num">¥2,150.00</td><td>转账</td><td>李国栋</td><td><span class="tag free">已缴 · 人工</span></td><td><span class="tag fix">未开</span></td><td><a class="op">开收据</a></td></tr>
+                <tr><td class="num">09-04 10:18</td><td>何先生</td><td>梧桐 1-301</td><td class="num">¥1,280.00</td><td>现金</td><td>王芳</td><td><span class="tag free">已缴 · 人工</span></td><td><span class="tag rent">收据已开</span></td><td><a class="op">详情</a></td></tr>
+              </tbody>
+            </table>
+            <div class="pgbar">
+              <span>共 <b class="num" style="color:var(--ink2)">8</b> 条（演示数据）</span>
+              <span class="pgn"><span class="pgb dis">上一页</span><span class="pgb on num">1</span><span class="pgb">下一页</span></span>
+              <span style="margin-left:auto"><span class="note">同一笔收款的票据状态：未开票 → 收据（核销后系统自动生成）→ 换开发票（收据作废留痕）→ 完成；发票与收据互斥，规则见 票据管理</span></span>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ========== 弹窗：收款登记 ========== -->
+<div class="mask" id="mReg" style="display:none">
+  <div class="modal" style="width:640px">
+    <div class="mh">
+      收款登记
+      <span class="x" data-close="mReg">×</span>
+    </div>
+    <div class="mb" style="padding:0">
+      <div class="f-sec">
+        <h4>付款方式</h4>
+        <div class="rrow">
+          <label><input type="radio" name="pay" value="转账" checked>转账</label>
+          <label><input type="radio" name="pay" value="现金">现金</label>
+          <span class="note">在线收款走「银联（在线）」支付按钮，对接中，不在本弹窗登记</span>
+        </div>
+      </div>
+      <div class="f-sec" id="bankFields">
+        <h4>转账信息（选转账时必填）</h4>
+        <div class="f-grid">
+          <div class="f-item">
+            <label><span class="req">*</span>付款方户名</label>
+            <input class="inp" value="张某某">
+          </div>
+          <div class="f-item">
+            <label><span class="req">*</span>付款账号</label>
+            <input class="inp num" value="6222 **** **** 0831">
+          </div>
+          <div class="f-item">
+            <label><span class="req">*</span>开户行</label>
+            <input class="inp" value="工商银行城西支行">
+          </div>
+          <div class="f-item">
+            <label><span class="req">*</span>转账时间</label>
+            <input class="inp num" type="datetime-local" value="2026-09-08T09:12">
+          </div>
+          <div class="f-item full">
+            <label><span class="req">*</span>转账凭证上传</label>
+            <div class="upl-mini">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 14V4"/><path d="M8.5 7.5L12 4l3.5 3.5"/><path d="M4 15v3a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-3"/></svg>
+              点击上传转账截图 / 回单（jpg、png，不超过 5MB）
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="f-sec">
+        <h4>收款信息</h4>
+        <div class="f-grid">
+          <div class="f-item">
+            <label><span class="req">*</span>租户 / 房号</label>
+            <select class="sel">
+              <option>张女士 · 滨江人才公寓 1栋-301</option>
+              <option>张女士 · 滨江人才公寓 2栋-401</option>
+              <option>李先生 · 滨江人才公寓 1栋-302</option>
+              <option>王同学 · 滨江人才公寓 2栋-303</option>
+            </select>
+          </div>
+          <div class="f-item">
+            <label><span class="req">*</span>关联账单</label>
+            <select class="sel">
+              <option>2026-09 租金账单 · ¥1,850.00 · 待缴</option>
+              <option>2026-10 租金账单 · ¥1,850.00 · 未到期</option>
+            </select>
+            <span class="help">账单来源于 账单管理（pc-bills.html），按所选租户自动带出</span>
+          </div>
+          <div class="f-item">
+            <label><span class="req">*</span>收款金额</label>
+            <input class="inp num" value="1850.00">
+          </div>
+          <div class="f-item full">
+            <label>备注</label>
+            <textarea class="ta" placeholder="如：租户现场缴纳，已点钞确认 / 已核对银行回单"></textarea>
+          </div>
+        </div>
+      </div>
+      <div style="padding:0 18px 4px">
+        <span class="note">登记后进入「待人工核销」列表，确认到账后核销；同时纳入每日收款日报（见 欠费管理 - 收款日报）</span>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" data-close="mReg">取消</button>
+      <button class="btn primary">保存登记</button>
+      <button class="btn primary">保存并打印收据</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 弹窗：差额处理 ========== -->
+<div class="mask" id="mDiff" style="display:none">
+  <div class="modal">
+    <div class="mh">
+      差额处理
+      <span class="x" data-close="mDiff">×</span>
+    </div>
+    <div class="mb" style="display:flex;flex-direction:column;gap:14px">
+      <div style="display:flex;align-items:baseline;gap:10px">
+        <span style="font-size:13px;color:var(--ink2)">差额金额</span>
+        <span class="num diff-amt" style="font-size:22px">¥0.50</span>
+        <span style="font-size:12px;color:var(--ink3)">少付 · 到账 <span class="num">¥1,850.00</span> / 应收 <span class="num">¥1,850.50</span>（张女士 · 2栋-401 · 09-06 转账）</span>
+      </div>
+      <div class="f-item">
+        <label><span class="req">*</span>处理方式</label>
+        <div class="rrow">
+          <label><input type="radio" name="diff" checked>部分核销（差额免于追缴，账单按已缴结清）</label>
+          <label><input type="radio" name="diff">挂账（差额挂入该户欠费，下期一并收取）</label>
+        </div>
+      </div>
+      <div class="f-item">
+        <label><span class="req">*</span>原因说明</label>
+        <textarea class="ta" placeholder="如：转账手续费差额，经与租户确认免于追缴"></textarea>
+      </div>
+      <span class="note">与 特殊处理 页同一弹窗组件，两处入口（此处与 pc-special.html - 新建部分核销/挂账单据）；提交后走审批（对接 M8，待建），审批留痕</span>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" data-close="mDiff">取消</button>
+      <button class="btn primary">提交审批</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  /* 极简页签切换（静态原型用） */
+  document.querySelectorAll('.tabs .tb[data-tab]').forEach(function (tb) {
+    tb.addEventListener('click', function () {
+      document.querySelectorAll('.tabs .tb').forEach(function (x) { x.classList.remove('on') })
+      document.querySelectorAll('.tabpane').forEach(function (x) { x.classList.remove('on') })
+      tb.classList.add('on')
+      document.getElementById(tb.getAttribute('data-tab')).classList.add('on')
+      window.scrollTo(0, 0)
+    })
+  })
+
+  /* 弹窗开关 */
+  document.querySelectorAll('[data-open]').forEach(function (b) {
+    b.addEventListener('click', function () { document.getElementById(b.getAttribute('data-open')).style.display = 'flex' })
+  })
+  document.querySelectorAll('[data-close]').forEach(function (b) {
+    b.addEventListener('click', function () { document.getElementById(b.getAttribute('data-close')).style.display = 'none' })
+  })
+
+  /* 收款登记：选转账时显示转账信息，选现金隐藏 */
+  document.querySelectorAll('input[name="pay"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      var v = document.querySelector('input[name="pay"]:checked').value
+      document.getElementById('bankFields').style.display = (v === '转账') ? '' : 'none'
+    })
+  })
+</script>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

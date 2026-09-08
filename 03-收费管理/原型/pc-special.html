@@ -1,0 +1,571 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>特殊处理 · 收费管理 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  /* 操作列文字链 */
+  .op{color:var(--brand);cursor:pointer;font-size:13px;text-decoration:none;white-space:nowrap}
+  .op:hover{color:var(--brand-d)}
+
+  /* 顶部醒目提示条 */
+  .warn-bar{display:flex;align-items:flex-start;gap:10px;padding:12px 16px;border:1px solid var(--st-due);background:var(--st-due-bg);border-radius:var(--r-md);color:#7a5200;font-size:13.5px;line-height:1.6;margin-bottom:16px}
+  .warn-bar svg{flex-shrink:0;margin-top:2px;color:var(--st-due)}
+  .warn-bar b{color:var(--ink)}
+
+  /* 分组锚点页签 */
+  .sec-tabs{display:flex;gap:2px;padding:8px 18px;border-bottom:1px solid var(--line2);background:var(--panel);border:1px solid var(--line);border-bottom:none;border-radius:var(--r-md) var(--r-md) 0 0}
+  .sec-tabs .tb{text-decoration:none}
+
+  /* 流程条 */
+  .flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+  .fstep{display:flex;align-items:center;gap:9px;background:var(--paper);border:1px solid var(--line);border-radius:9px;padding:9px 14px;min-width:0}
+  .fstep .fno{width:24px;height:24px;border-radius:50%;background:var(--brand-bg);color:var(--brand);display:flex;align-items:center;justify-content:center;font-size:12.5px;font-weight:700;flex-shrink:0}
+  .fstep.risk .fno{background:var(--red-bg);color:var(--red)}
+  .fstep .ft{font-size:13.5px;font-weight:600;white-space:nowrap}
+  .fstep .fs{font-size:11.5px;color:var(--ink3);white-space:nowrap}
+  .farr{color:var(--ink3);display:flex;align-items:center;flex-shrink:0}
+
+  /* 审批记录时间线（详情弹窗内） */
+  .tl{position:relative;padding-left:20px;margin-top:4px}
+  .tl::before{content:"";position:absolute;left:6px;top:8px;bottom:8px;width:2px;background:var(--line)}
+  .tl .ti{position:relative;padding:5px 0 10px}
+  .tl .ti:last-child{padding-bottom:2px}
+  .tl .ti::before{content:"";position:absolute;left:-18px;top:11px;width:8px;height:8px;border-radius:50%;background:var(--brand);border:2px solid #fff}
+  .tl .ti.done::before{background:var(--green)}
+  .tl .ti.wait::before{background:var(--st-due)}
+  .tl .tt{font-size:13.5px;font-weight:600;display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+  .tl .tt .who{color:var(--ink2);font-weight:500;font-size:12.5px}
+  .tl .ts{font-size:12.5px;color:var(--ink3);margin-top:2px}
+
+  /* 弹窗表单行 */
+  .mfrm .fr{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+  .mfrm .fr.top{align-items:flex-start}
+  .mfrm .fr .lb{width:88px;flex-shrink:0;font-size:13.5px;color:var(--ink2);text-align:right;line-height:36px}
+  .mfrm .fr.top .lb{line-height:1.6;padding-top:8px}
+  .mfrm .fr .inp,.mfrm .fr .sel{flex:1}
+  .mfrm .fr .rd{display:inline-flex;align-items:center;gap:6px;font-size:13.5px;color:var(--ink);margin-right:16px;cursor:pointer}
+  .mfrm textarea{flex:1;border:1px solid var(--line);border-radius:var(--r-sm);padding:8px 12px;font-size:13.5px;font-family:inherit;min-height:60px;resize:vertical;color:var(--ink);outline:none}
+  .mfrm textarea:focus{border-color:var(--brand)}
+  .mfrm .ro{flex:1;font-size:13.5px;color:var(--ink);line-height:36px}
+
+  /* 弹窗内分段标题与信息栅格 */
+  .seg{font-size:12.5px;color:var(--ink3);font-weight:600;margin:16px 0 10px;padding-top:14px;border-top:1px dashed var(--line)}
+  .kv{display:grid;grid-template-columns:1fr 1fr;gap:8px 18px;font-size:13.5px}
+  .kv .k{color:var(--ink3);font-size:12.5px;margin-right:4px}
+
+  /* 弹窗内容可滚动 */
+  .modal .mb{max-height:72vh;overflow-y:auto}
+  /* hidden 属性被 .mask{display:flex} 覆盖，显式恢复 */
+  .mask[hidden]{display:none}
+
+  /* 催收记录摘要（只读） */
+  .dun{flex:1;border:1px solid var(--line2);border-radius:var(--r-sm);background:var(--paper);padding:10px 12px;font-size:12.5px;color:var(--ink2);line-height:1.8}
+  .dun b{color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ========== 左侧导航（共享组件 nav.js 渲染，菜单唯一数据源见该文件） ========== -->
+  <aside class="sidebar" id="amsNav" data-active="charge-special" data-ver="V1.0 原型 · 收费管理模块"></aside>
+
+  <!-- ========== 主区域 ========== -->
+  <div class="main">
+
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="crumb"><span>收费管理 / </span>特殊处理</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：全部片区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 内容区 -->
+    <div class="content">
+
+      <!-- 醒目说明条 -->
+      <div class="warn-bar">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4.5"/><path d="M12 17h.01"/><path d="M10.3 3.8L2.6 17a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0z"/></svg>
+        <div>本页收纳<b>四类非正常资金动作</b>（押金抵扣 / 部分核销·挂账 / 坏账登记 / 异常退房扣缴），<b>全部走审批 + 留痕</b>；日常收款、核销、退押金等正常操作不经过本页。数据范围=当前所选片区（全部片区）。</div>
+      </div>
+
+      <!-- 分组锚点页签 -->
+      <div class="sec-tabs tabs" style="margin-bottom:0">
+        <a class="tb" href="#sec-ded">押金抵扣<span class="n">3</span></a>
+        <a class="tb" href="#sec-part">部分核销 / 挂账<span class="n">2</span></a>
+        <a class="tb" href="#sec-bad">坏账登记<span class="n">1</span></a>
+        <a class="tb" href="#sec-exit">异常退房扣缴<span class="n">1</span></a>
+      </div>
+
+      <!-- 一、押金抵扣 -->
+      <div class="panel" id="sec-ded" style="border-radius:0 0 var(--r-md) var(--r-md);margin-bottom:16px">
+        <div class="ph">
+          <h3>押金抵扣</h3>
+          <span class="note" style="margin-left:6px">含 转租金 / 抵欠费 两种抵扣类型；审批通过后自动冲减押金余额并通知租户</span>
+          <button class="btn primary" style="margin-left:auto" onclick="openM('m-deduct')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            发起抵扣
+          </button>
+        </div>
+        <div class="pb flush">
+          <table class="tb">
+            <thead>
+              <tr>
+                <th>申请人</th><th>租户</th><th>抵扣类型</th><th>金额</th><th>说明</th><th>审批状态</th><th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>王倩（客服代录）</td>
+                <td style="font-weight:600">恒创科技公司</td>
+                <td>转租金</td>
+                <td class="num" style="font-weight:600">¥14,000</td>
+                <td>抵 <span class="num">2026-08</span> 租金，押金余额 <span class="num">¥32,000 → ¥18,000</span></td>
+                <td><span class="tag free">已通过</span></td>
+                <td><a class="op" onclick="openM('m-ded1')">详情</a></td>
+              </tr>
+              <tr>
+                <td>陈志远</td>
+                <td style="font-weight:600">吴先生</td>
+                <td>转租金</td>
+                <td class="num" style="font-weight:600">¥1,400</td>
+                <td>全额抵扣 <span class="num">2026-09</span> 租金</td>
+                <td><span class="tag due">审批中</span></td>
+                <td><a class="op" onclick="openM('m-ded1')">详情</a></td>
+              </tr>
+              <tr>
+                <td>陈志远</td>
+                <td style="font-weight:600">钱先生</td>
+                <td>抵欠费</td>
+                <td class="num" style="font-weight:600">¥800</td>
+                <td>抵历史水电欠费（水电数据来源于 M5，待建）</td>
+                <td><span class="tag red">已驳回</span></td>
+                <td><a class="op" onclick="openM('m-ded1')">详情</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 二、部分核销 / 挂账 -->
+      <div class="panel" id="sec-part" style="margin-bottom:16px">
+        <div class="ph">
+          <h3>部分核销 / 挂账</h3>
+          <span class="note" style="margin-left:6px">实收与应收存在差额时在此处理，差额处理入口也挂在 收款核销（pc-verify.html）；与收款核销页差额处理为同一弹窗组件</span>
+        </div>
+        <div class="pb flush">
+          <table class="tb">
+            <thead>
+              <tr>
+                <th>账单号</th><th>租户</th><th>应收</th><th>实收</th><th>差额</th><th>处理方式</th><th>审批状态</th><th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="num">ZD-XQ05-2026-0812</td>
+                <td style="font-weight:600">王同学</td>
+                <td class="num">¥1,380.00</td>
+                <td class="num">¥1,379.50</td>
+                <td class="num" style="color:var(--st-due);font-weight:600">¥0.50</td>
+                <td><span class="tag fix">挂账</span></td>
+                <td><span class="tag free">已通过</span></td>
+                <td><a class="op" onclick="openM('m-part1')">详情</a></td>
+              </tr>
+              <tr>
+                <td class="num">ZD-XQ02-2026-0733</td>
+                <td style="font-weight:600">恒创科技公司</td>
+                <td class="num">¥32,000</td>
+                <td class="num">¥30,000</td>
+                <td class="num" style="color:var(--red);font-weight:600">¥2,000</td>
+                <td><span class="tag rsv">部分核销</span></td>
+                <td><span class="tag due">审批中</span></td>
+                <td><a class="op" onclick="openM('m-part1')">详情</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pb">
+            <span class="note">差额 ¥0.50 这类零头走挂账，不再催收；部分核销须写明减免原因，审批通过后账单标记 已缴(部分核销)</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 三、坏账登记 -->
+      <div class="panel" id="sec-bad" style="margin-bottom:16px">
+        <div class="ph">
+          <h3>坏账登记</h3>
+          <span class="note" style="margin-left:6px">确认无法收回的欠费转坏账，登记后不再进入催收阶梯，仅从欠费台账剥离留档</span>
+          <button class="btn primary" style="margin-left:auto" onclick="openM('m-badnew')">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            人工转坏账
+          </button>
+        </div>
+        <div class="pb flush">
+          <table class="tb">
+            <thead>
+              <tr>
+                <th>租户</th><th>金额</th><th>形成原因</th><th>登记人</th><th>审批状态</th><th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:600">赵某</td>
+                <td class="num" style="font-weight:600;color:var(--red)">¥1,200</td>
+                <td>异常退房后押金不足部分（关联 异常退房扣缴单 YCTF-XQ03-2026-0004）</td>
+                <td>陈志远</td>
+                <td><span class="tag due">审批中</span></td>
+                <td><a class="op" onclick="openM('m-bad1')">详情</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pb">
+            <span class="note">异常退房自动转坏账之外的入口：确认收不回的欠费由管理员通过「人工转坏账」发起，走审批 + 留痕</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- 四、异常退房扣缴 -->
+      <div class="panel" id="sec-exit" style="margin-bottom:16px">
+        <div class="ph">
+          <h3>异常退房扣缴</h3>
+          <span class="note" style="margin-left:6px">正常退房走 M6 退房办理（待建）；本分组仅处理「人已搬离未办手续」等异常情形</span>
+        </div>
+        <div class="pb" style="display:flex;flex-direction:column;gap:14px">
+          <!-- 流程条 -->
+          <div class="flow">
+            <div class="fstep"><span class="fno num">1</span><span><span class="ft">异常退房登记</span><div class="fs">巡查发现 / 片区上报</div></span></div>
+            <span class="farr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+            <div class="fstep"><span class="fno num">2</span><span><span class="ft">冻结押金</span><div class="fs">台账置 冻结，不可退抵</div></span></div>
+            <span class="farr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+            <div class="fstep"><span class="fno num">3</span><span><span class="ft">定损</span><div class="fs">房屋/资产验收定责</div></span></div>
+            <span class="farr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+            <div class="fstep"><span class="fno num">4</span><span><span class="ft">扣缴</span><div class="fs">审批通过后执行</div></span></div>
+            <span class="farr"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+            <div class="fstep risk"><span class="fno num">5</span><span><span class="ft">余额退还 / 不足转坏账</span><div class="fs">转坏账见上方 坏账登记</div></span></div>
+          </div>
+          <div class="warn-bar" style="margin-bottom:0">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4.5"/><path d="M12 17h.01"/><path d="M10.3 3.8L2.6 17a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0z"/></svg>
+            <div><b>发起入口在退住办理（M6 租务运营，待建）触发</b>；本页承接资金扣缴段，支持查看 / 补录 / 审批留痕；M6 上线后两头可用。异常退房为高风险操作，每一步均留痕，扣缴必须审批通过后方可执行。</div>
+          </div>
+          <!-- 记录表 -->
+          <table class="tb" style="border:1px solid var(--line2);border-radius:8px;overflow:hidden;min-width:980px">
+            <thead>
+              <tr>
+                <th>单号</th><th>租户 · 房号</th><th>异常情形</th><th>押金（冻结）</th><th>定损金额</th><th>欠租</th><th>拟处理</th><th>审批状态</th><th>操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="num">YCTF-XQ03-2026-0004</td>
+                <td style="font-weight:600">赵某 · 学府青年园区 3 栋-208</td>
+                <td>人已搬离未办手续</td>
+                <td class="num">¥1,500 <span class="tag fix">已冻结</span></td>
+                <td class="num">¥860</td>
+                <td class="num" style="color:var(--red);font-weight:600">¥4,140</td>
+                <td>拟扣缴后转坏账 <span class="num" style="font-weight:600">¥1,200</span></td>
+                <td><span class="tag due">审批中</span></td>
+                <td><a class="op" onclick="openM('m-exit1')">详情</a></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 底部说明 -->
+      <div>
+        <span class="note">审批流对接 M8 审批中心（待建）；所有操作留痕，日志存 系统管理（待建）</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ========== 弹窗：发起押金抵扣 · 与押金管理页行内「押抵租」为同一组件 ========== -->
+<div class="mask" id="m-deduct" hidden onclick="if(event.target===this)closeM(this)">
+  <div class="modal">
+    <div class="mh">发起押金抵扣（押抵租）<a class="x" onclick="closeM(this)">×</a></div>
+    <div class="mb mfrm">
+      <div class="fr">
+        <span class="lb">抵扣类型</span>
+        <span style="flex:1">
+          <label class="rd"><input type="radio" name="dtype" checked> 转租金</label>
+          <label class="rd"><input type="radio" name="dtype"> 抵欠费</label>
+        </span>
+      </div>
+      <div class="fr">
+        <span class="lb">抵扣方式</span>
+        <span style="flex:1;display:flex;align-items:center">
+          <label class="rd"><input type="radio" name="dmode" checked> 全额</label>
+          <label class="rd"><input type="radio" name="dmode"> 部分</label>
+          <input class="inp num" value="¥14,000" style="width:130px" placeholder="部分抵扣金额">
+        </span>
+      </div>
+      <div class="fr">
+        <span class="lb">租户 / 房号</span>
+        <select class="sel">
+          <option>恒创科技公司 · 云谷创业园区 1-整层</option>
+          <option>张女士 · 滨江科创园区 1 栋-301</option>
+          <option>吴先生 · 滨江科创园区 1 栋-309</option>
+        </select>
+      </div>
+      <div class="fr">
+        <span class="lb">押金余额</span>
+        <span class="ro num" style="font-weight:600">¥18,000<span style="color:var(--ink3);font-weight:400;font-size:12.5px">（选择租户后自动带出）</span></span>
+      </div>
+      <div class="fr">
+        <span class="lb">关联账单</span>
+        <select class="sel">
+          <option>2026-08 租金账单 ZD-XQ02-2026-0733 · 应收 ¥32,000</option>
+          <option>2026-09 租金账单 ZD-XQ02-2026-0801 · 应收 ¥32,000</option>
+        </select>
+      </div>
+      <div class="fr top">
+        <span class="lb">原因说明</span>
+        <textarea placeholder="必填：如 租户经营困难，申请部分押抵租"></textarea>
+      </div>
+      <span class="note" style="display:flex;margin-top:4px">对接 M8 审批中心；通过后自动通知租户；仅管理员可发起，用户端无此入口</span>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" onclick="closeM(this)">取消</button>
+      <button class="btn primary" onclick="closeM(this)">提交审批</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 弹窗：押金抵扣详情 · 示例 YDZ-XQ02-2026-0012（恒创，已通过） ========== -->
+<div class="mask" id="m-ded1" hidden onclick="if(event.target===this)closeM(this)">
+  <div class="modal" style="width:640px">
+    <div class="mh">押金抵扣详情 · YDZ-XQ02-2026-0012<a class="x" onclick="closeM(this)">×</a></div>
+    <div class="mb">
+      <div class="kv">
+        <div><span class="k">申请人</span>王倩（客服代录）</div>
+        <div><span class="k">租户</span>恒创科技公司 · 云谷创业园区 1-整层</div>
+        <div><span class="k">抵扣类型</span>转租金 · 部分抵扣</div>
+        <div><span class="k">金额</span><b class="num">¥14,000</b>（押金 <span class="num">¥32,000 → ¥18,000</span>）</div>
+        <div><span class="k">关联账单</span>2026-08 租金 ZD-XQ02-2026-0733</div>
+        <div><span class="k">审批状态</span><span class="tag free">已通过</span></div>
+      </div>
+      <div class="seg">审批时间线</div>
+      <div class="tl">
+        <div class="ti done">
+          <div class="tt">提交申请 <span class="who">申请人：王倩（客服代录） · <span class="num">2026-08-14 10:22</span></span></div>
+          <div class="ts">意见：租户经营困难，申请部分押抵租，抵扣 8 月租金 ¥14,000。</div>
+        </div>
+        <div class="ti done">
+          <div class="tt">片区负责人审批 <span class="who">审批人：张伟东（云谷创业园区） · <span class="num">2026-08-15 09:10</span></span></div>
+          <div class="ts">意见：情况属实，同意抵扣，建议同步签订补充协议。</div>
+        </div>
+        <div class="ti done">
+          <div class="tt">财务审批 <span class="who">审批人：陈志远（运营主管） · <span class="num">2026-08-15 16:40</span></span></div>
+          <div class="ts">意见：同意，抵扣金额 ¥14,000。</div>
+        </div>
+        <div class="ti done">
+          <div class="tt">执行完成 <span class="who">系统自动 · <span class="num">2026-08-16 09:00</span></span></div>
+          <div class="ts">押金余额冲减 ¥14,000，账单 ZD-XQ02-2026-0733 部分核销；已短信+小程序通知租户。</div>
+        </div>
+      </div>
+      <div class="seg">操作留痕</div>
+      <div class="tl">
+        <div class="ti done">
+          <div class="tt">押金流水生成 <span class="who">系统自动 · <span class="num">2026-08-16 09:00</span></span></div>
+          <div class="ts">流水号 YDZ-XQ02-2026-0012，抵扣 -¥14,000，变动后余额 ¥18,000。</div>
+        </div>
+        <div class="ti done">
+          <div class="tt">租户通知 <span class="who">系统自动 · <span class="num">2026-08-16 09:01</span></span></div>
+          <div class="ts">短信 + 小程序服务通知均已送达（通道来源于 M1，待建）。</div>
+        </div>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" onclick="closeM(this)">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 弹窗：部分核销/挂账详情 · 示例 ZD-XQ05-2026-0812（王同学挂账，已通过） ========== -->
+<div class="mask" id="m-part1" hidden onclick="if(event.target===this)closeM(this)">
+  <div class="modal" style="width:640px">
+    <div class="mh">差额处理详情 · ZD-XQ05-2026-0812<a class="x" onclick="closeM(this)">×</a></div>
+    <div class="mb">
+      <div class="kv">
+        <div><span class="k">租户</span>王同学 · 滨江科创园区 1 栋-303</div>
+        <div><span class="k">处理方式</span><span class="tag fix">挂账</span></div>
+        <div><span class="k">应收</span><span class="num">¥1,380.00</span></div>
+        <div><span class="k">实收</span><span class="num">¥1,379.50</span>（现金收款）</div>
+        <div><span class="k">差额</span><b class="num" style="color:var(--st-due)">¥0.50</b>（零头，不再催收）</div>
+        <div><span class="k">审批状态</span><span class="tag free">已通过</span></div>
+      </div>
+      <div class="seg">审批时间线</div>
+      <div class="tl">
+        <div class="ti done">
+          <div class="tt">提交申请 <span class="who">申请人：王倩（收款核销页发起） · <span class="num">2026-08-28 15:12</span></span></div>
+          <div class="ts">意见：现金收款零头差额 ¥0.50，申请挂账处理。</div>
+        </div>
+        <div class="ti done">
+          <div class="tt">财务审批 <span class="who">审批人：陈志远（运营主管） · <span class="num">2026-08-28 17:40</span></span></div>
+          <div class="ts">意见：同意挂账，零头不再催收。</div>
+        </div>
+      </div>
+      <div class="seg">操作留痕</div>
+      <div class="tl">
+        <div class="ti done">
+          <div class="tt">账单状态更新 <span class="who">系统自动 · <span class="num">2026-08-28 17:41</span></span></div>
+          <div class="ts">账单 ZD-XQ05-2026-0812 标记 已缴(人工核销)，挂账 ¥0.50 留档。</div>
+        </div>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" onclick="closeM(this)">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 弹窗：人工转坏账 ========== -->
+<div class="mask" id="m-badnew" hidden onclick="if(event.target===this)closeM(this)">
+  <div class="modal">
+    <div class="mh">人工转坏账<a class="x" onclick="closeM(this)">×</a></div>
+    <div class="mb mfrm">
+      <div class="fr">
+        <span class="lb">租户</span>
+        <select class="sel">
+          <option>赵某 · 学府青年园区 3 栋-208</option>
+          <option>刘某 · 梧桐公寓楼 2-502</option>
+        </select>
+      </div>
+      <div class="fr">
+        <span class="lb">欠费金额</span>
+        <input class="inp num" value="¥1,200（按所选租户欠费台账自动带出）" disabled>
+      </div>
+      <div class="fr top">
+        <span class="lb">形成原因</span>
+        <textarea placeholder="必填：说明确认无法收回的依据">异常退房后押金 ¥1,500 已全额扣缴，仍不足定损与欠租，差额 ¥1,200 确认无法收回。</textarea>
+      </div>
+      <div class="fr top">
+        <span class="lb">催收记录</span>
+        <div class="dun">
+          <b>2026-08-20</b> 短信催缴（第 2 阶）· 已送达未回复<br>
+          <b>2026-08-27</b> 电话催收 · 承诺 9 月初补缴，未果<br>
+          <b>2026-09-05</b> 电话催收 · 号码停机，联系未果
+        </div>
+      </div>
+      <span class="note" style="display:flex;margin-top:4px">异常退房自动转坏账之外的入口：确认收不回的欠费由管理员人工发起，走审批 + 留痕；登记后不再进入催收阶梯</span>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" onclick="closeM(this)">取消</button>
+      <button class="btn primary" onclick="closeM(this)">提交审批</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 弹窗：坏账登记详情 · 示例 赵某 ¥1,200（审批中） ========== -->
+<div class="mask" id="m-bad1" hidden onclick="if(event.target===this)closeM(this)">
+  <div class="modal" style="width:640px">
+    <div class="mh">坏账登记详情 · 赵某 ¥1,200<a class="x" onclick="closeM(this)">×</a></div>
+    <div class="mb">
+      <div class="kv">
+        <div><span class="k">租户</span>赵某 · 学府青年园区 3 栋-208</div>
+        <div><span class="k">金额</span><b class="num" style="color:var(--red)">¥1,200</b></div>
+        <div><span class="k">形成原因</span>异常退房后押金不足部分</div>
+        <div><span class="k">关联单据</span><span class="num">YCTF-XQ03-2026-0004</span></div>
+        <div><span class="k">登记人</span>陈志远（运营主管）</div>
+        <div><span class="k">审批状态</span><span class="tag due">审批中</span></div>
+      </div>
+      <div class="seg">审批时间线</div>
+      <div class="tl">
+        <div class="ti done">
+          <div class="tt">提交登记 <span class="who">登记人：陈志远（运营主管） · <span class="num">2026-09-04 10:15</span></span></div>
+          <div class="ts">意见：押金 ¥1,500 全额扣缴后仍不足，差额 ¥1,200 确认无法收回，申请转坏账。</div>
+        </div>
+        <div class="ti wait">
+          <div class="tt">财务负责人审批 <span class="who">待审批 · 审批中</span></div>
+          <div class="ts">与异常退房扣缴单 YCTF-XQ03-2026-0004 同一审批关联。</div>
+        </div>
+      </div>
+      <div class="seg">操作留痕</div>
+      <div class="tl">
+        <div class="ti done">
+          <div class="tt">催收记录归档 <span class="who">系统自动 · <span class="num">2026-09-04 10:15</span></span></div>
+          <div class="ts">随单归档催收记录 3 条（短信 1 次、电话 2 次），登记通过后该户退出催收阶梯。</div>
+        </div>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" onclick="closeM(this)">关闭</button>
+    </div>
+  </div>
+</div>
+
+<!-- ========== 弹窗：异常退房扣缴详情 · 示例 YCTF-XQ03-2026-0004（赵某，审批中） ========== -->
+<div class="mask" id="m-exit1" hidden onclick="if(event.target===this)closeM(this)">
+  <div class="modal" style="width:640px">
+    <div class="mh">异常退房扣缴详情 · YCTF-XQ03-2026-0004<a class="x" onclick="closeM(this)">×</a></div>
+    <div class="mb">
+      <div class="kv">
+        <div><span class="k">租户 · 房号</span>赵某 · 学府青年园区 3 栋-208</div>
+        <div><span class="k">异常情形</span>人已搬离未办手续</div>
+        <div><span class="k">押金（冻结）</span><span class="num">¥1,500</span> <span class="tag fix">已冻结</span></div>
+        <div><span class="k">定损金额</span><span class="num">¥860</span>（墙面 ¥300 + 热水器 ¥560）</div>
+        <div><span class="k">欠租</span><b class="num" style="color:var(--red)">¥4,140</b>（逾期 38 天）</div>
+        <div><span class="k">拟处理</span>扣缴后转坏账 <b class="num">¥1,200</b></div>
+        <div><span class="k">发起来源</span>退住办理（M6 租务运营，待建）/ 本页补录</div>
+        <div><span class="k">审批状态</span><span class="tag due">审批中</span></div>
+      </div>
+      <div class="seg">审批时间线</div>
+      <div class="tl">
+        <div class="ti done">
+          <div class="tt">异常退房登记 <span class="who">登记人：陈国强（片区负责人） · <span class="num">2026-09-01 17:30</span></span></div>
+          <div class="ts">意见：巡查发现 3 栋-208 人已搬离未办退房手续，联系租户未果。</div>
+        </div>
+        <div class="ti done">
+          <div class="tt">冻结押金 <span class="who">操作人：陈志远（运营主管） · <span class="num">2026-09-02 10:05</span></span></div>
+          <div class="ts">押金 ¥1,500 已冻结，台账状态置「冻结」，暂停一切退还/抵扣。</div>
+        </div>
+        <div class="ti done">
+          <div class="tt">定损登记 <span class="who">登记人：陈国强 · <span class="num">2026-09-03 14:20</span></span></div>
+          <div class="ts">定损 ¥860（墙面污损 ¥300、热水器损坏 ¥560）；另核实欠租 ¥4,140（逾期 38 天）。</div>
+        </div>
+        <div class="ti wait">
+          <div class="tt">扣缴审批 <span class="who">待财务审批 · 审批中</span></div>
+          <div class="ts">拟扣缴押金 ¥1,500 冲抵定损与欠租，不足部分 ¥1,200 转坏账登记（同一审批关联）。</div>
+        </div>
+      </div>
+      <div class="seg">操作留痕</div>
+      <div class="tl">
+        <div class="ti done">
+          <div class="tt">台账状态变更 <span class="who">系统自动 · <span class="num">2026-09-02 10:05</span></span></div>
+          <div class="ts">押金台账该户状态 在押 → 冻结，同步生成押金流水冻结记录。</div>
+        </div>
+        <div class="ti done">
+          <div class="tt">关联坏账登记 <span class="who">陈志远 · <span class="num">2026-09-04 10:15</span></span></div>
+          <div class="ts">差额 ¥1,200 已在 坏账登记 分组登记，审批通过后欠费台账剥离留档。</div>
+        </div>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" onclick="closeM(this)">关闭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  // 弹窗开关
+  function openM(id){document.getElementById(id).hidden=false}
+  function closeM(el){el.closest('.mask').hidden=true}
+</script>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

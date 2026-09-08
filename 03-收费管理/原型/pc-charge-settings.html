@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>规则配置 · 收费管理 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  /* 操作列文字链 */
+  .op{color:var(--brand);cursor:pointer;font-size:13px}
+  .op:hover{color:var(--brand-d)}
+  .op.danger{color:var(--red)}
+  .op+.op{margin-left:12px}
+
+  /* 欠费提醒阶梯表格：单元格内可编辑控件 */
+  .ld-tb .inp{height:32px;font-size:13px;padding:0 10px}
+  .ld-tb .inp.days{width:82px;text-align:center}
+  .ld-tb .sel{height:32px;font-size:13px;padding:0 8px}
+  .ld-tb textarea.ta{min-height:56px;font-size:12.5px;line-height:1.55;width:100%}
+  .ld-tb td{vertical-align:top}
+  .ld-no{display:inline-flex;align-items:center;justify-content:center;min-width:26px;height:26px;border-radius:8px;background:var(--brand-bg);color:var(--brand);font-weight:700;font-size:13px}
+
+  /* 通知通道勾选 */
+  .ck{display:inline-flex;align-items:center;gap:5px;font-size:13px;color:var(--ink2);white-space:nowrap;cursor:pointer}
+  .ck input{width:15px;height:15px;accent-color:var(--brand);cursor:pointer}
+  .ck+.ck{margin-left:12px}
+
+  /* 灰置开关（滞纳金预留） */
+  .switch.dim{opacity:.45;pointer-events:none}
+
+  /* 说明行容器 */
+  .note-line{padding:12px 18px;border-top:1px solid var(--line2)}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ========== 左侧导航（共享组件 nav.js 渲染，菜单唯一数据源见该文件） ========== -->
+  <aside class="sidebar" id="amsNav" data-active="charge-settings" data-ver="V1.0 原型 · 收费管理模块"></aside>
+
+  <!-- ========== 主区域 ========== -->
+  <div class="main">
+
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="crumb"><span>收费管理 / </span>规则配置</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：全部片区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 内容区 -->
+    <div class="content">
+
+      <div class="panel" style="margin-bottom:16px">
+
+        <!-- ========== 分组 1：账期与账单生成 ========== -->
+        <div class="f-sec">
+          <h4>账期与账单生成</h4>
+          <div class="f-grid" style="max-width:760px">
+            <div class="f-item full">
+              <label>账单生成方式</label>
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+                  <input type="radio" name="genmode" checked style="margin-top:3px">
+                  <span>
+                    <b>按月滚动生成（默认）</b>
+                    <div style="font-size:12.5px;color:var(--ink3);margin-top:2px">每月按合同周期自动生成下一期账单，应收日前按下方「提前生成天数」出账</div>
+                  </span>
+                </label>
+                <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
+                  <input type="radio" name="genmode" style="margin-top:3px">
+                  <span>
+                    <b>签约时一次性生成全部账期</b>
+                    <div style="font-size:12.5px;color:var(--ink3);margin-top:2px">适合年签等长期合同：合同生效后一次性生成全部月份账单（如 12 期），后续无需每月跑批</div>
+                  </span>
+                </label>
+              </div>
+              <span class="note" style="margin-top:6px">账期与金额取自合同（合同管理 M3，待建），本模块只消费不配置；按合同单独覆盖生成方式为 M3 预留能力</span>
+            </div>
+            <div class="f-item">
+              <label>账单提前生成天数</label>
+              <div style="display:flex;align-items:center;gap:8px">
+                <input class="inp num" value="7" style="width:110px;text-align:center">
+                <span style="font-size:13px;color:var(--ink2)">天（应收日前提前生成账单）</span>
+              </div>
+              <span class="help">默认 7 天，可配</span>
+            </div>
+            <div class="f-item">
+              <label>首期款校验（先付后用）</label>
+              <div class="sw-row">
+                <span class="switch on"></span>
+                <span>已开启</span>
+              </div>
+              <span class="note" style="margin-top:6px">先付后用：首期租金+押金未缴，入住办理被拦截——校验动作在 M6 租务运营（待建）执行</span>
+            </div>
+          </div>
+          <div class="f-actions" style="padding:14px 0 2px">
+            <button class="btn primary">保存</button>
+          </div>
+        </div>
+
+        <!-- ========== 分组 2：欠费提醒阶梯（本页核心） ========== -->
+        <div class="f-sec">
+          <h4>欠费提醒阶梯</h4>
+          <div style="margin-bottom:12px">
+            <span class="note">阶梯可自由增删（1~N 阶）；每阶可配触发天数、通知通道、话术模板、动作；发送走 系统管理-消息推送中心（待建）</span>
+          </div>
+          <table class="tb ld-tb">
+            <thead>
+              <tr>
+                <th style="width:64px">阶梯</th>
+                <th style="width:170px">触发时机</th>
+                <th style="width:190px">通知通道</th>
+                <th>话术模板</th>
+                <th style="width:190px">动作</th>
+                <th style="width:130px">操作</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td><span class="ld-no num">1</span></td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:6px;font-size:13px">
+                    到期前 <input class="inp days num" value="3"> 天
+                  </div>
+                </td>
+                <td>
+                  <label class="ck"><input type="checkbox" checked>短信</label>
+                  <label class="ck"><input type="checkbox" checked>服务通知</label>
+                </td>
+                <td>
+                  <textarea class="ta">模板A：【英莱达公寓】尊敬的租户，您本期租金¥X将于X日到账期，请提前安排缴纳。如需帮助请联系管家。</textarea>
+                </td>
+                <td>
+                  <select class="sel"><option selected>仅提醒</option><option>标记逾期</option><option>生成电话催收待办</option><option>可打印催缴函</option><option>列入重点关注名单</option></select>
+                </td>
+                <td><a class="op">编辑话术</a><a class="op danger">删除</a></td>
+              </tr>
+              <tr>
+                <td><span class="ld-no num">2</span></td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:6px;font-size:13px">
+                    逾期第 <input class="inp days num" value="1"> 天
+                  </div>
+                </td>
+                <td>
+                  <label class="ck"><input type="checkbox" checked>短信</label>
+                  <label class="ck"><input type="checkbox">服务通知</label>
+                </td>
+                <td>
+                  <textarea class="ta">模板B：【英莱达公寓】您的本期租金¥X已逾期1天，请尽快缴纳，避免影响您的租住信用。</textarea>
+                </td>
+                <td>
+                  <select class="sel"><option>仅提醒</option><option selected>标记逾期</option><option>生成电话催收待办</option><option>可打印催缴函</option><option>列入重点关注名单</option></select>
+                </td>
+                <td><a class="op">编辑话术</a><a class="op danger">删除</a></td>
+              </tr>
+              <tr>
+                <td><span class="ld-no num">3</span></td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:6px;font-size:13px">
+                    逾期第 <input class="inp days num" value="7"> 天
+                  </div>
+                </td>
+                <td>
+                  <label class="ck"><input type="checkbox" checked>短信</label>
+                  <label class="ck"><input type="checkbox">服务通知</label>
+                </td>
+                <td>
+                  <textarea class="ta">模板C：【英莱达公寓】您的本期租金¥X已逾期7天，管家将与您电话联系，请保持手机畅通并尽快处理。</textarea>
+                </td>
+                <td>
+                  <select class="sel"><option>仅提醒</option><option>标记逾期</option><option selected>生成电话催收待办</option><option>可打印催缴函</option><option>列入重点关注名单</option></select>
+                </td>
+                <td><a class="op">编辑话术</a><a class="op danger">删除</a></td>
+              </tr>
+              <tr>
+                <td><span class="ld-no num">4</span></td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:6px;font-size:13px">
+                    逾期第 <input class="inp days num" value="15"> 天
+                  </div>
+                </td>
+                <td>
+                  <label class="ck"><input type="checkbox" checked>短信</label>
+                  <label class="ck"><input type="checkbox">服务通知</label>
+                </td>
+                <td>
+                  <textarea class="ta">催缴函模板：【英莱达公寓】催缴函——您已逾期15天，欠缴¥X，请于X日内缴清，逾期将按合同处理。</textarea>
+                </td>
+                <td>
+                  <select class="sel"><option>仅提醒</option><option>标记逾期</option><option>生成电话催收待办</option><option selected>可打印催缴函</option><option>列入重点关注名单</option></select>
+                </td>
+                <td><a class="op">编辑话术</a><a class="op danger">删除</a></td>
+              </tr>
+              <tr>
+                <td><span class="ld-no num">5</span></td>
+                <td>
+                  <div style="display:flex;align-items:center;gap:6px;font-size:13px">
+                    逾期第 <input class="inp days num" value="30"> 天
+                  </div>
+                </td>
+                <td>
+                  <label class="ck"><input type="checkbox" checked>短信</label>
+                  <label class="ck"><input type="checkbox">服务通知</label>
+                </td>
+                <td>
+                  <textarea class="ta">模板E：【英莱达公寓】最后提醒：您的租金已逾期30天，欠缴¥X，已列入重点关注名单，请立即联系管家处理。</textarea>
+                </td>
+                <td>
+                  <select class="sel"><option>仅提醒</option><option>标记逾期</option><option>生成电话催收待办</option><option>可打印催缴函</option><option selected>列入重点关注名单</option></select>
+                </td>
+                <td><a class="op">编辑话术</a><a class="op danger">删除</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <div style="display:flex;align-items:center;gap:12px;padding:14px 0 4px;flex-wrap:wrap">
+            <button class="btn ghost">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              新增阶梯
+            </button>
+            <button class="btn primary">保存提醒阶梯</button>
+          </div>
+          <div style="display:flex;flex-direction:column;gap:8px;padding-bottom:4px">
+            <span class="note">删除单阶立即生效并二次确认；删到零阶保存时二次确认：删除后将不再发送任何欠费提醒</span>
+            <span class="note">配置修改留操作日志（存 系统管理-操作日志，待建）</span>
+          </div>
+        </div>
+
+        <!-- ========== 分组 3：滞纳金（预留位） ========== -->
+        <div class="f-sec">
+          <h4>滞纳金</h4>
+          <div class="bind-box">
+            <span class="bb-ic">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3.5 2"/></svg>
+            </span>
+            <div style="flex:1">
+              <div class="bb-t">滞纳金规则配置 · 本期预留不展开</div>
+              <div class="bb-s">后续支持按逾期天数/比例计收滞纳金，规则经三方确认后再开放配置</div>
+            </div>
+            <span class="switch dim"></span>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 底部生效范围说明 -->
+      <span class="note">以上规则生效范围=当前所选片区；如需按片区差异化配置，选择片区后分别保存</span>
+
+    </div>
+  </div>
+</div>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>
