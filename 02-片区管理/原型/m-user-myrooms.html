@@ -114,28 +114,12 @@
 
     </div>
 
-    <!-- 底部 Tab（与找房列表一致，本页不高亮任何 tab） -->
-    <div class="m-tab">
-      <a class="ti" href="../../00-整体需求/主页原型/m-user-home.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10l8-6 8 6"/><path d="M6 9.5V20h12V9.5"/><path d="M10 20v-5h4v5"/></svg>
-        首页
-      </a>
-      <a class="ti" href="m-user-rooms.html">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="3" width="14" height="18" rx="1.5"/><path d="M9 7h2M13 7h2M9 11h2M13 11h2M9 15h2M13 15h2"/><path d="M11 21v-3h2v3"/></svg>
-        房源
-      </a>
-      <div class="ti">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 5h16v11H9l-5 4z"/><path d="M8 9h8M8 12h5"/></svg>
-        消息
-      </div>
-      <a class="ti" href="javascript:void(0)">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="8" r="3.5"/><path d="M5 20a7 7 0 0 1 14 0"/></svg>
-        我的
-      </a>
-    </div>
+    <!-- 底部 Tab（共享组件 m-tab.js 渲染；本页按原设计不高亮任何 tab） -->
+    <div class="m-tab" id="amsTab" data-variant="user"></div>
 
   </div>
 </div>
 
+<script src="../../00-整体需求/主页原型/assets/m-tab.js"></script>
 </body>
 </html>
