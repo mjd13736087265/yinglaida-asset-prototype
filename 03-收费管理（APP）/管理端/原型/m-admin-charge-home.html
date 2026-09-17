@@ -35,6 +35,16 @@
   .mp-code .s{font-size:12px;color:var(--ink3);margin-top:1px}
   .mp-code .go{margin-left:auto;font-size:12.5px;color:var(--brand)}
   .m-sec .note{margin-top:12px}
+  /* 弹层（手机壳内全屏，position:absolute 相对 .phone） */
+  .sheet{position:absolute;inset:0;background:rgba(15,23,42,.45);z-index:40;display:none;align-items:flex-end}
+  .sheet.on{display:flex}
+  .sheet .sh{background:#fff;border-radius:16px 16px 0 0;width:100%;max-height:86%;overflow-y:auto;padding:16px 16px 20px;scrollbar-width:none}
+  .sheet .sh::-webkit-scrollbar{display:none}
+  .sheet .sh-t{display:flex;align-items:center;font-size:15px;font-weight:600;margin-bottom:14px}
+  .sheet .sh-t .x{margin-left:auto;color:var(--ink3);font-size:20px;cursor:pointer;line-height:1}
+  .qr-box{width:200px;height:200px;margin:6px auto 0;border:2px dashed var(--line);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--ink3);background:var(--panel)}
+  .qr-box .qr-txt{font-size:12.5px;text-align:center}
+  .sheet .note{display:flex;margin-top:12px}
   /* 演示数据角标下移，避开头部铃铛与切换按钮 */
   .demo-mark{top:118px}
   /* 画板 iframe 无缝嵌入模式（?embed=1）：去手机壳与舞台底 */
@@ -148,8 +158,8 @@
         <div class="note">发票审批、特殊处理、规则配置等复杂操作请在 PC 端处理；移动端定位轻量化现场办公</div>
       </div>
 
-      <!-- 通用小程序码 -->
-      <a class="mp-code" href="javascript:void(0)">
+      <!-- 通用小程序码（点击弹出查看/下载/转发弹层） -->
+      <a class="mp-code" href="javascript:void(0)" data-open="shMp">
         <div class="qi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14h1M14 20h1M18 18h3v3h-3z"/></svg></div>
         <div>
           <div class="t">通用小程序码</div>
@@ -190,12 +200,41 @@
 
     </div>
 
-    <!-- 底部 Tab（共享组件 m-tab.js 渲染；收费页面从工作台进入，暂不高亮 Tab，待导航定稿） -->
+    <!-- 弹层：通用小程序码（查看 / 下载 / 转发） -->
+    <div class="sheet" id="shMp">
+      <div class="sh">
+        <div class="sh-t">通用小程序码<span class="x" data-close>×</span></div>
+        <div style="font-size:13px;color:var(--ink2)">租户微信扫码 → 直达小程序「我的账单」页，无需搜索</div>
+        <div class="qr-box">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14h1M14 20h1M18 18h3v3h-3z"/></svg>
+          <span class="qr-txt">小程序码占位 · 接入微信后生成</span>
+          <span class="qr-txt" style="font-weight:600;color:var(--ink)">英莱达 · 租户服务</span>
+        </div>
+        <span class="note">码长期有效，可随时查看 / 下载张贴 / 转发租户群；下载带项目名称与客服电话的海报版在 PC 端配置</span>
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button class="btn ghost" style="flex:1">保存到相册</button>
+          <button class="btn primary" style="flex:1">转发租户 / 微信群</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部 Tab（共享组件 m-tab.js 渲染；收费二级页高亮「收费」Tab） -->
     <div class="m-tab" id="amsTab" data-variant="admin" data-active="rent"></div>
 
   </div>
 </div>
 
+<script>
+  document.querySelectorAll('[data-open]').forEach(function (b) {
+    b.addEventListener('click', function (e) { e.preventDefault(); document.getElementById(b.getAttribute('data-open')).classList.add('on') })
+  })
+  document.querySelectorAll('.sheet').forEach(function (m) {
+    m.querySelectorAll('[data-close]').forEach(function (b) {
+      b.addEventListener('click', function () { m.classList.remove('on') })
+    })
+    m.addEventListener('click', function (e) { if (e.target === m) m.classList.remove('on') })
+  })
+</script>
 <script src="../../../00-整体需求/主页原型/assets/m-tab.js"></script>
 </body>
 </html>
