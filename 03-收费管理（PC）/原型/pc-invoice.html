@@ -17,6 +17,11 @@
   .tab-pane{display:none}
   .tab-pane.on{display:block}
 
+  /* 状态子页签（chips 可点击切换） */
+  .st-pane{display:none}
+  .st-pane.on{display:block}
+  .chips .chip{cursor:pointer}
+
   /* 合计行 */
   .sumrow td{background:var(--brand-bg);font-weight:700;color:var(--ink);border-top:2px solid var(--line)}
 
@@ -219,64 +224,114 @@
             <span class="sp">④ 短信通知用户（含 PDF 链接）</span>
           </div>
           <div class="chips">
-            <span class="chip on">待审批 <b class="num" style="margin-left:2px">2</b></span>
-            <span class="chip">已通过</span>
-            <span class="chip">已驳回</span>
+            <span class="chip on" data-st="ap1">待审批 <b class="num" style="margin-left:2px">2</b></span>
+            <span class="chip" data-st="ap2">已通过 <b class="num" style="margin-left:2px">2</b></span>
+            <span class="chip" data-st="ap3">已驳回 <b class="num" style="margin-left:2px">1</b></span>
           </div>
-          <table class="tb">
-            <thead>
-              <tr>
-                <th>申请时间</th><th>租户</th><th>账单</th><th>申请金额</th><th>发票抬头 · 税号</th><th>申请来源</th><th>状态</th><th>操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="num">2026-09-05 09:14</td>
-                <td>张女士</td>
-                <td>滨江人才公寓 1 栋-301 · <span class="num">2026-09</span> 月租金</td>
-                <td class="num">¥1,850</td>
-                <td>张女士（个人）<span style="color:var(--ink3)"> · —</span></td>
-                <td>用户端申请</td>
-                <td><span class="tag due">待审批</span></td>
-                <td><a class="op">通过</a><a class="op danger">驳回</a></td>
-              </tr>
-              <tr>
-                <td class="num">2026-09-03 15:40</td>
-                <td>恒创科技公司</td>
-                <td>云谷人才公寓 1-整层 · <span class="num">2026-08</span> 月租金 <span class="note">（部分金额）</span></td>
-                <td class="num">¥60,000</td>
-                <td>杭州恒创科技有限公司<br><span class="num" style="color:var(--ink3);font-size:12px">税号 91330106MA27XK2A4T</span></td>
-                <td>用户端申请</td>
-                <td><span class="tag due">待审批</span><div style="font-size:12px;color:var(--ink3)">该账单另开收据 ¥20,000</div></td>
-                <td><a class="op">通过</a><a class="op danger">驳回</a></td>
-              </tr>
-              <tr>
-                <td class="num">2026-09-02 11:05</td>
-                <td>李先生</td>
-                <td>滨江人才公寓 1 栋-302 · <span class="num">2026-09</span> 月租金</td>
-                <td class="num">¥1,850</td>
-                <td>李先生（个人）<span style="color:var(--ink3)"> · —</span></td>
-                <td>管理端代发起</td>
-                <td><span class="tag rent">免审批 · 已进财务</span></td>
-                <td><span style="color:var(--ink3);font-size:12.5px">审批人代发起，直接流转财务上传</span></td>
-              </tr>
-              <tr>
-                <td class="num">2026-08-25 10:12</td>
-                <td>吴先生</td>
-                <td>滨江人才公寓 1 栋-309 · <span class="num">2026-08</span> 月租金</td>
-                <td class="num">¥1,400</td>
-                <td>吴先生（个人）<span style="color:var(--ink3)"> · —</span></td>
-                <td>用户端申请</td>
-                <td><span class="tag fix">已驳回</span></td>
-                <td><span style="color:var(--ink3);font-size:12.5px">原因：抬头信息有误，租户可重新申请</span></td>
-              </tr>
-              <tr class="sumrow">
-                <td colspan="3">本页合计（4 条）</td>
-                <td class="num">¥65,100</td>
-                <td colspan="4" style="font-weight:400;font-size:12.5px">待审批 <b class="num" style="color:var(--red)">2</b> 条 · 免审批 <b class="num">1</b> 条 · 已驳回 <b class="num">1</b> 条</td>
-              </tr>
-            </tbody>
-          </table>
+
+          <!-- 子页签：待审批 -->
+          <div class="st-pane on" id="ap1">
+            <table class="tb">
+              <thead>
+                <tr>
+                  <th>申请时间</th><th>租户</th><th>账单</th><th>申请金额</th><th>发票抬头 · 税号</th><th>申请来源</th><th>状态</th><th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="num">2026-09-05 09:14</td>
+                  <td>张女士</td>
+                  <td>滨江人才公寓 1 栋-301 · <span class="num">2026-09</span> 月租金</td>
+                  <td class="num">¥1,850</td>
+                  <td>张女士（个人）<span style="color:var(--ink3)"> · —</span></td>
+                  <td>用户端申请</td>
+                  <td><span class="tag due">待审批</span></td>
+                  <td><a class="op">通过</a><a class="op danger">驳回</a></td>
+                </tr>
+                <tr>
+                  <td class="num">2026-09-03 15:40</td>
+                  <td>恒创科技公司</td>
+                  <td>云谷人才公寓 1-整层 · <span class="num">2026-08</span> 月租金 <span class="note">（部分金额）</span></td>
+                  <td class="num">¥60,000</td>
+                  <td>杭州恒创科技有限公司<br><span class="num" style="color:var(--ink3);font-size:12px">税号 91330106MA27XK2A4T</span></td>
+                  <td>用户端申请</td>
+                  <td><span class="tag due">待审批</span><div style="font-size:12px;color:var(--ink3)">该账单另开收据 ¥20,000</div></td>
+                  <td><a class="op">通过</a><a class="op danger">驳回</a></td>
+                </tr>
+                <tr class="sumrow">
+                  <td colspan="3">本页合计（2 条）</td>
+                  <td class="num">¥61,850</td>
+                  <td colspan="4" style="font-weight:400;font-size:12.5px">全部为用户端发起，需审批人逐条处理</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 子页签：已通过 -->
+          <div class="st-pane" id="ap2">
+            <table class="tb">
+              <thead>
+                <tr>
+                  <th>申请时间</th><th>租户</th><th>账单</th><th>申请金额</th><th>发票抬头 · 税号</th><th>申请来源</th><th>状态</th><th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="num">2026-09-04 10:26</td>
+                  <td>陈先生</td>
+                  <td>滨江人才公寓 1 栋-305 · <span class="num">2026-08</span> 月租金</td>
+                  <td class="num">¥2,600</td>
+                  <td>陈先生（个人）<span style="color:var(--ink3)"> · —</span></td>
+                  <td>用户端申请</td>
+                  <td><span class="tag rent">已通过</span></td>
+                  <td><span style="color:var(--ink3);font-size:12.5px">2026-09-04 14:02 审批通过 · 已流转财务待上传</span></td>
+                </tr>
+                <tr>
+                  <td class="num">2026-09-02 11:05</td>
+                  <td>李先生</td>
+                  <td>滨江人才公寓 1 栋-302 · <span class="num">2026-09</span> 月租金</td>
+                  <td class="num">¥1,850</td>
+                  <td>李先生（个人）<span style="color:var(--ink3)"> · —</span></td>
+                  <td>管理端代发起</td>
+                  <td><span class="tag rent">免审批 · 已进财务</span></td>
+                  <td><span style="color:var(--ink3);font-size:12.5px">审批人代发起，直接流转财务上传</span></td>
+                </tr>
+                <tr class="sumrow">
+                  <td colspan="3">本页合计（2 条）</td>
+                  <td class="num">¥4,450</td>
+                  <td colspan="4" style="font-weight:400;font-size:12.5px">审批通过 <b class="num">1</b> 条 · 免审批 <b class="num">1</b> 条，均已流转「发票上传（财务）」</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 子页签：已驳回 -->
+          <div class="st-pane" id="ap3">
+            <table class="tb">
+              <thead>
+                <tr>
+                  <th>申请时间</th><th>租户</th><th>账单</th><th>申请金额</th><th>发票抬头 · 税号</th><th>申请来源</th><th>状态</th><th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="num">2026-08-25 10:12</td>
+                  <td>吴先生</td>
+                  <td>滨江人才公寓 1 栋-309 · <span class="num">2026-08</span> 月租金</td>
+                  <td class="num">¥1,400</td>
+                  <td>吴先生（个人）<span style="color:var(--ink3)"> · —</span></td>
+                  <td>用户端申请</td>
+                  <td><span class="tag fix">已驳回</span></td>
+                  <td><span style="color:var(--ink3);font-size:12.5px">原因：抬头信息有误，租户可重新申请</span></td>
+                </tr>
+                <tr class="sumrow">
+                  <td colspan="3">本页合计（1 条）</td>
+                  <td class="num">¥1,400</td>
+                  <td colspan="4" style="font-weight:400;font-size:12.5px">驳回需填原因并留痕，租户修正后可在用户端重新发起</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <div class="note-line">
             <span class="note">审批人=管理端有发票权限的管理员；驳回需填原因，租户可重新申请；审批通过后流转到「发票上传（财务）」页；无领导审批环节</span>
           </div>
@@ -298,60 +353,100 @@
             <button class="btn ghost">查询</button>
           </div>
           <div class="chips">
-            <span class="chip on">待上传 <b class="num" style="margin-left:2px">2</b></span>
-            <span class="chip">已送达</span>
-            <span class="chip">已冲红重开</span>
+            <span class="chip on" data-st="up1">待上传 <b class="num" style="margin-left:2px">2</b></span>
+            <span class="chip" data-st="up2">已送达 <b class="num" style="margin-left:2px">1</b></span>
+            <span class="chip" data-st="up3">已冲红重开 <b class="num" style="margin-left:2px">1</b></span>
           </div>
-          <table class="tb">
-            <thead>
-              <tr>
-                <th>申请时间</th><th>租户</th><th>账单</th><th>开票金额</th><th>发票抬头 · 税号</th><th>状态</th><th>操作</th>
-              </tr>
-            </thead>
-            <tbody>
-              <tr>
-                <td class="num">2026-09-04 10:26</td>
-                <td>陈先生</td>
-                <td>滨江人才公寓 1 栋-305 · <span class="num">2026-08</span> 月租金</td>
-                <td class="num">¥2,600</td>
-                <td>陈先生（个人）<span style="color:var(--ink3)"> · —</span></td>
-                <td><span class="tag rsv">待上传</span></td>
-                <td><a class="op" onclick="openModal('m-upload')">上传发票</a><span style="color:var(--ink3);font-size:12.5px;margin-left:12px">审批已通过，待财务上传</span></td>
-              </tr>
-              <tr>
-                <td class="num">2026-09-02 11:05</td>
-                <td>李先生</td>
-                <td>滨江人才公寓 1 栋-302 · <span class="num">2026-09</span> 月租金</td>
-                <td class="num">¥1,850</td>
-                <td>李先生（个人）<span style="color:var(--ink3)"> · —</span></td>
-                <td><span class="tag rsv">待上传</span></td>
-                <td><a class="op" onclick="openModal('m-upload')">上传发票</a><span style="color:var(--ink3);font-size:12.5px;margin-left:12px">管理端代发起 · 免审批</span></td>
-              </tr>
-              <tr>
-                <td class="num">2026-08-28 16:20</td>
-                <td>周女士</td>
-                <td>兴业人才公寓 2 栋-507 · <span class="num">2026-08</span> 月租金</td>
-                <td class="num">¥1,880</td>
-                <td>周女士（个人）<span style="color:var(--ink3)"> · —</span></td>
-                <td><span class="tag rent">已送达</span></td>
-                <td><a class="op">查看发票</a><span style="color:var(--ink3);font-size:12.5px;margin-left:12px">已短信通知租户（PDF 链接）</span></td>
-              </tr>
-              <tr>
-                <td class="num">2026-08-20 09:40</td>
-                <td>郑女士</td>
-                <td>学府青年园区 2-310 · <span class="num">2026-08</span> 月租金</td>
-                <td class="num">¥2,600</td>
-                <td>郑女士（个人）<span style="color:var(--ink3)"> · —</span></td>
-                <td><span class="tag fix">已冲红重开</span></td>
-                <td><a class="op">查看发票</a><span style="color:var(--ink3);font-size:12.5px;margin-left:12px">原票开错作废冲红，新票已送达</span></td>
-              </tr>
-              <tr class="sumrow">
-                <td colspan="3">本页合计（4 条）</td>
-                <td class="num">¥8,930</td>
-                <td colspan="3" style="font-weight:400;font-size:12.5px">待上传 <b class="num" style="color:var(--red)">2</b> 条 · 已送达 <b class="num">1</b> 条 · 冲红重开 <b class="num">1</b> 条</td>
-              </tr>
-            </tbody>
-          </table>
+
+          <!-- 子页签：待上传 -->
+          <div class="st-pane on" id="up1">
+            <table class="tb">
+              <thead>
+                <tr>
+                  <th>申请时间</th><th>租户</th><th>账单</th><th>开票金额</th><th>发票抬头 · 税号</th><th>状态</th><th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="num">2026-09-04 10:26</td>
+                  <td>陈先生</td>
+                  <td>滨江人才公寓 1 栋-305 · <span class="num">2026-08</span> 月租金</td>
+                  <td class="num">¥2,600</td>
+                  <td>陈先生（个人）<span style="color:var(--ink3)"> · —</span></td>
+                  <td><span class="tag rsv">待上传</span></td>
+                  <td><a class="op" onclick="openModal('m-upload')">上传发票</a><span style="color:var(--ink3);font-size:12.5px;margin-left:12px">审批已通过，待财务上传</span></td>
+                </tr>
+                <tr>
+                  <td class="num">2026-09-02 11:05</td>
+                  <td>李先生</td>
+                  <td>滨江人才公寓 1 栋-302 · <span class="num">2026-09</span> 月租金</td>
+                  <td class="num">¥1,850</td>
+                  <td>李先生（个人）<span style="color:var(--ink3)"> · —</span></td>
+                  <td><span class="tag rsv">待上传</span></td>
+                  <td><a class="op" onclick="openModal('m-upload')">上传发票</a><span style="color:var(--ink3);font-size:12.5px;margin-left:12px">管理端代发起 · 免审批</span></td>
+                </tr>
+                <tr class="sumrow">
+                  <td colspan="3">本页合计（2 条）</td>
+                  <td class="num">¥4,450</td>
+                  <td colspan="3" style="font-weight:400;font-size:12.5px">审批通过 / 免审批后进入本队列，上传即短信送达租户</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 子页签：已送达 -->
+          <div class="st-pane" id="up2">
+            <table class="tb">
+              <thead>
+                <tr>
+                  <th>申请时间</th><th>租户</th><th>账单</th><th>开票金额</th><th>发票抬头 · 税号</th><th>状态</th><th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="num">2026-08-28 16:20</td>
+                  <td>周女士</td>
+                  <td>兴业人才公寓 2 栋-507 · <span class="num">2026-08</span> 月租金</td>
+                  <td class="num">¥1,880</td>
+                  <td>周女士（个人）<span style="color:var(--ink3)"> · —</span></td>
+                  <td><span class="tag rent">已送达</span><div style="font-size:12px;color:var(--ink3)">2026-08-29 09:15 短信送达</div></td>
+                  <td><a class="op">查看发票</a><a class="op">重发短信</a><a class="op danger" onclick="openModal('m-red')">红冲重传</a></td>
+                </tr>
+                <tr class="sumrow">
+                  <td colspan="3">本页合计（1 条）</td>
+                  <td class="num">¥1,880</td>
+                  <td colspan="3" style="font-weight:400;font-size:12.5px">已送达支持「重发短信」；开错票走「红冲重传」，新票上传后自动重新发送给租户</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+
+          <!-- 子页签：已冲红重开 -->
+          <div class="st-pane" id="up3">
+            <table class="tb">
+              <thead>
+                <tr>
+                  <th>申请时间</th><th>租户</th><th>账单</th><th>开票金额</th><th>发票抬头 · 税号</th><th>状态</th><th>操作</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="num">2026-08-20 09:40</td>
+                  <td>郑女士</td>
+                  <td>学府青年园区 2-310 · <span class="num">2026-08</span> 月租金</td>
+                  <td class="num">¥2,600</td>
+                  <td>郑女士（个人）<span style="color:var(--ink3)"> · —</span></td>
+                  <td><span class="tag fix">已冲红重开</span></td>
+                  <td><a class="op">查看发票</a><span style="color:var(--ink3);font-size:12.5px;margin-left:12px">原票开错作废冲红，新票已送达（冲红原因：抬头有误）</span></td>
+                </tr>
+                <tr class="sumrow">
+                  <td colspan="3">本页合计（1 条）</td>
+                  <td class="num">¥2,600</td>
+                  <td colspan="3" style="font-weight:400;font-size:12.5px">原票与新票关联留痕，二次发起全程可查</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
           <div class="note-line">
             <span class="note">财务专页：发票可修改；开错可作废冲红后重开（二次发起留痕）；上传完成系统自动短信通知用户，短信含 PDF 下载链接</span>
           </div>
@@ -374,6 +469,11 @@
               <div class="f-item">
                 <label>落款单位</label>
                 <input class="inp" value="英莱达公寓运营管理有限公司 · 财务部">
+              </div>
+              <div class="f-item">
+                <label>备注栏（系统录入，替代手写）</label>
+                <input class="inp" id="tplRemark" placeholder="选填，如：含 2026-09 物业费；不填则收据备注栏留空" oninput="document.getElementById('pvRemark').textContent=this.value.trim()||'—'">
+                <span class="note">在此输入的内容直接带入右侧收据「备注」栏并随打印 / 生成一起出票，不再需要手写备注</span>
               </div>
               <div class="f-item">
                 <label>收款专用章位（上传后自动带出）</label>
@@ -414,7 +514,7 @@
                   <div class="r"><div class="k">金额（大写）</div><div class="v" style="font-weight:600">壹仟捌佰伍拾元整</div></div>
                   <div class="r"><div class="k">收款方式</div><div class="v">转账 · 人工核销</div></div>
                   <div class="r"><div class="k">收款日期</div><div class="v num">2026-09-01</div></div>
-                  <div class="r"><div class="k">备注</div><div class="v">（手动填写栏）</div></div>
+                  <div class="r"><div class="k">备注</div><div class="v" id="pvRemark">—</div></div>
                 </div>
                 <div class="rc-foot">
                   <div>落款：英莱达公寓运营管理有限公司 · 财务部<br>收款人：王芳　经办人：陈志远</div>
@@ -552,6 +652,44 @@
   </div>
 </div>
 
+<!-- ========== 弹窗：红冲重传（发票上传（财务） · 已送达页签「红冲重传」触发） ========== -->
+<div class="mask" id="m-red">
+  <div class="modal">
+    <div class="mh">红冲重传 · 周女士（<span class="num">¥1,880</span>）<span class="x" onclick="closeModal('m-red')">×</span></div>
+    <div class="mb">
+      <div class="m-item">
+        <label>原发票（将被冲红作废）</label>
+        <div style="border:1px solid var(--line);border-radius:var(--r-md);padding:10px 12px;font-size:13px;display:flex;align-items:center;gap:10px">
+          <span class="num" style="font-weight:600">INV-20260828-0507</span>
+          <span style="color:var(--ink3)">2026-08-29 已短信送达</span>
+          <span class="tag fix" style="margin-left:auto">冲红作废</span>
+        </div>
+      </div>
+      <div class="m-item">
+        <label>冲红原因（必填，留痕可查）</label>
+        <textarea class="ta" placeholder="如：抬头信息有误 / 税率开具有误"></textarea>
+      </div>
+      <div class="m-item">
+        <label>上传新发票</label>
+        <div class="upl">
+          <div class="ic">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V6"/><path d="M8 10l4-4 4 4"/><path d="M4 18v1a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2v-1"/></svg>
+          </div>
+          <div class="u-t">点击上传新发票文件</div>
+          <div class="u-s">支持 PDF / 图片；确认后原票冲红、新票重新短信发送给租户（含新 PDF 链接）</div>
+        </div>
+      </div>
+      <div style="margin-top:14px">
+        <span class="note">重传后原记录移入「已冲红重开」页签，原票与新票关联留痕；重发短信不额外收费</span>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" onclick="closeModal('m-red')">取消</button>
+      <button class="btn primary" onclick="closeModal('m-red')">确认冲红并重传发送</button>
+    </div>
+  </div>
+</div>
+
 <!-- ========== 弹窗：代开收据（收据管理 · 头部「代开收据」触发） ========== -->
 <div class="mask" id="m-receipt">
   <div class="modal">
@@ -607,6 +745,17 @@ function openModal(id) { document.getElementById(id).classList.add('on'); }
 function closeModal(id) { document.getElementById(id).classList.remove('on'); }
 document.querySelectorAll('.mask').forEach(function (m) {
   m.addEventListener('click', function (e) { if (e.target === m) m.classList.remove('on'); });
+});
+
+/* 状态子页签切换（chips → st-pane，按父容器隔离，审批/上传两组互不干扰） */
+document.querySelectorAll('.chips .chip[data-st]').forEach(function (c) {
+  c.addEventListener('click', function () {
+    c.parentElement.querySelectorAll('.chip').forEach(function (x) { x.classList.remove('on'); });
+    c.classList.add('on');
+    var pane = document.getElementById(c.getAttribute('data-st'));
+    pane.parentElement.querySelectorAll('.st-pane').forEach(function (p) { p.classList.remove('on'); });
+    pane.classList.add('on');
+  });
 });
 </script>
 <script src="../../00-整体需求/主页原型/assets/nav.js"></script>
