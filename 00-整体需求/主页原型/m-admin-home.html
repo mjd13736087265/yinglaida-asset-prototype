@@ -76,34 +76,6 @@
         <div class="c"><div class="lb">新增合同</div><div class="vl num green">12<small> 份</small></div></div>
       </div>
 
-      <!-- 收款趋势（迷你折线，与 PC 端同风格） -->
-      <div class="m-sec">
-        <div class="st">收款趋势<span class="more">2026 · 单位：万元</span></div>
-        <svg viewBox="0 0 340 96" style="width:100%;height:auto;display:block">
-          <!-- 底线 -->
-          <line x1="14" y1="76" x2="326" y2="76" stroke="#eef0f5" stroke-width="1"/>
-          <!-- 浅面积底 -->
-          <path d="M14 68.5L42.4 64.8L70.7 63.1L99.1 60.7L127.5 53.7L155.8 46.1L184.2 43.4L212.5 35.6L240.9 30L269.3 28.5L297.6 25.3L326 24L326 76L14 76Z" fill="#2563eb" fill-opacity="0.07"/>
-          <!-- 折线 -->
-          <polyline points="14,68.5 42.4,64.8 70.7,63.1 99.1,60.7 127.5,53.7 155.8,46.1 184.2,43.4 212.5,35.6 240.9,30 269.3,28.5 297.6,25.3 326,24"
-            fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
-          <!-- 圆点 -->
-          <g fill="#fff" stroke="#2563eb" stroke-width="1.6">
-            <circle cx="14" cy="68.5" r="2.4"/><circle cx="42.4" cy="64.8" r="2.4"/><circle cx="70.7" cy="63.1" r="2.4"/>
-            <circle cx="99.1" cy="60.7" r="2.4"/><circle cx="127.5" cy="53.7" r="2.4"/><circle cx="155.8" cy="46.1" r="2.4"/>
-            <circle cx="184.2" cy="43.4" r="2.4"/><circle cx="212.5" cy="35.6" r="2.4"/><circle cx="240.9" cy="30" r="2.4"/>
-            <circle cx="269.3" cy="28.5" r="2.4"/><circle cx="297.6" cy="25.3" r="2.4"/><circle cx="326" cy="24" r="2.4"/>
-          </g>
-          <!-- 末月数值 -->
-          <text x="326" y="14" text-anchor="end" font-size="11" font-weight="600" fill="#2563eb">99.2</text>
-          <!-- 月份轴（隔月） -->
-          <g font-size="9.5" fill="#9aa3b2" text-anchor="middle">
-            <text x="14" y="92">1月</text><text x="70.7" y="92">3月</text><text x="127.5" y="92">5月</text>
-            <text x="184.2" y="92">7月</text><text x="240.9" y="92">9月</text><text x="297.6" y="92">11月</text>
-          </g>
-        </svg>
-      </div>
-
       <!-- 常用功能 2x2 -->
       <div class="m-sec">
         <div class="st">常用功能</div>
@@ -135,10 +107,10 @@
             <div class="ai b"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 20.5V9.5a1 1 0 0 1 1-1h5a1 1 0 0 1 1 1v11"/><path d="M10.5 20.5V4a1 1 0 0 1 1-1h6a1 1 0 0 1 1 1v16.5"/><path d="M2.5 20.5h19"/><path d="M13.5 6.5h2M13.5 10h2M13.5 13.5h2"/><path d="M6 12h1.5M6 15.5h1.5"/></svg></div>
             <div class="at">片区管理</div>
           </a>
-          <div class="ap">
+          <a class="ap" href="../../03-收费管理（APP）/管理端/原型/m-admin-charge-home.html" style="color:inherit">
             <div class="ai g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 8l3.5 4.5L15.5 8"/><path d="M12 12.5V17"/><path d="M9.5 13.5h5"/></svg></div>
-            <div class="at">收租管理</div>
-          </div>
+            <div class="at">收费管理</div>
+          </a>
           <div class="ap">
             <div class="ai o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v4h4"/><path d="M9 8h3"/><path d="M8.8 17.2l.7-2.6 4.3-4.3 1.9 1.9-4.3 4.3-2.6.7z"/></svg></div>
             <div class="at">合同管理</div>
@@ -165,6 +137,34 @@
           </div>
         </div>
         <div class="note">客房清扫、数据报表等为后续模块预留入口</div>
+      </div>
+
+      <!-- 收款趋势（迷你折线，与 PC 端同风格；置于页尾，功能入口优先） -->
+      <div class="m-sec">
+        <div class="st">收款趋势<span class="more">2026 · 单位：万元</span></div>
+        <svg viewBox="0 0 340 96" style="width:100%;height:auto;display:block">
+          <!-- 底线 -->
+          <line x1="14" y1="76" x2="326" y2="76" stroke="#eef0f5" stroke-width="1"/>
+          <!-- 浅面积底 -->
+          <path d="M14 68.5L42.4 64.8L70.7 63.1L99.1 60.7L127.5 53.7L155.8 46.1L184.2 43.4L212.5 35.6L240.9 30L269.3 28.5L297.6 25.3L326 24L326 76L14 76Z" fill="#2563eb" fill-opacity="0.07"/>
+          <!-- 折线 -->
+          <polyline points="14,68.5 42.4,64.8 70.7,63.1 99.1,60.7 127.5,53.7 155.8,46.1 184.2,43.4 212.5,35.6 240.9,30 269.3,28.5 297.6,25.3 326,24"
+            fill="none" stroke="#2563eb" stroke-width="2" stroke-linejoin="round" stroke-linecap="round"/>
+          <!-- 圆点 -->
+          <g fill="#fff" stroke="#2563eb" stroke-width="1.6">
+            <circle cx="14" cy="68.5" r="2.4"/><circle cx="42.4" cy="64.8" r="2.4"/><circle cx="70.7" cy="63.1" r="2.4"/>
+            <circle cx="99.1" cy="60.7" r="2.4"/><circle cx="127.5" cy="53.7" r="2.4"/><circle cx="155.8" cy="46.1" r="2.4"/>
+            <circle cx="184.2" cy="43.4" r="2.4"/><circle cx="212.5" cy="35.6" r="2.4"/><circle cx="240.9" cy="30" r="2.4"/>
+            <circle cx="269.3" cy="28.5" r="2.4"/><circle cx="297.6" cy="25.3" r="2.4"/><circle cx="326" cy="24" r="2.4"/>
+          </g>
+          <!-- 末月数值 -->
+          <text x="326" y="14" text-anchor="end" font-size="11" font-weight="600" fill="#2563eb">99.2</text>
+          <!-- 月份轴（隔月） -->
+          <g font-size="9.5" fill="#9aa3b2" text-anchor="middle">
+            <text x="14" y="92">1月</text><text x="70.7" y="92">3月</text><text x="127.5" y="92">5月</text>
+            <text x="184.2" y="92">7月</text><text x="240.9" y="92">9月</text><text x="297.6" y="92">11月</text>
+          </g>
+        </svg>
       </div>
 
     </div>
