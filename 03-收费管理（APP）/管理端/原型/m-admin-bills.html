@@ -35,6 +35,11 @@
   body.embed .device{gap:0}
   body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
   body.embed .notch{display:none}
+  /* 演示数据角标左移，避开右上角「切换端」按钮（同 m-admin-home 角标避让意图） */
+  .demo-mark{top:50px;right:60px}
+  /* 修复：片区范围条与账单卡 meta 行在 375 宽下被逐字挤压换行——禁止行内折断，整项换行 */
+  .a-bar{white-space:nowrap}
+  .bc .f{white-space:nowrap}
 </style>
 </head>
 <body class="stage">
@@ -73,8 +78,8 @@
 
       <!-- 状态 + 时间筛选 -->
       <div class="chips" style="margin-top:10px;border:1px solid var(--line);border-radius:var(--r-md);margin-left:14px;margin-right:14px">
-        <span class="chip on">待付 <b class="num">12</b></span>
-        <span class="chip">已缴</span>
+        <span class="chip on" data-tab="p1">待付 <b class="num">12</b></span>
+        <span class="chip" data-tab="p2">已缴</span>
         <span class="chip" style="color:var(--ink3)">全部 / 本年 / 本月 / 自定义 ▾</span>
       </div>
 
@@ -85,6 +90,7 @@
       </div>
 
       <!-- 账单卡列表（待付 TAB：装待缴/支付中/逾期/部分缴清 全部未结清状态） -->
+      <div class="tabpane on" id="p1">
       <div class="bl">
 
         <a class="bc" href="m-admin-bill-detail.html">
@@ -129,17 +135,65 @@
       <div class="sum-bar">
         本页合计：待付 <b class="num">12</b> 笔 · <b class="num">¥2.34万</b>（其中逾期 <b class="num" style="color:var(--red)">¥3.42万</b> · 重点关注 <b class="num">3</b> 户）
       </div>
+      </div>
+
+      <!-- 已缴 TAB -->
+      <div class="tabpane" id="p2">
+      <div class="bl">
+
+        <a class="bc" href="m-admin-bill-detail.html">
+          <div class="t">吴先生 · 临港 1-305<span class="amt num" style="color:var(--green)">¥1,600</span></div>
+          <div class="s">2026-09 租金 · 09-17 缴清<span class="tag free">已缴 · 银联自动</span></div>
+          <div class="f">账单号 <span class="num">ZD-XQ04-2026-0091</span><span class="inv">票据：收据 ¥1,600</span></div>
+        </a>
+
+        <a class="bc" href="m-admin-bill-detail.html">
+          <div class="t">周女士 · 滨江 1栋-307<span class="amt num" style="color:var(--green)">¥1,880</span></div>
+          <div class="s">2026-09 租金 · 09-17 缴清<span class="tag free">已缴 · 人工（王芳）</span></div>
+          <div class="f">账单号 <span class="num">ZD-XQ05-2026-0175</span><span class="inv">票据：收据 ¥1,880</span></div>
+        </a>
+
+        <a class="bc" href="m-admin-bill-detail.html">
+          <div class="t">冯女士 · 学府 2-511<span class="amt num" style="color:var(--green)">¥1,450</span></div>
+          <div class="s">2026-09 租金 · 09-16 缴清<span class="tag free">已缴 · 银联自动</span></div>
+          <div class="f">账单号 <span class="num">ZD-XQ03-2026-0068</span><span class="inv">票据：发票 ¥1,450</span></div>
+        </a>
+
+        <a class="bc" href="m-admin-bill-detail.html">
+          <div class="t">孙女士 · 兴业 2-602<span class="amt num" style="color:var(--green)">¥1,720</span></div>
+          <div class="s">2026-09 租金 · 09-17 缴清<span class="tag free">已缴 · 付款码自动</span></div>
+          <div class="f">账单号 <span class="num">ZD-XQ01-2026-0143</span><span class="inv">票据：收据 ¥1,720</span></div>
+        </a>
+
+      </div>
+
+      <!-- 总计行 -->
+      <div class="sum-bar">
+        本页合计：已缴 <b class="num">1,104</b> 笔 · <b class="num">¥96.40万</b>（本月账期 · 回款率 <b class="num">91.2%</b>）
+      </div>
+      </div>
 
       <div class="note" style="margin:0 14px 14px">「待付」TAB 装全部未结清状态（待缴/支付中/逾期/部分缴清），「已缴」单独一个 TAB；账单按合同付款周期滚动生成，手动生成单笔账单入口在 PC 端（月中入住补账）</div>
 
     </div>
 
-    <!-- 底部 Tab（共享组件 m-tab.js 渲染；收费二级页暂不高亮 Tab，待导航定稿） -->
+    <!-- 底部 Tab（共享组件 m-tab.js 渲染；收费二级页高亮「收费」Tab） -->
     <div class="m-tab" id="amsTab" data-variant="admin" data-active="rent"></div>
 
   </div>
 </div>
 
+<script>
+  document.querySelectorAll('.chips .chip[data-tab]').forEach(function (tb) {
+    tb.addEventListener('click', function () {
+      document.querySelectorAll('.chips .chip[data-tab]').forEach(function (x) { x.classList.remove('on') })
+      document.querySelectorAll('.tabpane').forEach(function (x) { x.classList.remove('on') })
+      tb.classList.add('on')
+      document.getElementById(tb.getAttribute('data-tab')).classList.add('on')
+    })
+  })
+</script>
+<style>.tabpane{display:none}.tabpane.on{display:block}</style>
 <script src="../../../00-整体需求/主页原型/assets/m-tab.js"></script>
 </body>
 </html>
