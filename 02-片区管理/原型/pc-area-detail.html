@@ -21,6 +21,14 @@
   .fmt-add:hover{border-color:var(--brand);color:var(--brand);background:var(--brand-bg)}
   .fmt-add .plus{width:40px;height:40px;border-radius:50%;border:1.5px dashed currentColor;display:flex;align-items:center;justify-content:center}
   .fmt-add .tx{font-size:14px;font-weight:500}
+
+  /* 收款账户列表行 */
+  .acct-row{display:flex;align-items:center;gap:18px;padding:15px 18px;border-bottom:1px solid var(--line2);font-size:13.5px}
+  .acct-row:last-child{border-bottom:none}
+  .acct-row .ac-name{font-size:14.5px;font-weight:600;color:var(--ink);display:flex;align-items:center;gap:8px;min-width:170px}
+  .acct-row .ac-holder{color:var(--ink2)}
+  .acct-row .ac-bank{color:var(--ink2)}
+  .acct-row .ac-no{margin-left:auto;color:var(--ink2)}
 </style>
 </head>
 <body>
@@ -115,6 +123,27 @@
             <span class="tx">新建业态</span>
           </a>
 
+        </div>
+      </div>
+
+      <!-- 收款账户 -->
+      <div class="panel" style="margin-top:16px">
+        <div class="ph">
+          <h3>收款账户</h3>
+          <span class="more" style="cursor:default">云谷人才公寓 · 业态编号 <b class="num" style="color:var(--ink2)">GY</b> · 收款主体在业态层级维护</span>
+          <a class="btn ghost" href="pc-format-edit.html" style="margin-left:12px">前往维护</a>
+        </div>
+        <div class="acct-row">
+          <span class="ac-name">启发电器基本户 <span class="tag free">默认账户</span></span>
+          <span class="ac-holder">启发电器有限公司</span>
+          <span class="ac-bank">中国工商银行杭州滨江支行</span>
+          <span class="ac-no num">尾号 8213</span>
+        </div>
+        <div class="acct-row">
+          <span class="ac-name">启发工业一般户</span>
+          <span class="ac-holder">启发工业有限公司</span>
+          <span class="ac-bank">中国建设银行杭州云谷支行</span>
+          <span class="ac-no num">尾号 0527</span>
         </div>
       </div>
 

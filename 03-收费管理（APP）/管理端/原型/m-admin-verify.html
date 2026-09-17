@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 收款核销 · 英莱达资管</title>
+<link rel="stylesheet" href="../../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .m-head{padding:44px 18px 18px;border-radius:0 0 18px 18px}
+  .mh-row{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:600}
+  .mh-row svg{width:20px;height:20px;flex-shrink:0}
+  .mh-row .esw{margin-left:auto}
+  .a-bar{display:flex;align-items:center;gap:8px;margin:12px 14px 0;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:10px 12px;font-size:12.5px;color:var(--ink2)}
+  .a-bar b{color:var(--ink);font-weight:600}
+  /* 顶部两个大按钮（现场场景） */
+  .big-ops{display:flex;gap:10px;margin:12px 14px 0}
+  .big-ops .bo{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;height:52px;border-radius:var(--r-md);font-size:15px;font-weight:600;cursor:pointer;border:none;color:#fff}
+  .big-ops .bo svg{width:20px;height:20px}
+  .big-ops .bo.g{background:linear-gradient(135deg,#43b581,#2b9e6b)}
+  .big-ops .bo.b{background:linear-gradient(135deg,#4f83f5,#2563eb)}
+  /* 核销卡片 */
+  .vl{display:flex;flex-direction:column;gap:10px;margin:12px 14px 0}
+  .vc{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:13px 14px}
+  .vc .t{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600}
+  .vc .amt{font-size:17px;font-weight:700;margin-left:auto}
+  .vc .s{font-size:12.5px;color:var(--ink2);margin-top:6px}
+  .vc .mt{font-size:12px;margin-top:8px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .vc .ops{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line2)}
+  .vc .ops .btn{flex:1;height:36px;font-size:13.5px}
+  .vc.warn{background:#fff7f7;border-color:#f3caca}
+  /* 匹配结果标签 */
+  .mtag{display:inline-flex;align-items:center;gap:4px;padding:2px 9px;border-radius:999px;font-size:12px;font-weight:500;line-height:1.6;white-space:nowrap}
+  .mtag.ok{background:var(--green-bg);color:var(--green)}
+  .mtag.wait{background:var(--orange-bg);color:var(--orange)}
+  .mtag.diff{background:var(--red-bg);color:var(--red)}
+  /* 总计条 */
+  .sum-bar{margin:12px 14px 14px;background:var(--brand-bg);border-radius:var(--r-md);padding:11px 14px;font-size:12.5px;color:var(--ink2)}
+  .sum-bar b{color:var(--ink);font-weight:700}
+  /* 页签内容切换 */
+  .tabpane{display:none}
+  .tabpane.on{display:block}
+  /* 弹层（手机壳内底部弹出） */
+  .sheet{position:absolute;inset:0;background:rgba(15,23,42,.45);z-index:40;display:none;align-items:flex-end}
+  .sheet.on{display:flex}
+  .sheet .sh{background:#fff;border-radius:16px 16px 0 0;width:100%;max-height:88%;overflow-y:auto;padding:16px 16px 20px;scrollbar-width:none}
+  .sheet .sh::-webkit-scrollbar{display:none}
+  .sheet .sh-t{display:flex;align-items:center;font-size:15px;font-weight:600;margin-bottom:6px}
+  .sheet .sh-t .x{margin-left:auto;color:var(--ink3);font-size:20px;cursor:pointer;line-height:1}
+  .sheet .sh-s{font-size:12.5px;color:var(--ink3);margin-bottom:12px}
+  .sheet h5{font-size:13px;font-weight:600;margin:14px 0 8px;display:flex;align-items:center;gap:8px}
+  .sheet h5::before{content:"";width:4px;height:13px;border-radius:2px;background:var(--brand)}
+  .sheet .note{display:flex;margin-top:10px}
+  /* 弹层表单：全宽 */
+  .f-item{margin-bottom:12px}
+  .f-item .inp,.f-item .sel{width:100%;height:40px}
+  /* 单选行 */
+  .rrow{display:flex;flex-direction:column;gap:10px;font-size:14px}
+  .rrow label{display:flex;align-items:flex-start;gap:8px;cursor:pointer;font-size:13.5px;line-height:1.5}
+  .rrow input[type=radio]{width:17px;height:17px;accent-color:var(--brand);margin-top:2px;flex-shrink:0}
+  .rrow .rs{color:var(--ink3);font-size:12px}
+  /* 二维码占位 */
+  .qr-box{width:200px;height:200px;margin:6px auto 0;border:2px dashed var(--line);border-radius:12px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;color:var(--ink3)}
+  .qr-box .qr-txt{font-size:12.5px;text-align:center}
+  /* 画板 iframe 无缝嵌入模式（?embed=1）：去手机壳与舞台底 */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 收款核销</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 蓝色头部 -->
+      <div class="m-head">
+        <div class="mh-row">
+          <a href="m-admin-charge-home.html" style="color:inherit;display:flex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>
+          收款核销
+          <details class="esw">
+            <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h11l-3.5-3.5"/><path d="M17 16H6l3.5 3.5"/></svg></summary>
+            <div class="esw-menu">
+              <a href="../../../03-收费管理（PC）/原型/pc-verify.html">PC 管理端</a>
+              <a href="../../../00-整体需求/主页原型/m-user-home.html">移动用户端</a>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <!-- 片区范围（第一行） -->
+      <div class="a-bar">片区范围：<b>全部片区 ▾</b> · 业态：<b>公寓</b></div>
+
+      <!-- 两个大按钮：收款登记 / 付款码 -->
+      <div class="big-ops">
+        <button class="bo g" data-open="shReg">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 7.5L12 11.5l3.5-4"/><path d="M12 11.5V17"/><path d="M9 13.5h6M9 16h6"/></svg>
+          收款登记
+        </button>
+        <button class="bo b" data-open="shQr">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14h1M14 20h1M18 18h3v3h-3z"/></svg>
+          付款码
+        </button>
+      </div>
+      <p style="margin:8px 14px 0"><span class="note">核销 = 确认钱到了并对应到某张账单；匹不上的一律留人工，绝不自动销账</span></p>
+
+      <!-- 页签 -->
+      <div class="chips" style="margin-top:10px;border:1px solid var(--line);border-radius:var(--r-md);margin-left:14px;margin-right:14px">
+        <span class="chip on" data-tab="p1">待人工核销 <b class="num">8</b></span>
+        <span class="chip" data-tab="p2">自动核销记录</span>
+        <span class="chip" data-tab="p3">收款查询</span>
+      </div>
+
+      <!-- ========== 页签 1：待人工核销 ========== -->
+      <div class="tabpane on" id="p1">
+        <div class="vl">
+
+          <div class="vc">
+            <div class="t">张女士<span class="amt num">¥1,850.00</span></div>
+            <div class="s num">09-17 09:12 · 转账 · <a style="color:var(--brand)">凭证</a></div>
+            <div class="mt"><span class="mtag ok">按金额+姓名匹配</span><span style="color:var(--ink3)">滨江 1栋-301 · 2026-09 租金 · 待缴</span></div>
+            <div class="ops"><button class="btn primary" data-open="shVerify">核销</button></div>
+          </div>
+
+          <div class="vc">
+            <div class="t">李先生<span class="amt num">¥1,850.00</span></div>
+            <div class="s num">09-17 08:47 · 转账 · <a style="color:var(--brand)">凭证</a></div>
+            <div class="mt"><span class="mtag ok">按金额+姓名匹配</span><span style="color:var(--ink3)">滨江 1栋-302 · 2026-09 租金 · 待缴</span></div>
+            <div class="ops"><button class="btn primary" data-open="shVerify">核销</button></div>
+          </div>
+
+          <div class="vc">
+            <div class="t">恒创科技有限公司<span class="amt num">¥32,000.00</span></div>
+            <div class="s num">09-16 17:20 · 转账 · <a style="color:var(--brand)">凭证</a></div>
+            <div class="mt"><span class="mtag wait">未匹配 · 需人工选择</span><span style="color:var(--ink3)">该户在欠费台账中</span></div>
+            <div class="ops"><button class="btn primary" data-open="shVerify">核销</button></div>
+          </div>
+
+          <div class="vc warn">
+            <div class="t">张女士<span class="amt num">¥1,850.00</span></div>
+            <div class="s num">09-15 10:24 · 转账 · <a style="color:var(--brand)">凭证</a></div>
+            <div class="mt"><span class="mtag diff">少付差额 ¥0.50</span><span style="color:var(--ink3)">滨江 2栋-401 · ¥1,850.50 待缴</span></div>
+            <div class="note" style="margin-top:8px">核销时选「全部核销」并选择差额处理（挂账 / 差额豁免走审批），不抹零</div>
+            <div class="ops"><button class="btn primary" data-open="shVerify">核销</button></div>
+          </div>
+
+          <div class="vc">
+            <div class="t">王**<span class="amt num">¥1,380.00</span></div>
+            <div class="s num">09-15 11:36 · 现金</div>
+            <div class="mt"><span class="mtag ok">按金额+房号匹配</span><span style="color:var(--ink3)">滨江 2栋-303 · 2026-09 租金 · 待缴</span></div>
+            <div class="ops"><button class="btn primary" data-open="shVerify">核销</button></div>
+          </div>
+
+          <div class="vc">
+            <div class="t">郑女士<span class="amt num">¥2,600.00</span></div>
+            <div class="s num">09-14 14:10 · 转账 · <a style="color:var(--brand)">凭证</a></div>
+            <div class="mt"><span class="mtag wait">未匹配 · 需人工选择</span></div>
+            <div class="ops"><button class="btn primary" data-open="shVerify">核销</button></div>
+          </div>
+
+        </div>
+
+        <div class="sum-bar">本页合计：待核销 <b class="num">8</b> 笔 · <b class="num">¥45,410.00</b>（转账 <b class="num">6</b> 笔 · 现金 <b class="num">2</b> 笔 · 差额待处理 <b class="num" style="color:var(--red)">1</b> 笔）</div>
+        <div class="note" style="margin:0 14px 14px">匹配规则：金额 → 付款人姓名 → 房号 依次模糊匹配；差额豁免走审批，与 PC 端特殊处理同一单据</div>
+      </div>
+
+      <!-- ========== 页签 2：自动核销记录（只读） ========== -->
+      <div class="tabpane" id="p2">
+        <div class="vl">
+          <div class="vc">
+            <div class="t">吴先生 · 临港 1-305<span class="amt num">¥1,600.00</span></div>
+            <div class="s num">09-17 08:30 · 账单 ZD-XQ04-2026-0091</div>
+            <div class="mt"><span class="tag rent">银联 · 自动</span></div>
+          </div>
+          <div class="vc">
+            <div class="t">孙女士 · 兴业 2-602<span class="amt num">¥1,720.00</span></div>
+            <div class="s num">09-17 07:58 · 账单 ZD-XQ01-2026-0143</div>
+            <div class="mt"><span class="tag rent">付款码 · 自动</span></div>
+          </div>
+          <div class="vc">
+            <div class="t">钱先生 · 滨江 3-204<span class="amt num">¥2,150.00</span></div>
+            <div class="s num">09-16 21:14 · 账单 ZD-XQ05-2026-0177</div>
+            <div class="mt"><span class="tag rent">代付 · 自动</span></div>
+          </div>
+        </div>
+        <div class="sum-bar">本页合计：自动核销 <b class="num">5</b> 笔 · <b class="num">¥8,200.00</b>（全部成功）</div>
+        <div class="note" style="margin:0 14px 14px">只读记录：银联对接中，当前以人工核销为主；对接完成后线上支付自动核销，人工通道永久保留</div>
+      </div>
+
+      <!-- ========== 页签 3：收款查询 ========== -->
+      <div class="tabpane" id="p3">
+        <div class="vl">
+          <div class="vc">
+            <div class="t">吴先生 · 临港 1-305<span class="amt num">¥1,600.00</span></div>
+            <div class="s num">09-17 08:30 · 银联 · 英莱达公寓对公户 · 系统·自动</div>
+            <div class="mt"><span class="tag free">已缴 · 自动</span><span class="tag rent">收据 ¥1,600</span></div>
+          </div>
+          <div class="vc">
+            <div class="t">周女士 · 滨江 1栋-307<span class="amt num">¥1,880.00</span></div>
+            <div class="s num">09-17 08:12 · 现金 · 英莱达公寓对公户 · 王芳</div>
+            <div class="mt"><span class="tag free">已缴 · 人工</span><span class="tag rent">收据 ¥1,880</span></div>
+          </div>
+          <div class="vc">
+            <div class="t">冯女士 · 学府 2-511<span class="amt num">¥1,450.00</span></div>
+            <div class="s num">09-16 19:42 · 银联 · 英莱达公寓对公户 · 系统·自动</div>
+            <div class="mt"><span class="tag free">已缴 · 自动</span><span class="tag rsv">发票 ¥1,450</span></div>
+          </div>
+          <div class="vc">
+            <div class="t">陈先生 · 滨江 1栋-305<span class="amt num">¥2,600.00</span></div>
+            <div class="s num">09-16 16:20 · 现金 · 英莱达公寓对公户 · 王芳</div>
+            <div class="mt"><span class="tag free">已缴 · 人工</span><span class="tag fix">未开具</span></div>
+            <div class="ops"><button class="btn ghost" data-open="shReceipt">申请收据</button></div>
+          </div>
+        </div>
+        <div class="sum-bar">本页合计：<b class="num">8</b> 笔 · <b class="num">¥14,430.00</b>（银联 <b class="num">¥4,770</b> · 转账 <b class="num">¥3,700</b> · 现金 <b class="num">¥5,960</b>）</div>
+        <div class="note" style="margin:0 14px 14px">收据为申请制、发起即给客户无审批；发票申请与审批在 PC 端票据管理处理（财务上传、短信送达）</div>
+      </div>
+
+    </div>
+
+    <!-- ========== 弹层：核销 ========== -->
+    <div class="sheet" id="shVerify">
+      <div class="sh">
+        <div class="sh-t">核销 · 张女士 ¥1,850.00<span class="x" data-close>×</span></div>
+        <div class="sh-s num">09-17 09:12 · 转账</div>
+
+        <h5>核销到哪笔账单</h5>
+        <div class="f-item">
+          <select class="sel">
+            <option>2026-09 租金账单 · ¥1,850.00 · 待缴（系统匹配推荐）</option>
+            <option>2026-08 租金账单 · ¥1,850.00 · 逾期</option>
+            <option>2026-10 租金账单 · ¥1,850.00 · 未到期</option>
+          </select>
+          <div class="help" style="font-size:12px;color:var(--ink3);margin-top:4px">支持跨期合并付款，人工指定；一笔收款核销一笔账单</div>
+        </div>
+
+        <h5>核销方式</h5>
+        <div class="rrow">
+          <label><input type="radio" name="vfy" checked><span>全部核销（账单结清）<br><span class="rs">有差额时必选下方差额处理方式</span></span></label>
+          <label><input type="radio" name="vfy"><span>部分核销（本次只核一部分）<br><span class="rs">余额留在账单显示「部分缴清」，继续收取 · 正常流程无需审批</span></span></label>
+        </div>
+        <div class="f-item" style="margin-top:10px">
+          <label style="font-size:13px;color:var(--ink2)">本次核销金额（部分核销时填写）</label>
+          <input class="inp num" value="1850.00" style="text-align:right;margin-top:4px">
+          <div class="help" style="font-size:12px;color:var(--ink3);margin-top:4px">不超过到账金额 ¥1,850.00</div>
+        </div>
+
+        <h5>差额处理（全部核销且金额不一致时必选）</h5>
+        <div class="rrow">
+          <label><input type="radio" name="diff" checked><span>挂账<span class="rs">（差额并入下期继续追缴）</span></span></label>
+          <label><input type="radio" name="diff"><span>差额豁免<span class="rs">（走审批，与 PC 特殊处理同一单据）</span></span></label>
+        </div>
+        <span class="note">公司规矩不抹零：少付只挂账或审批豁免；多付系统不自动处理，线下退回，账单显示「多付」标记；核销后操作留痕，来源记「人工 · 经办人」</span>
+
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button class="btn ghost" style="flex:1" data-close>取消</button>
+          <button class="btn primary" style="flex:1">确认核销</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 弹层：收款登记 ========== -->
+    <div class="sheet" id="shReg">
+      <div class="sh">
+        <div class="sh-t">收款登记<span class="x" data-close>×</span></div>
+        <div class="sh-s">登记后进入「待人工核销」，确认到账后核销</div>
+
+        <h5>付款方式</h5>
+        <div class="rrow">
+          <label><input type="radio" name="pay" value="转账" checked><span>转账</span></label>
+          <label><input type="radio" name="pay" value="现金"><span>现金</span></label>
+        </div>
+        <span class="note">在线收款走「付款码 / 代付」扫码，支付即核销，不在此登记</span>
+
+        <div id="bankFields">
+          <h5>转账信息（选转账时填写）</h5>
+          <div class="f-item"><label style="font-size:13px;color:var(--ink2)">付款方户名 *</label><input class="inp" value="张某某" style="margin-top:4px"></div>
+          <div class="f-item"><label style="font-size:13px;color:var(--ink2)">付款账号 *</label><input class="inp num" value="6222 **** **** 0831" style="margin-top:4px"></div>
+          <div class="f-item"><label style="font-size:13px;color:var(--ink2)">开户行 *</label><input class="inp" value="工商银行城西支行" style="margin-top:4px"></div>
+          <div class="f-item"><label style="font-size:13px;color:var(--ink2)">转账时间 *</label><input class="inp num" type="datetime-local" value="2026-09-17T09:12" style="margin-top:4px"></div>
+          <div class="f-item"><label style="font-size:13px;color:var(--ink2)">转账凭证（选填）</label>
+            <div style="border:1px dashed var(--line);border-radius:8px;padding:12px;font-size:12.5px;color:var(--ink2);margin-top:4px;background:#fafbfc">点击上传转账截图 / 回单（jpg、png，不超过 5MB）</div>
+          </div>
+        </div>
+
+        <h5>收款信息</h5>
+        <div class="f-item"><label style="font-size:13px;color:var(--ink2)">租户 / 房号 *</label>
+          <select class="sel" style="margin-top:4px">
+            <option>张女士 · 滨江人才公寓 1栋-301</option>
+            <option>张女士 · 滨江人才公寓 2栋-401</option>
+            <option>李先生 · 滨江人才公寓 1栋-302</option>
+            <option>王同学 · 滨江人才公寓 2栋-303</option>
+          </select>
+        </div>
+        <div class="f-item"><label style="font-size:13px;color:var(--ink2)">关联账单 *</label>
+          <select class="sel" style="margin-top:4px">
+            <option>2026-09 租金账单 · ¥1,850.00 · 待缴</option>
+            <option>2026-10 租金账单 · ¥1,850.00 · 未到期</option>
+          </select>
+        </div>
+        <div class="f-item"><label style="font-size:13px;color:var(--ink2)">收款金额 *</label><input class="inp num" value="1850.00" style="text-align:right;margin-top:4px"></div>
+        <div class="f-item"><label style="font-size:13px;color:var(--ink2)">收款账户 *</label>
+          <select class="sel" style="margin-top:4px">
+            <option selected>英莱达公寓对公户 ****1234（合同默认）</option>
+            <option>启发电器对公户 ****5678</option>
+            <option>启发工业对公户 ****9012</option>
+            <option>个人账户（特殊情况）</option>
+          </select>
+          <div class="help" style="font-size:12px;color:var(--ink3);margin-top:4px">默认读合同约定账户，可切换；账户在 片区管理 维护</div>
+        </div>
+        <div class="f-item"><label style="font-size:13px;color:var(--ink2)">经办人 *</label><input class="inp" value="王芳" style="margin-top:4px"></div>
+        <div class="f-item"><label style="font-size:13px;color:var(--ink2)">备注</label><textarea class="ta" placeholder="如：租户现场缴纳，已点钞确认" style="width:100%;margin-top:4px"></textarea></div>
+
+        <div style="display:flex;gap:10px;margin-top:6px">
+          <button class="btn ghost" style="flex:1" data-close>取消</button>
+          <button class="btn primary" style="flex:1">保存登记</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 弹层：付款码（现场扫码 · 可选金额部分支付） ========== -->
+    <div class="sheet" id="shQr">
+      <div class="sh">
+        <div class="sh-t">付款码 · 现场扫码收款<span class="x" data-close>×</span></div>
+
+        <h5>选择账单</h5>
+        <div class="f-item">
+          <select class="sel">
+            <option>恒创科技公司 · 云谷 1-整层 · 2026-08 租金 · 剩余 ¥10,000</option>
+            <option>吴先生 · 临港 1-309 · 2026-09 租金 · ¥1,400</option>
+            <option>王同学 · 兴业 3-303 · 2026-09 租金 · ¥1,380</option>
+          </select>
+        </div>
+
+        <h5>本次收款金额</h5>
+        <div class="f-item">
+          <input class="inp num" value="10000.00" style="text-align:right">
+          <div class="help" style="font-size:12px;color:var(--ink3);margin-top:4px">默认剩余全额，可改小、不超过账单剩余金额——支持现场部分支付</div>
+        </div>
+
+        <div class="qr-box">
+          <svg width="40" height="40" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14h1M14 20h1M18 18h3v3h-3z"/></svg>
+          <span class="qr-txt">银联收款码占位 · 对接后实时生成</span>
+          <span class="qr-txt num" style="font-weight:700;color:var(--ink)">¥10,000.00</span>
+        </div>
+        <span class="note">有效期 30 分钟（以银行确认为准）；客户现场扫码，支付成功即自动核销该账单；与账单详情「代付」为同一组件</span>
+
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button class="btn ghost" style="flex:1" data-close>关闭</button>
+          <button class="btn primary" style="flex:1" data-close>已完成支付</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 弹层：申请收据（移动端轻量票据入口） ========== -->
+    <div class="sheet" id="shReceipt">
+      <div class="sh">
+        <div class="sh-t">申请收据 · 陈先生 ¥2,600.00<span class="x" data-close>×</span></div>
+        <div class="sh-s num">09-16 16:20 · 现金 · 已缴 · 人工（王芳）</div>
+
+        <h5>收据信息</h5>
+        <div class="f-item"><label style="font-size:13px;color:var(--ink2)">收据金额（默认全额，可改）</label><input class="inp num" value="2600.00" style="text-align:right;margin-top:4px">
+          <div class="help" style="font-size:12px;color:var(--ink3);margin-top:4px">可申请金额 = 账单 − 已开票 − 已开收据；本笔剩余可申请 ¥2,600.00</div>
+        </div>
+        <div class="f-item"><label style="font-size:13px;color:var(--ink2)">收款事由</label><input class="inp" value="2026-09 租金" style="margin-top:4px"></div>
+        <div class="f-item"><label style="font-size:13px;color:var(--ink2)">备注</label><textarea class="ta" style="width:100%;margin-top:4px" placeholder="选填"></textarea></div>
+        <span class="note">申请制、发起即给客户，无审批；编号 SJ+片区编号+年份+流水；A5 一联打印在 PC 端；发票申请请在 PC 端票据管理处理</span>
+
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button class="btn ghost" style="flex:1" data-close>取消</button>
+          <button class="btn primary" style="flex:1">确认申请</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部 Tab（共享组件 m-tab.js 渲染） -->
+    <div class="m-tab" id="amsTab" data-variant="admin" data-active="rent"></div>
+
+  </div>
+</div>
+
+<script>
+  /* 页签切换 */
+  document.querySelectorAll('.chips .chip[data-tab]').forEach(function (tb) {
+    tb.addEventListener('click', function () {
+      document.querySelectorAll('.chips .chip').forEach(function (x) { x.classList.remove('on') })
+      document.querySelectorAll('.tabpane').forEach(function (x) { x.classList.remove('on') })
+      tb.classList.add('on')
+      document.getElementById(tb.getAttribute('data-tab')).classList.add('on')
+    })
+  })
+  /* 弹层开关 */
+  document.querySelectorAll('[data-open]').forEach(function (b) {
+    b.addEventListener('click', function () { document.getElementById(b.getAttribute('data-open')).classList.add('on') })
+  })
+  document.querySelectorAll('.sheet').forEach(function (m) {
+    m.querySelectorAll('[data-close]').forEach(function (b) {
+      b.addEventListener('click', function () { m.classList.remove('on') })
+    })
+    m.addEventListener('click', function (e) { if (e.target === m) m.classList.remove('on') })
+  })
+  /* 收款登记：选转账显示转账信息，现金隐藏 */
+  document.querySelectorAll('input[name="pay"]').forEach(function (r) {
+    r.addEventListener('change', function () {
+      var v = document.querySelector('input[name="pay"]:checked').value
+      document.getElementById('bankFields').style.display = (v === '转账') ? '' : 'none'
+    })
+  })
+</script>
+<script src="../../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 押金管理 · 英莱达资管</title>
+<link rel="stylesheet" href="../../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .m-head{padding:44px 18px 18px;border-radius:0 0 18px 18px}
+  .mh-row{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:600}
+  .mh-row svg{width:20px;height:20px;flex-shrink:0}
+  .mh-row .esw{margin-left:auto}
+  .a-bar{display:flex;align-items:center;gap:8px;margin:12px 14px 0;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:10px 12px;font-size:12.5px;color:var(--ink2)}
+  .a-bar b{color:var(--ink);font-weight:600}
+  /* 台账统计条 */
+  .ostat{display:flex;margin:12px 14px 0;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 6px}
+  .ostat .os{flex:1;text-align:center;min-width:0}
+  .ostat .os+.os{border-left:1px solid var(--line2)}
+  .ostat .v{font-size:18px;font-weight:700;line-height:1.3}
+  .ostat .l{font-size:11.5px;color:var(--ink3);margin-top:2px}
+  /* 两个大按钮 */
+  .big-ops{display:flex;gap:10px;margin:12px 14px 0}
+  .big-ops .bo{flex:1;display:flex;align-items:center;justify-content:center;gap:8px;height:52px;border-radius:var(--r-md);font-size:15px;font-weight:600;cursor:pointer;border:none;color:#fff}
+  .big-ops .bo svg{width:20px;height:20px}
+  .big-ops .bo.g{background:linear-gradient(135deg,#43b581,#2b9e6b)}
+  .big-ops .bo.o{background:linear-gradient(135deg,#f0a53c,#e08c1a)}
+  /* 搜索 */
+  .u-search{margin:10px 14px 0;background:#fff;border:1px solid var(--line);border-radius:999px;padding:9px 14px;display:flex;align-items:center;gap:8px;color:var(--ink3);font-size:13px}
+  .u-search svg{width:16px;height:16px;flex-shrink:0}
+  /* 押金卡 */
+  .dl{display:flex;flex-direction:column;gap:10px;margin:12px 14px 0}
+  .dc{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:13px 14px}
+  .dc .t{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600}
+  .dc .amt{font-size:17px;font-weight:700;margin-left:auto}
+  .dc .s{font-size:12.5px;color:var(--ink2);margin-top:6px}
+  .dc .f{font-size:12px;color:var(--ink3);margin-top:6px}
+  /* 流水行 */
+  .flow{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);margin:12px 14px 0;padding:4px 14px}
+  .flow .fr{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line2);font-size:13px}
+  .flow .fr:last-child{border-bottom:none}
+  .flow .fr .grow{flex:1;min-width:0}
+  .flow .fr .s{font-size:12px;color:var(--ink3);margin-top:1px}
+  .flow .fr .amt{font-weight:700}
+  .flow .fr .amt.in{color:var(--green)}
+  .flow .fr .amt.out{color:var(--orange)}
+  /* 总计条 */
+  .sum-bar{margin:12px 14px 14px;background:var(--brand-bg);border-radius:var(--r-md);padding:11px 14px;font-size:12.5px;color:var(--ink2)}
+  .sum-bar b{color:var(--ink);font-weight:700}
+  /* 弹层 */
+  .sheet{position:absolute;inset:0;background:rgba(15,23,42,.45);z-index:40;display:none;align-items:flex-end}
+  .sheet.on{display:flex}
+  .sheet .sh{background:#fff;border-radius:16px 16px 0 0;width:100%;max-height:88%;overflow-y:auto;padding:16px 16px 20px;scrollbar-width:none}
+  .sheet .sh::-webkit-scrollbar{display:none}
+  .sheet .sh-t{display:flex;align-items:center;font-size:15px;font-weight:600;margin-bottom:6px}
+  .sheet .sh-t .x{margin-left:auto;color:var(--ink3);font-size:20px;cursor:pointer;line-height:1}
+  .sheet .sh-s{font-size:12.5px;color:var(--ink3);margin-bottom:12px}
+  .sheet h5{font-size:13px;font-weight:600;margin:14px 0 8px;display:flex;align-items:center;gap:8px}
+  .sheet h5::before{content:"";width:4px;height:13px;border-radius:2px;background:var(--brand)}
+  .sheet .note{display:flex;margin-top:10px}
+  .f-item{margin-bottom:12px}
+  .f-item .inp,.f-item .sel{width:100%;height:40px;margin-top:4px}
+  .f-item label{font-size:13px;color:var(--ink2)}
+  .f-item .help{font-size:12px;color:var(--ink3);margin-top:4px}
+  .rrow{display:flex;gap:18px;font-size:14px}
+  .rrow label{display:flex;align-items:center;gap:7px;cursor:pointer;font-size:13.5px}
+  .rrow input[type=radio]{width:17px;height:17px;accent-color:var(--brand)}
+  /* 画板 iframe 无缝嵌入模式（?embed=1）：去手机壳与舞台底 */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 押金管理</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 蓝色头部 -->
+      <div class="m-head">
+        <div class="mh-row">
+          <a href="m-admin-charge-home.html" style="color:inherit;display:flex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>
+          押金管理
+          <details class="esw">
+            <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h11l-3.5-3.5"/><path d="M17 16H6l3.5 3.5"/></svg></summary>
+            <div class="esw-menu">
+              <a href="../../../03-收费管理（PC）/原型/pc-deposit.html">PC 管理端</a>
+              <a href="../../../00-整体需求/主页原型/m-user-home.html">移动用户端</a>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <!-- 片区范围（第一行） -->
+      <div class="a-bar">片区范围：<b>全部片区 ▾</b> · 业态：<b>公寓</b></div>
+
+      <!-- 台账统计（独立台账） -->
+      <div class="ostat">
+        <div class="os"><div class="v num">¥186.2万</div><div class="l">在押总额</div></div>
+        <div class="os"><div class="v num" style="color:var(--green)">¥4.36万</div><div class="l">本月收取</div></div>
+        <div class="os"><div class="v num" style="color:var(--orange)">¥1.85万</div><div class="l">本月退还</div></div>
+      </div>
+      <p style="margin:8px 14px 0"><span class="note">押金独立台账 · 数据范围=当前所选片区 · 押金绝不允许抵租金</span></p>
+
+      <!-- 两个手动入口 -->
+      <div class="big-ops">
+        <button class="bo g" data-open="shIn">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+          收取登记
+        </button>
+        <button class="bo o" data-open="shOut">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 19V5M5 12l7-7 7 7"/></svg>
+          退还登记
+        </button>
+      </div>
+
+      <!-- 搜索 -->
+      <div class="u-search">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="6.5"/><path d="M20.5 20.5l-4-4"/></svg>
+        搜索租户姓名 / 房号
+      </div>
+
+      <!-- 押金台账卡 -->
+      <div class="dl">
+        <div class="dc">
+          <div class="t">张女士 · 滨江 1栋-301<span class="tag rent" style="margin-left:auto">在押</span></div>
+          <div class="s">押金标准 <b class="num">¥1,850</b>（押一）· 实收余额 <b class="num">¥1,850</b></div>
+          <div class="f num">收取 2025-11-28 · 入住流程自动入账 · 合同至 2026-11-30</div>
+        </div>
+        <div class="dc">
+          <div class="t">张女士 · 滨江 2栋-401<span class="tag rent" style="margin-left:auto">在押</span></div>
+          <div class="s">押金标准 <b class="num">¥1,380</b>（押一）· 实收余额 <b class="num">¥1,380</b></div>
+          <div class="f num">收取 2024-09-15 · 合同至 2026-09-19 · 即将到期</div>
+        </div>
+        <div class="dc">
+          <div class="t">李先生 · 滨江 1栋-302<span class="tag rent" style="margin-left:auto">在押</span></div>
+          <div class="s">押金标准 <b class="num">¥1,850</b>（押一）· 实收余额 <b class="num">¥1,850</b></div>
+          <div class="f num">收取 2026-01-10 · 转账 · 经办 王芳</div>
+        </div>
+        <div class="dc">
+          <div class="t">吴先生 · 临港 1-305<span class="tag fix" style="margin-left:auto">已退</span></div>
+          <div class="s">押金标准 <b class="num">¥1,600</b> · 实退 <b class="num">¥1,600</b> · 无扣款</div>
+          <div class="f num">退还 2026-09-05 · 退租流程联动 · 经办 王芳</div>
+        </div>
+      </div>
+
+      <!-- 最近收退流水 -->
+      <div class="m-gt">最近收退流水</div>
+      <div class="flow" style="margin-top:0">
+        <div class="fr">
+          <div class="grow"><div>刘先生 · 梧桐 3-208</div><div class="s num">09-16 · 收取 · 现金 · 手动登记</div></div>
+          <span class="amt in num">+¥1,500</span>
+        </div>
+        <div class="fr">
+          <div class="grow"><div>吴先生 · 临港 1-305</div><div class="s num">09-05 · 退还 · 转账 · 退租联动</div></div>
+          <span class="amt out num">−¥1,600</span>
+        </div>
+        <div class="fr">
+          <div class="grow"><div>钱先生 · 滨江 3-204</div><div class="s num">09-02 · 收取 · 转账 · 入住自动入账</div></div>
+          <span class="amt in num">+¥2,150</span>
+        </div>
+      </div>
+
+      <!-- 总计行 -->
+      <div class="sum-bar">本页合计：在押 <b class="num">1,086</b> 户 · <b class="num">¥186.2万</b>（本月收 <b class="num">26</b> 笔 · 退 <b class="num">11</b> 笔）</div>
+
+      <div class="note" style="margin:0 14px 14px">收退正常由业务流程自动产生（入住收 / 退租退，待入住、退租模块上线后对接）；本页两个登记入口为手动补录；异常退房在退住时触发，本模块预留</div>
+
+    </div>
+
+    <!-- ========== 弹层：收取登记 ========== -->
+    <div class="sheet" id="shIn">
+      <div class="sh">
+        <div class="sh-t">押金收取登记<span class="x" data-close>×</span></div>
+        <div class="sh-s">手动补录入口：正常由入住流程自动收取，此处用于线下现金等特殊情况</div>
+
+        <h5>收取信息</h5>
+        <div class="f-item"><label>租户 / 房号 *</label>
+          <select class="sel">
+            <option>刘先生 · 梧桐公寓 3-208（新入住）</option>
+            <option>钱先生 · 滨江人才公寓 3-204</option>
+          </select>
+        </div>
+        <div class="f-item"><label>押金标准</label><input class="inp num" value="1500.00（押一，随租金标准带出）" readonly style="background:var(--paper)"></div>
+        <div class="f-item"><label>实收金额 *</label><input class="inp num" value="1500.00" style="text-align:right"></div>
+        <div class="f-item"><label>收款方式 *</label>
+          <div class="rrow" style="margin-top:4px">
+            <label><input type="radio" name="din" checked>转账</label>
+            <label><input type="radio" name="din">现金</label>
+          </div>
+        </div>
+        <div class="f-item"><label>收款账户 *</label>
+          <select class="sel">
+            <option selected>英莱达公寓对公户 ****1234（合同默认）</option>
+            <option>启发电器对公户 ****5678</option>
+          </select>
+          <div class="help">账户在 片区管理 维护</div>
+        </div>
+        <div class="f-item"><label>经办人 *</label><input class="inp" value="王芳"></div>
+        <div class="f-item"><label>备注</label><textarea class="ta" style="width:100%;margin-top:4px" placeholder="选填"></textarea></div>
+
+        <div style="display:flex;gap:10px;margin-top:6px">
+          <button class="btn ghost" style="flex:1" data-close>取消</button>
+          <button class="btn primary" style="flex:1">保存登记</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ========== 弹层：退还登记 ========== -->
+    <div class="sheet" id="shOut">
+      <div class="sh">
+        <div class="sh-t">押金退还登记<span class="x" data-close>×</span></div>
+        <div class="sh-s">手动入口：正常由退租流程联动退还；异常退房在退住时触发（退租模块预留）</div>
+
+        <h5>退还信息</h5>
+        <div class="f-item"><label>租户 / 房号 *</label>
+          <select class="sel">
+            <option>张女士 · 滨江人才公寓 2栋-401 · 在押 ¥1,380</option>
+            <option>李先生 · 滨江人才公寓 1栋-302 · 在押 ¥1,850</option>
+          </select>
+        </div>
+        <div class="f-item"><label>应退金额</label><input class="inp num" value="1380.00" readonly style="background:var(--paper)"></div>
+        <div class="f-item"><label>扣款（选填，退住验收定责后填写）</label><input class="inp num" value="0.00" style="text-align:right">
+          <div class="help">如：柜门合页损坏扣 ¥80；扣款需备注事由，操作留痕</div>
+        </div>
+        <div class="f-item"><label>实退金额 *</label><input class="inp num" value="1380.00" style="text-align:right"></div>
+        <div class="f-item"><label>退还方式 *</label>
+          <div class="rrow" style="margin-top:4px">
+            <label><input type="radio" name="dout" checked>转账</label>
+            <label><input type="radio" name="dout">现金</label>
+          </div>
+        </div>
+        <div class="f-item"><label>经办人 *</label><input class="inp" value="王芳"></div>
+        <div class="f-item"><label>备注</label><textarea class="ta" style="width:100%;margin-top:4px" placeholder="如：退租验收完成，无扣款"></textarea></div>
+        <span class="note">退款限制：银联不支持超一年原路退回、不支持部分退款——退款流程待下次会议讨论，当前以线下转账 / 现金为主</span>
+
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button class="btn ghost" style="flex:1" data-close>取消</button>
+          <button class="btn primary" style="flex:1">确认退还</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部 Tab（共享组件 m-tab.js 渲染） -->
+    <div class="m-tab" id="amsTab" data-variant="admin" data-active="rent"></div>
+
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('[data-open]').forEach(function (b) {
+    b.addEventListener('click', function () { document.getElementById(b.getAttribute('data-open')).classList.add('on') })
+  })
+  document.querySelectorAll('.sheet').forEach(function (m) {
+    m.querySelectorAll('[data-close]').forEach(function (b) {
+      b.addEventListener('click', function () { m.classList.remove('on') })
+    })
+    m.addEventListener('click', function (e) { if (e.target === m) m.classList.remove('on') })
+  })
+</script>
+<script src="../../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

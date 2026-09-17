@@ -14,11 +14,21 @@
   .seg i.due{background:var(--st-due)}
   .seg i.fix{background:var(--st-fix)}
 
-  /* 片区概览行内区块 */
-  .area{width:150px;flex-shrink:0}
-  .rate{width:64px;flex-shrink:0;text-align:right;font-size:16px;font-weight:700}
-  .a-link{width:56px;flex-shrink:0;text-align:right;font-size:12.5px;color:var(--brand);white-space:nowrap;cursor:pointer}
+  /* 片区概览行内区块（概览面板右移变窄，行内区块相应压缩） */
+  .area{width:132px;flex-shrink:0}
+  .rate{width:56px;flex-shrink:0;text-align:right;font-size:16px;font-weight:700}
+  .a-link{width:50px;flex-shrink:0;text-align:right;font-size:12.5px;color:var(--brand);white-space:nowrap;cursor:pointer}
   .a-link:hover{color:var(--brand-d)}
+
+  /* 收款趋势：年度筛选小下拉 */
+  .yr-sel{height:24px;padding:0 4px;border:1px solid var(--line);border-radius:6px;font-size:12px;color:var(--ink2);background:var(--panel);font-family:inherit;outline:none;cursor:pointer}
+  .yr-sel:focus{border-color:var(--brand)}
+
+  /* 即将到期合同：行点击态 */
+  .li-row.clk{cursor:pointer}
+  .li-row.clk:hover{background:var(--brand-bg)}
+  .li-row.clk .go{color:var(--ink3);font-size:15px;margin-left:-6px;line-height:1}
+  .li-row.clk:hover .go{color:var(--brand)}
 
   /* 快捷入口图标底色 */
   .qi.bg-brand{background:var(--brand-bg);color:var(--brand)}
@@ -52,29 +62,28 @@
   .vl.c-red{color:var(--red)}
 
   /* ===== 垂直密度压缩（仅本页覆盖，目标 1440×900 一屏可见；字号不动，只收间距与图高） ===== */
-  .content{padding:6px 24px 8px}
-  .row{gap:10px;margin-bottom:8px}
+  .content{padding:6px 24px 4px}
+  .row{gap:10px;margin-bottom:6px}
   .col{gap:8px}
   /* KPI 卡 */
-  .kpi{padding:7px 18px 6px}
+  .kpi{padding:6px 18px 5px}
   .kpi .lb{line-height:1.25}
   .kpi .vl{margin-top:2px;line-height:1.1}
   .kpi .sub{margin-top:2px;line-height:1.25}
   .kic{top:8px}
   /* 面板头/体 */
-  .panel .ph{padding:6px 18px}
+  .panel .ph{padding:5px 18px}
   .panel .pb{padding:6px 18px}
   /* 列表行 */
-  .li-row{padding:3px 18px}
+  .li-row{padding:2px 18px}
   .li-row .t{line-height:1.3}
   .li-row .s{line-height:1.3;margin-top:0}
   /* 快捷入口格子 */
   .quick .q{padding:8px 10px 7px;gap:5px}
   .quick .q .qi{width:32px;height:32px;border-radius:9px}
-  /* 收款趋势柱状图 */
-  .bars{height:auto;padding-top:2px}
-  .bars .b{gap:3px}
-  .bars .b span{line-height:1.2}
+  /* 收款趋势折线图 */
+  .trend{padding:4px 14px 2px}
+  .trend svg{width:100%;height:auto;display:block}
   /* 页脚说明备注签收紧 */
   .content>.note, .content>div>.note{padding-top:4px;padding-bottom:4px}
 </style>
@@ -134,7 +143,7 @@
           <span class="kic c-orange"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 8l3.5 4.5L15.5 8"/><path d="M12 12.5V17"/><path d="M9.5 13.5h5"/></svg></span>
           <div class="lb">本月实收</div>
           <div class="vl num c-orange">96.40<small>万元</small></div>
-          <div class="sub">应收 <b class="num">105.7</b> 万 · 回款率 <b class="num">91.2%</b></div>
+          <div class="sub">应收 <b class="num">105.7</b> 万 · 回款率 <b class="num">91.2%</b> · 新增合同 <b class="num">12</b> 份</div>
         </div>
         <div class="kpi">
           <span class="kic c-red"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 3.5h14V21l-2.3-1.7L14 21l-2-1.7L10 21l-2.3-1.7L5 21z"/><path d="M12 7.5v4.5"/><path d="M12 15.5h.01"/></svg></span>
@@ -144,9 +153,46 @@
         </div>
       </div>
 
-      <!-- 第 2 行：片区概览 + 待办 -->
+      <!-- 第 2 行：待办 + 片区概览（1:1 等大） -->
       <div class="row">
-        <div class="panel" style="flex:2;min-width:0">
+        <div class="panel" style="flex:1;min-width:0">
+          <div class="ph">
+            <div class="tabs">
+              <div class="tb on">审批<span class="n">2</span></div>
+              <div class="tb">合同到期<span class="n">2</span></div>
+              <div class="tb">欠费<span class="n">1</span></div>
+              <div class="tb">工单<span class="n">1</span></div>
+            </div>
+          </div>
+          <div class="pb flush">
+            <div class="li-row">
+              <div class="grow"><div class="t">退租审批 · 滨江 3-502 · 王女士</div><div class="s">承租人申请提前退租，待运营主管审批</div></div>
+              <span class="tag due">待审批</span>
+            </div>
+            <div class="li-row">
+              <div class="grow"><div class="t">换租审批 · 城东 1-806 · 李先生</div><div class="s">申请由一居室换至两居室，差价待核算</div></div>
+              <span class="tag due">待审批</span>
+            </div>
+            <div class="li-row">
+              <div class="grow"><div class="t">合同 15 天后到期 · 城东 2-1103</div><div class="s">租户 张先生 · 月租 2,300 元 · 待跟进续签</div></div>
+              <span class="tag rsv">到期提醒</span>
+            </div>
+            <div class="li-row">
+              <div class="grow"><div class="t">合同 21 天后到期 · 临港 4-1201</div><div class="s">租户 周女士 · 月租 1,850 元 · 已发续签通知</div></div>
+              <span class="tag rsv">到期提醒</span>
+            </div>
+            <div class="li-row">
+              <div class="grow"><div class="t">欠费催缴 · 高新 7-208 · 欠 2,400 元</div><div class="s">已逾期 32 天 · 本月第二次催缴提醒</div></div>
+              <span class="tag red">欠费</span>
+            </div>
+            <div class="li-row">
+              <div class="grow"><div class="t">报修派单 · 大学城 5-301 · 水管漏水</div><div class="s">租户报修 2 小时前 · 待指派维修师傅</div></div>
+              <span class="tag fix">待派单</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="panel" style="flex:1;min-width:0">
           <div class="ph">
             <h3>各片区经营概览</h3>
             <a class="more" href="../../02-片区管理/原型/pc-area-list.html">查看全部 →</a>
@@ -207,44 +253,7 @@
               <span class="li"><i class="dot free"></i>空置</span>
               <span class="li"><i class="dot due"></i>即将到期</span>
               <span class="li"><i class="dot fix"></i>维修中</span>
-              <span class="note" style="margin-left:auto">房态状态项与颜色来源于 系统管理 - 字典配置，可按需增删</span>
-            </div>
-          </div>
-        </div>
-
-        <div class="panel" style="flex:1;min-width:0">
-          <div class="ph">
-            <div class="tabs">
-              <div class="tb on">审批<span class="n">2</span></div>
-              <div class="tb">合同到期<span class="n">2</span></div>
-              <div class="tb">欠费<span class="n">1</span></div>
-              <div class="tb">工单<span class="n">1</span></div>
-            </div>
-          </div>
-          <div class="pb flush">
-            <div class="li-row">
-              <div class="grow"><div class="t">退租审批 · 滨江 3-502 · 王女士</div><div class="s">承租人申请提前退租，待运营主管审批</div></div>
-              <span class="tag due">待审批</span>
-            </div>
-            <div class="li-row">
-              <div class="grow"><div class="t">换租审批 · 城东 1-806 · 李先生</div><div class="s">申请由一居室换至两居室，差价待核算</div></div>
-              <span class="tag due">待审批</span>
-            </div>
-            <div class="li-row">
-              <div class="grow"><div class="t">合同 15 天后到期 · 城东 2-1103</div><div class="s">租户 张先生 · 月租 2,300 元 · 待跟进续签</div></div>
-              <span class="tag rsv">到期提醒</span>
-            </div>
-            <div class="li-row">
-              <div class="grow"><div class="t">合同 21 天后到期 · 临港 4-1201</div><div class="s">租户 周女士 · 月租 1,850 元 · 已发续签通知</div></div>
-              <span class="tag rsv">到期提醒</span>
-            </div>
-            <div class="li-row">
-              <div class="grow"><div class="t">欠费催缴 · 高新 7-208 · 欠 2,400 元</div><div class="s">已逾期 32 天 · 本月第二次催缴提醒</div></div>
-              <span class="tag red">欠费</span>
-            </div>
-            <div class="li-row">
-              <div class="grow"><div class="t">报修派单 · 大学城 5-301 · 水管漏水</div><div class="s">租户报修 2 小时前 · 待指派维修师傅</div></div>
-              <span class="tag fix">待派单</span>
+              <span class="note" style="margin-left:auto">房态颜色可在 系统管理-字典配置 调整</span>
             </div>
           </div>
         </div>
@@ -296,41 +305,48 @@
 
         <div class="col" style="flex:1;min-width:0">
           <div class="panel">
-            <div class="ph"><h3>近 6 个月收款趋势</h3><span class="more">单位：万元</span></div>
-            <div class="pb">
-              <div class="bars">
-                <div class="b dim"><span class="num">82.1</span><i style="height:20px"></i><span>4月</span></div>
-                <div class="b dim"><span class="num">85.4</span><i style="height:22px"></i><span>5月</span></div>
-                <div class="b dim"><span class="num">88.9</span><i style="height:23px"></i><span>6月</span></div>
-                <div class="b dim"><span class="num">90.2</span><i style="height:24px"></i><span>7月</span></div>
-                <div class="b dim"><span class="num">93.8</span><i style="height:26px"></i><span>8月</span></div>
-                <div class="b"><span class="num" style="color:var(--brand);font-weight:600">96.4</span><i style="height:28px"></i><span>9月</span></div>
+            <div class="ph">
+              <h3>收款趋势</h3>
+              <div class="more" style="display:flex;align-items:center;gap:8px;cursor:default">
+                <select class="yr-sel" id="trendYear" aria-label="年度筛选">
+                  <option value="2026" selected>2026</option>
+                  <option value="2025">2025</option>
+                </select>
+                <span>单位：万元</span>
               </div>
+            </div>
+            <div class="pb trend">
+              <svg id="trendChart" viewBox="0 0 600 94" style="width:100%;height:auto;display:block"></svg>
             </div>
           </div>
           <div class="panel">
             <div class="ph"><h3>即将到期合同</h3><span class="more">查看全部 →</span></div>
             <div class="pb flush">
-              <div class="li-row">
+              <a class="li-row clk" href="javascript:void(0)" style="color:inherit;text-decoration:none">
                 <div class="grow"><div class="t">城东 2-1103 · 张先生</div><div class="s">月租 2,300 元 · 已签 11 个月</div></div>
                 <span class="tag due num">15 天后</span>
-              </div>
-              <div class="li-row">
+                <span class="go">›</span>
+              </a>
+              <a class="li-row clk" href="javascript:void(0)" style="color:inherit;text-decoration:none">
                 <div class="grow"><div class="t">临港 4-1201 · 周女士</div><div class="s">月租 1,850 元 · 已签 1 年</div></div>
                 <span class="tag due num">21 天后</span>
-              </div>
-              <div class="li-row">
+                <span class="go">›</span>
+              </a>
+              <a class="li-row clk" href="javascript:void(0)" style="color:inherit;text-decoration:none">
                 <div class="grow"><div class="t">高新 6-904 · 吴先生</div><div class="s">月租 2,650 元 · 已签 2 年</div></div>
                 <span class="tag due num">28 天后</span>
-              </div>
-              <div class="li-row">
+                <span class="go">›</span>
+              </a>
+              <a class="li-row clk" href="javascript:void(0)" style="color:inherit;text-decoration:none">
                 <div class="grow"><div class="t">大学城 1-405 · 郑同学</div><div class="s">月租 1,200 元 · 已签 10 个月</div></div>
                 <span class="tag due num">34 天后</span>
-              </div>
-              <div class="li-row">
+                <span class="go">›</span>
+              </a>
+              <a class="li-row clk" href="javascript:void(0)" style="color:inherit;text-decoration:none">
                 <div class="grow"><div class="t">滨江 5-1702 · 林女士</div><div class="s">月租 3,100 元 · 已签 1 年</div></div>
                 <span class="tag due num">42 天后</span>
-              </div>
+                <span class="go">›</span>
+              </a>
             </div>
           </div>
         </div>
@@ -345,5 +361,53 @@
   </div>
 </div>
 <script src="assets/nav.js"></script>
+<script>
+/* 收款趋势折线图：2026/2025 两组演示数据，年度下拉切换 */
+(function(){
+  var DATA={
+    '2026':[78.5,80.2,81.0,82.1,85.4,88.9,90.2,93.8,96.4,97.1,98.6,99.2],
+    '2025':[70.2,72.5,71.8,74.0,76.3,77.9,79.4,81.2,83.0,84.5,85.8,87.2]
+  };
+  var BRAND='#2563eb', INK2='#5a6472', INK3='#9aa3b2', LINE2='#eef0f5';
+  var NS='http://www.w3.org/2000/svg';
+  var svg=document.getElementById('trendChart');
+  if(!svg)return;
+  var W=600,H=94,PT=15,PB=17,PL=12,PR=12;
+  function el(name,attrs){var n=document.createElementNS(NS,name);for(var k in attrs)n.setAttribute(k,attrs[k]);return n}
+  function render(year){
+    var d=DATA[year];
+    var min=Math.min.apply(null,d),max=Math.max.apply(null,d);
+    var lo=Math.floor(min-4),hi=Math.ceil(max+2);
+    function X(i){return PL+(W-PL-PR)*i/(d.length-1)}
+    function Y(v){return PT+(H-PT-PB)*(1-(v-lo)/(hi-lo))}
+    while(svg.firstChild)svg.removeChild(svg.firstChild);
+    /* 底线 */
+    svg.appendChild(el('line',{x1:PL,y1:H-PB,x2:W-PR,y2:H-PB,stroke:LINE2,'stroke-width':1}));
+    var pts=d.map(function(v,i){return [X(i),Y(v)]});
+    /* 浅面积底 */
+    var area=pts.map(function(p,i){return (i?'L':'M')+p[0].toFixed(1)+' '+p[1].toFixed(1)}).join(' ')
+      +'L'+pts[pts.length-1][0].toFixed(1)+' '+(H-PB)+'L'+pts[0][0].toFixed(1)+' '+(H-PB)+'Z';
+    svg.appendChild(el('path',{d:area,fill:BRAND,'fill-opacity':0.07,stroke:'none'}));
+    /* 折线 */
+    svg.appendChild(el('polyline',{
+      points:pts.map(function(p){return p[0].toFixed(1)+','+p[1].toFixed(1)}).join(' '),
+      fill:'none',stroke:BRAND,'stroke-width':2,'stroke-linejoin':'round','stroke-linecap':'round'
+    }));
+    /* 圆点 + 数值标签 + 月份轴 */
+    pts.forEach(function(p,i){
+      svg.appendChild(el('circle',{cx:p[0].toFixed(1),cy:p[1].toFixed(1),r:2.6,fill:'#fff',stroke:BRAND,'stroke-width':1.6}));
+      var t=el('text',{x:p[0].toFixed(1),y:(p[1]-6).toFixed(1),'text-anchor':'middle','font-size':9.5,fill:INK2});
+      t.textContent=d[i].toFixed(1);
+      svg.appendChild(t);
+      var m=el('text',{x:p[0].toFixed(1),y:H-5,'text-anchor':'middle','font-size':9.5,fill:INK3});
+      m.textContent=(i+1)+'月';
+      svg.appendChild(m);
+    });
+  }
+  render('2026');
+  var sel=document.getElementById('trendYear');
+  if(sel)sel.addEventListener('change',function(){render(this.value)});
+})();
+</script>
 </body>
 </html>

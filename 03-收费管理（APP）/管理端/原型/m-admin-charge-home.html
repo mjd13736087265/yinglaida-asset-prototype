@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 收费管理 · 英莱达资管</title>
+<link rel="stylesheet" href="../../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .m-head .loc svg{width:16px;height:16px;flex-shrink:0}
+  .m-head .m-bell svg{width:17px;height:17px}
+  .m-stats .c .vl.red{color:var(--red)}
+  .m-stats .c .vl.blue{color:var(--brand)}
+  .m-stats .c .vl.orange{color:var(--orange)}
+  .m-tiles .tl .ti svg{width:24px;height:24px}
+  .m-tiles .tl .tt{white-space:nowrap}
+  /* 待办行 */
+  .todo{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line2);color:inherit;text-decoration:none}
+  .todo:last-child{border-bottom:none}
+  .todo .grow{flex:1;min-width:0}
+  .todo .t{font-size:14px;font-weight:500}
+  .todo .s{font-size:12px;color:var(--ink3);margin-top:1px}
+  .todo .go{font-size:12.5px;color:var(--brand);flex-shrink:0}
+  /* 最近收款行 */
+  .pay-row{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line2)}
+  .pay-row:last-child{border-bottom:none}
+  .pay-row .grow{flex:1;min-width:0}
+  .pay-row .t{font-size:13.5px;font-weight:500}
+  .pay-row .s{font-size:12px;color:var(--ink3);margin-top:1px}
+  .pay-row .amt{font-size:15px;font-weight:700;text-align:right}
+  /* 小程序码入口条 */
+  .mp-code{display:flex;align-items:center;gap:10px;margin:12px 14px 0;background:#fff;border-radius:var(--r-md);padding:12px 14px;color:inherit;text-decoration:none}
+  .mp-code .qi{width:38px;height:38px;border-radius:10px;background:var(--brand-bg);color:var(--brand);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .mp-code .t{font-size:13.5px;font-weight:600}
+  .mp-code .s{font-size:12px;color:var(--ink3);margin-top:1px}
+  .mp-code .go{margin-left:auto;font-size:12.5px;color:var(--brand)}
+  .m-sec .note{margin-top:12px}
+  /* 演示数据角标下移，避开头部铃铛与切换按钮 */
+  .demo-mark{top:118px}
+  /* 画板 iframe 无缝嵌入模式（?embed=1）：去手机壳与舞台底 */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 收费管理（工作台）</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 蓝色头部：片区选择 + 今日实收 -->
+      <div class="m-head">
+        <div class="loc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s-6.5-5.5-6.5-10a6.5 6.5 0 1 1 13 0c0 4.5-6.5 10-6.5 10z"/><circle cx="12" cy="11.5" r="2.4"/></svg>
+          <span>全部片区 ▾</span>
+          <div class="m-bell">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18.5 9.5a6.5 6.5 0 1 0-13 0c0 5.5-2 6.5-2 6.5h17s-2-1-2-6.5z"/><path d="M10 19.5a2.2 2.2 0 0 0 4 0"/></svg>
+            <span class="bdg">6</span>
+          </div>
+          <details class="esw">
+            <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h11l-3.5-3.5"/><path d="M17 16H6l3.5 3.5"/></svg></summary>
+            <div class="esw-menu">
+              <a href="../../../03-收费管理（PC）/原型/pc-charge-home.html">PC 管理端</a>
+              <a href="../../../00-整体需求/主页原型/m-user-home.html">移动用户端</a>
+            </div>
+          </details>
+        </div>
+        <div class="big-lb">今日实收</div>
+        <div class="big num">¥3.86<small> 万 · 9 笔</small></div>
+        <div class="sub-line"><span>今日应收 <span class="num">12</span> 笔 · <span class="num">¥4.28</span> 万</span><span>新增欠费 <span class="num">1</span> 户</span></div>
+      </div>
+
+      <!-- 悬浮统计卡 -->
+      <div class="m-stats">
+        <div class="c"><div class="lb">待核销</div><div class="vl num orange">8<small> 笔</small></div></div>
+        <div class="c"><div class="lb">欠费</div><div class="vl num red">5.76<small> 万</small></div></div>
+        <div class="c"><div class="lb">本月回款率</div><div class="vl num blue">91.2<small> %</small></div></div>
+      </div>
+      <p style="margin:8px 14px 0"><span class="note">数据范围=当前所选片区 · 今日口径截至 <span class="num">2026-09-17 12:00</span></span></p>
+
+      <!-- 常用功能 2x2（现场场景优先） -->
+      <div class="m-sec">
+        <div class="st">常用功能</div>
+        <div class="m-tiles">
+          <a class="tl c-green" href="m-admin-verify.html" style="text-decoration:none">
+            <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M8.5 7.5L12 11.5l3.5-4"/><path d="M12 11.5V17"/><path d="M9 13.5h6M9 16h6"/></svg></div>
+            <div><div class="tt">收款登记</div><div class="ts">转账·现金到账登记</div></div>
+          </a>
+          <a class="tl c-blue" href="m-admin-verify.html" style="text-decoration:none">
+            <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14h1M14 20h1M18 18h3v3h-3z"/></svg></div>
+            <div><div class="tt">付款码</div><div class="ts">现场扫码·可选金额</div></div>
+          </a>
+          <a class="tl c-red" href="m-admin-overdue.html" style="text-decoration:none">
+            <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10v4a1 1 0 0 0 1 1h2l4.5 4V5L6.5 9h-2a1 1 0 0 0-1 1z"/><path d="M14.5 9.5a3.5 3.5 0 0 1 0 5"/><path d="M17.5 7a7 7 0 0 1 0 10"/></svg></div>
+            <div><div class="tt">一键催缴</div><div class="ts">系统通知·短信</div></div>
+          </a>
+          <a class="tl c-orange" href="m-admin-bills.html" style="text-decoration:none">
+            <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4"/><path d="M12 11v6M9 14h6"/></svg></div>
+            <div><div class="tt">账单管理</div><div class="ts">生成·代付·查账</div></div>
+          </a>
+        </div>
+      </div>
+
+      <!-- 待办 -->
+      <div class="m-sec">
+        <div class="st">待办</div>
+        <a class="todo" href="m-admin-verify.html">
+          <span class="dot" style="background:var(--orange)"></span>
+          <div class="grow">
+            <div class="t">待核销 <b class="num">8</b> 笔 · <span class="num">¥3.12万</span></div>
+            <div class="s">转账 / 现金 到账待确认</div>
+          </div>
+          <span class="go">去核销 ›</span>
+        </a>
+        <a class="todo" href="m-admin-overdue.html">
+          <span class="dot" style="background:var(--red)"></span>
+          <div class="grow">
+            <div class="t">欠费预警 <b class="num">23</b> 户 · <span class="num">¥5.76万</span></div>
+            <div class="s">含重点关注 3 户（刘某 / 恒创科技公司 / 赵某）</div>
+          </div>
+          <span class="go">去催缴 ›</span>
+        </a>
+        <a class="todo" href="m-admin-overdue.html">
+          <span class="dot" style="background:var(--red)"></span>
+          <div class="grow">
+            <div class="t">电话催收待办 <b class="num">5</b> 件</div>
+            <div class="s">提醒阶梯第 3 阶触发（逾期 7 天），需电话跟进并登记</div>
+          </div>
+          <span class="go">去跟进 ›</span>
+        </a>
+        <div class="todo" style="cursor:default">
+          <span class="dot" style="background:var(--brand)"></span>
+          <div class="grow">
+            <div class="t">发票申请待处理 <b class="num">3</b> 条</div>
+            <div class="s">租户申请 → 审批（M8）→ 财务开具送达</div>
+          </div>
+        </div>
+        <div class="note">发票审批、特殊处理、规则配置等复杂操作请在 PC 端处理；移动端定位轻量化现场办公</div>
+      </div>
+
+      <!-- 通用小程序码 -->
+      <a class="mp-code" href="javascript:void(0)">
+        <div class="qi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14h1M14 20h1M18 18h3v3h-3z"/></svg></div>
+        <div>
+          <div class="t">通用小程序码</div>
+          <div class="s">租户扫码直达小程序账单页 · 可查看 / 下载 / 转发</div>
+        </div>
+        <span class="go">查看 ›</span>
+      </a>
+
+      <!-- 最近收款记录 -->
+      <div class="m-sec" style="margin-bottom:14px">
+        <div class="st">最近收款<a class="more" href="m-admin-verify.html">全部 · 核销 ›</a></div>
+        <div class="pay-row">
+          <div class="grow">
+            <div class="t">张女士 · 滨江 1栋-301</div>
+            <div class="s num">09-17 10:24 · 银联</div>
+          </div>
+          <div class="amt num">¥1,850</div>
+          <span class="tag rent">已核销·自动</span>
+        </div>
+        <div class="pay-row">
+          <div class="grow">
+            <div class="t">李先生 · 滨江 1栋-302</div>
+            <div class="s num">09-17 09:51 · 转账 · 王芳</div>
+          </div>
+          <div class="amt num">¥1,850</div>
+          <span class="tag rent">已核销·人工</span>
+        </div>
+        <div class="pay-row">
+          <div class="grow">
+            <div class="t">郑女士 · 学府 2-310</div>
+            <div class="s num">09-16 14:40 · 现金</div>
+          </div>
+          <div class="amt num">¥2,600</div>
+          <span class="tag due">待核销</span>
+        </div>
+        <div class="note">先付后用：过应收日未缴清即逾期；账单按合同周期提前 15 天自动生成（规则配置在 PC 端）</div>
+      </div>
+
+    </div>
+
+    <!-- 底部 Tab（共享组件 m-tab.js 渲染；收费页面从工作台进入，暂不高亮 Tab，待导航定稿） -->
+    <div class="m-tab" id="amsTab" data-variant="admin" data-active="rent"></div>
+
+  </div>
+</div>
+
+<script src="../../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

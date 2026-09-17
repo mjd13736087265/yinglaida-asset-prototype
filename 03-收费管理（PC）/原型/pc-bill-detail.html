@@ -73,14 +73,14 @@
           </button>
           <button class="btn ghost">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="1.5"/><path d="M7 13h10v7H7z"/></svg>
-            开收据
+            申请收据
           </button>
           <button class="btn primary">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8V4h10v4"/><rect x="4" y="8" width="16" height="8" rx="1.5"/><path d="M9 13h6M9 17h6"/><path d="M7 13v8h10v-8"/></svg>
             打印账单
           </button>
         </div>
-        <div style="padding:0 18px 12px"><span class="note">本单已缴（自动核销）：核销 / 催缴按钮置灰逻辑同列表页，此处静态展示全量操作位；催缴出话术模板 + 发送记录弹窗，开收据走 票据管理 模板</span></div>
+        <div style="padding:0 18px 12px"><span class="note">本单已缴（自动核销）：核销 / 催缴按钮置灰逻辑同列表页，此处静态展示全量操作位；催缴出话术模板 + 发送记录弹窗；收据 / 发票为申请制（支持部分金额），申请入口见 票据管理</span></div>
       </div>
 
       <!-- 账单信息卡 -->
@@ -184,7 +184,7 @@
               </tbody>
             </table>
           </div>
-          <div style="padding:10px 18px"><span class="note">支付方式三种：银联（在线）/ 转账 / 现金；转账需登记付款方信息</span></div>
+          <div style="padding:10px 18px"><span class="note">支付方式三种：银联（在线）/ 转账 / 现金，转账需登记付款方信息；核销支持全部 / 部分核销（部分核销余额留账单，全部核销有差额走特殊处理）</span></div>
         </div>
         <div class="panel" style="flex:1;min-width:0">
           <div class="ph"><h3>票据状态</h3></div>
@@ -193,20 +193,20 @@
               <span class="tag rent">收据已开</span>
               <span class="num" style="font-weight:600">SJ-XQ05-2026-0001</span>
             </div>
-            <div style="font-size:12.5px;color:var(--ink3)">按实收自动生成 · 编号规则 SJ+片区编号+年份+流水号，各片区独立流水</div>
+            <div style="font-size:12.5px;color:var(--ink3)">收据为申请制 · 申请即开并推送租户（本单为全额开具）；编号规则 SJ+片区编号+年份+流水号，各片区独立流水</div>
             <div>
               <button class="btn ghost">
                 <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M2.5 12S6 5.5 12 5.5 21.5 12 21.5 12 18 18.5 12 18.5 2.5 12 2.5 12z"/><circle cx="12" cy="12" r="3"/></svg>
                 预览收据
               </button>
             </div>
-            <div><span class="note">同一笔收款发票收据互斥；换开发票后收据作废留痕（票据管理）</span></div>
+            <div><span class="note">可申请金额 = 账单金额 − 已开票 − 已开收据；发票与收据可对同一账单分别部分开具；发票需审批后财务上传，收据申请即开（票据管理）</span></div>
           </div>
         </div>
       </div>
 
       <!-- 待缴·逾期形态说明 -->
-      <p style="margin-top:16px"><span class="note">待缴 · 逾期形态说明：过应收日未缴清即逾期，逾期账单进入欠费台账（红橙黄分层、逾期天数倒序）并触发提醒阶梯（短信 / 小程序服务通知，逾期 7 天生成电话催收待办），详见 <a href="pc-overdue.html">欠费管理</a></span></p>
+      <p style="margin-top:16px"><span class="note">待缴 · 逾期形态说明：过应收日未缴清即逾期，逾期账单进入欠费台账（红橙黄分层、逾期天数倒序）并触发提醒阶梯（短信 / 系统内部通知，逾期 7 天生成电话催收待办），详见 <a href="pc-overdue.html">欠费管理</a></span></p>
 
     </div>
   </div>

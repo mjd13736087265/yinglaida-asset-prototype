@@ -63,14 +63,14 @@
     { g: '财务' },
     { id: 'contract', text: '合同管理',       icon: IC.contract },
     { id: 'rent',     text: '收费管理',       icon: IC.rent, children: [
-      { id: 'charge-home',     text: '收费工作台', href: root + '03-收费管理/原型/pc-charge-home.html' },
-      { id: 'charge-bills',    text: '账单管理',   href: root + '03-收费管理/原型/pc-bills.html' },
-      { id: 'charge-verify',   text: '收款核销',   href: root + '03-收费管理/原型/pc-verify.html' },
-      { id: 'charge-overdue',  text: '欠费管理',   href: root + '03-收费管理/原型/pc-overdue.html' },
-      { id: 'charge-deposit',  text: '押金管理',   href: root + '03-收费管理/原型/pc-deposit.html' },
-      { id: 'charge-special',  text: '特殊处理',   href: root + '03-收费管理/原型/pc-special.html' },
-      { id: 'charge-invoice',  text: '票据管理',   href: root + '03-收费管理/原型/pc-invoice.html' },
-      { id: 'charge-settings', text: '规则配置',   href: root + '03-收费管理/原型/pc-charge-settings.html' }
+      { id: 'charge-home',     text: '收费工作台', href: root + '03-收费管理（PC）/原型/pc-charge-home.html' },
+      { id: 'charge-bills',    text: '账单管理',   href: root + '03-收费管理（PC）/原型/pc-bills.html' },
+      { id: 'charge-verify',   text: '收款核销',   href: root + '03-收费管理（PC）/原型/pc-verify.html' },
+      { id: 'charge-overdue',  text: '欠费管理',   href: root + '03-收费管理（PC）/原型/pc-overdue.html' },
+      { id: 'charge-deposit',  text: '押金管理',   href: root + '03-收费管理（PC）/原型/pc-deposit.html' },
+      { id: 'charge-special',  text: '特殊处理',   href: root + '03-收费管理（PC）/原型/pc-special.html' },
+      { id: 'charge-invoice',  text: '票据管理',   href: root + '03-收费管理（PC）/原型/pc-invoice.html' },
+      { id: 'charge-settings', text: '规则配置',   href: root + '03-收费管理（PC）/原型/pc-charge-settings.html' }
     ] },
     { id: 'meter',    text: '水电管理',       icon: IC.meter },
     { g: '服务' },
@@ -95,7 +95,21 @@
   + '.mi-subs.open{display:block}'
   + '.mi-sub{display:flex;align-items:center;gap:10px;padding:9px 18px 9px 44px;font-size:13px;cursor:pointer;border-left:3px solid transparent;user-select:none;color:inherit;text-decoration:none}'
   + '.mi-sub:hover{background:var(--navy-hi);color:#fff}'
-  + '.mi-sub.on{background:var(--navy-hi);color:#fff;border-left-color:#4f83ff}';
+  + '.mi-sub.on{background:var(--navy-hi);color:#fff;border-left-color:#4f83ff}'
+  /* 侧边栏「小程序码」入口与弹层 */
+  + '.navqr{display:flex;align-items:center;gap:10px;margin:8px 12px 0;padding:9px 12px;border:1px dashed rgba(255,255,255,.28);border-radius:8px;font-size:13px;color:#c7d2e8;cursor:pointer;user-select:none}'
+  + '.navqr:hover{background:var(--navy-hi);color:#fff}'
+  + '.navqr svg{flex-shrink:0}'
+  + '.qrmask{position:fixed;inset:0;background:rgba(15,23,42,.45);display:flex;align-items:center;justify-content:center;z-index:999}'
+  + '.qrmask[hidden]{display:none}'
+  + '.qrcard{width:300px;background:#fff;border-radius:12px;padding:22px 22px 16px;text-align:center;box-shadow:0 12px 40px rgba(0,0,0,.18)}'
+  + '.qrcard h4{margin:0 0 4px;font-size:15px;color:#1f2d3d}'
+  + '.qrcard .sub{font-size:12px;color:#8a94a6;margin-bottom:14px;line-height:1.6}'
+  + '.qrcard .qrbox{width:180px;height:180px;margin:0 auto 14px;border:1px solid #e4e9f2;border-radius:10px;display:flex;align-items:center;justify-content:center;background:#fafbfc}'
+  + '.qrcard .acts{display:flex;gap:10px;justify-content:center;border-top:1px solid #eef1f6;padding-top:14px}'
+  + '.qrcard .acts button{flex:1;height:34px;border-radius:7px;border:1px solid #d7dee9;background:#fff;font-size:13px;color:#3c4a63;cursor:pointer}'
+  + '.qrcard .acts button.pri{background:#2f6bff;border-color:#2f6bff;color:#fff}'
+  + '.qrcard .acts button:hover{filter:brightness(.96)}';
   document.head.appendChild(st);
 
   var h = '';
@@ -137,6 +151,11 @@
   });
   h += '</nav>';
 
+  /* 侧边栏「小程序码」入口（通用小程序码，点击弹层查看 / 下载 / 转发） */
+  h += '<div class="navqr" id="navQrBtn">'
+     + '<svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><path d="M14 14h3v3h-3zM20 14h1M14 20h1M18 18h3v3h-2"/></svg>'
+     + '小程序码</div>';
+
   /* 底部「切换演示端」上弹菜单 */
   h += '<details class="endsw">'
      + '<summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h11l-3.5-3.5"/><path d="M17 16H6l3.5 3.5"/></svg>切换演示端'
@@ -151,6 +170,36 @@
   h += '<div class="who">' + ver + '</div>';
 
   mount.innerHTML = h;
+
+  /* 小程序码弹层：二维码为原型占位（SVG 伪码），正式环境替换为真实小程序码图片 */
+  function qrPlaceholder() {
+    var n = 21, c = 8, out = '', seed = 7, x, y;
+    for (y = 0; y < n; y++) for (x = 0; x < n; x++) {
+      if ((x < 8 && y < 8) || (x >= n - 8 && y < 8) || (x < 8 && y >= n - 8)) continue;
+      seed = (seed * 1103515245 + 12345) % 2147483648;
+      if (seed % 5 < 2) out += '<rect x="' + x * c + '" y="' + y * c + '" width="' + c + '" height="' + c + '" fill="#1f2d3d"/>';
+    }
+    function finder(px, py) {
+      return '<rect x="' + px * c + '" y="' + py * c + '" width="' + 7 * c + '" height="' + 7 * c + '" fill="#1f2d3d"/>'
+           + '<rect x="' + (px + 1) * c + '" y="' + (py + 1) * c + '" width="' + 5 * c + '" height="' + 5 * c + '" fill="#fff"/>'
+           + '<rect x="' + (px + 2) * c + '" y="' + (py + 2) * c + '" width="' + 3 * c + '" height="' + 3 * c + '" fill="#1f2d3d"/>';
+    }
+    return '<svg width="160" height="160" viewBox="0 0 ' + n * c + ' ' + n * c + '">' + out + finder(0, 0) + finder(n - 7, 0) + finder(0, n - 7) + '</svg>';
+  }
+  var qm = document.createElement('div');
+  qm.className = 'qrmask';
+  qm.hidden = true;
+  qm.innerHTML = '<div class="qrcard">'
+    + '<h4>「英莱达公寓」小程序码</h4>'
+    + '<div class="sub">通用小程序码 · 租户扫码直达小程序账单页<br>可下载张贴 / 转发给租户，配合催缴使用</div>'
+    + '<div class="qrbox">' + qrPlaceholder() + '</div>'
+    + '<div class="acts"><button data-qr="close">关闭</button><button data-qr="dl">下载图片</button><button class="pri" data-qr="fwd">转发给租户</button></div>'
+    + '</div>';
+  document.body.appendChild(qm);
+  document.getElementById('navQrBtn').addEventListener('click', function () { qm.hidden = false });
+  qm.addEventListener('click', function (e) {
+    if (e.target === qm || e.target.getAttribute('data-qr') === 'close') { qm.hidden = true; }
+  });
 
   /* 子菜单组展开/收起交互（toggle，不跳转） */
   mount.querySelectorAll('.mi-parent').forEach(function (p) {

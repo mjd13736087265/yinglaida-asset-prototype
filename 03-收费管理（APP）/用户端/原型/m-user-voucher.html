@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动用户端 · 凭证申请 · 英莱达公寓</title>
+<link rel="stylesheet" href="../../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .u-top{display:flex;align-items:center;gap:6px;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 10px;flex-shrink:0}
+  .u-top .u-tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .u-top .u-back{display:flex;color:var(--ink2);flex-shrink:0}
+  .u-top .u-back svg{width:20px;height:20px}
+  .tabpane{display:none}
+  .tabpane.on{display:block}
+  /* 申请表单 */
+  .vform{margin:12px 14px 0;background:#fff;border-radius:var(--r-md);padding:14px}
+  .vform h5{font-size:13px;font-weight:600;margin:14px 0 8px;display:flex;align-items:center;gap:8px}
+  .vform h5:first-child{margin-top:0}
+  .vform h5::before{content:"";width:4px;height:13px;border-radius:2px;background:var(--brand)}
+  .f-item{margin-bottom:10px}
+  .f-item label{font-size:13px;color:var(--ink2)}
+  .f-item .inp,.f-item .sel{width:100%;height:40px;margin-top:4px}
+  .f-item .help{font-size:12px;color:var(--ink3);margin-top:4px}
+  /* 可申请余额条 */
+  .avail{display:flex;align-items:center;gap:8px;background:var(--brand-bg);border-radius:10px;padding:10px 12px;font-size:13px;color:var(--ink2);margin-top:8px}
+  .avail b{color:var(--brand);font-size:17px;font-weight:700}
+  /* 类型选择 */
+  .vtype{display:flex;gap:10px}
+  .vtype label{flex:1;display:flex;flex-direction:column;align-items:center;gap:4px;border:1px solid var(--line);border-radius:10px;padding:12px 8px;font-size:13.5px;cursor:pointer}
+  .vtype input[type=radio]{width:16px;height:16px;accent-color:var(--brand)}
+  .vtype .vs{font-size:11.5px;color:var(--ink3)}
+  /* 金额分配两行 */
+  .alloc{display:flex;gap:10px}
+  .alloc .f-item{flex:1}
+  /* 申请记录卡 */
+  .rl{display:flex;flex-direction:column;gap:10px;margin:12px 14px 0}
+  .rc{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:13px 14px}
+  .rc .t{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600}
+  .rc .amt{font-size:16px;font-weight:700;margin-left:auto}
+  .rc .s{font-size:12.5px;color:var(--ink2);margin-top:6px}
+  .rc .ops{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line2)}
+  .rc .ops .btn{flex:1;height:34px;font-size:13px}
+  /* 进度条 */
+  .prog{display:flex;align-items:center;gap:6px;font-size:11.5px;color:var(--ink3);margin-top:8px}
+  .prog .p{padding:2px 8px;border-radius:999px;background:var(--paper)}
+  .prog .p.on{background:var(--brand-bg);color:var(--brand);font-weight:600}
+  .prog .p.done{background:var(--green-bg);color:var(--green)}
+  /* 白色顶栏下 demo-mark 反色并下移，避开顶栏切换按钮 */
+  .demo-mark{color:var(--ink3);border-color:var(--line);top:96px}
+  /* 画板 iframe 无缝嵌入模式（?embed=1）：去手机壳与舞台底 */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">用户端 · 凭证申请</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 白色顶栏 -->
+      <div class="u-top">
+        <a class="u-back" href="m-user-bills.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>
+        <div class="u-tt">凭证申请</div>
+        <span style="width:20px"></span>
+      </div>
+
+      <!-- TAB：发起申请 / 申请记录 -->
+      <div class="chips" style="margin-top:12px;border:1px solid var(--line);border-radius:var(--r-md);margin-left:14px;margin-right:14px">
+        <span class="chip on" data-tab="p1">发起申请</span>
+        <span class="chip" data-tab="p2">申请记录 <b class="num">3</b></span>
+      </div>
+
+      <!-- ========== 发起申请 ========== -->
+      <div class="tabpane on" id="p1">
+        <div class="vform">
+
+          <h5>选择账单（仅已缴账单可申请）</h5>
+          <div class="f-item">
+            <select class="sel">
+              <option>2026-08 租金 · 1栋-301 · ¥1,850（已缴清）</option>
+              <option>2026-08 租金 · 2栋-401 · ¥1,380（已缴清）</option>
+              <option>2026-07 租金 · 1栋-301 · ¥1,850（已缴清）</option>
+            </select>
+          </div>
+          <div class="avail"><span style="white-space:nowrap">可申请余额</span><b class="num">¥1,850.00</b><span>＝ 账单 ¥1,850 − 已开发票 ¥0 − 已开收据 ¥0</span></div>
+
+          <h5>凭证类型与金额分配（同一账单内自由分配，累计 ≤ 可申请余额）</h5>
+          <div class="vtype">
+            <label><input type="radio" name="vt" checked>收据<span class="vs">申请即送达 · 无需审批</span></label>
+            <label><input type="radio" name="vt">发票<span class="vs">需审批 · 开具后短信送达</span></label>
+          </div>
+          <div class="alloc" style="margin-top:10px">
+            <div class="f-item"><label>收据金额</label><input class="inp num" value="850.00" style="text-align:right"></div>
+            <div class="f-item"><label>发票金额</label><input class="inp num" value="1000.00" style="text-align:right"></div>
+          </div>
+
+          <h5>发票信息（选发票时填写）</h5>
+          <div class="f-item">
+            <select class="sel">
+              <option>个人抬头</option>
+              <option>单位抬头</option>
+            </select>
+          </div>
+          <div class="f-item"><label>接收邮箱（PDF 发送）</label><input class="inp" value="zhang***@163.com"></div>
+
+          <h5>备注（选填）</h5>
+          <div class="f-item"><textarea class="ta" style="width:100%" placeholder="如：收据请备注租期"></textarea></div>
+
+          <div class="note" style="display:flex">收据申请后直接推送（发起即给客户，无审批）；发票需审批人审批 → 财务开具 → 短信通知含 PDF 下载链接</div>
+
+          <button class="btn primary" style="width:100%;height:44px;font-size:15px;margin-top:12px">提交申请</button>
+        </div>
+
+        <div class="note" style="margin:12px 14px 14px">演示账号张女士为发票白名单用户，故可见「发票」选项；非白名单用户仅可申请收据，入口统一叫「凭证申请」</div>
+      </div>
+
+      <!-- ========== 申请记录 ========== -->
+      <div class="tabpane" id="p2">
+        <div class="rl">
+
+          <div class="rc">
+            <div class="t">收据 · 2026-08 租金 1栋-301<span class="amt num">¥850.00</span></div>
+            <div class="s num">09-16 申请 · 编号 SJ-XQ05-2026-0033</div>
+            <div class="prog"><span class="p done">已送达</span><span>申请即给客户，无需审批</span></div>
+            <div class="ops">
+              <button class="btn ghost">查看收据</button>
+              <button class="btn primary">下载 / 转发</button>
+            </div>
+          </div>
+
+          <div class="rc">
+            <div class="t">发票 · 2026-08 租金 1栋-301<span class="amt num">¥1,000.00</span></div>
+            <div class="s num">09-16 申请 · 个人抬头</div>
+            <div class="prog"><span class="p done">审批通过</span><span class="p on">财务开具中</span><span class="p">短信送达</span></div>
+            <div class="ops"><button class="btn ghost" style="flex:1">查看进度</button></div>
+          </div>
+
+          <div class="rc">
+            <div class="t">发票 · 2026-08 租金 2栋-401<span class="amt num">¥1,380.00</span></div>
+            <div class="s num">09-02 申请 · 09-03 开具 · 短信已送达</div>
+            <div class="prog"><span class="p done">审批通过</span><span class="p done">已开具</span><span class="p done">已送达</span></div>
+            <div class="ops">
+              <button class="btn ghost">查看发票</button>
+              <button class="btn primary">下载 PDF</button>
+            </div>
+          </div>
+
+        </div>
+        <div class="note" style="margin:12px 14px 14px">发票开具完成后自动短信通知（含 PDF 链接，短信通道待接入）；收据为 A5 一联，可在线查看 / 下载</div>
+      </div>
+
+    </div>
+
+    <!-- 底部 Tab（共享组件 m-tab.js 渲染；二级页不高亮） -->
+    <div class="m-tab" id="amsTab" data-variant="user" data-active=""></div>
+
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.chips .chip[data-tab]').forEach(function (tb) {
+    tb.addEventListener('click', function () {
+      document.querySelectorAll('.chips .chip').forEach(function (x) { x.classList.remove('on') })
+      document.querySelectorAll('.tabpane').forEach(function (x) { x.classList.remove('on') })
+      tb.classList.add('on')
+      document.getElementById(tb.getAttribute('data-tab')).classList.add('on')
+    })
+  })
+</script>
+<script src="../../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

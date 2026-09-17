@@ -44,7 +44,7 @@
     admin: [
       { id: 'home', text: '工作台', href: base + 'm-admin-home.html',                  icon: IC.aHome },
       { id: 'area', text: '片区',   href: root + '02-片区管理/原型/m-admin-areas.html', icon: IC.build },
-      { id: 'rent', text: '收租',                                                      icon: IC.coin },
+      { id: 'rent', text: '收费',   href: root + '03-收费管理（APP）/管理端/原型/m-admin-charge-home.html', icon: IC.coin },
       { id: 'my',   text: '我的',                                                      icon: IC.user }
     ],
     user: [

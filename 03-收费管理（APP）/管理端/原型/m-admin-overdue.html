@@ -1,0 +1,243 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 欠费管理 · 英莱达资管</title>
+<link rel="stylesheet" href="../../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .m-head{padding:44px 18px 18px;border-radius:0 0 18px 18px}
+  .mh-row{display:flex;align-items:center;gap:8px;font-size:17px;font-weight:600}
+  .mh-row svg{width:20px;height:20px;flex-shrink:0}
+  .mh-row .esw{margin-left:auto}
+  .a-bar{display:flex;align-items:center;gap:8px;margin:12px 14px 0;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:10px 12px;font-size:12.5px;color:var(--ink2)}
+  .a-bar b{color:var(--ink);font-weight:600}
+  /* 台账统计条 */
+  .ostat{display:flex;margin:12px 14px 0;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:12px 6px}
+  .ostat .os{flex:1;text-align:center;min-width:0}
+  .ostat .os+.os{border-left:1px solid var(--line2)}
+  .ostat .v{font-size:18px;font-weight:700;line-height:1.3}
+  .ostat .l{font-size:11.5px;color:var(--ink3);margin-top:2px}
+  /* 欠费卡 */
+  .ol{display:flex;flex-direction:column;gap:10px;margin:12px 14px 0}
+  .oc{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:13px 14px}
+  .oc .t{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600}
+  .oc .amt{font-size:17px;font-weight:700;color:var(--red);margin-left:auto}
+  .oc .s{font-size:12.5px;color:var(--ink2);margin-top:6px;display:flex;align-items:center;gap:6px;flex-wrap:wrap}
+  .oc .his{font-size:12px;color:var(--ink3);margin-top:8px;display:flex;align-items:center;gap:6px}
+  .oc .ops{display:flex;gap:8px;margin-top:10px;padding-top:10px;border-top:1px solid var(--line2)}
+  .oc .ops .btn{flex:1;height:36px;font-size:13.5px}
+  .oc.focus{border-color:#f3caca;background:#fffafa}
+  /* 批量催缴条 */
+  .batch{display:flex;align-items:center;gap:10px;margin:12px 14px 0;background:var(--panel);border:1px dashed var(--line);border-radius:var(--r-md);padding:11px 14px;font-size:13px;color:var(--ink2)}
+  .batch .btn{margin-left:auto;height:34px;padding:0 14px;font-size:13px}
+  /* 总计条 */
+  .sum-bar{margin:12px 14px 14px;background:var(--brand-bg);border-radius:var(--r-md);padding:11px 14px;font-size:12.5px;color:var(--ink2)}
+  .sum-bar b{color:var(--ink);font-weight:700}
+  /* 弹层 */
+  .sheet{position:absolute;inset:0;background:rgba(15,23,42,.45);z-index:40;display:none;align-items:flex-end}
+  .sheet.on{display:flex}
+  .sheet .sh{background:#fff;border-radius:16px 16px 0 0;width:100%;max-height:88%;overflow-y:auto;padding:16px 16px 20px;scrollbar-width:none}
+  .sheet .sh::-webkit-scrollbar{display:none}
+  .sheet .sh-t{display:flex;align-items:center;font-size:15px;font-weight:600;margin-bottom:6px}
+  .sheet .sh-t .x{margin-left:auto;color:var(--ink3);font-size:20px;cursor:pointer;line-height:1}
+  .sheet .sh-s{font-size:12.5px;color:var(--ink3);margin-bottom:12px}
+  .sheet h5{font-size:13px;font-weight:600;margin:14px 0 8px;display:flex;align-items:center;gap:8px}
+  .sheet h5::before{content:"";width:4px;height:13px;border-radius:2px;background:var(--brand)}
+  .sheet .note{display:flex;margin-top:10px}
+  /* 话术模板卡 */
+  .tpl{display:flex;gap:8px;border:1px solid var(--line);border-radius:10px;padding:11px 12px;margin-bottom:8px;cursor:pointer;font-size:13px;line-height:1.5}
+  .tpl input[type=radio]{width:17px;height:17px;accent-color:var(--brand);margin-top:2px;flex-shrink:0}
+  .tpl .tt{font-weight:600}
+  .tpl .ts{color:var(--ink3);font-size:12px;margin-top:2px;display:block}
+  .tpl.on{border-color:var(--brand);background:var(--brand-bg)}
+  /* 渠道勾选 */
+  .chan{display:flex;gap:10px}
+  .chan label{flex:1;display:flex;align-items:center;justify-content:center;gap:7px;border:1px solid var(--line);border-radius:10px;padding:10px;font-size:13.5px;cursor:pointer}
+  .chan input[type=checkbox]{width:16px;height:16px;accent-color:var(--brand)}
+  /* 画板 iframe 无缝嵌入模式（?embed=1）：去手机壳与舞台底 */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 欠费管理</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 蓝色头部 -->
+      <div class="m-head">
+        <div class="mh-row">
+          <a href="m-admin-charge-home.html" style="color:inherit;display:flex"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>
+          欠费管理
+          <details class="esw">
+            <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h11l-3.5-3.5"/><path d="M17 16H6l3.5 3.5"/></svg></summary>
+            <div class="esw-menu">
+              <a href="../../../03-收费管理（PC）/原型/pc-overdue.html">PC 管理端</a>
+              <a href="../../../00-整体需求/主页原型/m-user-home.html">移动用户端</a>
+            </div>
+          </details>
+        </div>
+      </div>
+
+      <!-- 片区范围（第一行） -->
+      <div class="a-bar">片区范围：<b>全部片区 ▾</b> · 业态：<b>公寓</b></div>
+
+      <!-- 台账统计 -->
+      <div class="ostat">
+        <div class="os"><div class="v num" style="color:var(--red)">¥5.76万</div><div class="l">欠费总额</div></div>
+        <div class="os"><div class="v num">23</div><div class="l">欠费户数</div></div>
+        <div class="os"><div class="v num" style="color:var(--orange)">3</div><div class="l">逾期 30 天以上</div></div>
+      </div>
+      <p style="margin:8px 14px 0"><span class="note">按逾期天数从多到少排序 · 数据范围=当前所选片区</span></p>
+
+      <!-- 费用类型筛选 -->
+      <div class="chips" style="margin-top:10px;border:1px solid var(--line);border-radius:var(--r-md);margin-left:14px;margin-right:14px">
+        <span class="chip on">全部费用</span>
+        <span class="chip">租金</span>
+        <span class="chip">水电（手工清单占位）</span>
+        <span class="chip">其他</span>
+      </div>
+
+      <!-- 批量催缴 -->
+      <div class="batch">
+        <span style="flex:1;min-width:0">勾选多户后可批量催缴 · 已选 <b class="num" style="color:var(--ink)">3</b> 人</span>
+        <button class="btn primary" data-open="shUrge" style="white-space:nowrap">批量催缴</button>
+      </div>
+
+      <!-- 欠费卡列表 -->
+      <div class="ol">
+
+        <div class="oc focus">
+          <div class="t">恒创科技有限公司<span class="tag red">重点关注</span><span class="amt num">¥42,000</span></div>
+          <div class="s">云谷创业园区 1-整层 · 租金<span class="tag red">逾期 46 天</span></div>
+          <div class="his">最近催缴：催缴函已发 09-03 · 已签收；电话催收待跟进</div>
+          <div class="ops">
+            <button class="btn primary" data-open="shUrge">催缴</button>
+            <button class="btn ghost">催缴记录</button>
+          </div>
+        </div>
+
+        <div class="oc focus">
+          <div class="t">刘某<span class="tag red">重点关注</span><span class="amt num">¥5,400</span></div>
+          <div class="s">梧桐公寓楼 2-505 · 租金<span class="tag red">逾期 38 天</span></div>
+          <div class="his">最近催缴：短信已发 09-10 · 未回复</div>
+          <div class="ops">
+            <button class="btn primary" data-open="shUrge">催缴</button>
+            <button class="btn ghost">催缴记录</button>
+          </div>
+        </div>
+
+        <div class="oc focus">
+          <div class="t">赵某<span class="tag red">重点关注</span><span class="amt num">¥3,700</span></div>
+          <div class="s">临港智造园区 4-210 · 租金<span class="tag red">逾期 31 天</span></div>
+          <div class="his">最近催缴：系统通知已发 09-12 · 已读未缴</div>
+          <div class="ops">
+            <button class="btn primary" data-open="shUrge">催缴</button>
+            <button class="btn ghost">催缴记录</button>
+          </div>
+        </div>
+
+        <div class="oc">
+          <div class="t">张女士<span class="amt num">¥1,850</span></div>
+          <div class="s">滨江科创园区 1栋-301 · 租金<span class="tag due">逾期 16 天</span></div>
+          <div class="his">最近催缴：系统通知已发 09-08 · 未读</div>
+          <div class="ops">
+            <button class="btn primary" data-open="shUrge">催缴</button>
+            <button class="btn ghost">催缴记录</button>
+          </div>
+        </div>
+
+        <div class="oc">
+          <div class="t">周先生<span class="amt num">¥1,600</span></div>
+          <div class="s">学府青年园区 3-118 · 租金<span class="tag due">逾期 9 天</span></div>
+          <div class="his">最近催缴：温馨提醒已发 09-15 · 未读</div>
+          <div class="ops">
+            <button class="btn primary" data-open="shUrge">催缴</button>
+            <button class="btn ghost">催缴记录</button>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- 总计行 -->
+      <div class="sum-bar">本页合计：欠费 <b class="num">23</b> 户 · <b class="num">¥5.76万</b>（逾期 30 天以上 <b class="num" style="color:var(--red)">3</b> 户 · <b class="num">¥5.11万</b>）</div>
+
+      <div class="note" style="margin:0 14px 14px">线上断水断电不做（法律风险），统一线下处理；提醒阶梯与话术模板在 PC 端 规则配置 维护；电话催收结果在 PC 端登记</div>
+
+    </div>
+
+    <!-- ========== 弹层：催缴（单户 / 批量共用） ========== -->
+    <div class="sheet" id="shUrge">
+      <div class="sh">
+        <div class="sh-t">催缴 · 已选 <span class="num">3</span> 人<span class="x" data-close>×</span></div>
+        <div class="sh-s">恒创科技有限公司（逾期 46 天）、刘某（38 天）、赵某（31 天）</div>
+
+        <h5>选择话术模板（按严重程度分级，单选）</h5>
+        <label class="tpl">
+          <input type="radio" name="tpl">
+          <span><span class="tt">模板 A · 温馨提醒</span><span class="ts">尊敬的租户，您的 {月份} 租金 {金额} 已逾期 {天数} 天，请尽快缴纳，谢谢配合。</span></span>
+        </label>
+        <label class="tpl on">
+          <input type="radio" name="tpl" checked>
+          <span><span class="tt">模板 B · 正式催缴</span><span class="ts">您已逾期 {天数} 天，欠费 {金额}。请于 3 日内缴清，逾期将按合同约定处理并影响续租资格。</span></span>
+        </label>
+        <label class="tpl">
+          <input type="radio" name="tpl">
+          <span><span class="tt">模板 C · 最后通牒</span><span class="ts">截至今日您已欠费 {金额}，逾期 {天数} 天。请于 3 日内缴清，否则将启动合同约定的解约与追偿程序。</span></span>
+        </label>
+
+        <h5>通知渠道（仅两种）</h5>
+        <div class="chan">
+          <label><input type="checkbox" checked>系统内部通知</label>
+          <label><input type="checkbox" checked>短信</label>
+        </div>
+
+        <span class="note">每人保留完整催缴记录；同一租户 24 小时内不重复推送（防骚扰）；短信通道待接入</span>
+
+        <div style="display:flex;gap:10px;margin-top:14px">
+          <button class="btn ghost" style="flex:1" data-close>取消</button>
+          <button class="btn primary" style="flex:1">发送催缴</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- 底部 Tab（共享组件 m-tab.js 渲染） -->
+    <div class="m-tab" id="amsTab" data-variant="admin" data-active="rent"></div>
+
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('[data-open]').forEach(function (b) {
+    b.addEventListener('click', function () { document.getElementById(b.getAttribute('data-open')).classList.add('on') })
+  })
+  document.querySelectorAll('.sheet').forEach(function (m) {
+    m.querySelectorAll('[data-close]').forEach(function (b) {
+      b.addEventListener('click', function () { m.classList.remove('on') })
+    })
+    m.addEventListener('click', function (e) { if (e.target === m) m.classList.remove('on') })
+  })
+  /* 话术模板选中态 */
+  document.querySelectorAll('.tpl input').forEach(function (r) {
+    r.addEventListener('change', function () {
+      document.querySelectorAll('.tpl').forEach(function (t) { t.classList.remove('on') })
+      r.closest('.tpl').classList.add('on')
+    })
+  })
+</script>
+<script src="../../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

@@ -32,6 +32,9 @@
   /* 简介 */
   .intro{background:var(--panel);padding:2px 14px 16px;font-size:13.5px;color:var(--ink2);line-height:1.75}
   .note-row{margin:10px 14px 14px}
+  /* 列表行内跳转链接（查看合同） */
+  .m-rows a.r{color:inherit;text-decoration:none}
+  .m-rows .r .v.lk{color:var(--brand)}
   /* 画板 iframe 无缝嵌入模式（?embed=1）：去手机壳与舞台底 */
   body.embed{display:block;padding:0;min-height:auto;background:transparent}
   body.embed .cap{display:none}
@@ -90,6 +93,7 @@
         <div class="r"><span class="k">租金</span><span class="v num">1,850 元/月</span></div>
         <div class="r"><span class="k">押金方式</span><span class="v">押一付一</span></div>
         <div class="r"><span class="k">物业费</span><span class="v">已含</span></div>
+        <a class="r" href="javascript:void(0)"><span class="k">合同</span><span class="v lk">查看合同 →</span></a>
       </div>
 
       <!-- 配套设施 -->

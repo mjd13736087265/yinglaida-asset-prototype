@@ -88,6 +88,12 @@
   /* 页签内容切换 */
   .tabpane{display:none}
   .tabpane.on{display:block}
+
+  /* 合计行 */
+  .sumrow td{background:var(--brand-bg);font-weight:700;color:var(--ink);border-top:2px solid var(--line)}
+
+  /* 弹窗内容可滚动（防止弹窗过高遮挡底部按钮） */
+  .modal .mb{max-height:72vh;overflow-y:auto}
 </style>
 </head>
 <body>
@@ -135,10 +141,6 @@
           <span class="tb" data-tab="t3">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12a8 8 0 1 1-3.2-6.4"/><path d="M21 4l-9 9"/><path d="M15 4h6v6"/></svg>
             催收与提醒记录
-          </span>
-          <span class="tb" data-tab="t4">
-            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L5 13.5h5L10 22l8-11.5h-5L13 2z"/></svg>
-            断水断电处置申请<span class="n">2</span>
           </span>
           <span class="tb" data-tab="t5">
             <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M8 2v4M16 2v4M3 10h18"/></svg>
@@ -229,7 +231,7 @@
                   <td style="font-weight:600">吴先生</td><td>临港智造园区 · 1-305</td><td>租金</td>
                   <td class="num" style="font-weight:700">¥1,600</td>
                   <td><span class="tag lv-o num">9 天</span></td>
-                  <td>逾期第 7 天 · 服务通知已发 <span class="num">09-04</span></td>
+                  <td>逾期第 7 天 · 系统内部通知已发 <span class="num">09-04</span></td>
                   <td><button class="btn primary urge" data-open="mUrge">催缴</button></td>
                 </tr>
                 <tr>
@@ -248,6 +250,14 @@
                   <td>逾期第 1 天 · 短信已发 <span class="num">09-07</span></td>
                   <td><button class="btn primary urge" data-open="mUrge">催缴</button></td>
                 </tr>
+                <tr class="sumrow">
+                  <td></td>
+                  <td style="font-weight:700">本页合计</td>
+                  <td><span class="num">8</span> 户</td>
+                  <td></td>
+                  <td class="num">¥53,220</td>
+                  <td colspan="3" style="font-weight:400;color:var(--ink3)">红（30 天+）3 户 · 橙（8~30 天）3 户 · 黄（1~7 天）2 户；合计随筛选联动</td>
+                </tr>
               </tbody>
             </table>
 
@@ -264,7 +274,7 @@
         <div class="panel">
           <div class="ph">
             <h3>重点关注名单</h3>
-            <span class="note">逾期 30 天自动列入（阶梯可配）；仅名单内租户可发起断水断电处置申请</span>
+            <span class="note">逾期 30 天自动列入（阶梯可配），列入后加强提醒频次；断水断电等强制处置线下处理，不在本系统发起</span>
           </div>
           <div class="focus-cards">
             <div class="fcard">
@@ -272,7 +282,7 @@
               <div class="fr">梧桐公寓楼 · 2-502 · 个人租户</div>
               <div class="amt num">¥8,200<small>欠租</small></div>
               <div class="hist">
-                <div class="hi"><span class="dot due" style="margin-top:6px"></span>断水断电申请：<b>已审批 · 待执行</b>（09-06 张经理批）</div>
+                <div class="hi"><span class="dot due" style="margin-top:6px"></span>分期协议：<b>未兑现</b>（09-01 签订，首期 09-05 未付）</div>
                 <div class="hi"><span class="dot fix" style="margin-top:6px"></span>电话催收 <span class="num">2</span> 次 · 短信 <span class="num">4</span> 条</div>
                 <div class="hi"><span class="dot fix" style="margin-top:6px"></span>最近承诺：09 月初缴清，未兑现</div>
               </div>
@@ -287,15 +297,14 @@
               <div class="fr">云谷创业园区 · 1-整层 · 企业租户</div>
               <div class="amt num">¥32,000<small>欠租</small></div>
               <div class="hist">
-                <div class="hi"><span class="dot rent" style="margin-top:6px"></span>押抵租审批记录：部分抵扣 <span class="num">¥20,000</span>（押金余额不足覆盖）</div>
-                <div class="hi"><span class="dot due" style="margin-top:6px"></span>断水断电申请：<b>审批中</b>（09-07 提交）</div>
+                <div class="hi"><span class="dot rent" style="margin-top:6px"></span>差额豁免 <span class="num">¥2,000</span> 审批中（见 特殊处理）</div>
                 <div class="hi"><span class="dot fix" style="margin-top:6px"></span>催缴函已发 <span class="num">09-03</span> · 已签收</div>
               </div>
               <div class="fop">
                 <button class="btn ghost sm">移出名单</button>
                 <a class="op" style="align-self:center">查看台账</a>
               </div>
-              <div class="oplog">操作记录：09-01 王芳备注 → 押抵租 ¥20,000 审批中，维持名单；08-24 系统自动列入 · 逾期满 30 天</div>
+              <div class="oplog">操作记录：09-01 王芳备注 → 差额豁免 ¥2,000 审批中，维持名单；08-24 系统自动列入 · 逾期满 30 天</div>
             </div>
             <div class="fcard">
               <div class="fh"><span class="fn">赵某</span><span class="tag lv-r num">逾期 38 天</span></div>
@@ -303,8 +312,8 @@
               <div class="amt num">¥4,140<small>欠租</small></div>
               <div class="hist">
                 <div class="hi"><span class="dot fix" style="margin-top:6px"></span>电话催收 <span class="num">3</span> 次未果（最近 <span class="num">09-06</span>）</div>
-                <div class="hi"><span class="dot fix" style="margin-top:6px"></span>短信 <span class="num">3</span> 条 · 服务通知 <span class="num">2</span> 条</div>
-                <div class="hi"><span class="dot fix" style="margin-top:6px"></span>暂无断水断电 / 押抵租记录</div>
+                <div class="hi"><span class="dot fix" style="margin-top:6px"></span>短信 <span class="num">3</span> 条 · 系统内部通知 <span class="num">2</span> 条</div>
+                <div class="hi"><span class="dot due" style="margin-top:6px"></span>坏账登记 <span class="num">¥1,200</span> 审批中（见 特殊处理）</div>
               </div>
               <div class="fop">
                 <button class="btn ghost sm">移出名单</button>
@@ -345,56 +354,21 @@
                 <tr><td class="num">09-06 14:20</td><td>赵某</td><td>电话催收</td><td>电话</td><td>承诺本周内缴清（第 3 次）</td><td>王芳</td><td><span class="tag due">未果</span></td><td><span class="tag rent">已完成</span></td></tr>
                 <tr><td class="num">09-06 09:00</td><td>郑女士</td><td>短信提醒 · 第 2 阶（逾期第 1 天）</td><td>短信</td><td>逾期提醒，请尽快缴费</td><td>系统</td><td><span class="tag free">已送达</span></td><td><span class="tag rent">已完成</span></td></tr>
                 <tr><td class="num">09-05 10:22</td><td>刘某</td><td>短信提醒 · 第 2 阶（逾期第 7 天）</td><td>短信</td><td>模板 A 友好提醒</td><td>系统</td><td><span class="tag free">已送达</span></td><td><span class="tag rent">已完成</span></td></tr>
-                <tr><td class="num">09-04 16:10</td><td>吴先生</td><td>短信提醒 · 第 2 阶（逾期第 7 天）</td><td>服务通知</td><td>逾期 7 天提醒</td><td>系统</td><td><span class="tag free">已读</span></td><td><span class="tag rent">已完成</span></td></tr>
-                <tr><td class="num">09-03 11:30</td><td>恒创科技公司</td><td>催缴函</td><td>纸质 + 服务通知</td><td>正式催缴函，限 7 日内缴清</td><td>王芳</td><td><span class="tag free">已签收</span></td><td><span class="tag rent">已完成</span></td></tr>
-                <tr><td class="num">09-01 15:40</td><td>刘某</td><td>短信提醒 · 第 1 阶（前 3 天）</td><td>服务通知</td><td>账期将至提醒</td><td>系统</td><td><span class="tag free">已读</span></td><td><span class="tag rent">已完成</span></td></tr>
+                <tr><td class="num">09-04 16:10</td><td>吴先生</td><td>提醒 · 第 2 阶（逾期第 7 天）</td><td>系统内部通知</td><td>逾期 7 天提醒</td><td>系统</td><td><span class="tag free">已读</span></td><td><span class="tag rent">已完成</span></td></tr>
+                <tr><td class="num">09-03 11:30</td><td>恒创科技公司</td><td>催缴函</td><td>纸质 + 系统内部通知</td><td>正式催缴函，限 7 日内缴清</td><td>王芳</td><td><span class="tag free">已签收</span></td><td><span class="tag rent">已完成</span></td></tr>
+                <tr><td class="num">09-01 15:40</td><td>刘某</td><td>提醒 · 第 1 阶（前 3 天）</td><td>系统内部通知</td><td>账期将至提醒</td><td>系统</td><td><span class="tag free">已读</span></td><td><span class="tag rent">已完成</span></td></tr>
                 <tr><td class="num">08-29 10:05</td><td>赵某</td><td>电话催收</td><td>电话</td><td>称工资延后，申请宽限</td><td>王芳</td><td><span class="tag due">未果</span></td><td><span class="tag rent">已完成</span></td></tr>
                 <tr><td class="num">08-28 09:15</td><td>刘某</td><td>电话催收</td><td>电话</td><td>承诺 9 月初缴清</td><td>王芳</td><td><span class="tag due">未兑现</span></td><td><span class="tag rent">已完成</span></td></tr>
+                <tr class="sumrow">
+                  <td style="font-weight:700">合计</td>
+                  <td colspan="2"><span class="num">10</span> 条记录</td>
+                  <td colspan="5" style="font-weight:400;color:var(--ink3)">待办中 2 · 已完成 8 ｜ 短信 2 · 系统内部通知 3 · 电话 5 · 催缴函 1</td>
+                </tr>
               </tbody>
             </table>
             <div class="pgbar">
               <span>共 <b class="num" style="color:var(--ink2)">10</b> 条（演示数据）</span>
-              <span style="margin-left:auto"><span class="note">短信 / 服务通知发送走 系统管理-消息推送中心（待建）</span></span>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <!-- ========== 页签 4：断水断电处置申请 ========== -->
-      <div class="tabpane" id="t4">
-        <div class="panel">
-          <div class="ph"><h3>断水断电处置申请</h3></div>
-          <div class="flow">
-            <div class="fstep"><span class="no num">1</span>提交申请<span class="fs-sub">仅重点关注名单内租户</span></div>
-            <div class="conn"></div>
-            <div class="fstep"><span class="no num">2</span>审批<span class="fs-sub">对接 M8 审批中心（待建）</span></div>
-            <div class="conn"></div>
-            <div class="fstep"><span class="no num">3</span>人工执行登记<span class="fs-sub">现场操作后登记留痕</span></div>
-          </div>
-          <div class="pb flush">
-            <table class="tb">
-              <thead>
-                <tr><th>租户</th><th>片区 · 房号</th><th>欠费金额</th><th>申请时间</th><th>申请人</th><th>审批状态</th><th>执行状态</th><th>操作</th></tr>
-              </thead>
-              <tbody>
-                <tr>
-                  <td style="font-weight:600">刘某</td><td>梧桐公寓楼 · 2-502</td><td class="num">¥8,200</td>
-                  <td class="num">09-02 10:15</td><td>王芳</td>
-                  <td><span class="tag free">已审批 · 张经理</span></td>
-                  <td><span class="tag due">待执行</span></td>
-                  <td><button class="btn primary sm">执行登记</button></td>
-                </tr>
-                <tr>
-                  <td style="font-weight:600">恒创科技公司</td><td>云谷创业园区 · 1-整层</td><td class="num">¥32,000</td>
-                  <td class="num">09-07 09:40</td><td>王芳</td>
-                  <td><span class="tag due">审批中</span></td>
-                  <td style="color:var(--ink3)">—</td>
-                  <td><a class="op">查看进度</a></td>
-                </tr>
-              </tbody>
-            </table>
-            <div class="pgbar" style="display:block">
-              <span class="note block" style="border-color:var(--red);background:var(--red-bg);color:var(--red);font-weight:600">断水断电永不自动执行，必须人工审批通过后人工操作；依赖智能水电表模块联动，未对接前仅支持人工执行留痕</span>
+              <span style="margin-left:auto"><span class="note">短信 / 系统内部通知发送走 系统管理-消息推送中心（待建）</span></span>
             </div>
           </div>
         </div>
@@ -455,7 +429,7 @@
       </div>
 
       <!-- 底部说明 -->
-      <div class="note block" style="margin-top:16px">提醒阶梯与话术在 <a href="pc-charge-settings.html">规则配置</a> 页维护；短信 / 服务通知发送走 系统管理-消息推送中心（待建）</div>
+      <div class="note block" style="margin-top:16px">提醒阶梯与话术在 <a href="pc-charge-settings.html">规则配置</a> 页维护（阶梯可自由增删、话术可配）；通知渠道仅 短信 + 系统内部通知，发送走 系统管理-消息推送中心（待建）；断水断电等强制处置线下处理，不在本系统发起</div>
 
     </div>
   </div>
@@ -495,7 +469,7 @@
         <div style="font-size:13px;color:var(--ink2);margin-bottom:8px">发送通道（仅两种，可双发）</div>
         <div class="chk-row">
           <label><input type="checkbox" checked>短信</label>
-          <label><input type="checkbox" checked>小程序服务通知</label>
+          <label><input type="checkbox" checked>系统内部通知</label>
         </div>
       </div>
       <div class="uhint">
@@ -507,14 +481,14 @@
       <div style="font-size:12.5px;color:var(--ink2);display:flex;flex-direction:column;gap:5px">
         <b style="font-size:13px">发送记录（以刘某为例）</b>
         · <span class="num">09-05 10:22</span> 短信 · 模板A · 已送达（系统）<br>
-        · <span class="num">09-01 15:40</span> 服务通知 · 模板A · 已读（系统）<br>
+        · <span class="num">09-01 15:40</span> 系统内部通知 · 模板A · 已读（系统）<br>
         · <span class="num">08-28 09:15</span> 电话催收 · 承诺 9 月初缴（王芳）
       </div>
       <span class="note">演示为静态：单户与批量共用本弹窗，正式系统按实际选中户数渲染名单与防骚扰提示；话术模板与发送阶梯在 规则配置 页维护</span>
     </div>
     <div class="mf">
       <button class="btn ghost" data-close="mUrge">取消</button>
-      <button class="btn primary urge">发送催缴（短信 + 服务通知）</button>
+      <button class="btn primary urge">发送催缴（短信 + 系统内部通知）</button>
     </div>
   </div>
 </div>

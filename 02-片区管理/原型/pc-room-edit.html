@@ -27,6 +27,13 @@
 
   /* 房间资产表操作行（添加按钮靠右） */
   .ast-ops{display:flex;justify-content:flex-end;margin-bottom:10px}
+
+  /* 置灰不可点按钮（待资产模块上线） */
+  .btn.dis{color:var(--ink3);border-color:var(--line);background:var(--paper);cursor:not-allowed}
+  .btn.dis:hover{color:var(--ink3);border-color:var(--line)}
+
+  /* 关联合同跳转链接组 */
+  .bb-links{display:flex;gap:10px;flex-shrink:0}
 </style>
 </head>
 <body>
@@ -247,43 +254,38 @@
             <div class="f-grid">
               <div class="f-item full">
                 <div class="ast-ops">
-                  <a class="btn ghost" href="javascript:void(0)">＋ 添加资产</a>
+                  <span class="btn ghost dis" aria-disabled="true">＋ 绑定资产（待资产模块上线）</span>
                 </div>
                 <table class="tb">
                   <thead>
                     <tr>
-                      <th>资产名称</th><th>类别</th><th>数量</th><th>状态</th><th>备注</th><th>操作</th>
+                      <th>资产名称</th><th>类别</th><th>数量</th><th>状态</th><th>备注</th>
                     </tr>
                   </thead>
                   <tbody>
                     <tr>
                       <td>美的空调 KFR-35GW</td><td>电器</td><td class="num">1</td>
                       <td><span class="tag-asset ok">完好</span></td><td>壁挂式 · 2019 年购置</td>
-                      <td><a href="javascript:void(0)">编辑</a> · <a href="javascript:void(0)">删除</a></td>
                     </tr>
                     <tr>
                       <td>海尔电热水器 60L</td><td>电器</td><td class="num">1</td>
                       <td><span class="tag-asset ok">完好</span></td><td>—</td>
-                      <td><a href="javascript:void(0)">编辑</a> · <a href="javascript:void(0)">删除</a></td>
                     </tr>
                     <tr>
                       <td>实木床 1.5m（含床垫）</td><td>家具</td><td class="num">1</td>
                       <td><span class="tag-asset ok">完好</span></td><td>—</td>
-                      <td><a href="javascript:void(0)">编辑</a> · <a href="javascript:void(0)">删除</a></td>
                     </tr>
                     <tr>
                       <td>双门衣柜</td><td>家具</td><td class="num">1</td>
                       <td><span class="tag-asset bad">损坏</span></td><td>柜门合页松动，退住验收时定责</td>
-                      <td><a href="javascript:void(0)">编辑</a> · <a href="javascript:void(0)">删除</a></td>
                     </tr>
                     <tr>
                       <td>淋浴花洒套装</td><td>卫浴</td><td class="num">1</td>
                       <td><span class="tag-asset ok">完好</span></td><td>—</td>
-                      <td><a href="javascript:void(0)">编辑</a> · <a href="javascript:void(0)">删除</a></td>
                     </tr>
                   </tbody>
                 </table>
-                <span class="note">资产清单供入住/退住验收逐项点验；后期与资产管理模块关联，本期手动维护</span>
+                <span class="note">资产清单供入住/退住验收逐项点验；资产由资产管理模块统一维护，此处只读调取</span>
               </div>
             </div>
           </div>
@@ -313,19 +315,23 @@
             </div>
           </div>
 
-          <!-- 合同信息（预留） -->
+          <!-- 关联合同 -->
           <div class="f-sec">
-            <h4>合同信息（预留）</h4>
+            <h4>关联合同</h4>
             <div class="bind-box">
               <span class="bb-ic">
                 <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4"/><path d="M9 12h6M9 16h6"/></svg>
               </span>
               <div class="bb-main">
-                <div class="bb-t">当前合同 · 王同学</div>
-                <div class="bb-s"><span class="num">2025-09-24</span> 至 <span class="num">2026-09-23</span> · 月租金 <span class="num">1,380</span> 元 · 剩 <span class="num">21</span> 天到期 · 合同模块上线后可查看详情</div>
+                <div class="bb-t">承租人 · 王同学</div>
+                <div class="bb-s">合同期限 <span class="num">2025-09-24</span> 至 <span class="num">2026-09-23</span> · 合同与租客信息由独立模块维护，此处仅回显，不提供上传入口</div>
               </div>
-              <button class="btn ghost">查看合同</button>
+              <div class="bb-links">
+                <a class="btn ghost" href="javascript:void(0)">查看合同 →</a>
+                <a class="btn ghost" href="javascript:void(0)">查看承租人 →</a>
+              </div>
             </div>
+            <span class="note" style="margin-top:8px">「查看合同」跳转合同模块（待上线）；「查看承租人」跳转租客信息模块（待上线）</span>
           </div>
 
           <!-- 操作 -->

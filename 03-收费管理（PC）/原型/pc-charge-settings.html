@@ -76,27 +76,20 @@
                 <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
                   <input type="radio" name="genmode" checked style="margin-top:3px">
                   <span>
-                    <b>按月滚动生成（默认）</b>
-                    <div style="font-size:12.5px;color:var(--ink3);margin-top:2px">每月按合同周期自动生成下一期账单，应收日前按下方「提前生成天数」出账</div>
-                  </span>
-                </label>
-                <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer">
-                  <input type="radio" name="genmode" style="margin-top:3px">
-                  <span>
-                    <b>签约时一次性生成全部账期</b>
-                    <div style="font-size:12.5px;color:var(--ink3);margin-top:2px">适合年签等长期合同：合同生效后一次性生成全部月份账单（如 12 期），后续无需每月跑批</div>
+                    <b>按合同付款周期滚动生成（默认）</b>
+                    <div style="font-size:12.5px;color:var(--ink3);margin-top:2px">以合同租期起止时间为准，按合同约定的付款周期滚动生成：月付每月 1 笔、季付每年 4 笔、半年付每年 2 笔、年付每年 1 笔；每期账单在应收日前按下方「提前生成天数」出账</div>
                   </span>
                 </label>
               </div>
-              <span class="note" style="margin-top:6px">账期与金额取自合同（合同管理 M3，待建），本模块只消费不配置；按合同单独覆盖生成方式为 M3 预留能力</span>
+              <span class="note" style="margin-top:6px">账期、付款周期与金额取自合同（合同管理 M3，待建），本模块只消费不配置；合同中须有租期起止时间，签约后系统按周期生成全部账单计划</span>
             </div>
             <div class="f-item">
               <label>账单提前生成天数</label>
               <div style="display:flex;align-items:center;gap:8px">
-                <input class="inp num" value="7" style="width:110px;text-align:center">
+                <input class="inp num" value="15" style="width:110px;text-align:center">
                 <span style="font-size:13px;color:var(--ink2)">天（应收日前提前生成账单）</span>
               </div>
-              <span class="help">默认 7 天，可配</span>
+              <span class="help">默认 15 天，可配</span>
             </div>
             <div class="f-item">
               <label>首期款校验（先付后用）</label>
@@ -116,7 +109,7 @@
         <div class="f-sec">
           <h4>欠费提醒阶梯</h4>
           <div style="margin-bottom:12px">
-            <span class="note">阶梯可自由增删（1~N 阶）；每阶可配触发天数、通知通道、话术模板、动作；发送走 系统管理-消息推送中心（待建）</span>
+            <span class="note">阶梯可自由增删（1~N 阶）；每阶可配触发天数、通知通道（短信 / 系统内部通知，无小程序服务通知）、话术模板、动作；话术按严重程度分级选择；全量催缴历史留痕可查，避免过度打扰；发送走 系统管理-消息推送中心（待建）</span>
           </div>
           <table class="tb ld-tb">
             <thead>
@@ -139,7 +132,7 @@
                 </td>
                 <td>
                   <label class="ck"><input type="checkbox" checked>短信</label>
-                  <label class="ck"><input type="checkbox" checked>服务通知</label>
+                  <label class="ck"><input type="checkbox" checked>系统内部通知</label>
                 </td>
                 <td>
                   <textarea class="ta">模板A：【英莱达公寓】尊敬的租户，您本期租金¥X将于X日到账期，请提前安排缴纳。如需帮助请联系管家。</textarea>
@@ -158,7 +151,7 @@
                 </td>
                 <td>
                   <label class="ck"><input type="checkbox" checked>短信</label>
-                  <label class="ck"><input type="checkbox">服务通知</label>
+                  <label class="ck"><input type="checkbox">系统内部通知</label>
                 </td>
                 <td>
                   <textarea class="ta">模板B：【英莱达公寓】您的本期租金¥X已逾期1天，请尽快缴纳，避免影响您的租住信用。</textarea>
@@ -177,7 +170,7 @@
                 </td>
                 <td>
                   <label class="ck"><input type="checkbox" checked>短信</label>
-                  <label class="ck"><input type="checkbox">服务通知</label>
+                  <label class="ck"><input type="checkbox">系统内部通知</label>
                 </td>
                 <td>
                   <textarea class="ta">模板C：【英莱达公寓】您的本期租金¥X已逾期7天，管家将与您电话联系，请保持手机畅通并尽快处理。</textarea>
@@ -196,7 +189,7 @@
                 </td>
                 <td>
                   <label class="ck"><input type="checkbox" checked>短信</label>
-                  <label class="ck"><input type="checkbox">服务通知</label>
+                  <label class="ck"><input type="checkbox">系统内部通知</label>
                 </td>
                 <td>
                   <textarea class="ta">催缴函模板：【英莱达公寓】催缴函——您已逾期15天，欠缴¥X，请于X日内缴清，逾期将按合同处理。</textarea>
@@ -215,7 +208,7 @@
                 </td>
                 <td>
                   <label class="ck"><input type="checkbox" checked>短信</label>
-                  <label class="ck"><input type="checkbox">服务通知</label>
+                  <label class="ck"><input type="checkbox">系统内部通知</label>
                 </td>
                 <td>
                   <textarea class="ta">模板E：【英莱达公寓】最后提醒：您的租金已逾期30天，欠缴¥X，已列入重点关注名单，请立即联系管家处理。</textarea>
@@ -263,6 +256,51 @@
     </div>
   </div>
 </div>
+<script>
+/* 欠费提醒阶梯：新增 / 删除 / 编辑话术 / 保存（静态原型交互） */
+(function () {
+  var tbody = null;
+  document.querySelectorAll('table tbody').forEach(function (tb) {
+    if (!tbody && tb.querySelector('.ld-no')) tbody = tb;
+  });
+  if (!tbody) return;
+  var btnAdd = null, btnSave = null;
+  document.querySelectorAll('button').forEach(function (b) {
+    if (b.textContent.indexOf('新增阶梯') >= 0) btnAdd = b;
+    if (b.textContent.indexOf('保存提醒阶梯') >= 0) btnSave = b;
+  });
+  function renumber() {
+    tbody.querySelectorAll('.ld-no').forEach(function (n, i) { n.textContent = i + 1; });
+  }
+  if (btnAdd) btnAdd.addEventListener('click', function () {
+    var last = tbody.querySelector('tr:last-child') || tbody.querySelector('tr');
+    var row = last.cloneNode(true);
+    row.querySelectorAll('input.days').forEach(function (i) { i.value = ''; i.placeholder = '天数'; });
+    row.querySelectorAll('textarea').forEach(function (t) { t.value = ''; t.placeholder = '请输入话术模板，支持 {天数} {金额} 变量'; });
+    row.querySelectorAll('select').forEach(function (s) { s.selectedIndex = 0; });
+    row.querySelectorAll('input[type=checkbox]').forEach(function (c, i) { c.checked = (i === 0); });
+    tbody.appendChild(row);
+    renumber();
+  });
+  tbody.addEventListener('click', function (e) {
+    var a = e.target.closest('a.op');
+    if (!a) return;
+    var tr = a.closest('tr');
+    if (a.classList.contains('danger')) {
+      if (confirm('确认删除该阶梯？删除后立即生效（原型演示）')) { tr.remove(); renumber(); }
+    } else {
+      var ta = tr.querySelector('textarea');
+      if (ta) ta.focus();
+    }
+  });
+  if (btnSave) btnSave.addEventListener('click', function () {
+    var old = btnSave.textContent;
+    btnSave.textContent = '已保存 ✓';
+    btnSave.disabled = true;
+    setTimeout(function () { btnSave.textContent = old; btnSave.disabled = false; }, 1500);
+  });
+})();
+</script>
 <script src="../../00-整体需求/主页原型/assets/nav.js"></script>
 </body>
 </html>

@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动用户端 · 账单详情 · 英莱达公寓</title>
+<link rel="stylesheet" href="../../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .u-top{display:flex;align-items:center;gap:6px;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 10px;flex-shrink:0}
+  .u-top .u-tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .u-top .u-back{display:flex;color:var(--ink2);flex-shrink:0}
+  .u-top .u-back svg{width:20px;height:20px}
+  /* 金额状态卡 */
+  .amt-card{margin:12px 14px 0;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:16px 14px;text-align:center}
+  .amt-card .lb{font-size:12.5px;color:var(--ink3)}
+  .amt-card .vl{font-size:32px;font-weight:700;margin-top:4px;line-height:1.2}
+  .amt-card .st-row{margin-top:8px;display:flex;justify-content:center;gap:8px}
+  /* 凭证申请入口条 */
+  .v-entry{display:flex;align-items:center;gap:10px;margin:12px 14px 0;background:#fff;border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;color:inherit;text-decoration:none}
+  .v-entry .qi{width:38px;height:38px;border-radius:10px;background:var(--orange-bg);color:var(--orange);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .v-entry .t{font-size:13.5px;font-weight:600}
+  .v-entry .s{font-size:12px;color:var(--ink3);margin-top:1px}
+  .v-entry .go{margin-left:auto;font-size:12.5px;color:var(--brand)}
+  /* 白色顶栏下 demo-mark 反色 */
+  .demo-mark{color:var(--ink3);border-color:var(--line);top:96px}
+  /* 画板 iframe 无缝嵌入模式（?embed=1）：去手机壳与舞台底 */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">用户端 · 账单详情（待缴）</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 白色顶栏 -->
+      <div class="u-top">
+        <a class="u-back" href="m-user-bills.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>
+        <div class="u-tt">账单详情</div>
+        <span style="width:20px"></span>
+      </div>
+
+      <!-- 金额状态卡 -->
+      <div class="amt-card">
+        <div class="lb">2026-09 租金 · 1栋-301</div>
+        <div class="vl num" style="color:var(--red)">¥1,850.00</div>
+        <div class="st-row"><span class="tag red">已逾期 16 天</span></div>
+      </div>
+
+      <!-- 账单信息 -->
+      <div class="m-gt">账单信息</div>
+      <div class="m-rows" style="margin-top:0">
+        <div class="r"><span class="k">房源</span><span class="v">滨江科创园区 · 滨江人才公寓 1栋-301</span></div>
+        <div class="r"><span class="k">账期</span><span class="v num">2026-09-01 ~ 2026-09-30</span></div>
+        <div class="r"><span class="k">应收日</span><span class="v num">2026-09-01</span></div>
+        <div class="r"><span class="k">费用明细</span><span class="v">租金 <span class="num">¥1,850.00</span></span></div>
+        <div class="r"><span class="k">账单号</span><span class="v num">ZD-XQ05-2026-0181</span></div>
+      </div>
+
+      <!-- 凭证申请入口 -->
+      <a class="v-entry" href="m-user-voucher.html">
+        <div class="qi"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h8L18 6.5V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5 20V4.5A1.5 1.5 0 0 1 6.5 3z"/><path d="M14 3v4h4"/><path d="M8.5 11.5h7M8.5 15h7"/></svg></div>
+        <div>
+          <div class="t">凭证申请</div>
+          <div class="s">本账单缴清后可申请收据；可申请金额实时显示</div>
+        </div>
+        <span class="go">进入 ›</span>
+      </a>
+
+      <div class="note" style="margin:12px 14px 0">有疑问请联系管家；逾期不影响在线支付，缴清后状态自动更新</div>
+
+      <div style="height:14px"></div>
+
+    </div>
+
+    <!-- 底部操作栏：在线支付（银联占位） -->
+    <div class="m-cta">
+      <button class="btn primary" style="font-size:16px">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="13" rx="2"/><path d="M3 10h18"/><path d="M7 15h4"/></svg>
+        立即支付 ¥1,850.00（银联）
+      </button>
+    </div>
+
+    <!-- 底部 Tab（共享组件 m-tab.js 渲染；二级页不高亮） -->
+    <div class="m-tab" id="amsTab" data-variant="user" data-active="" style="display:none"></div>
+
+  </div>
+</div>
+
+<script src="../../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

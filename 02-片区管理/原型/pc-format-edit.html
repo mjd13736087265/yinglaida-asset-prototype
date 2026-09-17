@@ -23,6 +23,15 @@
   .bld-add:hover{border-color:var(--brand);color:var(--brand)}
   .bld-sum{margin-top:12px;font-size:13.5px;color:var(--ink2);display:flex;align-items:center;gap:8px}
   .bld-sum b{color:var(--brand);font-weight:700}
+
+  /* 收款账户卡片 */
+  .acct-card{border:1px solid var(--line);border-radius:var(--r-md);background:var(--panel);padding:14px 16px;margin-top:12px}
+  .acct-head{display:flex;align-items:center;gap:10px;margin-bottom:12px}
+  .acct-head .acct-name{font-size:14.5px;font-weight:600;color:var(--ink)}
+  .acct-head .acct-ops{margin-left:auto;display:flex;align-items:center;gap:14px;font-size:12.5px}
+  .acct-head .acct-ops a.danger{color:var(--red)}
+  .acct-add{display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:1px dashed var(--line);border-radius:var(--r-sm);background:var(--panel);color:var(--ink2);font-size:13px;cursor:pointer;margin-top:14px}
+  .acct-add:hover{border-color:var(--brand);color:var(--brand)}
 </style>
 </head>
 <body>
@@ -67,6 +76,11 @@
                 <label><span class="req">*</span>业态名称</label>
                 <input class="inp" value="云谷人才公寓">
                 <span class="help">同一片区下允许存在多个同类型业态，名称需片区内唯一</span>
+              </div>
+              <div class="f-item">
+                <label><span class="req">*</span>业态编号</label>
+                <input class="inp num" value="GY">
+                <span class="help">用于收据编号拼接与其他模块引用，可修改</span>
               </div>
               <div class="f-item">
                 <label>所属片区</label>
@@ -118,6 +132,119 @@
                 </span>
                 <div class="bld-sum">共 <b class="num">3</b> 栋 · 合计 <b class="num">260</b> 间（层数 × 每层间数自动汇总）</div>
                 <span class="help" style="margin-top:6px">已存在房源/合同数据的楼栋不可删除，仅可停用；房间号按「楼层+序号」自动生成</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 收款配置 -->
+          <div class="f-sec">
+            <h4>收款配置</h4>
+            <div class="f-grid">
+              <div class="f-item full">
+                <span class="help">收款主体（抬头、收款账户）在业态层级维护，一个业态可配置多条收款账户</span>
+
+                <!-- 账户卡片 1：启发电器（默认） -->
+                <div class="acct-card">
+                  <div class="acct-head">
+                    <span class="acct-name">启发电器基本户</span>
+                    <span class="tag free">默认账户</span>
+                    <div class="acct-ops">
+                      <a href="javascript:void(0)">编辑</a>
+                      <a class="danger" href="javascript:void(0)">删除</a>
+                    </div>
+                  </div>
+                  <div class="f-grid">
+                    <div class="f-item">
+                      <label><span class="req">*</span>收款抬头</label>
+                      <input class="inp" value="启发电器有限公司">
+                    </div>
+                    <div class="f-item">
+                      <label><span class="req">*</span>账户名称</label>
+                      <input class="inp" value="启发电器基本户">
+                    </div>
+                    <div class="f-item">
+                      <label><span class="req">*</span>开户行</label>
+                      <input class="inp" value="中国工商银行杭州滨江支行">
+                    </div>
+                    <div class="f-item">
+                      <label><span class="req">*</span>银行账号</label>
+                      <input class="inp num" value="1202 0261 0900 6688 213">
+                    </div>
+                    <div class="f-item">
+                      <label><span class="req">*</span>账户类型</label>
+                      <select class="sel">
+                        <option selected>对公</option>
+                        <option>对私</option>
+                      </select>
+                    </div>
+                    <div class="f-item">
+                      <label>设为默认账户</label>
+                      <div style="display:flex;align-items:center;gap:8px;height:36px">
+                        <span class="switch on"></span>
+                        <span class="help">每个业态仅一个默认账户</span>
+                      </div>
+                    </div>
+                    <div class="f-item full">
+                      <label>备注</label>
+                      <input class="inp" value="租金及押金收款主账户">
+                    </div>
+                  </div>
+                </div>
+
+                <!-- 账户卡片 2：启发工业 -->
+                <div class="acct-card">
+                  <div class="acct-head">
+                    <span class="acct-name">启发工业一般户</span>
+                    <div class="acct-ops">
+                      <a href="javascript:void(0)">编辑</a>
+                      <a class="danger" href="javascript:void(0)">删除</a>
+                    </div>
+                  </div>
+                  <div class="f-grid">
+                    <div class="f-item">
+                      <label><span class="req">*</span>收款抬头</label>
+                      <input class="inp" value="启发工业有限公司">
+                    </div>
+                    <div class="f-item">
+                      <label><span class="req">*</span>账户名称</label>
+                      <input class="inp" value="启发工业一般户">
+                    </div>
+                    <div class="f-item">
+                      <label><span class="req">*</span>开户行</label>
+                      <input class="inp" value="中国建设银行杭州云谷支行">
+                    </div>
+                    <div class="f-item">
+                      <label><span class="req">*</span>银行账号</label>
+                      <input class="inp num" value="3305 0166 4801 0000 527">
+                    </div>
+                    <div class="f-item">
+                      <label><span class="req">*</span>账户类型</label>
+                      <select class="sel">
+                        <option selected>对公</option>
+                        <option>对私</option>
+                      </select>
+                    </div>
+                    <div class="f-item">
+                      <label>设为默认账户</label>
+                      <div style="display:flex;align-items:center;gap:8px;height:36px">
+                        <span class="switch"></span>
+                        <span class="help">每个业态仅一个默认账户</span>
+                      </div>
+                    </div>
+                    <div class="f-item full">
+                      <label>备注</label>
+                      <input class="inp" value="企业大客户租金专用账户">
+                    </div>
+                  </div>
+                </div>
+
+                <span class="acct-add">
+                  <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+                  添加收款账户
+                </span>
+                <div style="margin-top:12px">
+                  <span class="note">用户端在线支付时默认选中默认账户，可切换；账户数据同时供收费管理·收款登记读取</span>
+                </div>
               </div>
             </div>
           </div>
