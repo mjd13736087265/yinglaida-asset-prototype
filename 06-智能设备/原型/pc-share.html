@@ -9,7 +9,7 @@
   /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
   .tabpane{display:none}
   .tabpane.show{display:block}
-  .pgbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3)}
+  .pgbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3);flex-wrap:wrap}
   .op:hover{color:var(--brand-d)}
   .radio-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
   .rc{border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;cursor:pointer}
@@ -17,6 +17,21 @@
   .rc.on{border-color:var(--brand);background:var(--brand-bg)}
   .rc .rt{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
   .rc .rs{font-size:12px;color:var(--ink3);margin-top:4px;line-height:1.5}
+  /* 分摊范围（两选） */
+  .scope-cards{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+  /* 房间选择器 */
+  .room-pick{border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;background:#fafbfc}
+  .room-pick .rp-h{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink2);flex-wrap:wrap}
+  .room-pick .rp-h .cnt{margin-left:auto;color:var(--ink);font-weight:600}
+  .rgrid-pick{display:grid;grid-template-columns:repeat(6,1fr);gap:8px;margin-top:10px}
+  .rp{border:1px solid var(--line);border-radius:8px;padding:7px 4px;text-align:center;font-size:12.5px;color:var(--ink2);background:var(--panel);cursor:pointer;user-select:none}
+  .rp:hover{border-color:var(--brand);color:var(--brand)}
+  .rp.on{background:var(--brand-bg);border-color:var(--brand);color:var(--brand);font-weight:600}
+  .rp.off{background:var(--line2);color:var(--ink3);text-decoration:line-through}
+  /* 明细页：已排除行 */
+  tr.excluded td{background:#fafbfc;color:var(--ink3)}
+  .sumtip{display:flex;align-items:center;gap:10px;padding:12px 18px;background:var(--brand-bg);border-bottom:1px solid var(--line2);font-size:13px;color:var(--ink2);flex-wrap:wrap}
+  .sumtip b{color:var(--ink)}
 </style>
 </head>
 <body>
@@ -73,25 +88,33 @@
           </div>
           <table class="tb">
             <thead>
-              <tr><th>公摊项目</th><th>适用范围（片区 × 业态）</th><th>关联总表</th><th>分摊方式</th><th>生效周期</th><th>状态</th><th>操作</th></tr>
+              <tr><th>公摊项目</th><th>适用范围（片区 × 业态）</th><th>关联总表</th><th>分摊方式</th><th>分摊范围</th><th>生效账期</th><th>状态</th><th>操作</th></tr>
             </thead>
             <tbody>
               <tr>
                 <td style="font-weight:600">公共电费公摊</td><td>滨江科创园区 · 滨江人才公寓（公寓）</td>
-                <td class="num">SB-XQ05-GY-P001</td><td>按户均摊</td><td class="num">2026-01 起</td>
+                <td class="num">SB-XQ05-GY-P001</td><td>按户均摊</td>
+                <td>全部在租房<div style="font-size:12px;color:var(--ink3)">参与 <span class="num">182</span> 户</div></td>
+                <td class="num">2026-01 起</td>
                 <td><span class="tag green">启用</span></td>
-                <td><span class="op">编辑</span> · <span class="op">停用</span></td>
+                <td>
+                  <span class="op" data-edit="1">编辑</span> · <span class="op" data-off="公共电费公摊">停用</span>
+                </td>
               </tr>
               <tr>
                 <td style="font-weight:600">公共水费公摊</td><td>滨江科创园区 · 滨江人才公寓（公寓）</td>
-                <td class="num">SB-XQ05-GY-P002</td><td>按户均摊</td><td class="num">2026-01 起</td>
+                <td class="num">SB-XQ05-GY-P002</td><td>按户均摊</td>
+                <td>指定房间<div style="font-size:12px;color:var(--ink3)">参与 <span class="num">176</span> 户 · 排除 <span class="num">6</span> 户</div></td>
+                <td class="num">2026-01 起</td>
                 <td><span class="tag green">启用</span></td>
-                <td><span class="op">编辑</span> · <span class="op">停用</span></td>
+                <td>
+                  <span class="op" data-edit="2">编辑</span> · <span class="op" data-off="公共水费公摊">停用</span>
+                </td>
               </tr>
             </tbody>
           </table>
           <div class="pgbar">
-            <span style="margin-left:auto"><span class="note">同一业态可配置多条公摊规则；分摊方式支持 按户均摊 / 按面积分摊 / 按用量比例 三种；规则修改自下一账期生效，已入账不追溯</span></span>
+            <span style="margin-left:auto"><span class="note">同一业态可配置多条公摊规则；分摊方式支持 按户均摊 / 按面积分摊 / 按用量比例；分摊范围支持 全部在租房 / 指定房间，空置房不参与；规则修改自下一账期生效，已入账不追溯</span></span>
           </div>
         </div>
       </div>
@@ -108,40 +131,46 @@
           </div>
           <table class="tb">
             <thead>
-              <tr><th>公摊项目</th><th>关联总表</th><th>本期总表用量</th><th>单价</th><th>本期总额</th><th>分摊方式</th><th>分摊户数</th><th>每户金额</th><th>入账状态</th></tr>
+              <tr><th>公摊项目</th><th>关联总表</th><th>本期总表用量</th><th>单价</th><th>本期总额</th><th>分摊方式</th><th>分摊范围</th><th>参与户数</th><th>每户金额</th><th>入账状态</th></tr>
             </thead>
             <tbody>
               <tr>
                 <td>公共电费公摊</td><td class="num">SB-XQ05-GY-P001</td><td class="num">3,640.0 度</td><td class="num">¥1.00/度</td>
-                <td class="num">¥3,640.00</td><td>按户均摊</td><td class="num">182 户</td><td class="num">¥20.00</td>
+                <td class="num">¥3,640.00</td><td>按户均摊</td><td>全部在租房</td><td class="num">182 户</td><td class="num">¥20.00</td>
                 <td><span class="tag green">已入账</span></td>
               </tr>
               <tr>
                 <td>公共水费公摊</td><td class="num">SB-XQ05-GY-P002</td><td class="num">202.2 吨</td><td class="num">¥4.50/吨</td>
-                <td class="num">¥910.00</td><td>按户均摊</td><td class="num">182 户</td><td class="num">¥5.00</td>
+                <td class="num">¥910.00</td><td>按户均摊</td><td>指定房间</td><td class="num">176 户</td><td class="num">¥5.17</td>
                 <td><span class="tag green">已入账</span></td>
               </tr>
             </tbody>
           </table>
           <div class="pgbar">
-            <span style="margin-left:auto"><span class="note">分摊户数=账期内该业态在租户数（182 户）；确认入账后公摊金额进入各户当期水电账单（公摊单列），随账单一并推送</span></span>
+            <span style="margin-left:auto"><span class="note">参与户数按规则的「分摊范围」实时计算：公共水费公摊排除 6 户，故 176 户分摊、每户 ¥5.17；确认入账后公摊金额进入各户当期水电账单（公摊单列），随账单一并推送</span></span>
           </div>
         </div>
         <div class="panel">
-          <div class="ph"><h3>试算预览（按户均摊 · 前 5 户）</h3></div>
+          <div class="ph"><h3>试算预览（按当前分摊范围 · 前 5 户）</h3></div>
           <div class="pb flush">
             <table class="tb">
               <thead>
-                <tr><th>房号</th><th>租户</th><th>电费公摊</th><th>水费公摊</th><th>公摊合计</th></tr>
+                <tr><th>房号</th><th>租户</th><th>电费公摊</th><th>水费公摊</th><th>公摊合计</th><th>参与状态</th></tr>
               </thead>
               <tbody>
-                <tr><td>1栋-301</td><td>张女士</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num" style="font-weight:600">¥25.00</td></tr>
-                <tr><td>1栋-302</td><td>李先生</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num" style="font-weight:600">¥25.00</td></tr>
-                <tr><td>1栋-303</td><td>王同学</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num" style="font-weight:600">¥25.00</td></tr>
-                <tr><td>1栋-305</td><td>陈先生</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num" style="font-weight:600">¥25.00</td></tr>
-                <tr><td>2栋-401</td><td>张女士</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num" style="font-weight:600">¥25.00</td></tr>
+                <tr><td>1栋-301</td><td>张女士</td><td class="num">¥20.00</td><td class="num">¥5.17</td><td class="num" style="font-weight:600">¥25.17</td><td><span class="tag green">参与</span></td></tr>
+                <tr><td>1栋-302</td><td>李先生</td><td class="num">¥20.00</td><td class="num">¥5.17</td><td class="num" style="font-weight:600">¥25.17</td><td><span class="tag green">参与</span></td></tr>
+                <tr><td>1栋-303</td><td>王同学</td><td class="num">¥20.00</td><td class="num">¥5.17</td><td class="num" style="font-weight:600">¥25.17</td><td><span class="tag green">参与</span></td></tr>
+                <tr><td>2栋-401</td><td>张女士</td><td class="num">¥20.00</td><td class="num">¥5.17</td><td class="num" style="font-weight:600">¥25.17</td><td><span class="tag green">参与</span></td></tr>
+                <tr class="excluded">
+                  <td>3栋-301</td><td>—</td><td class="num">¥20.00</td><td class="num">¥0.00</td><td class="num">¥20.00</td>
+                  <td><span class="tag gray">不参与水费公摊</span><div style="font-size:12px">独立门户无公区用水</div></td>
+                </tr>
               </tbody>
             </table>
+          </div>
+          <div class="pgbar">
+            <span style="margin-left:auto"><span class="note">试算随「分摊范围」变化：某户被排除某条规则后，该规则金额不再计入其账单，其余规则照常</span></span>
           </div>
         </div>
       </div>
@@ -156,25 +185,60 @@
             </div>
             <select class="sel"><option>账期 2026-09</option><option>账期 2026-08</option></select>
             <select class="sel"><option>全部楼栋</option><option>1 栋</option><option>2 栋</option><option>3 栋</option></select>
+            <select class="sel"><option>全部公摊项目</option><option>公共电费公摊</option><option>公共水费公摊</option></select>
             <button class="btn ghost">查询</button>
             <span class="sp"></span>
             <button class="btn ghost">导出</button>
           </div>
+
+          <div class="sumtip">
+            <span>本期参与 <b class="num">182</b> 户</span>
+            <span>其中水费公摊排除 <b class="num">6</b> 户</span>
+            <span style="margin-left:auto;color:var(--ink3)">排除 / 恢复均需填写原因，操作留痕可追溯</span>
+          </div>
+
           <table class="tb">
             <thead>
-              <tr><th>房号</th><th>租户</th><th>电费公摊</th><th>水费公摊</th><th>公摊合计</th><th>计入账单</th><th>操作</th></tr>
+              <tr><th>房号</th><th>租户</th><th>电费公摊</th><th>水费公摊</th><th>公摊合计</th><th>计入账单</th><th>分摊范围</th><th>操作</th></tr>
             </thead>
             <tbody>
-              <tr><td>1栋-301</td><td>张女士</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num">¥25.00</td><td class="num">SD-XQ05-GY-2026-0112</td><td><a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td></tr>
-              <tr><td>1栋-302</td><td>李先生</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num">¥25.00</td><td class="num">SD-XQ05-GY-2026-0113</td><td><a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td></tr>
-              <tr><td>1栋-305</td><td>陈先生</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num">¥25.00</td><td class="num">SD-XQ05-GY-2026-0115</td><td><a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td></tr>
-              <tr><td>2栋-401</td><td>张女士</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num">¥25.00</td><td class="num">SD-XQ05-GY-2026-0118</td><td><a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td></tr>
-              <tr><td>2栋-410</td><td>周先生</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num">¥25.00</td><td class="num">SD-XQ05-GY-2026-0121</td><td><a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td></tr>
+              <tr>
+                <td>1栋-301</td><td>张女士</td><td class="num">¥20.00</td><td class="num">¥5.17</td><td class="num" style="font-weight:600">¥25.17</td>
+                <td class="num">SD-XQ05-GY-2026-0112</td><td><span class="tag green">全部规则</span></td>
+                <td><span class="op" data-exc="1栋-301">排除</span> · <a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td>
+              </tr>
+              <tr>
+                <td>1栋-302</td><td>李先生</td><td class="num">¥20.00</td><td class="num">¥5.17</td><td class="num" style="font-weight:600">¥25.17</td>
+                <td class="num">SD-XQ05-GY-2026-0113</td><td><span class="tag green">全部规则</span></td>
+                <td><span class="op" data-exc="1栋-302">排除</span> · <a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td>
+              </tr>
+              <tr>
+                <td>1栋-305</td><td>陈先生</td><td class="num">¥20.00</td><td class="num">¥5.17</td><td class="num" style="font-weight:600">¥25.17</td>
+                <td class="num">SD-XQ05-GY-2026-0115</td><td><span class="tag green">全部规则</span></td>
+                <td><span class="op" data-exc="1栋-305">排除</span> · <a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td>
+              </tr>
+              <tr>
+                <td>2栋-401</td><td>张女士</td><td class="num">¥20.00</td><td class="num">¥5.17</td><td class="num" style="font-weight:600">¥25.17</td>
+                <td class="num">SD-XQ05-GY-2026-0118</td><td><span class="tag green">全部规则</span></td>
+                <td><span class="op" data-exc="2栋-401">排除</span> · <a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td>
+              </tr>
+              <tr class="excluded">
+                <td>3栋-301</td><td>—</td><td class="num">¥20.00</td><td class="num">¥0.00</td><td class="num">¥20.00</td>
+                <td class="num">SD-XQ05-GY-2026-0124</td>
+                <td><span class="tag gray">不参与水费公摊</span><div style="font-size:12px">独立门户无公区用水</div></td>
+                <td><span class="op" data-back="3栋-301">恢复</span> · <a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td>
+              </tr>
+              <tr class="excluded">
+                <td>3栋-302</td><td>—</td><td class="num">¥20.00</td><td class="num">¥0.00</td><td class="num">¥20.00</td>
+                <td class="num">SD-XQ05-GY-2026-0125</td>
+                <td><span class="tag gray">不参与水费公摊</span><div style="font-size:12px">新交付未入住</div></td>
+                <td><span class="op" data-back="3栋-302">恢复</span> · <a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td>
+              </tr>
             </tbody>
           </table>
           <div class="pgbar">
-            <span>共 <b class="num" style="color:var(--ink2)">182</b> 户（2026-09 账期）</span>
-            <span style="margin-left:auto"><span class="note">空置房不分摊；月中入住 / 退房按在租天数折算（演示口径，正式规则以规则配置为准）</span></span>
+            <span>共 <b class="num" style="color:var(--ink2)">182</b> 户（2026-09 账期，含已排除 6 户）</span>
+            <span style="margin-left:auto"><span class="note">排除仅影响当期所选公摊项目，其他规则照常；空置房默认不参与；月中入住 / 退房按在租天数折算（演示口径，正式规则以规则配置为准）</span></span>
           </div>
         </div>
       </div>
@@ -183,19 +247,19 @@
   </div>
 </div>
 
-<!-- ===== 弹窗：新增公摊规则 ===== -->
+<!-- ===== 弹窗：新增 / 编辑公摊规则 ===== -->
 <div class="mask" id="ruleMask" style="display:none">
-  <div class="modal" style="width:640px">
-    <div class="mh">新增公摊规则<span class="x" data-close>✕</span></div>
+  <div class="modal" style="width:720px">
+    <div class="mh"><span id="ruleTitle">新增公摊规则</span><span class="x" data-close>✕</span></div>
     <div class="mb">
       <div class="f-grid">
         <div class="f-item">
           <label><span class="req">*</span>适用范围 · 片区</label>
-          <select class="sel"><option selected>滨江科创园区</option></select>
+          <select class="sel" id="fArea"><option selected>滨江科创园区</option></select>
         </div>
         <div class="f-item">
           <label><span class="req">*</span>适用范围 · 业态</label>
-          <select class="sel">
+          <select class="sel" id="fFmt">
             <option selected>滨江人才公寓（公寓）</option>
             <option disabled>厂房业态（待 M10）</option>
             <option disabled>酒店业态（待 M11）</option>
@@ -204,15 +268,16 @@
         </div>
         <div class="f-item">
           <label><span class="req">*</span>公摊项目名称</label>
-          <input class="inp" placeholder="如：公共电费公摊">
+          <input class="inp" id="fName" placeholder="如：公共电费公摊">
         </div>
         <div class="f-item">
           <label><span class="req">*</span>关联公区总表</label>
-          <select class="sel">
+          <select class="sel" id="fMeter">
             <option>SB-XQ05-GY-P001（电 · 公区总表）</option>
             <option>SB-XQ05-GY-P002（水 · 公区总表）</option>
           </select>
         </div>
+
         <div class="f-item full">
           <label><span class="req">*</span>分摊方式</label>
           <div class="radio-cards" id="shareWay">
@@ -230,12 +295,54 @@
             </div>
           </div>
         </div>
+
+        <div class="f-item full">
+          <label><span class="req">*</span>分摊范围（哪些房间参与本条公摊）</label>
+          <div class="scope-cards" id="shareScope">
+            <div class="rc on" data-scope="all">
+              <div class="rt">全部在租房</div>
+              <div class="rs">该业态当期全部在租房参与，空置房自动排除；新增房间自动纳入</div>
+            </div>
+            <div class="rc" data-scope="rooms">
+              <div class="rt">指定房间</div>
+              <div class="rs">手工勾选参与房间，适用于整层包租自付公区、长约约定不摊等例外</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- 房间选择器（仅在「指定房间」时出现） -->
+        <div class="f-item full" id="roomPick" style="display:none">
+          <div class="room-pick">
+            <div class="rp-h">
+              <span class="chip on" data-b="1">1 栋</span>
+              <span class="chip" data-b="2">2 栋</span>
+              <span class="chip" data-b="3">3 栋</span>
+              <span class="cnt num">已选 <b id="pickCnt">176</b> / 182 户</span>
+            </div>
+            <div class="rgrid-pick" id="pickGrid">
+              <div class="rp on">1-101</div><div class="rp on">1-102</div><div class="rp on">1-103</div>
+              <div class="rp on">1-201</div><div class="rp on">1-202</div><div class="rp on">1-203</div>
+              <div class="rp on">1-301</div><div class="rp on">1-302</div><div class="rp on">1-303</div>
+              <div class="rp on">1-305</div><div class="rp on">1-306</div><div class="rp on">1-307</div>
+              <div class="rp on">2-401</div><div class="rp on">2-402</div><div class="rp on">2-403</div>
+              <div class="rp on">2-410</div><div class="rp on">2-411</div><div class="rp on">2-412</div>
+              <div class="rp off">3-301</div><div class="rp off">3-302</div><div class="rp off">3-303</div>
+            </div>
+            <div class="help" style="margin-top:10px">勾选=参与本条公摊；勾掉=不参与（须在下方备注原因）。当前 3 栋 301/302/303 已排除（独立门户 / 新交付未入住）</div>
+          </div>
+        </div>
+
         <div class="f-item">
           <label><span class="req">*</span>生效账期</label>
-          <input class="inp num" value="2026-10">
+          <input class="inp num" id="fPeriod" value="2026-10">
           <span class="help">自生效账期起执行，已入账账期不追溯</span>
         </div>
+        <div class="f-item">
+          <label>备注</label>
+          <input class="inp" id="fMemo" placeholder="如：整层包租客户公区自付，不参与水费公摊">
+        </div>
       </div>
+      <p style="margin:14px 0 0"><span class="note">分摊范围决定参与户数，公摊计算与试算预览会实时跟随；修改后自下一账期生效</span></p>
     </div>
     <div class="mf">
       <button class="btn ghost" data-close>取消</button>
@@ -244,7 +351,75 @@
   </div>
 </div>
 
+<!-- ===== 弹窗：停用规则 ===== -->
+<div class="mask" id="offMask" style="display:none">
+  <div class="modal" style="width:480px">
+    <div class="mh">停用公摊规则<span class="x" data-close>✕</span></div>
+    <div class="mb">
+      <div style="font-size:14px">确定停用规则「<b id="offName">公共电费公摊</b>」？</div>
+      <p style="margin:12px 0 0;color:var(--ink2);font-size:13px">停用后自下一账期起不再计算本条公摊；已入账账期不受影响。</p>
+      <div class="f-item" style="margin-top:14px">
+        <label>停用原因</label>
+        <select class="sel">
+          <option>公区改造，总表停用</option>
+          <option>规则调整，重建新规则</option>
+          <option>业态变更</option>
+          <option>其他</option>
+        </select>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" data-close>取消</button>
+      <button class="btn primary" data-close>确认停用</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 弹窗：排除 / 恢复房间 ===== -->
+<div class="mask" id="excMask" style="display:none">
+  <div class="modal" style="width:520px">
+    <div class="mh"><span id="excTitle">排除房间</span><span class="x" data-close>✕</span></div>
+    <div class="mb">
+      <div class="f-grid">
+        <div class="f-item full">
+          <label>房间</label>
+          <input class="inp" id="excRoom" value="1栋-301" readonly>
+        </div>
+        <div class="f-item full">
+          <label><span class="req">*</span>适用的公摊项目</label>
+          <select class="sel">
+            <option>公共水费公摊</option>
+            <option>公共电费公摊</option>
+            <option>全部公摊项目</option>
+          </select>
+          <span class="help">只排除所选项目，其余规则照常参与</span>
+        </div>
+        <div class="f-item full">
+          <label><span class="req">*</span>原因</label>
+          <select class="sel" id="excReason">
+            <option>整层包租，公区自付</option>
+            <option>长约协议约定不摊</option>
+            <option>独立门户，不共用公区</option>
+            <option>新交付未入住</option>
+            <option>其他</option>
+          </select>
+        </div>
+        <div class="f-item full">
+          <label>备注</label>
+          <textarea class="ta" placeholder="补充说明，随操作留痕"></textarea>
+        </div>
+      </div>
+      <p style="margin:14px 0 0"><span class="note">排除后该房间不再计入所选公摊项目，公摊明细与账单同步更新；恢复时同样需登记原因</span></p>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" data-close>取消</button>
+      <button class="btn primary" data-close>确认</button>
+    </div>
+  </div>
+</div>
+
 <script>
+  /* 一级页签 */
   document.querySelectorAll('#shareTabs .tb[data-t]').forEach(function (tb) {
     tb.addEventListener('click', function () {
       document.querySelectorAll('#shareTabs .tb').forEach(function (x) { x.classList.remove('on'); });
@@ -254,18 +429,98 @@
       });
     });
   });
+
+  /* 分摊方式三选 */
   document.querySelectorAll('#shareWay .rc').forEach(function (rc) {
     rc.addEventListener('click', function () {
       document.querySelectorAll('#shareWay .rc').forEach(function (x) { x.classList.remove('on'); });
       rc.classList.add('on');
     });
   });
-  var mask = document.getElementById('ruleMask');
-  document.getElementById('btnAddRule').addEventListener('click', function () { mask.style.display = 'flex'; });
-  mask.querySelectorAll('[data-close]').forEach(function (el) {
-    el.addEventListener('click', function () { mask.style.display = 'none'; });
+
+  /* 分摊范围两选：切到「指定房间」时显示房间选择器 */
+  document.querySelectorAll('#shareScope .rc').forEach(function (rc) {
+    rc.addEventListener('click', function () {
+      document.querySelectorAll('#shareScope .rc').forEach(function (x) { x.classList.remove('on'); });
+      rc.classList.add('on');
+      document.getElementById('roomPick').style.display = rc.dataset.scope === 'rooms' ? 'block' : 'none';
+    });
   });
-  mask.addEventListener('click', function (e) { if (e.target === mask) mask.style.display = 'none'; });
+
+  /* 房间选择器：勾选切换（21 个可见房间代表全部 182 户，其余 158 户默认参与） */
+  var PICK_HIDDEN_ON = 158, PICK_TOTAL = 182;
+  function refreshPick() {
+    var on = document.querySelectorAll('#pickGrid .rp.on').length;
+    document.getElementById('pickCnt').textContent = (PICK_HIDDEN_ON + on) + ' / ' + PICK_TOTAL;
+  }
+  document.querySelectorAll('#pickGrid .rp').forEach(function (rp) {
+    rp.addEventListener('click', function () {
+      rp.classList.toggle('on');
+      rp.classList.toggle('off', !rp.classList.contains('on'));
+      refreshPick();
+    });
+  });
+
+  /* 规则弹窗：新增 / 编辑 */
+  var ruleMask = document.getElementById('ruleMask');
+  document.getElementById('btnAddRule').addEventListener('click', function () {
+    document.getElementById('ruleTitle').textContent = '新增公摊规则';
+    document.getElementById('fName').value = '';
+    document.getElementById('fMemo').value = '';
+    document.getElementById('fPeriod').value = '2026-10';
+    ruleMask.style.display = 'flex';
+  });
+  document.querySelectorAll('[data-edit]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.getElementById('ruleTitle').textContent = '编辑公摊规则';
+      if (b.dataset.edit === '1') {
+        document.getElementById('fName').value = '公共电费公摊';
+        document.getElementById('fMeter').selectedIndex = 0;
+        document.getElementById('fPeriod').value = '2026-01';
+        document.getElementById('fMemo').value = '';
+        document.querySelectorAll('#shareScope .rc')[0].click();
+      } else {
+        document.getElementById('fName').value = '公共水费公摊';
+        document.getElementById('fMeter').selectedIndex = 1;
+        document.getElementById('fPeriod').value = '2026-01';
+        document.getElementById('fMemo').value = '3 栋 301/302/303 排除（独立门户 / 新交付未入住）';
+        document.querySelectorAll('#shareScope .rc')[1].click();
+      }
+      ruleMask.style.display = 'flex';
+    });
+  });
+
+  /* 停用确认 */
+  document.querySelectorAll('[data-off]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.getElementById('offName').textContent = b.dataset.off;
+      document.getElementById('offMask').style.display = 'flex';
+    });
+  });
+
+  /* 排除 / 恢复房间 */
+  document.querySelectorAll('[data-exc]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.getElementById('excTitle').textContent = '排除房间';
+      document.getElementById('excRoom').value = b.dataset.exc;
+      document.getElementById('excMask').style.display = 'flex';
+    });
+  });
+  document.querySelectorAll('[data-back]').forEach(function (b) {
+    b.addEventListener('click', function () {
+      document.getElementById('excTitle').textContent = '恢复房间';
+      document.getElementById('excRoom').value = b.dataset.back;
+      document.getElementById('excMask').style.display = 'flex';
+    });
+  });
+
+  /* 弹窗关闭 */
+  document.querySelectorAll('.mask').forEach(function (m) {
+    m.querySelectorAll('[data-close]').forEach(function (el) {
+      el.addEventListener('click', function () { m.style.display = 'none'; });
+    });
+    m.addEventListener('click', function (e) { if (e.target === m) m.style.display = 'none'; });
+  });
 </script>
 <script src="../../00-整体需求/主页原型/assets/nav.js"></script>
 </body>
