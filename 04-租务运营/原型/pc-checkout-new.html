@@ -1,0 +1,334 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>办理退房 · 1 栋-305 · 租务运营 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  a.mi{color:var(--navy-tx)}
+  .inp.ro{background:var(--paper);color:var(--ink2);cursor:default}
+  .inp-wrap{position:relative}
+  .inp-wrap .inp{padding-right:44px}
+  .inp-wrap .u{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--ink3);pointer-events:none}
+  .f-sec .note{display:flex;margin-top:8px}
+  /* 抄表行 */
+  .meter{display:grid;grid-template-columns:1.2fr 1fr 1fr 1fr 1fr;gap:12px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line2)}
+  .meter:last-child{border-bottom:none}
+  .meter .mh{font-size:13px;color:var(--ink3)}
+  .meter .mv{font-size:14px}
+  .meter .mi .inp{height:34px;font-size:13px}
+  .meter .mr{text-align:right;font-weight:600;font-size:15px}
+  /* 其他费用行 */
+  .add-row{display:flex;gap:12px;align-items:center;margin-top:10px}
+  .add-row .inp{height:34px;font-size:13px}
+  .sum-note{font-size:12.5px;color:var(--ink3);margin-top:6px}
+  /* 键值网格（app.css 未定义，本页补齐） */
+  .kv{display:grid;grid-template-columns:1fr 1fr;gap:12px 16px}
+  .kv .k{font-size:12.5px;color:var(--ink3);margin-right:4px}
+  .op{color:var(--brand);cursor:pointer;font-size:13px;white-space:nowrap}
+  .op:hover{color:var(--brand-d)}
+  .op+.op{margin-left:10px}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="checkout" data-ver="V1.2 原型 · 租务运营 / 合同管理"></aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb"><span><a href="pc-checkout-list.html" style="color:inherit">租务运营 / 退房办理</a> / </span>办理退房</div>
+      <div class="right">
+        <div class="scope">片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="avatar">陈</span><span style="color:var(--ink)">陈志远 · 运营主管</span></div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="row" style="align-items:flex-start">
+
+        <!-- ================= 左：验收与费用 ================= -->
+        <div class="col" style="flex:1.55">
+
+          <!-- 基本信息 -->
+          <div class="panel">
+            <div class="ph"><h3>退房信息</h3></div>
+            <div class="pb">
+              <div class="f-grid" style="display:grid;grid-template-columns:1fr 1fr;gap:14px 24px">
+                <div class="f-item"><label>租户 <span class="req">*</span></label><select class="sel" id="pcTenant"><option selected>陈先生 · 135****4412</option><option>李女士 · 138****7788</option><option>王同学 · 139****2210</option></select></div>
+                <div class="f-item"><label>房源 <span class="req">*</span></label><select class="sel" id="pcRoom"></select></div>
+                <div class="f-item"><label>关联合同</label><input class="inp ro num" id="pcContract" value="HT-XQ05-GY-2025-0915" readonly></div>
+                <div class="f-item"><label>合同期</label><input class="inp ro num" id="pcTerm" value="2025-09-16 ~ 2026-09-15" readonly></div>
+                <div class="f-item"><label><span class="req">*</span>退房原因</label>
+                  <select class="sel"><option selected>到期退房</option><option>提前退租</option><option>违约清退</option></select>
+                </div>
+                <div class="f-item"><label><span class="req">*</span>退住日期</label><input class="inp num" type="date" value="2026-09-15"></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 验收 -->
+          <div class="panel">
+            <div class="ph">
+              <h3>房屋验收</h3>
+              <span class="note" style="margin-left:6px">逐项确认是否完好；破损须登记赔偿金额，每项可单独填备注与现场照片（照片非必填）</span>
+            </div>
+            <div class="pb">
+
+              <!-- 卫生 -->
+              <div class="chk">
+                <div class="ch">
+                  <span class="cn">① 卫生</span><span class="cm">整体清洁状况</span>
+                  <div class="cops"><span class="cst">完好</span><span class="cst on-bad">破损</span></div>
+                </div>
+                <div class="cb">
+                  <div class="ci"><label>赔偿 / 保洁费（元）</label><input class="inp num" value="120"></div>
+                  <div class="ci"><label>备注</label><input class="inp" value="厨房油污严重，需专业保洁"></div>
+                  <div class="shot"><div class="upl"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.2"/><path d="M8 6l1.5-2h5L16 6"/></svg></div><div class="u-t">已传 2 张</div><div class="u-s">点击追加</div></div></div>
+                </div>
+              </div>
+
+              <!-- 设施（资产清单逐项） -->
+              <div class="chk">
+                <div class="ch">
+                  <span class="cn">② 设施</span><span class="cm">按房间资产清单逐项点验</span>
+                  <div class="cops"><span class="cst">全部完好</span><span class="cst on-bad">有损坏</span></div>
+                </div>
+                <div class="cb" style="flex-direction:column;gap:10px">
+                  <table class="tb">
+                    <thead><tr><th>资产名称</th><th>类别</th><th>入住状态</th><th>本次验收</th><th>赔偿（元）</th><th>备注 / 照片</th></tr></thead>
+                    <tbody>
+                      <tr>
+                        <td>美的空调 KFR-35GW</td><td>电器</td><td><span class="tag-asset ok">完好</span></td>
+                        <td><select class="sel ac" style="height:30px;font-size:12.5px;padding:0 4px"><option selected>完好</option><option>破损</option></select></td>
+                        <td><input class="inp num pay" value="" disabled style="height:30px;width:90px;color:var(--ink3)"></td>
+                        <td style="color:var(--ink3)">—</td>
+                      </tr>
+                      <tr>
+                        <td>海尔电热水器 60L</td><td>电器</td><td><span class="tag-asset ok">完好</span></td>
+                        <td><select class="sel ac" style="height:30px;font-size:12.5px;padding:0 4px"><option selected>完好</option><option>破损</option></select></td>
+                        <td><input class="inp num pay" value="" disabled style="height:30px;width:90px;color:var(--ink3)"></td>
+                        <td style="color:var(--ink3)">—</td>
+                      </tr>
+                      <tr>
+                        <td>实木床 1.5m（含床垫）</td><td>家具</td><td><span class="tag-asset ok">完好</span></td>
+                        <td><select class="sel ac" style="height:30px;font-size:12.5px;padding:0 4px"><option selected>完好</option><option>破损</option></select></td>
+                        <td><input class="inp num pay" value="" disabled style="height:30px;width:90px;color:var(--ink3)"></td>
+                        <td style="color:var(--ink3)">—</td>
+                      </tr>
+                      <tr>
+                        <td>双门衣柜</td><td>家具</td><td><span class="tag-asset bad">损坏</span></td>
+                        <td><select class="sel ac" style="height:30px;font-size:12.5px;padding:0 4px"><option>完好</option><option selected>破损</option></select></td>
+                        <td><input class="inp num pay" value="260" style="height:30px;width:90px"></td>
+                        <td>柜门合页断裂需更换 · <span style="color:var(--brand)">2 张照片</span></td>
+                      </tr>
+                      <tr>
+                        <td>淋浴花洒套装</td><td>卫浴</td><td><span class="tag-asset ok">完好</span></td>
+                        <td><select class="sel ac" style="height:30px;font-size:12.5px;padding:0 4px"><option selected>完好</option><option>破损</option></select></td>
+                        <td><input class="inp num pay" value="" disabled style="height:30px;width:90px;color:var(--ink3)"></td>
+                        <td style="color:var(--ink3)">—</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="sum-note">设施赔偿小计 <b class="num" style="color:var(--red)">¥260</b>（入住时已标记「双门衣柜 损坏」，本次按实际破损追加认定）</div>
+                </div>
+              </div>
+
+              <!-- 墙壁 -->
+              <div class="chk">
+                <div class="ch">
+                  <span class="cn">③ 墙壁</span><span class="cm">墙面 / 地面 / 天花板</span>
+                  <div class="cops"><span class="cst on-ok">完好</span><span class="cst">破损</span></div>
+                </div>
+                <div class="cb">
+                  <div class="ci"><label>备注</label><input class="inp" value="墙面无新增破损，仅有少量钉眼"></div>
+                  <div class="shot"><div class="upl"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.2"/><path d="M8 6l1.5-2h5L16 6"/></svg></div><div class="u-t">已传 1 张</div><div class="u-s">点击追加</div></div></div>
+                </div>
+              </div>
+
+              <!-- 门窗 -->
+              <div class="chk">
+                <div class="ch">
+                  <span class="cn">④ 门窗</span><span class="cm">入户门 / 窗户 / 锁具</span>
+                  <div class="cops"><span class="cst on-ok">完好</span><span class="cst">破损</span></div>
+                </div>
+                <div class="cb">
+                  <div class="ci"><label>备注</label><input class="inp" value="门窗及锁具完好，无变形"></div>
+                  <div class="shot"><div class="upl"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.2"/><path d="M8 6l1.5-2h5L16 6"/></svg></div><div class="u-t">已传 1 张</div><div class="u-s">点击追加</div></div></div>
+                </div>
+              </div>
+
+              <!-- 钥匙门禁 -->
+              <div class="chk">
+                <div class="ch">
+                  <span class="cn">⑤ 钥匙门禁</span><span class="cm">钥匙 2 把 · 门禁卡 1 张</span>
+                  <div class="cops"><span class="cst on-ok">已归还</span><span class="cst">遗失</span></div>
+                </div>
+                <div class="cb">
+                  <div class="ci"><label>赔偿 / 补办费（元）</label><input class="inp num" value="0"></div>
+                  <div class="ci"><label>备注</label><input class="inp" value="钥匙 2 把、门禁卡 1 张已全部归还"></div>
+                  <div class="shot"><div class="upl"><div class="ic"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.2"/><path d="M8 6l1.5-2h5L16 6"/></svg></div><div class="u-t">已传 1 张</div><div class="u-s">点击追加</div></div></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- 水电结算 -->
+          <div class="panel">
+            <div class="ph">
+              <h3>水电费用结算</h3>
+              <span class="note" style="margin-left:6px">按「上期抄表底数 → 本次读数」计算用量，并叠加未缴纳水电账单</span>
+            </div>
+            <div class="pb">
+              <div class="meter" style="border-bottom:1px solid var(--line)">
+                <div class="mh">表具</div><div class="mh">上期底数</div><div class="mh">本次读数</div><div class="mh">用量 × 单价</div><div class="mh" style="text-align:right">金额</div>
+              </div>
+              <div class="meter">
+                <div class="mv">电表 <span class="num">EL-0508</span></div>
+                <div class="mv num">12,180 度</div>
+                <div class="mi"><input class="inp num" value="12640"></div>
+                <div class="mv"><span class="num">460</span> 度 × <span class="num">¥1.00</span></div>
+                <div class="mr num">¥460</div>
+              </div>
+              <div class="meter">
+                <div class="mv">水表 <span class="num">WT-0508</span></div>
+                <div class="mv num">372 吨</div>
+                <div class="mi"><input class="inp num" value="398"></div>
+                <div class="mv"><span class="num">26</span> 吨 × <span class="num">¥4.50</span></div>
+                <div class="mr num">¥117</div>
+              </div>
+              <div class="meter">
+                <div class="mv">未缴水电账单</div>
+                <div class="mv num" style="color:var(--ink3)">ZD-XQ05-2026-08-0517</div>
+                <div class="mv" style="color:var(--ink3)">2026-08 期水电（自动带入）</div>
+                <div class="mv">—</div>
+                <div class="mr num">¥86</div>
+              </div>
+              <div class="sum-note" style="border-top:1px solid var(--line2);padding-top:10px">
+                水电合计 <b class="num" style="color:var(--red)">¥663</b> · <span style="color:var(--ink3)">单价（电 ¥1.00/度、水 ¥4.50/吨）来源于 收费管理-规则配置，各片区可独立配置；表具与抄表能力对接 M5 水电模块</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 其他费用 -->
+          <div class="panel">
+            <div class="ph"><h3>其他费用</h3><span class="note" style="margin-left:6px">违约金 / 清洁费 / 物品遗留处理费均可在此登记</span></div>
+            <div class="pb">
+              <table class="tb">
+                <thead><tr><th>费用名称</th><th>金额（元）</th><th>说明</th><th>操作</th></tr></thead>
+                <tbody>
+                  <tr><td>提前退租违约金</td><td class="num">0</td><td>到期退房，不计违约金</td><td><span class="op" style="color:var(--brand);cursor:pointer">删除</span></td></tr>
+                </tbody>
+              </table>
+              <div class="add-row">
+                <select class="sel" style="width:180px"><option>违约金</option><option>清洁费</option><option>物品清理费</option><option>其他</option></select>
+                <div class="inp-wrap" style="width:150px"><input class="inp num" placeholder="0"><span class="u">元</span></div>
+                <input class="inp" placeholder="说明" style="flex:1">
+                <button class="btn ghost">＋ 添加</button>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- ================= 右：结算 ================= -->
+        <div class="col" style="flex:1">
+
+          <div class="panel">
+            <div class="ph"><h3>费用结算</h3></div>
+            <div class="pb">
+              <div class="settle">
+                <div class="sl"><span class="sk">押金总额<small>（已强制抵扣）</small></span><span class="sv num">¥2,600</span></div>
+                <div class="sl sub"><span class="sk">欠租</span><span class="sv num">−¥0</span></div>
+                <div class="sl sub"><span class="sk">水电费<small>460 度 + 26 吨 + 未缴账单</small></span><span class="sv num minus">−¥663</span></div>
+                <div class="sl sub"><span class="sk">设施赔偿</span><span class="sv num minus">−¥260</span></div>
+                <div class="sl sub"><span class="sk">卫生 / 保洁</span><span class="sv num minus">−¥120</span></div>
+                <div class="sl sub"><span class="sk">钥匙门禁</span><span class="sv num">−¥0</span></div>
+                <div class="sl sub"><span class="sk">其他费用</span><span class="sv num">−¥0</span></div>
+                <div class="sl total"><span class="sk">应退金额</span><span class="sv num refund">¥1,557</span></div>
+              </div>
+              <div class="sum-note" style="margin-top:10px">计算式：押金 <span class="num">2,600</span> − 欠租 <span class="num">0</span> − 水电 <span class="num">663</span> − 赔偿 <span class="num">380</span> − 其他 <span class="num">0</span> = <b class="num">¥1,557</b></div>
+              <span class="note" style="margin-top:10px">押金强制抵扣后仍有余额 → 状态「待退费」；若抵扣不足 → 状态「待补交」；两者皆为 0 → 状态「已完成」</span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="ph"><h3>押金信息</h3></div>
+            <div class="pb">
+              <div class="kv" style="display:grid;grid-template-columns:1fr 1fr;gap:12px 16px">
+                <div><div style="font-size:12.5px;color:var(--ink3)">押金标准</div><div class="num" style="font-size:15px;font-weight:600">¥2,600</div></div>
+                <div><div style="font-size:12.5px;color:var(--ink3)">押金余额</div><div class="num" style="font-size:15px;font-weight:600">¥2,600</div></div>
+                <div><div style="font-size:12.5px;color:var(--ink3)">本次抵扣</div><div class="num" style="font-size:15px;font-weight:600;color:var(--red)">¥1,043</div></div>
+                <div><div style="font-size:12.5px;color:var(--ink3)">退还金额</div><div class="num" style="font-size:15px;font-weight:600;color:var(--green)">¥1,557</div></div>
+              </div>
+              <span class="note" style="margin-top:12px">押金收取 / 退还 / 扣缴统一由 收费管理-押金管理 执行，本页只读余额并生成抵扣建议；抵扣动作留痕后由财务完成退款</span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="ph"><h3>退住后房态</h3></div>
+            <div class="pb">
+              <div class="f-item" style="display:flex;flex-direction:column;gap:8px">
+                <label>退房完成后房源状态</label>
+                <select class="sel"><option selected>空置（可直接出租）</option><option>维修中</option></select>
+                <div class="sw-row"><span class="switch on"></span>需保洁</div>
+                <div class="sw-row"><span class="switch"></span>需维修</div>
+                <div class="sw-row"><span class="switch on"></span>退住后自动对客展示</div>
+              </div>
+              <span class="note" style="margin-top:10px">提交后房源由「在租」转为所选状态，合同标记为已终止，用户端「我的房源」同步移除</span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="pb" style="display:flex;flex-direction:column;gap:10px">
+              <a class="btn primary" href="pc-checkout-detail.html" style="width:100%">提交退房办理</a>
+              <a class="btn ghost" href="pc-checkout-list.html" style="width:100%">取消</a>
+              <span class="note">提交后生成退房单 TF-XQ05-2026-0042，状态 = 待退费（应退 ¥1,557），并写入租户办理记录</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script>
+  // 租户 → 房源（一个租户可有多房）→ 关联合同 / 合同期
+  var pcTenants={
+    '陈先生 · 135****4412':[
+      {room:'滨江科创园区 · 1 栋-305（两室一厅 68㎡）',contract:'HT-XQ05-GY-2025-0915',term:'2025-09-16 ~ 2026-09-15'},
+      {room:'滨江科创园区 · 1 栋-402（一室一厅 52㎡）',contract:'HT-XQ05-GY-2025-1103',term:'2025-11-03 ~ 2026-11-02'}
+    ],
+    '李女士 · 138****7788':[
+      {room:'滨江科创园区 · 2 栋-1208（三室两厅 96㎡）',contract:'HT-XQ05-GY-2024-1208',term:'2024-12-08 ~ 2025-12-07'}
+    ],
+    '王同学 · 139****2210':[
+      {room:'软件园 B 区 · 6 栋-203（单间 28㎡）',contract:'HT-RJY-GY-2026-0601',term:'2026-06-01 ~ 2027-05-31'}
+    ]
+  };
+  var pcT=document.getElementById('pcTenant'), pcR=document.getElementById('pcRoom');
+  function pcFillRooms(){ var list=pcTenants[pcT.value]||[]; pcR.innerHTML=list.map(function(r){return '<option>'+r.room+'</option>'}).join(''); pcApplyRoom(); }
+  function pcApplyRoom(){ var r=(pcTenants[pcT.value]||[]).find(function(x){return x.room===pcR.value}); if(r){ document.getElementById('pcContract').value=r.contract; document.getElementById('pcTerm').value=r.term; } }
+  if(pcT){ pcT.addEventListener('change',pcFillRooms); pcR.addEventListener('change',pcApplyRoom); pcFillRooms(); }
+
+  // 设施逐项：本次验收切换完好 / 破损，破损才允许填写赔偿金额
+  document.querySelectorAll('select.ac').forEach(function(sel){
+    sel.addEventListener('change',function(){
+      var pay=sel.closest('tr').querySelector('.pay');
+      var bad=sel.value==='破损';
+      if(pay){ pay.disabled=!bad; pay.value=bad?pay.value:''; pay.style.color=bad?'var(--ink)':'var(--ink3)'; }
+    });
+  });
+</script>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>
