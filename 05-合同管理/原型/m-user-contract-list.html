@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动用户端 · 我的合同 · 英莱达公寓</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .w-top{display:flex;align-items:center;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 12px;flex-shrink:0}
+  .w-top .bk{width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink);flex-shrink:0}
+  .w-top .bk svg{width:20px;height:20px}
+  .w-top .tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .w-top .side{width:32px;flex-shrink:0}
+  .demo-mark{color:var(--ink3);border-color:var(--line)}
+  .my-sum{padding:12px 14px 0;font-size:13px;color:var(--ink2)}
+  .my-sum b{color:var(--ink);font-weight:600}
+  .ct-card{position:relative;display:block;margin:10px 14px 0;background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:14px}
+  .ct-card .card-go{position:absolute;inset:0;z-index:1;border-radius:inherit;cursor:pointer}
+  .ct-card .ca{font-size:12px;color:var(--ink3);margin-bottom:6px}
+  .ct-card .ch{display:flex;align-items:center;gap:8px}
+  .ct-card .rn{font-size:16px;font-weight:700}
+  .ct-card .cs{font-size:12.5px;color:var(--ink3);margin-top:6px}
+  .ct-card .cr{display:flex;align-items:baseline;margin-top:8px}
+  .ct-card .cp{color:var(--red);font-weight:700;font-size:16px}
+  .ct-card .cp small{font-size:11px;color:var(--ink3);font-weight:400}
+  .ct-card .ct2{margin-left:auto;font-size:12px;color:var(--ink3)}
+  .ct-card .ops{display:flex;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line2)}
+  .ct-card .ops a{flex:1;position:relative;z-index:2;display:flex;align-items:center;justify-content:center;gap:5px;height:32px;border:1px solid var(--line);border-radius:8px;font-size:12.5px;color:var(--ink2);text-decoration:none}
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">用户端 · 我的合同</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <div class="w-top">
+        <a class="bk" href="../../00-整体需求/主页原型/m-user-home.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </a>
+        <div class="tt">我的合同</div>
+        <div class="side"></div>
+      </div>
+
+      <div class="my-sum">共 <b class="num">3</b> 份合同 · 生效中 <b class="num">1</b> · 待签署 <b class="num">1</b></div>
+
+      <!-- 待签署合同 -->
+      <div class="ct-card" style="border-color:var(--brand);background:var(--brand-bg)">
+        <a class="card-go" href="m-user-contract-sign.html" title="去签署"></a>
+        <div class="ca">滨江科创园区 · 滨江人才公寓</div>
+        <div class="ch"><span class="rn">3 栋 - 508</span><span class="tag blue">待签署</span></div>
+        <div class="cs">一室一厅 · <span class="num">45㎡</span> · <span class="num">2026-09-16 ~ 2027-09-15</span></div>
+        <div class="cr"><span class="cp num">¥1,850<small>/月</small></span><span class="ct2">请于 <b class="num">7</b> 天内完成签署</span></div>
+        <div class="ops">
+          <a href="m-user-contract-detail.html">查看合同</a>
+          <a href="m-user-contract-sign.html" style="color:var(--brand);border-color:var(--brand)">去签署</a>
+        </div>
+      </div>
+
+      <!-- 即将到期 -->
+      <div class="ct-card">
+        <a class="card-go" href="m-user-contract-detail.html" title="查看合同详情"></a>
+        <div class="ca">滨江科创园区 · 滨江人才公寓</div>
+        <div class="ch"><span class="rn">2 栋 - 401</span><span class="tag due">即将到期</span></div>
+        <div class="cs">单间 · <span class="num">32㎡</span> · <span class="num">2025-09-20 ~ 2026-09-19</span></div>
+        <div class="cr"><span class="cp num">¥1,380<small>/月</small></span><span class="ct2">剩 <b class="num" style="color:var(--orange)">15</b> 天</span></div>
+        <div class="ops">
+          <a href="m-user-contract-detail.html">查看合同</a>
+          <a href="javascript:void(0)">下载</a>
+        </div>
+      </div>
+
+      <!-- 生效中 -->
+      <div class="ct-card">
+        <a class="card-go" href="m-user-contract-detail.html" title="查看合同详情"></a>
+        <div class="ca">滨江科创园区 · 滨江人才公寓</div>
+        <div class="ch"><span class="rn">1 栋 - 301</span><span class="tag green">生效中</span></div>
+        <div class="cs">一室一厅 · <span class="num">45㎡</span> · <span class="num">2025-12-01 ~ 2026-11-30</span></div>
+        <div class="cr"><span class="cp num">¥1,850<small>/月</small></span><span class="ct2">已签署 · <span class="num">2025-11-28</span></span></div>
+        <div class="ops">
+          <a href="m-user-contract-detail.html">查看合同</a>
+          <a href="javascript:void(0)">下载</a>
+        </div>
+      </div>
+
+      <div class="note" style="margin:12px 14px 0">合同签署、变更与续租均可在小程序完成；纸质合同由管家后台补录后同样可在此查看</div>
+      <div style="height:14px"></div>
+
+    </div>
+
+    <div class="m-tab" id="amsTab" data-variant="user" data-active="home"></div>
+  </div>
+</div>
+
+<script src="../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

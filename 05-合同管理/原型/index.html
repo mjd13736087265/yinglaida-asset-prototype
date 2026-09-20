@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>合同管理模块 · 原型导航 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .cover{justify-content:flex-start}
+  .grp{width:100%;max-width:1180px;margin-top:34px}
+  .grp .gt{font-size:13px;color:#7d92b8;letter-spacing:2px;display:flex;align-items:center;gap:12px}
+  .grp .gt::after{content:"";flex:1;height:1px;background:#24365c}
+  .grp .cards{margin-top:14px;justify-content:flex-start}
+  .cover .cd{width:262px}
+</style>
+</head>
+<body>
+<div class="cover">
+  <h1>合同管理模块 · 原型 V1.2</h1>
+  <div class="sub">英莱达资产管理系统 · 合同台账 · 签署 / 补录 · 变更 · 模板 · 到期提醒 · 演示数据</div>
+
+  <!-- PC 管理后台 -->
+  <div class="grp">
+    <div class="gt">PC 管理后台</div>
+    <div class="cards">
+      <div class="cd" onclick="location.href='pc-contract-list.html'">
+        <h3>合同台账</h3>
+        <p>支持查看全部合同，按片区 / 业态 / 状态 / 签署方式 / 到期区间筛选，含待办提醒条。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-contract-detail.html'">
+        <h3>合同详情</h3>
+        <p>合同正文（变量已替换）、签署信息时间线、关联账单、附件与变更记录。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-contract-sign.html'">
+        <h3>发起签署</h3>
+        <p>小程序在线签 vs 后台补录二选一，含签署设置与用户端签署预览。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-contract-fill.html'">
+        <h3>后台补录</h3>
+        <p>上传纸质合同扫描件即视为生效（无需审批）；已签署合同也可继续补录其他附件。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-contract-change.html'">
+        <h3>合同变更</h3>
+        <p>租金 / 付款方式 / 押金 / 租期 / 承租人变更，前后对比 + 变更协议，新口径自下期生效。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-contract-tpl-list.html'">
+        <h3>合同模板 · 列表</h3>
+        <p>片区 × 业态矩阵，未配置的组合高亮提醒（入住办理将拦截），支持启用停用与版本管理。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-contract-tpl-edit.html'">
+        <h3>合同模板 · 编辑</h3>
+        <p>条款富文本 + 变量占位符、可增删排序；版本管理支持查看历史版本并回退启用。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-contract-expire.html'">
+        <h3>到期提醒</h3>
+        <p>7 / 15 / 30 天分档提醒（天数与通道可配置），批量发送续签提醒与提醒记录。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 移动管理端 -->
+  <div class="grp">
+    <div class="gt">移动管理端（微信小程序）</div>
+    <div class="cards">
+      <div class="cd" onclick="location.href='m-admin-contract-list.html'">
+        <h3>全部合同</h3>
+        <p>移动端合同列表与状态分档，可发起签署、后台补录、变更与续租。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-contract-detail.html'">
+        <h3>合同详情</h3>
+        <p>合同信息、签署记录时间线、关联账单与附件，底部变更 / 续租操作栏。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-contract-sign.html'">
+        <h3>发起签署（移动端）</h3>
+        <p>小程序在线签 vs 后台补录二选一，含签署人、通知方式与有效期设置。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-contract-fill.html'">
+        <h3>后台补录（移动端）</h3>
+        <p>拍照 / 上传纸质合同扫描件即视为生效；已签合同也可继续补录附件。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 移动用户端 -->
+  <div class="grp">
+    <div class="gt">移动用户端（微信小程序 · 英莱达公寓）</div>
+    <div class="cards">
+      <div class="cd" onclick="location.href='m-user-contract-list.html'">
+        <h3>我的合同</h3>
+        <p>租户可查看本人全部合同（生效中 / 即将到期 / 待签署），支持查看与下载。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-user-contract-detail.html'">
+        <h3>合同详情（用户端）</h3>
+        <p>合同信息 + 条款正文 + 双方签章，支持下载与联系管家。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-user-contract-sign.html'">
+        <h3>在线签署</h3>
+        <p>核对合同信息 → 阅读条款 → 手写签名 → 勾选同意 → 确认签署，签署后即时生效。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 关联模块 -->
+  <div class="grp">
+    <div class="gt">关联模块</div>
+    <div class="cards">
+      <div class="cd" onclick="location.href='../../04-租务运营/原型/index.html'">
+        <h3>公寓租务运营模块 →</h3>
+        <p>入住办理、租户管理、续租与退房办理（验收 + 抄表结算 + 押金抵扣）。</p>
+        <div class="go">打开模块 →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">共享设计系统：00-整体需求/主页原型/assets/app.css</div>
+</div>
+</body>
+</html>
