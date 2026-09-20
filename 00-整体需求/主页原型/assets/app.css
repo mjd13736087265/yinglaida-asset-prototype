@@ -207,15 +207,15 @@ table.tb{width:100%;border-collapse:collapse;font-size:13.5px}
 .m-sec .st::before{content:"";width:4px;height:15px;border-radius:2px;background:var(--brand)}
 .m-sec .st .more{margin-left:auto;font-size:12px;color:var(--ink3);font-weight:400}
 
-/* 常用功能大卡 一行四列（图标在上 · 名称在下 · 居中，紧凑触点） */
+/* 常用功能大卡 一行四列（白卡 + 渐变图标：图标在上 · 名称在下 · 居中，紧凑触点） */
 .m-tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:10px}
-.m-tiles .tl{border-radius:var(--r-md);padding:14px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;color:#fff;text-align:center}
-.m-tiles .tl .ti{width:40px;height:40px;border-radius:12px;background:rgba(255,255,255,.24);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.m-tiles .tl{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);box-shadow:var(--shadow-1);padding:14px 4px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;cursor:pointer;color:var(--ink);text-align:center}
+.m-tiles .tl .ti{width:38px;height:38px;border-radius:12px;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff}
 .m-tiles .tl .tt{font-size:13px;font-weight:600;line-height:1.3}
-.m-tiles .tl.c-red{background:linear-gradient(135deg,#ef6a5a,#e04b3a)}
-.m-tiles .tl.c-green{background:linear-gradient(135deg,#43b581,#2b9e6b)}
-.m-tiles .tl.c-orange{background:linear-gradient(135deg,#f0a53c,#e08c1a)}
-.m-tiles .tl.c-blue{background:linear-gradient(135deg,#4f83f5,#2563eb)}
+.m-tiles .tl.c-red .ti{background:linear-gradient(135deg,#ef6a5a,#e04b3a)}
+.m-tiles .tl.c-green .ti{background:linear-gradient(135deg,#43b581,#2b9e6b)}
+.m-tiles .tl.c-orange .ti{background:linear-gradient(135deg,#f0a53c,#e08c1a)}
+.m-tiles .tl.c-blue .ti{background:linear-gradient(135deg,#4f83f5,#2563eb)}
 
 /* 应用宫格 */
 .m-apps{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 6px}
