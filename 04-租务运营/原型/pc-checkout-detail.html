@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>退房单详情 · TF-XQ05-2026-0042 · 租务运营 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .op{color:var(--brand);cursor:pointer;font-size:13px}
+  .op:hover{color:var(--brand-d)}
+  .kv{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 24px}
+  .kv .i{display:flex;flex-direction:column;gap:4px}
+  .kv .i .k{font-size:12.5px;color:var(--ink3)}
+  .kv .i .v{font-size:14px}
+  .hd{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line2)}
+  .hd .t{font-size:17px;font-weight:700}
+  .hd .r{margin-left:auto;display:flex;gap:10px}
+  .mini{font-size:12.5px;color:var(--ink3)}
+  .ph2{font-size:13px;color:var(--ink3);padding:12px 0 6px}
+  .sum-note{font-size:12.5px;color:var(--ink3);margin-top:8px}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="checkout" data-ver="V1.2 原型 · 租务运营 / 合同管理"></aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb"><span><a href="pc-checkout-list.html" style="color:inherit">租务运营 / 退房办理</a> / </span>退房单详情</div>
+      <div class="right">
+        <div class="scope">片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="avatar">陈</span><span style="color:var(--ink)">陈志远 · 运营主管</span></div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- 单头 -->
+      <div class="panel" style="margin-bottom:16px">
+        <div class="hd">
+          <span class="t num">TF-XQ05-2026-0042</span>
+          <span class="tag green">待退费</span>
+          <span class="note">应退金额 <b class="num">¥1,557</b> · 财务在 收费管理 完成退款后状态更新为「已完成」</span>
+          <div class="r">
+            <button class="btn ghost">打印结算单</button>
+            <a class="btn primary" href="javascript:void(0)">去退款</a>
+          </div>
+        </div>
+        <div class="pb">
+          <div class="kv">
+            <div class="i"><span class="k">租户</span><span class="v">陈先生 · <span class="num">135****4412</span></span></div>
+            <div class="i"><span class="k">房源</span><span class="v">滨江科创园区 · 1 栋-305</span></div>
+            <div class="i"><span class="k">关联合同</span><span class="v num">HT-XQ05-GY-2025-0915</span></div>
+            <div class="i"><span class="k">退房原因</span><span class="v">到期退房</span></div>
+            <div class="i"><span class="k">退住日期</span><span class="v num">2026-09-15</span></div>
+            <div class="i"><span class="k">验收人</span><span class="v">陈志远（运营主管）</span></div>
+            <div class="i"><span class="k">提交时间</span><span class="v num">2026-09-15 16:20</span></div>
+            <div class="i"><span class="k">退款方式</span><span class="v">原路退回（微信）</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="align-items:flex-start">
+
+        <!-- 左 -->
+        <div class="col" style="flex:1.55">
+
+          <!-- 验收结果 -->
+          <div class="panel">
+            <div class="ph"><h3>验收结果</h3><span class="note" style="margin-left:6px">逐项确认，破损项已登记赔偿金额与备注</span></div>
+            <div class="pb">
+              <table class="tb">
+                <thead><tr><th>验收项</th><th>结论</th><th>赔偿（元）</th><th>备注</th><th>照片</th></tr></thead>
+                <tbody>
+                  <tr><td>① 卫生</td><td><span class="tag red">破损</span></td><td class="num">120</td><td>厨房油污严重，需专业保洁</td><td><span class="op">2 张</span></td></tr>
+                  <tr><td>② 设施 · 美的空调 KFR-35GW</td><td><span class="tag green">完好</span></td><td class="num">—</td><td>—</td><td><span class="mini">1 张</span></td></tr>
+                  <tr><td>② 设施 · 海尔电热水器 60L</td><td><span class="tag green">完好</span></td><td class="num">—</td><td>—</td><td><span class="mini">1 张</span></td></tr>
+                  <tr><td>② 设施 · 实木床 1.5m（含床垫）</td><td><span class="tag green">完好</span></td><td class="num">—</td><td>—</td><td><span class="mini">1 张</span></td></tr>
+                  <tr><td>② 设施 · 双门衣柜</td><td><span class="tag red">破损</span></td><td class="num">260</td><td>柜门合页断裂需更换（入住时已标记损坏）</td><td><span class="op">2 张</span></td></tr>
+                  <tr><td>② 设施 · 淋浴花洒套装</td><td><span class="tag green">完好</span></td><td class="num">—</td><td>—</td><td><span class="mini">1 张</span></td></tr>
+                  <tr><td>③ 墙壁</td><td><span class="tag green">完好</span></td><td class="num">—</td><td>墙面无新增破损，仅有少量钉眼</td><td><span class="mini">1 张</span></td></tr>
+                  <tr><td>④ 门窗</td><td><span class="tag green">完好</span></td><td class="num">—</td><td>门窗及锁具完好，无变形</td><td><span class="mini">1 张</span></td></tr>
+                  <tr><td>⑤ 钥匙门禁</td><td><span class="tag green">已归还</span></td><td class="num">—</td><td>钥匙 2 把、门禁卡 1 张已全部归还</td><td><span class="mini">1 张</span></td></tr>
+                </tbody>
+              </table>
+              <div class="sum-note" style="margin-top:12px">赔偿合计 <b class="num" style="color:var(--red)">¥380</b></div>
+            </div>
+          </div>
+
+          <!-- 水电 -->
+          <div class="panel">
+            <div class="ph"><h3>水电结算明细</h3></div>
+            <div class="pb">
+              <table class="tb">
+                <thead><tr><th>表具</th><th>上期底数</th><th>本次读数</th><th>用量</th><th>单价</th><th>金额</th></tr></thead>
+                <tbody>
+                  <tr><td>电表 <span class="num">EL-0508</span></td><td class="num">12,180 度</td><td class="num">12,640 度</td><td class="num">460 度</td><td class="num">¥1.00</td><td class="num">¥460</td></tr>
+                  <tr><td>水表 <span class="num">WT-0508</span></td><td class="num">372 吨</td><td class="num">398 吨</td><td class="num">26 吨</td><td class="num">¥4.50</td><td class="num">¥117</td></tr>
+                  <tr><td colspan="5">未缴水电账单 <span class="num" style="color:var(--ink3)">ZD-XQ05-2026-08-0517（2026-08 期）</span></td><td class="num">¥86</td></tr>
+                </tbody>
+              </table>
+              <div class="sum-note" style="margin-top:12px">水电合计 <b class="num" style="color:var(--red)">¥663</b> · <span style="color:var(--ink3)">按「上期抄表底数 → 本次读数 + 未缴账单」计算，单价来源于 收费管理-规则配置</span></div>
+            </div>
+          </div>
+
+          <!-- 办理记录 -->
+          <div class="panel">
+            <div class="ph"><h3>办理记录</h3></div>
+            <div class="pb">
+              <div class="tl-flow">
+                <div class="tfi done"><span class="pt"></span><div class="bd">
+                  <div class="tt">提交退房办理<span class="who num">2026-09-15 16:20</span></div>
+                  <div class="ts">陈志远 现场验收完成，生成退房单 TF-XQ05-2026-0042，结算应退 ¥1,557</div>
+                </div></div>
+                <div class="tfi done"><span class="pt"></span><div class="bd">
+                  <div class="tt">押金抵扣申请<span class="who num">2026-09-15 16:21</span></div>
+                  <div class="ts">抵扣 ¥1,043（水电 663 + 赔偿 380），押金余额 ¥2,600 → ¥1,557；已推送 收费管理</div>
+                </div></div>
+                <div class="tfi cur"><span class="pt"></span><div class="bd">
+                  <div class="tt">待财务退款<span class="who">当前节点</span></div>
+                  <div class="ts">退款完成后状态更新为「已完成」，房源转空置并对客展示</div>
+                </div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- 右：结算 -->
+        <div class="col" style="flex:1">
+          <div class="panel">
+            <div class="ph"><h3>结算结果</h3></div>
+            <div class="pb">
+              <div class="settle">
+                <div class="sl"><span class="sk">押金总额</span><span class="sv num">¥2,600</span></div>
+                <div class="sl sub"><span class="sk">欠租</span><span class="sv num">−¥0</span></div>
+                <div class="sl sub"><span class="sk">水电费</span><span class="sv num minus">−¥663</span></div>
+                <div class="sl sub"><span class="sk">设施赔偿</span><span class="sv num minus">−¥260</span></div>
+                <div class="sl sub"><span class="sk">卫生 / 保洁</span><span class="sv num minus">−¥120</span></div>
+                <div class="sl sub"><span class="sk">钥匙门禁</span><span class="sv num">−¥0</span></div>
+                <div class="sl sub"><span class="sk">其他费用</span><span class="sv num">−¥0</span></div>
+                <div class="sl total"><span class="sk">应退金额</span><span class="sv num refund">¥1,557</span></div>
+              </div>
+              <span class="note" style="margin-top:12px">押金强制抵扣后计算退 / 补：余额为正 → 待退费；不足 → 待补交（自动生成应收账单）；为零 → 已完成</span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="ph"><h3>后续动作</h3></div>
+            <div class="pb">
+              <div style="display:flex;flex-direction:column;gap:10px">
+                <a class="btn primary" href="javascript:void(0)" style="width:100%">登记退款（收费管理）</a>
+                <button class="btn ghost" style="width:100%">通知租户（短信 + 小程序）</button>
+                <button class="btn ghost" style="width:100%">打印 / 导出结算单</button>
+              </div>
+              <span class="note" style="margin-top:12px">异常退房扣缴请走 收费管理-特殊处理（统一审批留痕）；本页不提供直接扣缴入口</span>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>
