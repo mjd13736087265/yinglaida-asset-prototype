@@ -1,0 +1,189 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>租户详情 · 张女士 · 租务运营 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .op{color:var(--brand);cursor:pointer;font-size:13px}
+  .op:hover{color:var(--brand-d)}
+  .kv{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 24px}
+  .kv .i{display:flex;flex-direction:column;gap:4px}
+  .kv .i .k{font-size:12.5px;color:var(--ink3)}
+  .kv .i .v{font-size:14px}
+  .hd{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line2)}
+  .hd .av{width:46px;height:46px;border-radius:50%;background:linear-gradient(135deg,#3b82f6,#2563eb);color:#fff;display:flex;align-items:center;justify-content:center;font-size:18px;font-weight:600}
+  .hd .t{font-size:18px;font-weight:700}
+  .hd .s{font-size:12.5px;color:var(--ink3);margin-top:3px}
+  .hd .r{margin-left:auto;display:flex;gap:10px}
+  /* 在租房源卡 */
+  .rooms{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+  .rc{border:1px solid var(--line);border-radius:var(--r-md);padding:14px}
+  .rc .rh{display:flex;align-items:center;gap:8px}
+  .rc .rn{font-size:15px;font-weight:700}
+  .rc .rs{font-size:12.5px;color:var(--ink3);margin-top:6px}
+  .rc .rp{display:flex;align-items:baseline;margin-top:10px}
+  .rc .rp .p{color:var(--red);font-size:18px;font-weight:700}
+  .rc .rp .p small{font-size:11px;color:var(--ink3);font-weight:400}
+  .rc .rp .d{margin-left:auto;font-size:12px;color:var(--ink3)}
+  .rc .rops{display:flex;gap:8px;margin-top:12px;padding-top:10px;border-top:1px solid var(--line2)}
+  .rc .rops a{flex:1;text-align:center;height:32px;line-height:30px;border:1px solid var(--line);border-radius:8px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="tenant" data-ver="V1.2 原型 · 租务运营 / 合同管理"></aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb"><span><a href="pc-tenant-list.html" style="color:inherit">租务运营 / 租户管理</a> / </span>租户详情</div>
+      <div class="right">
+        <div class="scope">片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="avatar">陈</span><span style="color:var(--ink)">陈志远 · 运营主管</span></div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- 租户头 -->
+      <div class="panel" style="margin-bottom:16px">
+        <div class="hd">
+          <span class="av">张</span>
+          <div>
+            <div class="t">张女士 <span class="tag-business" style="margin-left:8px">老客户</span></div>
+            <div class="s"><span class="num">138****8888</span> · 身份证 <span class="num">3301**********1234</span> · 紧急联系人 王先生 <span class="num">138****8889</span></div>
+          </div>
+          <div class="r">
+            <button class="btn ghost">编辑资料</button>
+            <a class="btn ghost" href="pc-checkin-new.html">办理入住</a>
+            <a class="btn primary" href="pc-renew.html">续租办理</a>
+          </div>
+        </div>
+        <div class="pb">
+          <div class="kv">
+            <div class="i"><span class="k">在租房源</span><span class="v num" style="font-weight:700">2 套</span></div>
+            <div class="i"><span class="k">月租金合计</span><span class="v num" style="font-weight:700;color:var(--red)">¥3,230</span></div>
+            <div class="i"><span class="k">押金合计</span><span class="v num">¥3,230</span></div>
+            <div class="i"><span class="k">欠费</span><span class="v num" style="color:var(--green)">无</span></div>
+            <div class="i"><span class="k">入驻时间</span><span class="v num">2025-09-20</span></div>
+            <div class="i"><span class="k">客户来源</span><span class="v">小程序自主找房</span></div>
+            <div class="i"><span class="k">用户端账号</span><span class="v">已绑定（英莱达公寓）</span></div>
+            <div class="i"><span class="k">最近办理</span><span class="v num">2026-09-15 入住 3 栋-508</span></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 在租房源 -->
+      <div class="panel" style="margin-bottom:16px">
+        <div class="ph"><h3>在租房源</h3><span class="note" style="margin-left:6px">一个客户可租多套，合同按「一房一合同」管理</span></div>
+        <div class="pb">
+          <div class="rooms">
+            <div class="rc">
+              <div class="rh"><span class="rn">1 栋 - 301</span><span class="tag rent">在租</span></div>
+              <div class="rs">滨江科创园区 · 滨江人才公寓 · 一室一厅 <span class="num">45㎡</span></div>
+              <div class="rp"><span class="p num">¥1,850<small>/月</small></span><span class="d num">合同 2025-12-01 ~ 2026-11-30</span></div>
+              <div class="rs">合同号 <span class="num">HT-XQ05-GY-2025-1201</span> · 已签署 · 押金 <span class="num">¥1,850</span></div>
+              <div class="rops">
+                <a href="../../05-合同管理/原型/pc-contract-detail.html">看合同</a>
+                <a href="pc-renew.html">续租</a>
+                <a href="pc-checkout-new.html">退房</a>
+              </div>
+            </div>
+            <div class="rc">
+              <div class="rh"><span class="rn">2 栋 - 401</span><span class="tag due">即将到期</span></div>
+              <div class="rs">滨江科创园区 · 滨江人才公寓 · 单间 <span class="num">32㎡</span></div>
+              <div class="rp"><span class="p num">¥1,380<small>/月</small></span><span class="d num">合同 2025-09-20 ~ 2026-09-19</span></div>
+              <div class="rs">合同号 <span class="num">HT-XQ05-GY-2025-0919</span> · 已签署 · 押金 <span class="num">¥1,380</span> · <b style="color:var(--orange)">剩 15 天</b></div>
+              <div class="rops">
+                <a href="../../05-合同管理/原型/pc-contract-detail.html">看合同</a>
+                <a href="pc-renew.html">续租</a>
+                <a href="pc-checkout-new.html">退房</a>
+              </div>
+            </div>
+            <div class="rc" style="border-style:dashed">
+              <div class="rh"><span class="rn">3 栋 - 508</span><span class="tag blue">待签约</span></div>
+              <div class="rs">滨江科创园区 · 滨江人才公寓 · 一室一厅 <span class="num">45㎡</span></div>
+              <div class="rp"><span class="p num">¥1,850<small>/月</small></span><span class="d num">合同 2026-09-16 ~ 2027-09-15</span></div>
+              <div class="rs">合同号 <span class="num">HT-XQ05-GY-2026-0128</span> · 待签署（入住单 RZ-XQ05-2026-0087）</div>
+              <div class="rops">
+                <a href="pc-checkin-detail.html">入住单</a>
+                <a href="../../05-合同管理/原型/pc-contract-sign.html">发起签署</a>
+                <a href="../../05-合同管理/原型/pc-contract-fill.html">后台补录</a>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- 合同记录 -->
+        <div class="col" style="flex:3">
+          <div class="panel">
+            <div class="ph"><h3>合同记录</h3><span class="more op" style="margin-left:auto">查看全部合同 →</span></div>
+            <table class="tb">
+              <thead><tr><th>合同编号</th><th>房源</th><th>合同期</th><th>月租金</th><th>签署方式</th><th>状态</th><th>操作</th></tr></thead>
+              <tbody>
+                <tr><td class="num">HT-XQ05-GY-2026-0128</td><td>3 栋-508</td><td class="num">2026-09-16 ~ 2027-09-15</td><td class="num">¥1,850</td><td>待选择</td><td><span class="tag blue">待签署</span></td><td><a class="op" href="../../05-合同管理/原型/pc-contract-detail.html">详情</a></td></tr>
+                <tr><td class="num">HT-XQ05-GY-2025-1201</td><td>1 栋-301</td><td class="num">2025-12-01 ~ 2026-11-30</td><td class="num">¥1,850</td><td>小程序签署</td><td><span class="tag green">生效中</span></td><td><a class="op" href="../../05-合同管理/原型/pc-contract-detail.html">详情</a></td></tr>
+                <tr><td class="num">HT-XQ05-GY-2025-0919</td><td>2 栋-401</td><td class="num">2025-09-20 ~ 2026-09-19</td><td class="num">¥1,380</td><td>小程序签署</td><td><span class="tag orange">即将到期</span></td><td><a class="op" href="../../05-合同管理/原型/pc-contract-detail.html">详情</a></td></tr>
+                <tr><td class="num">HT-XQ02-GY-2024-0876</td><td>云谷 5 栋-202</td><td class="num">2024-06-01 ~ 2025-05-31</td><td class="num">¥1,600</td><td>后台补录</td><td><span class="tag gray">已到期</span></td><td><a class="op" href="../../05-合同管理/原型/pc-contract-detail.html">详情</a></td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <!-- 办理记录 -->
+        <div class="col" style="flex:2">
+          <div class="panel">
+            <div class="ph"><h3>办理记录</h3></div>
+            <div class="pb">
+              <div class="tl-flow">
+                <div class="tfi cur"><span class="pt"></span><div class="bd">
+                  <div class="tt">入住办理 · 3 栋-508<span class="who num">2026-09-15</span></div>
+                  <div class="ts">入住单 RZ-XQ05-2026-0087 · 合同待签署</div>
+                </div></div>
+                <div class="tfi done"><span class="pt"></span><div class="bd">
+                  <div class="tt">入住生效 · 1 栋-301<span class="who num">2025-12-01</span></div>
+                  <div class="ts">小程序签署完成，合同 HT-XQ05-GY-2025-1201 生效</div>
+                </div></div>
+                <div class="tfi done"><span class="pt"></span><div class="bd">
+                  <div class="tt">退房完成 · 云谷 5 栋-202<span class="who num">2025-06-02</span></div>
+                  <div class="ts">结算后退费 ¥1,600，退房单 TF-XQ02-2025-0113 已完成</div>
+                </div></div>
+                <div class="tfi done"><span class="pt"></span><div class="bd">
+                  <div class="tt">入住生效 · 2 栋-401<span class="who num">2025-09-20</span></div>
+                  <div class="ts">首次入驻，合同 HT-XQ05-GY-2025-0919 签署生效</div>
+                </div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- 账单与欠费 -->
+      <div class="panel" style="margin-top:16px">
+        <div class="ph"><h3>近期账单</h3><span class="note" style="margin-left:6px">数据来源于 收费管理，本模块只读引用；编号 = 合同号 + 期次</span></div>
+        <table class="tb">
+          <thead><tr><th>账单编号</th><th>房源</th><th>类型</th><th>金额</th><th>应收日期</th><th>状态</th></tr></thead>
+          <tbody>
+            <tr><td class="num">HT-XQ05-GY-2025-0919-12</td><td>2 栋-401</td><td>租金</td><td class="num">¥1,380</td><td class="num">2026-09-20</td><td><span class="tag gray">未出账</span></td></tr>
+            <tr><td class="num">HT-XQ05-GY-2025-1201-10</td><td>1 栋-301</td><td>租金</td><td class="num">¥1,850</td><td class="num">2026-09-01</td><td><span class="tag green">已结清</span></td></tr>
+            <tr><td class="num">HT-XQ05-GY-2025-1201-9</td><td>1 栋-301</td><td>租金</td><td class="num">¥1,850</td><td class="num">2026-08-01</td><td><span class="tag green">已结清</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

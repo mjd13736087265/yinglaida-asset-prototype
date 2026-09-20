@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>续租办理 · 租务运营 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  a.mi{color:var(--navy-tx)}
+  .inp.ro{background:var(--paper);color:var(--ink2);cursor:default}
+  .inp-wrap{position:relative}
+  .inp-wrap .inp{padding-right:40px}
+  .inp-wrap .u{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--ink3);pointer-events:none}
+  .f-sec .note{display:flex;margin-top:8px}
+  /* 原合同 → 新合同 对比 */
+  .cmp{display:grid;grid-template-columns:1fr 40px 1fr;gap:12px;align-items:center}
+  .cmp .cc{border:1px solid var(--line);border-radius:var(--r-md);padding:14px}
+  .cmp .cc.old{background:#fafbfc}
+  .cmp .cc.new{border-color:var(--brand);background:var(--brand-bg)}
+  .cmp .cc .ch{font-size:12.5px;color:var(--ink3);margin-bottom:8px}
+  .cmp .cc .cr{display:flex;font-size:13.5px;padding:4px 0}
+  .cmp .cc .cr .ck{color:var(--ink3);width:76px;flex-shrink:0}
+  .cmp .arrow{text-align:center;color:var(--ink3);font-size:20px}
+  .chg{color:var(--orange);font-weight:600}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="checkin" data-ver="V1.2 原型 · 租务运营 / 合同管理"></aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb"><span><a href="pc-tenant-list.html" style="color:inherit">租务运营 / 租户管理</a> / </span>续租办理</div>
+      <div class="right">
+        <div class="scope">片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="avatar">陈</span><span style="color:var(--ink)">陈志远 · 运营主管</span></div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="panel">
+        <div class="ph">
+          <h3>续租办理</h3>
+          <span class="note" style="margin-left:6px">续租生成<b>新合同</b>（新编号）并关联原合同，原合同到期自动终止；租金可调整，需重新签署或后台补录</span>
+        </div>
+
+        <div class="form" style="max-width:100%">
+
+          <!-- 原合同 → 新合同 -->
+          <div class="f-sec">
+            <h4>合同对比</h4>
+            <div class="cmp">
+              <div class="cc old">
+                <div class="ch">原合同（到期终止）</div>
+                <div class="cr"><span class="ck">编号</span><span class="num">HT-XQ05-GY-2025-0919</span></div>
+                <div class="cr"><span class="ck">房源</span><span>滨江科创园区 · 2 栋-401</span></div>
+                <div class="cr"><span class="ck">承租人</span><span>张女士 <span class="num">138****8888</span></span></div>
+                <div class="cr"><span class="ck">租期</span><span class="num">2025-09-20 ~ 2026-09-19</span></div>
+                <div class="cr"><span class="ck">月租金</span><span class="num">¥1,380</span></div>
+                <div class="cr"><span class="ck">押金</span><span class="num">¥1,380</span></div>
+              </div>
+              <div class="arrow">→</div>
+              <div class="cc new">
+                <div class="ch">新合同（自动生成）</div>
+                <div class="cr"><span class="ck">编号</span><span class="num">HT-XQ05-GY-2026-0129</span></div>
+                <div class="cr"><span class="ck">房源</span><span>滨江科创园区 · 2 栋-401</span></div>
+                <div class="cr"><span class="ck">承租人</span><span>张女士 <span class="num">138****8888</span></span></div>
+                <div class="cr"><span class="ck">租期</span><span class="num">2026-09-20 ~ 2027-09-19</span></div>
+                <div class="cr"><span class="ck">月租金</span><span class="num chg">¥1,450（+¥70）</span></div>
+                <div class="cr"><span class="ck">押金</span><span class="num">¥1,450</span></div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 续租信息 -->
+          <div class="f-sec">
+            <h4>续租信息</h4>
+            <div class="f-grid">
+              <div class="f-item"><label>客户</label><input class="inp ro" value="张女士 · 138****8888" readonly></div>
+              <div class="f-item"><label>房源</label><input class="inp ro" value="滨江科创园区 · 2 栋-401（单间 32㎡）" readonly></div>
+              <div class="f-item"><label><span class="req">*</span>新起租日</label><input class="inp num" type="date" value="2026-09-20"><div class="help">默认 = 原合同到期日次日</div></div>
+              <div class="f-item"><label><span class="req">*</span>续租时长</label>
+                <div class="inp-wrap"><input class="inp num" value="12"><span class="u">个月</span></div>
+                <div class="help">新到期日 <span class="num">2027-09-19</span></div>
+              </div>
+              <div class="f-item"><label><span class="req">*</span>新月租金</label>
+                <div class="inp-wrap"><input class="inp num" value="1450"><span class="u">元/月</span></div>
+                <div class="help">原 ¥1,380 · 涨幅 5.1%（续租调价需备注）</div>
+              </div>
+              <div class="f-item"><label><span class="req">*</span>押金方式</label>
+                <select class="sel"><option selected>押一付一</option><option>押一付三</option><option>免押金</option></select>
+                <div class="help">原押金 ¥1,380 可结转，差额 ¥70 随首期补收</div>
+              </div>
+              <div class="f-item"><label>付款周期</label><select class="sel"><option selected>月付</option><option>季付</option><option>年付</option></select></div>
+              <div class="f-item"><label>优惠金额</label><div class="inp-wrap"><input class="inp num" value="0"><span class="u">元</span></div></div>
+              <div class="f-item"><label><span class="req">*</span>合同模板</label>
+                <select class="sel"><option selected>滨江人才公寓 · 公寓租赁合同 v2.1</option><option>系统通用 · 公寓租赁合同 v1.0</option></select>
+              </div>
+              <div class="f-item"><label>经办人</label><input class="inp ro" value="陈志远（运营主管）" readonly></div>
+              <div class="f-item full">
+                <label>续租备注</label>
+                <textarea class="ta">续租一年，按片区调价标准月租金上浮 5%（1,380 → 1,450）；原押金 1,380 元结转至新合同，差额 70 元随首期租金一并补收。</textarea>
+              </div>
+              <div class="f-item full">
+                <span class="note">续租不重新录入水电表底数，沿用上一合同期末读数；水电账单按上期抄表底数继续累计</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 新账单计划 -->
+          <div class="f-sec">
+            <h4>新账单计划（编号 = 新合同号 + 期次）</h4>
+            <div class="f-grid">
+              <div class="f-item full">
+                <table class="tb">
+                  <thead><tr><th>账单编号</th><th>类型</th><th>金额</th><th>应收日期</th><th>说明</th></tr></thead>
+                  <tbody>
+                    <tr><td class="num">HT-XQ05-GY-2026-0129-0</td><td>押金差额</td><td class="num">¥70</td><td class="num">2026-09-20</td><td>原押金 1,380 结转，补收差额</td></tr>
+                    <tr><td class="num">HT-XQ05-GY-2026-0129-1</td><td>首期租金</td><td class="num">¥1,450</td><td class="num">2026-09-20</td><td>2026-09-20 ~ 2026-10-19</td></tr>
+                    <tr><td class="num">HT-XQ05-GY-2026-0129-2</td><td>租金</td><td class="num">¥1,450</td><td class="num">2026-10-20</td><td>2026-10-20 ~ 2026-11-19</td></tr>
+                    <tr><td colspan="5" style="text-align:center;color:var(--ink3);font-size:12.5px">… 共 <span class="num">13</span> 条（押金差额 1 条 + 租金 12 期）</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+
+          <div class="f-actions">
+            <a class="btn primary" href="../../05-合同管理/原型/pc-contract-sign.html">提交并生成新合同</a>
+            <a class="btn ghost" href="../../05-合同管理/原型/pc-contract-fill.html">提交并后台补录</a>
+            <a class="btn ghost" href="pc-tenant-list.html">取消</a>
+            <span class="note" style="margin-left:8px">提交后：原合同标记为「已到期（续租）」，新合同进入待签署 / 待补录</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

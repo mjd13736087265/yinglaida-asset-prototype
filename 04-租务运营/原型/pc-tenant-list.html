@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>租户管理 · 租务运营 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .op{color:var(--brand);cursor:pointer;font-size:13px}
+  .op:hover{color:var(--brand-d)}
+  .pgbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3)}
+  .pgbar .pgs{display:flex;align-items:center;gap:6px}
+  .pgbar .pg{min-width:26px;height:26px;border:1px solid var(--line);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink2);cursor:pointer;background:var(--panel)}
+  .pgbar .pg.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .tname{display:flex;align-items:center;gap:10px}
+  .tname .av{width:32px;height:32px;border-radius:50%;background:var(--brand-bg);color:var(--brand);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0}
+  .tname .n{font-weight:600}
+  .tname .p{font-size:12px;color:var(--ink3)}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="tenant" data-ver="V1.2 原型 · 租务运营 / 合同管理"></aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb"><span>租务运营 / </span>租户管理</div>
+      <div class="right">
+        <div class="scope">片区范围：全部片区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="avatar">陈</span><span style="color:var(--ink)">陈志远 · 运营主管</span></div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <div class="row">
+        <div class="kpi"><div class="lb">在租租户</div><div class="vl num">864<small> 人</small></div><div class="sub">覆盖房源 <b class="num">1,093</b> 间</div></div>
+        <div class="kpi"><div class="lb">本月新增</div><div class="vl num" style="color:var(--green)">28</div><div class="sub">新签入住</div></div>
+        <div class="kpi"><div class="lb">30 天内到期</div><div class="vl num" style="color:var(--orange)">41</div><div class="sub">待跟进续签</div></div>
+        <div class="kpi"><div class="lb">欠费租户</div><div class="vl num" style="color:var(--red)">23</div><div class="sub">合计 <b class="num">¥5.76 万</b></div></div>
+        <div class="kpi"><div class="lb">押金在押</div><div class="vl num">¥186.4<small>万</small></div><div class="sub">数据来源于 收费管理-押金管理</div></div>
+      </div>
+
+      <div class="panel">
+        <div class="ph">
+          <h3>租户列表</h3>
+          <span class="note" style="margin-left:6px">数据范围=当前所选片区；一个租户可租多套房源，每行展示其主房源</span>
+        </div>
+
+        <div class="fbar">
+          <div class="tabs">
+            <div class="tb on">全部 <span class="n num">864</span></div>
+            <div class="tb">在租 <span class="n num">820</span></div>
+            <div class="tb">即将到期 <span class="n num">41</span></div>
+            <div class="tb">欠费 <span class="n num">23</span></div>
+            <div class="tb">已退租 <span class="n num">312</span></div>
+          </div>
+          <span class="sp"></span>
+          <div class="search">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5L16 16"/></svg>
+            <input placeholder="姓名 / 手机号 / 房号">
+          </div>
+          <select class="sel"><option>全部业态</option><option selected>公寓</option></select>
+          <select class="sel"><option>全部楼栋</option><option>1 栋</option><option>2 栋</option><option>3 栋</option></select>
+          <button class="btn ghost">查询</button>
+          <a class="btn primary" href="pc-checkin-new.html">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            办理入住
+          </a>
+        </div>
+
+        <table class="tb">
+          <thead>
+            <tr><th>租户</th><th>片区 · 房源</th><th>合同编号</th><th>合同期</th><th>月租金</th><th>押金</th><th>欠费</th><th>状态</th><th>操作</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><div class="tname"><span class="av">张</span><div><div class="n">张女士</div><div class="p num">138****8888</div></div></div></td>
+              <td>滨江科创园区 · 1 栋-301<span class="tag-business" style="margin-left:6px">共 2 套</span></td>
+              <td class="num">HT-XQ05-GY-2025-1201</td>
+              <td class="num">2025-12-01 ~ 2026-11-30</td>
+              <td class="num">¥1,850</td><td class="num">¥1,850</td><td class="num" style="color:var(--ink3)">—</td>
+              <td><span class="tag rent">在租</span></td>
+              <td><a class="op" href="pc-tenant-detail.html">详情</a> · <span class="op">续租</span> · <span class="op">退房</span></td>
+            </tr>
+            <tr>
+              <td><div class="tname"><span class="av">张</span><div><div class="n">张女士</div><div class="p num">138****8888</div></div></div></td>
+              <td>滨江科创园区 · 2 栋-401</td>
+              <td class="num">HT-XQ05-GY-2025-0919</td>
+              <td class="num">2025-09-20 ~ 2026-09-19</td>
+              <td class="num">¥1,380</td><td class="num">¥1,380</td><td class="num" style="color:var(--ink3)">—</td>
+              <td><span class="tag due">即将到期</span></td>
+              <td><a class="op" href="pc-tenant-detail.html">详情</a> · <a class="op" href="pc-renew.html">续租</a> · <a class="op" href="pc-checkout-new.html">退房</a></td>
+            </tr>
+            <tr>
+              <td><div class="tname"><span class="av">陈</span><div><div class="n">陈先生</div><div class="p num">135****4412</div></div></div></td>
+              <td>滨江科创园区 · 1 栋-305</td>
+              <td class="num">HT-XQ05-GY-2025-0915</td>
+              <td class="num">2025-09-16 ~ 2026-09-15</td>
+              <td class="num">¥2,600</td><td class="num">¥2,600</td><td class="num" style="color:var(--ink3)">—</td>
+              <td><span class="tag due">今日到期</span></td>
+              <td><a class="op" href="pc-tenant-detail.html">详情</a> · <a class="op" href="pc-checkout-new.html">退房</a></td>
+            </tr>
+            <tr>
+              <td><div class="tname"><span class="av">李</span><div><div class="n">李先生</div><div class="p num">139****2310</div></div></div></td>
+              <td>滨江科创园区 · 2 栋-302</td>
+              <td class="num">HT-XQ05-GY-2026-0307</td>
+              <td class="num">2026-03-01 ~ 2027-02-28</td>
+              <td class="num">¥1,850</td><td class="num">¥1,850</td><td class="num" style="color:var(--red)">¥1,850</td>
+              <td><span class="tag rent">在租</span></td>
+              <td><a class="op" href="pc-tenant-detail.html">详情</a> · <span class="op">续租</span> · <span class="op">催缴</span></td>
+            </tr>
+            <tr>
+              <td><div class="tname"><span class="av">王</span><div><div class="n">王同学</div><div class="p num">131****7788</div></div></div></td>
+              <td>滨江科创园区 · 1 栋-303</td>
+              <td class="num">HT-XQ05-GY-2025-0924</td>
+              <td class="num">2025-09-24 ~ 2026-09-23</td>
+              <td class="num">¥1,380</td><td class="num">¥1,380</td><td class="num" style="color:var(--ink3)">—</td>
+              <td><span class="tag due">即将到期</span></td>
+              <td><a class="op" href="pc-tenant-detail.html">详情</a> · <span class="op">续租</span> · <span class="op">退房</span></td>
+            </tr>
+            <tr>
+              <td><div class="tname"><span class="av">郑</span><div><div class="n">郑女士</div><div class="p num">187****5566</div></div></div></td>
+              <td>滨江科创园区 · 1 栋-310</td>
+              <td class="num">HT-XQ05-GY-2026-0131</td>
+              <td class="num">2026-02-01 ~ 2027-01-31</td>
+              <td class="num">¥2,600</td><td class="num">¥2,600</td><td class="num" style="color:var(--ink3)">—</td>
+              <td><span class="tag rent">在租</span></td>
+              <td><a class="op" href="pc-tenant-detail.html">详情</a> · <span class="op">续租</span> · <span class="op">退房</span></td>
+            </tr>
+            <tr>
+              <td><div class="tname"><span class="av">周</span><div><div class="n">周女士</div><div class="p num">186****7741</div></div></div></td>
+              <td>滨江科创园区 · 1 栋-307</td>
+              <td class="num">HT-XQ05-GY-2026-0124</td>
+              <td class="num">2026-08-20 ~ 2027-08-19</td>
+              <td class="num">¥1,880</td><td class="num">¥1,880</td><td class="num" style="color:var(--ink3)">—</td>
+              <td><span class="tag rent">在租</span></td>
+              <td><a class="op" href="pc-tenant-detail.html">详情</a> · <span class="op">续租</span> · <span class="op">退房</span></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="pgbar">
+          <span>共 <b class="num" style="color:var(--ink2)">864</b> 条</span>
+          <div class="pgs">
+            <span class="pg on num">1</span><span class="pg num">2</span><span class="pg num">3</span>
+            <span class="pg"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+          </div>
+          <span class="num">1/124 页</span>
+          <span style="margin-left:auto"><span class="note">房态 / 合同状态项来源于 系统管理-字典配置；欠费与押金数据来源于 收费管理，本模块只读引用</span></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>
