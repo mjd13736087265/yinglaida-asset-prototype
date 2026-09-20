@@ -36,6 +36,7 @@
     area:     icon('<path d="M9 20l-5.5-2.5v-13L9 7l6-2.5L20.5 7v13L15 17.5 9 20z"/><path d="M9 7v13M15 4.5v13"/>'),
     room:     icon('<path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5"/><path d="M10 21v-6h4v6"/>'),
     map:      icon('<rect x="3" y="4" width="18" height="14" rx="2"/><path d="M7 14v-3M11 14V8M15 14v-4"/><path d="M9 21h6"/>'),
+    tenancy:  icon('<circle cx="7.5" cy="15.5" r="4.5"/><path d="M11 12L20 3"/><path d="M15 7l3 3"/><path d="M18 4l2.5 2.5"/>'),
     contract: icon('<path d="M7 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4"/><path d="M9 12h6M9 16h6"/>'),
     rent:     icon('<circle cx="12" cy="12" r="9"/><path d="M9 9.5h6M9 13h6M12 7.5v9"/><path d="M10.5 9.5c0 2 3 2 3 3.5"/>'),
     meter:    icon('<path d="M13 2L5 13.5h5L10 22l8-11.5h-5L13 2z"/>'),
@@ -60,8 +61,19 @@
     { id: 'area', text: '片区管理', href: root + '02-片区管理/原型/pc-area-list.html',     icon: IC.area },
     { id: 'room', text: '房源管理', href: root + '02-片区管理/原型/pc-room-list.html',     icon: IC.room },
     { id: 'map',  text: '房态监控', href: root + '02-片区管理/原型/pc-room-map.html',      icon: IC.map },
+    { id: 'tenancy', text: '租务运营', icon: IC.tenancy, children: [
+      { id: 'checkin',  text: '入住办理', href: root + '04-租务运营/原型/pc-checkin-list.html' },
+      { id: 'tenant',   text: '租户管理', href: root + '04-租务运营/原型/pc-tenant-list.html' },
+      { id: 'checkout', text: '退房办理', href: root + '04-租务运营/原型/pc-checkout-list.html' }
+    ] },
     { g: '财务' },
-    { id: 'contract', text: '合同管理',       icon: IC.contract },
+    { id: 'contract', text: '合同管理',       icon: IC.contract, children: [
+      { id: 'contract-list',   text: '合同台账', href: root + '05-合同管理/原型/pc-contract-list.html' },
+      { id: 'contract-sign',   text: '发起签署', href: root + '05-合同管理/原型/pc-contract-sign.html' },
+      { id: 'contract-fill',   text: '后台补录', href: root + '05-合同管理/原型/pc-contract-fill.html' },
+      { id: 'contract-tpl',    text: '合同模板', href: root + '05-合同管理/原型/pc-contract-tpl-list.html' },
+      { id: 'contract-expire', text: '到期提醒', href: root + '05-合同管理/原型/pc-contract-expire.html' }
+    ] },
     { id: 'rent',     text: '收费管理',       icon: IC.rent, children: [
       { id: 'charge-home',     text: '收费工作台', href: root + '03-收费管理（PC）/原型/pc-charge-home.html' },
       { id: 'charge-bills',    text: '账单管理',   href: root + '03-收费管理（PC）/原型/pc-bills.html' },
