@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 入住单详情 · 英莱达资管</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .w-top{display:flex;align-items:center;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 12px;flex-shrink:0}
+  .w-top .bk{width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink);flex-shrink:0}
+  .w-top .bk svg{width:20px;height:20px}
+  .w-top .tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .w-top .side{width:32px;flex-shrink:0}
+  .demo-mark{color:var(--ink3);border-color:var(--line);top:84px}
+  .hd{display:flex;align-items:center;gap:10px;padding:14px;border-bottom:1px solid var(--line2);background:#fff}
+  .hd .rno{font-size:16px;font-weight:700}
+  .picked{display:flex;align-items:center;gap:12px;border:1px solid var(--brand);background:var(--brand-bg);border-radius:var(--r-md);padding:12px;margin-top:10px}
+  .picked .pa{width:38px;height:38px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0}
+  .picked .pb .t{font-size:15px;font-weight:600}
+  .picked .pb .s{font-size:12px;color:var(--ink2);margin-top:2px}
+  .picked .pc{margin-left:auto;font-size:13px;color:var(--brand);flex-shrink:0}
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 入住单详情</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <div class="w-top">
+        <a class="bk" href="m-admin-checkin-list.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </a>
+        <div class="tt">入住单详情</div>
+        <div class="side"></div>
+      </div>
+
+      <!-- 单头 -->
+      <div class="hd">
+        <span class="rno num">RZ-XQ05-2026-0087</span>
+        <span class="tag blue">待签约</span>
+      </div>
+      <div class="note" style="margin:10px 14px 0">入住单状态：待签约 →（签署完成 / 后台补录上传）已生效；状态项来源于 系统管理-字典配置</div>
+
+      <!-- 客户 / 房源 -->
+      <div class="m-gt">客户与房源</div>
+      <div style="padding:0 14px">
+        <div class="picked">
+          <span class="pa">张</span>
+          <div class="pb">
+            <div class="t">张女士</div>
+            <div class="s"><span class="num">138****8888</span> · 身份证 <span class="num">3301**********1234</span></div>
+          </div>
+          <span class="pc">更换</span>
+        </div>
+        <div class="picked">
+          <span class="pa" style="background:var(--green)">房</span>
+          <div class="pb">
+            <div class="t">3 栋 - 508 <span class="tag free" style="margin-left:6px">空置</span></div>
+            <div class="s">滨江科创园区 · 一室一厅 <span class="num">45㎡</span> · 朝南 · 精装</div>
+          </div>
+          <span class="pc">更换</span>
+        </div>
+      </div>
+
+      <!-- 合同与租赁信息 -->
+      <div class="m-gt">合同与租赁信息</div>
+      <div class="m-rows">
+        <div class="r"><span class="k">合同模板</span><span class="v">滨江人才公寓 · 公寓租赁合同 v2.1</span></div>
+        <div class="r"><span class="k">租期</span><span class="v num">2026-09-16 ~ 2027-09-15（12 个月）</span></div>
+        <div class="r"><span class="k">月租金 / 押金</span><span class="v num">¥1,850 · 押一付一 ¥1,850</span></div>
+        <div class="r"><span class="k">首期应收</span><span class="v num" style="font-weight:700;color:var(--red)">¥3,700</span></div>
+        <div class="r"><span class="k">付款周期</span><span class="v">月付</span></div>
+        <div class="r"><span class="k">电表底数</span><span class="v num">12,480 度</span></div>
+        <div class="r"><span class="k">水表底数</span><span class="v num">386 吨</span></div>
+        <div class="r"><span class="k">经办人</span><span class="v">陈志远（运营主管）</span></div>
+        <div class="r"><span class="k">提交时间</span><span class="v num">2026-09-15 10:12</span></div>
+      </div>
+
+      <!-- 账单计划 -->
+      <div class="m-gt">账单计划（提交后自动生成）</div>
+      <div class="m-settle">
+        <div class="mr"><span class="mk">押金</span><span class="mv num">¥1,850</span></div>
+        <div class="mr"><span class="mk">首期租金</span><span class="mv num">¥1,850</span></div>
+        <div class="mr"><span class="mk">第 2 期</span><span class="mv num">¥1,850</span></div>
+        <div class="mr total"><span class="mk">首期应收</span><span class="mv pay num">¥3,700</span></div>
+      </div>
+      <div class="note" style="margin:10px 14px 0">账单编号（合同号 + 期次）在生成合同后产生，用于与收费管理对账；收款 / 核销在 收费管理 完成</div>
+
+      <!-- 办理记录 -->
+      <div class="m-gt">办理记录</div>
+      <div class="m-rows">
+        <div class="r"><span class="k">提交入住单</span><span class="v num">2026-09-15 10:12</span></div>
+        <div class="r"><span class="k">生成合同</span><span class="v">已生成 · 待签署</span></div>
+        <div class="r"><span class="k">生成账单</span><span class="v">押金 1 条 + 租金 12 期，共 13 条</span></div>
+        <div class="r"><span class="k">当前节点</span><span class="v">待发起签署</span></div>
+      </div>
+
+      <div style="height:14px"></div>
+    </div>
+
+    <!-- 底部操作栏 -->
+    <div class="m-cta">
+      <a class="btn ghost" style="flex:1" href="../../05-合同管理/原型/m-admin-contract-fill.html">后台补录</a>
+      <a class="btn primary" style="flex:1" href="../../05-合同管理/原型/m-admin-contract-sign.html">发起签署</a>
+    </div>
+
+    <div class="m-tab" id="amsTab" data-variant="admin" data-active="home"></div>
+  </div>
+</div>
+
+<script src="../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

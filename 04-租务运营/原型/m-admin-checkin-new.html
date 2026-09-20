@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 办理入住 · 英莱达资管</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .w-top{display:flex;align-items:center;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 12px;flex-shrink:0}
+  .w-top .bk{width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink);flex-shrink:0}
+  .w-top .bk svg{width:20px;height:20px}
+  .w-top .tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .w-top .side{width:32px;flex-shrink:0}
+  .demo-mark{color:var(--ink3);border-color:var(--line);top:84px}
+  .picked{display:flex;align-items:center;gap:12px;border:1px solid var(--brand);background:var(--brand-bg);border-radius:var(--r-md);padding:12px;margin-top:10px}
+  .picked .pa{width:38px;height:38px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:14px;font-weight:600;flex-shrink:0}
+  .picked .pb .t{font-size:15px;font-weight:600}
+  .picked .pb .s{font-size:12px;color:var(--ink2);margin-top:2px}
+  .picked .pc{margin-left:auto;font-size:13px;color:var(--brand);flex-shrink:0}
+  .inp.ro{background:var(--paper);color:var(--ink2)}
+  .f-row{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line2);font-size:13.5px;background:#fff}
+  .f-row:last-child{border-bottom:none}
+  .f-row .fk{width:92px;color:var(--ink3);flex-shrink:0}
+  .f-row .fv{flex:1;display:flex;align-items:center;gap:6px}
+  .f-row .fv .inp{height:34px;font-size:13px;flex:1}
+  .f-row .fv .sel{height:34px;font-size:13px;flex:1}
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 办理入住（移动端）</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <div class="w-top">
+        <a class="bk" href="m-admin-tenant-list.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </a>
+        <div class="tt">办理入住</div>
+        <div class="side"></div>
+      </div>
+
+      <!-- 步骤条 -->
+      <div class="m-step">
+        <div class="ms on">1 客户</div>
+        <div class="ms on">2 房源</div>
+        <div class="ms on">3 租赁信息</div>
+      </div>
+
+      <!-- 客户 -->
+      <div class="m-gt">步骤 1 · 客户</div>
+      <div style="padding:0 14px">
+        <div class="picked">
+          <span class="pa">张</span>
+          <div class="pb">
+            <div class="t">张女士</div>
+            <div class="s"><span class="num">138****8888</span> · 身份证 <span class="num">3301**********1234</span></div>
+          </div>
+          <span class="pc">更换</span>
+        </div>
+      </div>
+
+      <!-- 房源 -->
+      <div class="m-gt">步骤 2 · 房源</div>
+      <div style="padding:0 14px">
+        <div class="picked">
+          <span class="pa" style="background:var(--green)">房</span>
+          <div class="pb">
+            <div class="t">3 栋 - 508 <span class="tag free" style="margin-left:6px">空置</span></div>
+            <div class="s">滨江科创园区 · 一室一厅 <span class="num">45㎡</span> · 朝南 · 精装</div>
+          </div>
+          <span class="pc">更换</span>
+        </div>
+      </div>
+
+      <!-- 自动带出：房源基础信息 -->
+      <div class="m-gt">房源信息（自动带出 · 只读）</div>
+      <div class="m-rows">
+        <div class="r"><span class="k">所属片区</span><span class="v">滨江科创园区</span></div>
+        <div class="r"><span class="k">所属业态</span><span class="v">滨江人才公寓（公寓）</span></div>
+        <div class="r"><span class="k">楼栋 / 单元</span><span class="v num">3 栋 1 单元</span></div>
+        <div class="r"><span class="k">房号 / 楼层</span><span class="v num">508 · 5F</span></div>
+        <div class="r"><span class="k">户型</span><span class="v">一室一厅</span></div>
+        <div class="r"><span class="k">建筑面积</span><span class="v num">45 ㎡</span></div>
+        <div class="r"><span class="k">朝向 / 装修</span><span class="v">朝南 · 精装</span></div>
+        <div class="r"><span class="k">标准月租</span><span class="v num">¥1,850</span></div>
+        <div class="r"><span class="k">电表底数</span><span class="v num">12,480 度</span></div>
+        <div class="r"><span class="k">水表底数</span><span class="v num">386 吨</span></div>
+      </div>
+
+      <!-- 房间资产（只读带出） -->
+      <div class="m-gt">房间资产（自动带出 · 入住即点验通过）</div>
+      <div class="m-rows">
+        <div class="r"><span class="k">电器</span><span class="v"><b>美的空调 KFR-35GW</b> · <span class="tag green">完好</span><br>×1 · 壁挂式 · 2019 年购置</span></div>
+        <div class="r"><span class="k">电器</span><span class="v"><b>海尔电热水器 60L</b> · <span class="tag green">完好</span><br>×1 · —</span></div>
+        <div class="r"><span class="k">家具</span><span class="v"><b>实木床 1.5m（含床垫）</b> · <span class="tag green">完好</span><br>×1 · —</span></div>
+        <div class="r"><span class="k">家具</span><span class="v"><b>双门衣柜</b> · <span class="tag green">完好</span><br>×1 · —</span></div>
+        <div class="r"><span class="k">卫浴</span><span class="v"><b>淋浴花洒套装</b> · <span class="tag green">完好</span><br>×1 · —</span></div>
+      </div>
+
+      <!-- 租赁信息 -->
+      <div class="m-gt">步骤 3 · 租赁信息</div>
+      <div>
+        <div class="f-row"><span class="fk">起租日</span><div class="fv"><input class="inp num" type="date" id="mStart" value="2026-09-16"></div></div>
+        <div class="f-row"><span class="fk">租期</span><div class="fv"><input class="inp num" id="mMonths" value="12"><span style="color:var(--ink3);font-size:13px">个月</span></div></div>
+        <div class="f-row"><span class="fk">到期日</span><div class="fv"><input class="inp ro num" id="mExpire" value="2027-09-15" readonly></div></div>
+        <div class="f-row"><span class="fk">成交月租</span><div class="fv"><input class="inp num" value="1850"><span style="color:var(--ink3);font-size:13px">元/月</span></div></div>
+        <div class="f-row"><span class="fk">押金方式</span><div class="fv"><select class="sel"><option selected>押一付一</option><option>押一付三</option><option>押二付一</option><option>免押金</option></select></div></div>
+        <div class="f-row"><span class="fk">付款周期</span><div class="fv"><select class="sel"><option selected>月付</option><option>季付</option><option>半年付</option><option>年付</option></select></div></div>
+        <div class="f-row"><span class="fk">经办人</span><div class="fv"><input class="inp ro" value="陈志远（运营主管）" readonly></div></div>
+        <div class="f-row"><span class="fk">合同模板</span><div class="fv"><select class="sel"><option selected>滨江人才公寓 · 公寓租赁合同 v2.1</option><option>系统通用 · 公寓租赁合同 v1.0</option></select></div></div>
+
+      </div>
+
+      <!-- 账单计划 -->
+      <div class="m-gt">账单计划（提交后自动生成）</div>
+      <div class="m-settle">
+        <div class="mr"><span class="mk">押金</span><span class="mv num">¥1,850</span></div>
+        <div class="mr"><span class="mk">首期租金</span><span class="mv num">¥1,850</span></div>
+        <div class="mr"><span class="mk">第 2 期</span><span class="mv num">¥1,850</span></div>
+        <div class="mr total"><span class="mk">首期应收</span><span class="mv pay num">¥3,700</span></div>
+      </div>
+      <div class="note" style="margin:10px 14px 0">共 <span class="num">13</span> 条（1 条押金 + 12 期租金）；账单编号 = 合同号 + 期次，在生成合同环节产生</div>
+
+      <div style="height:14px"></div>
+    </div>
+
+    <!-- 底部操作栏 -->
+    <div class="m-cta">
+      <a class="btn ghost" style="flex:1" href="../../05-合同管理/原型/m-admin-contract-fill.html">后台补录</a>
+      <a class="btn primary" style="flex:1" href="../../05-合同管理/原型/m-admin-contract-sign.html">生成合同</a>
+    </div>
+
+    <div class="m-tab" id="amsTab" data-variant="admin" data-active="home"></div>
+  </div>
+</div>
+
+<script>
+  // 移动端：起租日 + 租期 → 自动计算到期日（满 months 减 1 天）
+  function mCalcExpire(){
+    var s=document.getElementById('mStart'), m=document.getElementById('mMonths'), e=document.getElementById('mExpire');
+    if(!s||!m||!e) return;
+    var d=new Date(s.value); if(isNaN(d)) return;
+    d.setMonth(d.getMonth()+parseInt(m.value||0));
+    d.setDate(d.getDate()-1);
+    var p=function(n){return (n<10?'0':'')+n;};
+    e.value=d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate());
+  }
+  ['mStart','mMonths'].forEach(function(id){var el=document.getElementById(id); if(el) el.addEventListener('input',mCalcExpire);});
+  mCalcExpire();
+</script>
+<script src="../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>
