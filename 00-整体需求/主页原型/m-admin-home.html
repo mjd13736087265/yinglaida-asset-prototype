@@ -76,30 +76,30 @@
         <div class="c"><div class="lb">新增合同</div><div class="vl num green">12<small> 份</small></div></div>
       </div>
 
-      <!-- 常用功能 2x2 -->
+      <!-- 常用功能 一行四列 -->
       <div class="m-sec">
         <div class="st">常用功能</div>
         <div class="m-tiles">
           <div class="tl c-red">
             <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3.5 10v4a1 1 0 0 0 1 1h2l4.5 4V5L6.5 9h-2a1 1 0 0 0-1 1z"/><path d="M14.5 9.5a3.5 3.5 0 0 1 0 5"/><path d="M17.5 7a7 7 0 0 1 0 10"/></svg></div>
-            <div><div class="tt">催缴通知</div><div class="ts">微信·短信催收</div></div>
+            <div class="tt">催缴通知</div>
           </div>
-          <div class="tl c-green">
+          <a class="tl c-green" href="../../04-租务运营/原型/m-admin-checkin-list.html" style="color:inherit;text-decoration:none">
             <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="7.5" cy="16" r="4.5"/><circle cx="7.5" cy="16" r="1.6"/><path d="M10.5 13L19.5 4"/><path d="M15.5 8l2.5 2.5"/><path d="M18 5.5l2 2"/></svg></div>
-            <div><div class="tt">入住办理</div><div class="ts">选房·签约入住</div></div>
-          </div>
-          <div class="tl c-orange">
+            <div class="tt">入住办理</div>
+          </a>
+          <a class="tl c-orange" href="../../04-租务运营/原型/m-admin-checkout-list.html" style="color:inherit;text-decoration:none">
             <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13.5 3.5H19a1 1 0 0 1 1 1v15a1 1 0 0 1-1 1h-5.5"/><path d="M9.5 8l-4.5 4 4.5 4"/><path d="M5 12h10"/></svg></div>
-            <div><div class="tt">退房结算</div><div class="ts">交接·退押金</div></div>
-          </div>
+            <div class="tt">退房结算</div>
+          </a>
           <div class="tl c-blue">
             <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6.5 3h8l3.5 3.5V20a1.5 1.5 0 0 1-1.5 1.5h-10A1.5 1.5 0 0 1 5 20V4.5A1.5 1.5 0 0 1 6.5 3z"/><path d="M14.5 3v3.5H18"/><path d="M14.2 10.2a2.6 2.6 0 0 0-3.5 3.5l-3.2 3.2v1.6h1.6l3.2-3.2a2.6 2.6 0 0 0 3.5-3.5l-1.8 1.8-1-1 1.4-2.4z"/></svg></div>
-            <div><div class="tt">报修派单</div><div class="ts">现场派单维修</div></div>
+            <div class="tt">报修派单</div>
           </div>
         </div>
       </div>
 
-      <!-- 全部应用 8 宫格 -->
+      <!-- 全部应用宫格（V1.2 接入：收费管理 / 合同管理 / 租户管理） -->
       <div class="m-sec">
         <div class="st">全部应用</div>
         <div class="m-apps">
@@ -111,10 +111,14 @@
             <div class="ai g"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.5"/><path d="M8.5 8l3.5 4.5L15.5 8"/><path d="M12 12.5V17"/><path d="M9.5 13.5h5"/></svg></div>
             <div class="at">收费管理</div>
           </a>
-          <div class="ap">
+          <a class="ap" href="../../05-合同管理/原型/m-admin-contract-list.html" style="color:inherit">
             <div class="ai o"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h7l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M14 3v4h4"/><path d="M9 8h3"/><path d="M8.8 17.2l.7-2.6 4.3-4.3 1.9 1.9-4.3 4.3-2.6.7z"/></svg></div>
             <div class="at">合同管理</div>
-          </div>
+          </a>
+          <a class="ap" href="../../04-租务运营/原型/m-admin-tenant-list.html" style="color:inherit">
+            <div class="ai c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="7.8" r="3.6"/><path d="M4.5 20.5a7.5 7.5 0 0 1 15 0"/></svg></div>
+            <div class="at">租户管理</div>
+          </a>
           <div class="ap">
             <div class="ai c"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5s6 6.2 6 10a6 6 0 1 1-12 0c0-3.8 6-10 6-10z"/><path d="M12.6 8.5l-2.8 4h2.4l-1 3.5 3.3-4.5h-2.3l.4-3z"/></svg></div>
             <div class="at">水电管理</div>
