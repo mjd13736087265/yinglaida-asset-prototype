@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>设备管理 · 智能设备 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  .tabpane{display:none}
+  .tabpane.show{display:block}
+  .pgbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3)}
+  .pgbar>span{white-space:nowrap}
+  .pgbar .pgs{display:flex;align-items:center;gap:6px}
+  .pgbar .pg{min-width:26px;height:26px;border:1px solid var(--line);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink2);cursor:pointer;background:var(--panel)}
+  .pgbar .pg.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .op:hover{color:var(--brand-d)}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="device-list" data-ver="V1.3 原型 · 本期范围：智能设备"></aside>
+
+  <div class="main">
+
+    <header class="topbar">
+      <div class="crumb"><span>智能设备 / </span>设备管理</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">4</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- 设备类型页签 -->
+      <div class="panel" style="margin-bottom:16px">
+        <div class="tabs" style="padding:10px 14px" id="devTabs">
+          <span class="tb on" data-t="elec">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L5 13.5h5L10 22l8-11.5h-5L13 2z"/></svg>
+            电表 <b class="num" style="font-weight:400;color:var(--ink3)">209</b>
+          </span>
+          <span class="tb" data-t="water">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3s6 6.5 6 11a6 6 0 1 1-12 0c0-4.5 6-11 6-11z"/></svg>
+            水表 <b class="num" style="font-weight:400;color:var(--ink3)">209</b>
+          </span>
+          <span class="tb" style="opacity:.5;cursor:not-allowed">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="11" width="14" height="9" rx="2"/><path d="M8 11V8a4 4 0 0 1 8 0v3"/></svg>
+            更多设备类型 <span class="mark-soon" style="position:static">预留</span>
+          </span>
+          <span class="note" style="margin-left:auto;align-self:center">数据范围=当前所选片区 · 其他智能设备类型（如门锁、烟感）上线后在此扩展，本期仅水电表</span>
+        </div>
+      </div>
+
+      <!-- ===== 页签：电表 ===== -->
+      <div class="tabpane show" id="pane-elec">
+        <div class="panel">
+          <div class="fbar">
+            <div class="search">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5L16 16"/></svg>
+              <input placeholder="表号 / 房号 / 租户">
+            </div>
+            <select class="sel">
+              <option>业态：公寓</option><option disabled>厂房（待 M10）</option><option disabled>酒店（待 M11）</option>
+            </select>
+            <select class="sel">
+              <option>全部楼栋</option><option>1 栋</option><option>2 栋</option><option>3 栋</option>
+            </select>
+            <select class="sel">
+              <option>全部状态</option><option>在线</option><option>离线</option>
+            </select>
+            <button class="btn ghost">查询</button>
+            <span class="sp"></span>
+            <button class="btn ghost">导出</button>
+            <button class="btn primary" id="btnAddMeter">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              新增表具
+            </button>
+          </div>
+
+          <table class="tb">
+            <thead>
+              <tr><th>表号</th><th>绑定房源</th><th>租户</th><th>通讯方式</th><th>当前读数</th><th>最近通讯</th><th>状态</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="num" style="font-weight:600">SB-XQ05-GY-0087</td><td>滨江人才公寓 1栋-301</td><td>张女士</td><td>NB-IoT</td>
+                <td class="num">1,286.0 度</td><td class="num">09-20 06:00</td><td><span class="tag green">在线</span></td>
+                <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a> · <a class="op" href="pc-reading.html" style="text-decoration:none">抄表</a></td>
+              </tr>
+              <tr>
+                <td class="num" style="font-weight:600">SB-XQ05-GY-0091</td><td>滨江人才公寓 1栋-305</td><td>陈先生</td><td>NB-IoT</td>
+                <td class="num">2,047.5 度</td><td class="num">09-20 06:00</td><td><span class="tag green">在线</span></td>
+                <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a> · <a class="op" href="pc-reading.html" style="text-decoration:none">抄表</a></td>
+              </tr>
+              <tr>
+                <td class="num" style="font-weight:600">SB-XQ05-GY-0102</td><td>滨江人才公寓 2栋-606</td><td>李先生</td><td>NB-IoT</td>
+                <td class="num">863.0 度</td><td class="num">09-20 06:00</td><td><span class="tag green">在线</span></td>
+                <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a> · <a class="op" href="pc-reading.html" style="text-decoration:none">抄表</a></td>
+              </tr>
+              <tr>
+                <td class="num" style="font-weight:600">SB-XQ05-GY-0113</td><td>滨江人才公寓 2栋-401</td><td>张女士</td><td>NB-IoT</td>
+                <td class="num">1,542.0 度</td><td class="num">09-20 06:00</td><td><span class="tag green">在线</span></td>
+                <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a> · <a class="op" href="pc-reading.html" style="text-decoration:none">抄表</a></td>
+              </tr>
+              <tr>
+                <td class="num" style="font-weight:600">SB-XQ05-GY-0145</td><td>滨江人才公寓 3栋-508</td><td style="color:var(--ink3)">空置</td><td>NB-IoT</td>
+                <td class="num">412.0 度</td><td class="num" style="color:var(--red)">09-19 03:40</td><td><span class="tag red">离线 26h</span></td>
+                <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a> · <a class="op" href="pc-reading.html" style="text-decoration:none">补抄</a></td>
+              </tr>
+              <tr>
+                <td class="num" style="font-weight:600">SB-XQ05-GY-0176</td><td>滨江人才公寓 3栋-512</td><td style="color:var(--ink3)">空置</td><td>NB-IoT</td>
+                <td class="num">205.0 度</td><td class="num">09-20 06:00</td><td><span class="tag orange">用量异常</span></td>
+                <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a> · <a class="op" href="pc-alarm.html" style="text-decoration:none">预警</a></td>
+              </tr>
+              <tr>
+                <td class="num" style="font-weight:600">SB-XQ05-GY-P001</td><td>公区总表（公共电费公摊）</td><td style="color:var(--ink3)">—</td><td>RS485</td>
+                <td class="num">28,640.0 度</td><td class="num">09-20 06:00</td><td><span class="tag green">在线</span></td>
+                <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a> · <a class="op" href="pc-share.html" style="text-decoration:none">公摊</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pgbar">
+            <span>共 <b class="num" style="color:var(--ink2)">209</b> 台（当前筛选，含公区总表 1 台）</span>
+            <div class="pgs">
+              <span class="pg"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"/></svg></span>
+              <span class="pg on num">1</span><span class="pg num">2</span><span class="pg num">3</span>
+              <span class="pg"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+            </div>
+            <span class="num">1/30 页</span>
+            <span style="margin-left:auto"><span class="note">绑定房源由 片区管理-房源 维护（房源-水电表-合同绑定关系），本模块只读引用，不重复维护</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 页签：水表 ===== -->
+      <div class="tabpane" id="pane-water">
+        <div class="panel">
+          <div class="fbar">
+            <div class="search">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5L16 16"/></svg>
+              <input placeholder="表号 / 房号 / 租户">
+            </div>
+            <select class="sel">
+              <option>业态：公寓</option><option disabled>厂房（待 M10）</option><option disabled>酒店（待 M11）</option>
+            </select>
+            <select class="sel">
+              <option>全部楼栋</option><option>1 栋</option><option>2 栋</option><option>3 栋</option>
+            </select>
+            <select class="sel">
+              <option>全部状态</option><option>在线</option><option>离线</option>
+            </select>
+            <button class="btn ghost">查询</button>
+            <span class="sp"></span>
+            <button class="btn primary">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              新增表具
+            </button>
+          </div>
+
+          <table class="tb">
+            <thead>
+              <tr><th>表号</th><th>绑定房源</th><th>租户</th><th>通讯方式</th><th>当前读数</th><th>最近通讯</th><th>状态</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="num" style="font-weight:600">SB-XQ05-GY-1087</td><td>滨江人才公寓 1栋-301</td><td>张女士</td><td>NB-IoT</td>
+                <td class="num">89.2 吨</td><td class="num">09-20 06:00</td><td><span class="tag green">在线</span></td>
+                <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a> · <a class="op" href="pc-reading.html" style="text-decoration:none">抄表</a></td>
+              </tr>
+              <tr>
+                <td class="num" style="font-weight:600">SB-XQ05-GY-1091</td><td>滨江人才公寓 1栋-305</td><td>陈先生</td><td>NB-IoT</td>
+                <td class="num">156.8 吨</td><td class="num">09-20 06:00</td><td><span class="tag green">在线</span></td>
+                <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a> · <a class="op" href="pc-reading.html" style="text-decoration:none">抄表</a></td>
+              </tr>
+              <tr>
+                <td class="num" style="font-weight:600">SB-XQ05-GY-1113</td><td>滨江人才公寓 2栋-401</td><td>张女士</td><td>NB-IoT</td>
+                <td class="num">121.5 吨</td><td class="num">09-20 06:00</td><td><span class="tag green">在线</span></td>
+                <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a> · <a class="op" href="pc-reading.html" style="text-decoration:none">抄表</a></td>
+              </tr>
+              <tr>
+                <td class="num" style="font-weight:600">SB-XQ05-GY-1203</td><td>滨江人才公寓 2栋-410</td><td>周先生</td><td>LoRa</td>
+                <td class="num" style="color:var(--red)">抄表失败</td><td class="num" style="color:var(--red)">09-19 06:00</td><td><span class="tag red">离线 30h</span></td>
+                <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a> · <a class="op" href="pc-reading.html" style="text-decoration:none">补抄</a></td>
+              </tr>
+              <tr>
+                <td class="num" style="font-weight:600">SB-XQ05-GY-P002</td><td>公区总表（公共水费公摊）</td><td style="color:var(--ink3)">—</td><td>RS485</td>
+                <td class="num">4,206.0 吨</td><td class="num">09-20 06:00</td><td><span class="tag green">在线</span></td>
+                <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a> · <a class="op" href="pc-share.html" style="text-decoration:none">公摊</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pgbar">
+            <span>共 <b class="num" style="color:var(--ink2)">209</b> 台（当前筛选，含公区总表 1 台）</span>
+            <span style="margin-left:auto"><span class="note">水表编号段 1xxx、电表编号段 0xxx、公区总表 P 段，均为片区内独立流水</span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== 弹窗：新增表具 ===== -->
+<div class="mask" id="addMeterMask" style="display:none">
+  <div class="modal" style="width:640px">
+    <div class="mh">新增表具<span class="x" data-close>✕</span></div>
+    <div class="mb">
+      <div class="f-grid">
+        <div class="f-item">
+          <label><span class="req">*</span>表具类型</label>
+          <select class="sel"><option>电表</option><option>水表</option></select>
+        </div>
+        <div class="f-item">
+          <label><span class="req">*</span>表号</label>
+          <input class="inp num" value="SB-XQ05-GY-0188">
+          <span class="help">自动按片区流水生成，可修改；含片区编号段 XQ05</span>
+        </div>
+        <div class="f-item">
+          <label><span class="req">*</span>绑定房源</label>
+          <select class="sel">
+            <option selected>滨江人才公寓 · 3栋-510（空置）</option>
+            <option>滨江人才公寓 · 3栋-511（空置）</option>
+          </select>
+          <span class="help">仅可选当前片区 · 公寓业态下房源；绑定关系同步至 片区管理-房源</span>
+        </div>
+        <div class="f-item">
+          <label><span class="req">*</span>通讯方式</label>
+          <select class="sel"><option>NB-IoT</option><option>LoRa</option><option>RS485</option><option>4G</option></select>
+        </div>
+        <div class="f-item">
+          <label>厂商</label>
+          <input class="inp" placeholder="接口对接后由设备侧回传">
+        </div>
+        <div class="f-item">
+          <label>型号</label>
+          <input class="inp" placeholder="接口对接后由设备侧回传">
+        </div>
+        <div class="f-item">
+          <label><span class="req">*</span>倍率</label>
+          <input class="inp num" value="1">
+          <span class="help">互感式电表按实际倍率填，直读表为 1</span>
+        </div>
+        <div class="f-item">
+          <label><span class="req">*</span>初始读数</label>
+          <input class="inp num" value="0.0">
+        </div>
+        <div class="f-item full">
+          <label>安装位置说明</label>
+          <input class="inp" placeholder="如：3栋 5 层强电井内">
+        </div>
+      </div>
+      <p style="margin:14px 0 0"><span class="note">厂商 / 型号 / 通讯参数等字段为接口对接预留：水电表厂商接口到位后直接映射回传，本期手工维护</span></p>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" data-close>取消</button>
+      <button class="btn primary" data-close>确认新增</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('#devTabs .tb[data-t]').forEach(function (tb) {
+    tb.addEventListener('click', function () {
+      document.querySelectorAll('#devTabs .tb').forEach(function (x) { x.classList.remove('on'); });
+      tb.classList.add('on');
+      document.querySelectorAll('.tabpane').forEach(function (p) {
+        p.classList.toggle('show', p.id === 'pane-' + tb.dataset.t);
+      });
+    });
+  });
+  var mask = document.getElementById('addMeterMask');
+  document.getElementById('btnAddMeter').addEventListener('click', function () { mask.style.display = 'flex'; });
+  mask.querySelectorAll('[data-close]').forEach(function (el) {
+    el.addEventListener('click', function () { mask.style.display = 'none'; });
+  });
+  mask.addEventListener('click', function (e) { if (e.target === mask) mask.style.display = 'none'; });
+</script>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

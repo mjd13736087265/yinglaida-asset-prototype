@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>智能设备模块 · 原型导航 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式：封面分组 */
+  .cover{justify-content:flex-start}
+  .grp{width:100%;max-width:880px;margin-top:34px}
+  .grp .gt{font-size:13px;color:#7d92b8;letter-spacing:2px;display:flex;align-items:center;gap:12px}
+  .grp .gt::after{content:"";flex:1;height:1px;background:#24365c}
+  .grp .cards{margin-top:14px;justify-content:flex-start}
+  .cover .cd{width:262px}
+</style>
+</head>
+<body>
+<div class="cover">
+  <h1>智能设备模块 · 原型 V1</h1>
+  <div class="sub">英莱达资产管理系统 · 演示数据（水电表接口对接中，本期为功能原型）</div>
+
+  <!-- PC 管理后台 -->
+  <div class="grp">
+    <div class="gt">PC 管理后台</div>
+    <div class="cards">
+      <div class="cd" onclick="location.href='pc-device-home.html'">
+        <h3>设备总览</h3>
+        <p>模块工作台：设备在线率、今日抄表成功率、本月水电用量与费用、异常待办一屏总览。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-meter-list.html'">
+        <h3>设备管理</h3>
+        <p>电表 / 水表页签列表：表具档案、绑定房源（只读引用）、通讯状态；其他设备类型预留位。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-meter-detail.html'">
+        <h3>表具详情</h3>
+        <p>表具完整档案（接口对接字段全预留）、绑定房源跳转、近 12 期抄表历史。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-reading.html'">
+        <h3>抄表记录</h3>
+        <p>自动 / 手动补抄来源区分，抄表失败→人工补抄干预闭环，手动数据可编辑。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-share.html'">
+        <h3>公摊管理</h3>
+        <p>规则配置（片区 × 业态）/ 公摊计算（试算→确认入账）/ 公摊明细三页签，支持按户 / 按面积 / 按用量比例。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-meter-bills.html'">
+        <h3>水电账单</h3>
+        <p>按抄表周期生成账单，公摊单列，推送后归收费管理统一收款核销。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-alarm.html'">
+        <h3>预警告警</h3>
+        <p>用量预警（环比突增 50%）与表具离线告警（24 小时）双页签，处理留痕。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-meter-settings.html'">
+        <h3>规则配置</h3>
+        <p>付费模式（预付费预留）、预警阈值、抄表周期；单价只读引用收费管理。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 移动管理端 -->
+  <div class="grp">
+    <div class="gt">移动管理端（微信小程序）</div>
+    <div class="cards">
+      <div class="cd" onclick="location.href='m-admin-device-home.html'">
+        <h3>智能设备首页</h3>
+        <p>今日抄表概况 + 功能宫格 + 异常待办，现场办公入口。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-reading.html'">
+        <h3>抄表管理</h3>
+        <p>抄表记录列表：今日抄表状态、成功 / 失败筛选，失败一键去补抄。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-reading-fix.html'">
+        <h3>手动补抄</h3>
+        <p>拍照上传读数，提交即生效、可编辑（免审核），留补抄记录。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-alarm.html'">
+        <h3>用量预警</h3>
+        <p>环比突增异常与离线告警列表，现场核实后标记处理。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-share.html'">
+        <h3>公摊明细</h3>
+        <p>按周期查看公区水电公摊到户的明细，现场答疑用。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-meter-detail.html'">
+        <h3>表具档案查看</h3>
+        <p>表具档案只读：厂商、通讯方式、倍率、绑定房源、当前读数。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 移动用户端 -->
+  <div class="grp">
+    <div class="gt">移动用户端（微信小程序）</div>
+    <div class="cards">
+      <div class="cd" onclick="location.href='m-user-meter.html'">
+        <h3>我的水电表</h3>
+        <p>当前读数、本月用量与环比对比、历史读数、预警提醒，防扯皮有据可查。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-user-meter-bills.html'">
+        <h3>水电账单</h3>
+        <p>账单列表 + 明细（公摊单列），缴费状态回显，缴费跳转收费管理。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-user-meter-trend.html'">
+        <h3>用量趋势</h3>
+        <p>近 30 天日用量曲线（SVG 手绘）+ 近 6 个月用量柱状对比。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">共享设计系统：02-需求设计/00-整体需求/主页原型/assets/app.css</div>
+</div>
+</body>
+</html>

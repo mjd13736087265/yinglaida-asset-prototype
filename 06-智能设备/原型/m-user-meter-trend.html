@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动用户端 · 用量趋势 · 英莱达公寓</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .u-top{display:flex;align-items:center;gap:6px;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 10px;flex-shrink:0}
+  .u-top .u-tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .u-top .u-back{display:flex;color:var(--ink2);flex-shrink:0}
+  .u-top .u-back svg{width:20px;height:20px}
+  .u-top .esw summary{background:var(--line2);color:var(--ink2)}
+  .u-top .esw[open] summary{background:#e2e8f2;color:var(--ink)}
+  /* 白色顶栏下 demo-mark 反色 */
+  .demo-mark{color:var(--ink3);border-color:var(--line);top:96px}
+  /* 画板 iframe 无缝嵌入模式（?embed=1） */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">用户端 · 用量趋势</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 白色顶栏 -->
+      <div class="u-top">
+        <a class="u-back" href="m-user-meter.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>
+        <div class="u-tt">用量趋势</div>
+        <details class="esw">
+          <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h11l-3.5-3.5"/><path d="M17 16H6l3.5 3.5"/></svg></summary>
+          <div class="esw-menu">
+            <a href="m-admin-device-home.html">移动管理端</a>
+            <a href="pc-device-home.html">PC 管理端</a>
+          </div>
+        </details>
+      </div>
+
+      <!-- 表类型 chips -->
+      <div class="chips">
+        <span class="chip on">用电 · 1栋-301</span>
+        <span class="chip">用水 · 1栋-301</span>
+      </div>
+
+      <!-- 近 30 天日用量曲线（inline SVG 手绘，无外部图表库） -->
+      <div class="m-sec">
+        <div class="st">近 30 天日用电量<a class="more">单位：度</a></div>
+        <svg viewBox="0 0 340 150" style="width:100%;display:block">
+          <!-- 网格线 -->
+          <line x1="34" y1="14" x2="34" y2="118" stroke="#e4e7ee" stroke-width="1"/>
+          <line x1="34" y1="118" x2="330" y2="118" stroke="#e4e7ee" stroke-width="1"/>
+          <line x1="34" y1="84" x2="330" y2="84" stroke="#eef0f5" stroke-width="1"/>
+          <line x1="34" y1="50" x2="330" y2="50" stroke="#eef0f5" stroke-width="1"/>
+          <line x1="34" y1="16" x2="330" y2="16" stroke="#eef0f5" stroke-width="1"/>
+          <!-- Y 轴刻度 -->
+          <text x="28" y="121" font-size="9" fill="#9aa3b2" text-anchor="end">0</text>
+          <text x="28" y="87" font-size="9" fill="#9aa3b2" text-anchor="end">3</text>
+          <text x="28" y="53" font-size="9" fill="#9aa3b2" text-anchor="end">6</text>
+          <text x="28" y="19" font-size="9" fill="#9aa3b2" text-anchor="end">9</text>
+          <!-- 面积填充 -->
+          <path d="M34,96 L54,92 L74,99 L94,88 L114,95 L134,90 L154,97 L174,85 L194,91 L214,80 L234,88 L254,72 L274,64 L294,58 L314,48 L330,44 L330,118 L34,118 Z" fill="#eaf1fe"/>
+          <!-- 折线 -->
+          <polyline points="34,96 54,92 74,99 94,88 114,95 134,90 154,97 174,85 194,91 214,80 234,88 254,72 274,64 294,58 314,48 330,44" fill="none" stroke="#2563eb" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+          <!-- 峰值点 -->
+          <circle cx="330" cy="44" r="3.5" fill="#2563eb"/>
+          <text x="326" y="36" font-size="9.5" fill="#2563eb" text-anchor="end" font-weight="600">09-20 · 7.8</text>
+          <!-- X 轴标签 -->
+          <text x="34" y="132" font-size="9" fill="#9aa3b2">08-22</text>
+          <text x="174" y="132" font-size="9" fill="#9aa3b2" text-anchor="middle">09-05</text>
+          <text x="330" y="132" font-size="9" fill="#9aa3b2" text-anchor="end">09-20</text>
+        </svg>
+        <div class="note" style="margin-top:8px">9 月中旬起日用电明显抬升（空调使用增加），月均 3.2 → 4.3 度/日</div>
+      </div>
+
+      <!-- 近 6 个月对比（app.css 迷你柱状图组件） -->
+      <div class="m-sec" style="margin-bottom:14px">
+        <div class="st">近 6 个月用电量<a class="more">单位：度</a></div>
+        <div class="bars" style="height:130px">
+          <div class="b dim"><span class="num">95</span><i style="height:58px"></i><span>05月</span></div>
+          <div class="b dim"><span class="num">102</span><i style="height:62px"></i><span>06月</span></div>
+          <div class="b dim"><span class="num">113</span><i style="height:68px"></i><span>07月</span></div>
+          <div class="b dim"><span class="num">104</span><i style="height:63px"></i><span>08月</span></div>
+          <div class="b dim"><span class="num">96</span><i style="height:58px"></i><span>…</span></div>
+          <div class="b"><span class="num">128</span><i style="height:78px"></i><span>09月</span></div>
+        </div>
+        <div class="legend" style="margin-top:8px">
+          <span class="li"><i class="dot" style="background:var(--brand)"></i>本月 <b class="num">128</b> 度</span>
+          <span class="li">6 个月平均 <b class="num">106</b> 度</span>
+          <span class="li" style="margin-left:auto">电费约 <b class="num">¥128</b></span>
+        </div>
+        <div class="note" style="margin-top:10px">趋势图由每日抄表数据绘制；水电表接口对接中，当前为演示数据</div>
+      </div>
+
+    </div>
+
+    <div class="m-tab" id="amsTab" data-variant="user" data-active=""></div>
+
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.chips .chip').forEach(function (c) {
+    c.addEventListener('click', function () {
+      document.querySelectorAll('.chips .chip').forEach(function (x) { x.classList.remove('on'); });
+      c.classList.add('on');
+    });
+  });
+</script>
+<script src="../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

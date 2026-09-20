@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 手动补抄 · 英莱达资管</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .u-top{display:flex;align-items:center;gap:6px;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 10px;flex-shrink:0}
+  .u-top .u-tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .u-top .u-back{display:flex;color:var(--ink2);flex-shrink:0}
+  .u-top .u-back svg{width:20px;height:20px}
+  .u-top .esw summary{background:var(--line2);color:var(--ink2)}
+  .u-top .esw[open] summary{background:#e2e8f2;color:var(--ink)}
+  /* 表单卡 */
+  .fx{background:#fff;margin-top:10px;padding:14px}
+  .fx .fi{margin-bottom:14px}
+  .fx .fi:last-child{margin-bottom:0}
+  .fx label{font-size:13px;color:var(--ink2);display:block;margin-bottom:6px}
+  .fx .inp,.fx .sel{width:100%;height:44px;font-size:15px}
+  .fx .big-inp{height:56px;font-size:22px;font-weight:700;text-align:right}
+  .fx .help{font-size:12px;color:var(--ink3);margin-top:5px}
+  /* 补抄记录行 */
+  .fxr{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line2)}
+  .fxr:last-child{border-bottom:none}
+  .fxr .grow{flex:1;min-width:0}
+  .fxr .t{font-size:13.5px;font-weight:600}
+  .fxr .s{font-size:12px;color:var(--ink3);margin-top:2px}
+  /* 白色顶栏下 demo-mark 反色 */
+  .demo-mark{color:var(--ink3);border-color:var(--line);top:96px}
+  /* 画板 iframe 无缝嵌入模式（?embed=1） */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 手动补抄</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 白色顶栏 -->
+      <div class="u-top">
+        <a class="u-back" href="m-admin-reading.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>
+        <div class="u-tt">手动补抄</div>
+        <details class="esw">
+          <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h11l-3.5-3.5"/><path d="M17 16H6l3.5 3.5"/></svg></summary>
+          <div class="esw-menu">
+            <a href="pc-reading.html">PC 管理端</a>
+            <a href="../../00-整体需求/主页原型/m-user-home.html">移动用户端</a>
+          </div>
+        </details>
+      </div>
+
+      <!-- 补抄表单 -->
+      <div class="fx">
+        <div class="fi">
+          <label>补抄表具（今日抄表失败 6 块）</label>
+          <select class="sel">
+            <option selected>SB-XQ05-GY-0145 · 3栋-508 电表</option>
+            <option>SB-XQ05-GY-0189 · 3栋-614 电表</option>
+            <option>SB-XQ05-GY-1203 · 2栋-410 水表</option>
+          </select>
+        </div>
+        <div class="fi">
+          <label>上期读数（自动带出）</label>
+          <input class="inp num" value="412.0 度（09-19 03:40）" readonly>
+        </div>
+        <div class="fi">
+          <label>本期读数（按表盘实读）</label>
+          <input class="inp big-inp num" placeholder="0.0">
+          <div class="help">单位：度 · 大字号输入，戴手套也好点</div>
+        </div>
+        <div class="fi">
+          <label>现场照片（建议拍照留证，非必填）</label>
+          <div class="upl">
+            <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="14" r="3.5"/></svg></div>
+            <div class="u-t">拍照上传表盘</div>
+            <div class="u-s">防扯皮 · 照片随补抄记录留档</div>
+          </div>
+        </div>
+        <div class="fi">
+          <label>备注</label>
+          <textarea class="ta" placeholder="如：表具在地下室信号弱，已现场实读"></textarea>
+        </div>
+      </div>
+
+      <div class="note" style="margin:12px 14px 0">补抄提交<b>即生效</b>进入抄表记录（免审核）；提交后如发现录错，可在抄表记录中再次编辑修正，每次修改留痕</div>
+
+      <!-- 今日补抄记录 -->
+      <div class="m-sec" style="margin-bottom:14px">
+        <div class="st">今日补抄记录</div>
+        <div style="margin:0 -14px">
+          <div class="fxr">
+            <div class="grow">
+              <div class="t">2栋-410 · 水表 · <span class="num">71.5</span> 吨</div>
+              <div class="s num">09-20 09:41 · 王芳 · 已生效</div>
+            </div>
+            <span class="op">编辑</span>
+          </div>
+          <div class="fxr">
+            <div class="grow">
+              <div class="t">3栋-702 · 电表 · <span class="num">518.0</span> 度</div>
+              <div class="s num">09-20 08:15 · 赵明远 · 已生效</div>
+            </div>
+            <span class="op">编辑</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+
+    <!-- 底部操作栏 -->
+    <div class="m-cta">
+      <button class="btn primary">提交补抄（即生效）</button>
+    </div>
+
+    <div class="m-tab" id="amsTab" data-variant="admin" data-active="home"></div>
+
+  </div>
+</div>
+
+<script src="../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

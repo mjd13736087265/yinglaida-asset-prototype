@@ -1,0 +1,214 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>设备总览 · 智能设备 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  .pgbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3)}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ========== 左侧导航（共享组件 nav.js 渲染） ========== -->
+  <aside class="sidebar" id="amsNav" data-active="device-home" data-ver="V1.3 原型 · 本期范围：智能设备"></aside>
+
+  <!-- ========== 主区域 ========== -->
+  <div class="main">
+
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="crumb"><span>智能设备 / </span>设备总览</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：全部片区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">4</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 内容区 -->
+    <div class="content">
+
+      <p style="margin-bottom:16px"><span class="note">水电表接口对接中，本页为演示数据；数据范围=当前所选片区 · 业态=公寓（其他业态待 M10/M11）</span></p>
+
+      <!-- KPI 卡 -->
+      <div class="row">
+        <div class="kpi">
+          <div class="lb">设备总数</div>
+          <div class="vl num">418<small> 台</small></div>
+          <div class="sub">电表 <b class="num">209</b> · 水表 <b class="num">209</b>（含公区总表各 1）</div>
+        </div>
+        <div class="kpi">
+          <div class="lb">设备在线率</div>
+          <div class="vl num">98.6<small> %</small></div>
+          <div class="sub">在线 <b class="num">412</b> · 离线 <b class="num" style="color:var(--red)">6</b> 台</div>
+        </div>
+        <div class="kpi">
+          <div class="lb">今日抄表成功率</div>
+          <div class="vl num">98.6<small> %</small></div>
+          <div class="sub">应抄 <b class="num">418</b> · 失败待补抄 <b class="num" style="color:var(--orange)">6</b></div>
+        </div>
+        <div class="kpi">
+          <div class="lb">待处理异常</div>
+          <div class="vl num" style="color:var(--red)">8<small> 条</small></div>
+          <div class="sub">用量预警 <b class="num">2</b> · 离线告警 <b class="num">6</b></div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- 本月用量与费用 -->
+        <div class="col" style="flex:1.4">
+          <div class="panel">
+            <div class="ph">
+              <h3>本月用量与费用（2026-09）</h3>
+              <a class="more" href="pc-meter-bills.html">水电账单 ›</a>
+            </div>
+            <div class="pb">
+              <div class="row" style="margin-bottom:12px">
+                <div class="kpi" style="border:none;padding:0">
+                  <div class="lb">用电量</div>
+                  <div class="vl num" style="font-size:24px">41,860<small> 度</small></div>
+                  <div class="sub">电费 <b class="num">¥41,860</b>（¥1.00/度）</div>
+                </div>
+                <div class="kpi" style="border:none;padding:0">
+                  <div class="lb">用水量</div>
+                  <div class="vl num" style="font-size:24px">1,672<small> 吨</small></div>
+                  <div class="sub">水费 <b class="num">¥7,524</b>（¥4.50/吨）</div>
+                </div>
+                <div class="kpi" style="border:none;padding:0">
+                  <div class="lb">公区公摊</div>
+                  <div class="vl num" style="font-size:24px">¥4,550<small></small></div>
+                  <div class="sub">电费公摊 <b class="num">¥3,640</b> · 水费公摊 <b class="num">¥910</b></div>
+                </div>
+              </div>
+              <div class="seg">
+                <i style="width:78%;background:var(--brand)"></i>
+                <i style="width:14%;background:var(--cyan)"></i>
+                <i style="width:8%;background:var(--orange)"></i>
+              </div>
+              <div class="legend" style="margin-top:10px">
+                <span class="li"><i class="dot" style="background:var(--brand)"></i>电费 <b class="num">¥41,860</b></span>
+                <span class="li"><i class="dot" style="background:var(--cyan)"></i>水费 <b class="num">¥7,524</b></span>
+                <span class="li"><i class="dot" style="background:var(--orange)"></i>公摊 <b class="num">¥4,550</b></span>
+                <span class="li" style="margin-left:auto">合计应收 <b class="num">¥53,934</b></span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 公摊本月执行 -->
+          <div class="panel">
+            <div class="ph">
+              <h3>公摊本月执行（2026-09）</h3>
+              <a class="more" href="pc-share.html">公摊管理 ›</a>
+            </div>
+            <div class="pb flush">
+              <table class="tb">
+                <thead>
+                  <tr><th>公摊项目</th><th>关联总表</th><th>分摊方式</th><th>本期总额</th><th>分摊户数</th><th>每户</th><th>状态</th></tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>公共电费公摊</td><td class="num">SB-XQ05-GY-P001</td><td>按户均摊</td>
+                    <td class="num">¥3,640</td><td class="num">182 户</td><td class="num">¥20.00</td>
+                    <td><span class="tag green">已入账</span></td>
+                  </tr>
+                  <tr>
+                    <td>公共水费公摊</td><td class="num">SB-XQ05-GY-P002</td><td>按户均摊</td>
+                    <td class="num">¥910</td><td class="num">182 户</td><td class="num">¥5.00</td>
+                    <td><span class="tag green">已入账</span></td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 异常待办 -->
+        <div class="col" style="flex:1">
+          <div class="panel">
+            <div class="ph">
+              <h3>异常待办</h3>
+              <a class="more" href="pc-alarm.html">预警告警 ›</a>
+            </div>
+            <div class="pb flush">
+              <div class="li-row">
+                <span class="dot" style="background:var(--red)"></span>
+                <div class="grow">
+                  <div class="t">用量预警 · 滨江 2栋-410</div>
+                  <div class="s">用电环比 <span class="num" style="color:var(--red)">+153%</span>（60 → 152 度）</div>
+                </div>
+                <a class="op" href="pc-alarm.html" style="text-decoration:none">处理</a>
+              </div>
+              <div class="li-row">
+                <span class="dot" style="background:var(--red)"></span>
+                <div class="grow">
+                  <div class="t">用量预警 · 滨江 3栋-512（空置）</div>
+                  <div class="s">空置房本月用电 <span class="num">28</span> 度，疑似有人使用或漏电</div>
+                </div>
+                <a class="op" href="pc-alarm.html" style="text-decoration:none">处理</a>
+              </div>
+              <div class="li-row">
+                <span class="dot" style="background:var(--orange)"></span>
+                <div class="grow">
+                  <div class="t">离线告警 · <span class="num">6</span> 块表离线超 24 小时</div>
+                  <div class="s">滨江 3栋-508 / 2栋-410 等 · 建议现场核查并补抄</div>
+                </div>
+                <a class="op" href="pc-alarm.html" style="text-decoration:none">查看</a>
+              </div>
+              <div class="li-row">
+                <span class="dot" style="background:var(--orange)"></span>
+                <div class="grow">
+                  <div class="t">抄表失败待补抄 · <span class="num">6</span> 块</div>
+                  <div class="s">今日自动抄表失败，转人工补抄</div>
+                </div>
+                <a class="op" href="pc-reading.html" style="text-decoration:none">去补抄</a>
+              </div>
+            </div>
+          </div>
+
+          <!-- 快捷入口 -->
+          <div class="panel">
+            <div class="ph"><h3>快捷入口</h3></div>
+            <div class="quick">
+              <a class="q" href="pc-meter-list.html" style="text-decoration:none">
+                <div class="qi" style="background:var(--brand-bg);color:var(--brand)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M13 2L5 13.5h5L10 22l8-11.5h-5L13 2z"/></svg></div>
+                <div class="qt">设备管理</div>
+              </a>
+              <a class="q" href="pc-reading.html" style="text-decoration:none">
+                <div class="qi" style="background:var(--cyan-bg);color:var(--cyan)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+                <div class="qt">抄表记录</div>
+              </a>
+              <a class="q" href="pc-meter-bills.html" style="text-decoration:none">
+                <div class="qi" style="background:var(--orange-bg);color:var(--orange)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4"/><path d="M9 12h6M9 16h6"/></svg></div>
+                <div class="qt">水电账单</div>
+              </a>
+              <a class="q" href="pc-meter-settings.html" style="text-decoration:none">
+                <div class="qi" style="background:var(--purple-bg);color:var(--purple)"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="3"/><path d="M12 2v3M12 19v3M2 12h3M19 12h3M4.9 4.9l2.1 2.1M17 17l2.1 2.1M19.1 4.9L17 7M7 17l-2.1 2.1"/></svg></div>
+                <div class="qt">规则配置</div>
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <p><span class="note">状态颜色与文案来源于 系统管理-字典配置；表具编号规则 SB-XQ05-GY-流水（含片区编号段，各片区独立流水，待主会话登记进规范 §9.1）</span></p>
+
+    </div>
+  </div>
+</div>
+
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

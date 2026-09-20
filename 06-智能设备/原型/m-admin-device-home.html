@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 智能设备 · 英莱达资管</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .m-head .loc svg{width:16px;height:16px;flex-shrink:0}
+  .m-head .m-bell svg{width:17px;height:17px}
+  .m-stats .c .vl.red{color:var(--red)}
+  .m-stats .c .vl.blue{color:var(--brand)}
+  .m-stats .c .vl.orange{color:var(--orange)}
+  .m-tiles .tl .ti svg{width:24px;height:24px}
+  /* 待办行 */
+  .todo{display:flex;align-items:center;gap:10px;padding:12px 0;border-bottom:1px solid var(--line2);color:inherit;text-decoration:none}
+  .todo:last-child{border-bottom:none}
+  .todo .grow{flex:1;min-width:0}
+  .todo .t{font-size:14px;font-weight:500}
+  .todo .s{font-size:12px;color:var(--ink3);margin-top:1px}
+  .todo .go{font-size:12.5px;color:var(--brand);flex-shrink:0}
+  .m-sec .note{margin-top:12px}
+  /* 演示数据角标下移，避开头部铃铛与切换按钮 */
+  .demo-mark{top:118px}
+  /* 画板 iframe 无缝嵌入模式（?embed=1）：去手机壳与舞台底 */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 智能设备（首页）</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 蓝色头部：片区选择 + 今日抄表成功率 -->
+      <div class="m-head">
+        <div class="loc">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 21.5s-6.5-5.5-6.5-10a6.5 6.5 0 1 1 13 0c0 4.5-6.5 10-6.5 10z"/><circle cx="12" cy="11.5" r="2.4"/></svg>
+          <span>全部片区 ▾</span>
+          <div class="m-bell">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18.5 9.5a6.5 6.5 0 1 0-13 0c0 5.5-2 6.5-2 6.5h17s-2-1-2-6.5z"/><path d="M10 19.5a2.2 2.2 0 0 0 4 0"/></svg>
+            <span class="bdg">4</span>
+          </div>
+          <details class="esw">
+            <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h11l-3.5-3.5"/><path d="M17 16H6l3.5 3.5"/></svg></summary>
+            <div class="esw-menu">
+              <a href="pc-device-home.html">PC 管理端</a>
+              <a href="../../00-整体需求/主页原型/m-user-home.html">移动用户端</a>
+            </div>
+          </details>
+        </div>
+        <div class="big-lb">今日抄表成功率</div>
+        <div class="big num">98.6<small> % · 412/418</small></div>
+        <div class="sub-line"><span>设备在线 <span class="num">412</span> 台</span><span>离线 <span class="num">6</span> 台</span></div>
+      </div>
+
+      <!-- 悬浮统计卡 -->
+      <div class="m-stats">
+        <div class="c"><div class="lb">设备总数</div><div class="vl num blue">418<small> 台</small></div></div>
+        <div class="c"><div class="lb">待补抄</div><div class="vl num orange">6<small> 块</small></div></div>
+        <div class="c"><div class="lb">用量预警</div><div class="vl num red">2<small> 条</small></div></div>
+      </div>
+      <p style="margin:8px 14px 0"><span class="note">数据范围=当前所选片区 · 水电表接口对接中，演示数据</span></p>
+
+      <!-- 常用功能 -->
+      <div class="m-sec">
+        <div class="st">常用功能</div>
+        <div class="m-tiles">
+          <a class="tl c-blue" href="m-admin-reading.html" style="text-decoration:none">
+            <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <div class="tt">抄表管理</div>
+          </a>
+          <a class="tl c-green" href="m-admin-reading-fix.html" style="text-decoration:none">
+            <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="14" r="3.5"/></svg></div>
+            <div class="tt">手动补抄</div>
+          </a>
+          <a class="tl c-red" href="m-admin-alarm.html" style="text-decoration:none">
+            <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3L2.5 20h19L12 3z"/><path d="M12 10v4M12 17.5h.01"/></svg></div>
+            <div class="tt">用量预警</div>
+          </a>
+          <a class="tl c-orange" href="m-admin-share.html" style="text-decoration:none">
+            <div class="ti"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="9"/><path d="M9 9.5h6M9 13h6M12 7.5v9"/></svg></div>
+            <div class="tt">公摊明细</div>
+          </a>
+        </div>
+      </div>
+
+      <!-- 待办 -->
+      <div class="m-sec">
+        <div class="st">待办</div>
+        <a class="todo" href="m-admin-reading-fix.html">
+          <span class="dot" style="background:var(--orange)"></span>
+          <div class="grow">
+            <div class="t">抄表失败待补抄 <b class="num">6</b> 块</div>
+            <div class="s">3栋-508 / 3栋-614 / 2栋-410 等 · 今日 06:00 自动抄表失败</div>
+          </div>
+          <span class="go">去补抄 ›</span>
+        </a>
+        <a class="todo" href="m-admin-alarm.html">
+          <span class="dot" style="background:var(--red)"></span>
+          <div class="grow">
+            <div class="t">用量预警 <b class="num">2</b> 条待核实</div>
+            <div class="s">2栋-410 环比 +153% · 3栋-512 空置房产生用量</div>
+          </div>
+          <span class="go">去核实 ›</span>
+        </a>
+        <a class="todo" href="m-admin-alarm.html">
+          <span class="dot" style="background:var(--red)"></span>
+          <div class="grow">
+            <div class="t">离线告警 <b class="num">6</b> 块表超 24h</div>
+            <div class="s">建议现场核查通讯并补抄</div>
+          </div>
+          <span class="go">查看 ›</span>
+        </a>
+        <div class="note">公摊规则配置、账单生成与推送、规则配置等复杂操作请在 PC 端处理；移动端定位现场抄表与核查</div>
+      </div>
+
+      <!-- 表具档案查看入口 -->
+      <div class="m-sec" style="margin-bottom:14px">
+        <div class="st">表具档案</div>
+        <a class="todo" href="m-admin-meter-detail.html">
+          <div class="grow">
+            <div class="t">SB-XQ05-GY-0087 · 1栋-301 电表</div>
+            <div class="s">当前读数 <span class="num">1,286.0</span> 度 · NB-IoT · 在线</div>
+          </div>
+          <span class="go">档案 ›</span>
+        </a>
+        <a class="todo" href="m-admin-meter-detail.html">
+          <div class="grow">
+            <div class="t">SB-XQ05-GY-P001 · 公区电费总表</div>
+            <div class="s">当前读数 <span class="num">28,640.0</span> 度 · RS485 · 在线</div>
+          </div>
+          <span class="go">档案 ›</span>
+        </a>
+      </div>
+
+    </div>
+
+    <!-- 底部 Tab（共享组件 m-tab.js 渲染；智能设备页面统一高亮「工作台」） -->
+    <div class="m-tab" id="amsTab" data-variant="admin" data-active="home"></div>
+
+  </div>
+</div>
+
+<script src="../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

@@ -1,0 +1,239 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>水电账单 · 智能设备 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  .tabpane{display:none}
+  .tabpane.show{display:block}
+  .pgbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3)}
+  .pgbar>span{white-space:nowrap}
+  .sumrow td{background:var(--brand-bg);font-weight:700;color:var(--ink);border-top:2px solid var(--line)}
+  .op:hover{color:var(--brand-d)}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="device-bills" data-ver="V1.3 原型 · 本期范围：智能设备"></aside>
+
+  <div class="main">
+
+    <header class="topbar">
+      <div class="crumb"><span>智能设备 / </span>水电账单</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">4</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- 页签 -->
+      <div class="panel" style="margin-bottom:16px">
+        <div class="tabs" style="padding:10px 14px" id="billTabs">
+          <span class="tb on" data-t="list">账单列表</span>
+          <span class="tb" data-t="push">推送记录</span>
+          <span class="note" style="margin-left:auto;align-self:center">本模块出账与推送；推送后由 收费管理 统一收款 / 核销 / 开票（跨模块对接点）</span>
+        </div>
+      </div>
+
+      <!-- ===== 页签 1：账单列表 ===== -->
+      <div class="tabpane show" id="pane-list">
+        <div class="panel">
+          <div class="fbar">
+            <div class="search">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5L16 16"/></svg>
+              <input placeholder="房号 / 租户 / 账单号">
+            </div>
+            <select class="sel">
+              <option>业态：公寓</option><option disabled>厂房（待 M10）</option><option disabled>酒店（待 M11）</option>
+            </select>
+            <select class="sel"><option>账期 2026-09</option><option>账期 2026-08</option></select>
+            <select class="sel"><option>全部状态</option><option>待推送</option><option>已推送</option><option>已缴清</option></select>
+            <button class="btn ghost">查询</button>
+            <span class="sp"></span>
+            <button class="btn ghost">批量推送</button>
+            <button class="btn primary" id="btnGen">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              生成账单
+            </button>
+          </div>
+
+          <table class="tb">
+            <thead>
+              <tr><th>账单号</th><th>房号</th><th>租户</th><th>账期</th><th>电费</th><th>水费</th><th>公摊</th><th>合计</th><th>状态</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="num" style="font-weight:600">SD-XQ05-GY-2026-0112</td><td>1栋-301</td><td>张女士</td><td class="num">2026-09</td>
+                <td class="num">¥128.00</td><td class="num">¥40.05</td><td class="num">¥25.00</td><td class="num" style="font-weight:600">¥193.05</td>
+                <td><span class="tag blue">已推送</span><div style="font-size:12px;color:var(--ink3)">09-20 10:00 · 小程序</div></td>
+                <td><span class="op" data-open="billDetail">详情</span> · <span class="op">催缴</span></td>
+              </tr>
+              <tr>
+                <td class="num" style="font-weight:600">SD-XQ05-GY-2026-0113</td><td>1栋-302</td><td>李先生</td><td class="num">2026-09</td>
+                <td class="num">¥96.00</td><td class="num">¥31.50</td><td class="num">¥25.00</td><td class="num" style="font-weight:600">¥152.50</td>
+                <td><span class="tag blue">已推送</span><div style="font-size:12px;color:var(--ink3)">09-20 10:00 · 小程序</div></td>
+                <td><span class="op" data-open="billDetail">详情</span> · <span class="op">催缴</span></td>
+              </tr>
+              <tr>
+                <td class="num" style="font-weight:600">SD-XQ05-GY-2026-0115</td><td>1栋-305</td><td>陈先生</td><td class="num">2026-09</td>
+                <td class="num">¥487.00</td><td class="num">¥151.00</td><td class="num">¥25.00</td><td class="num" style="font-weight:600">¥663.00</td>
+                <td><span class="tag gray">待推送</span><div style="font-size:12px;color:var(--ink3)">退房结算中（TF-XQ05-2026-0042）</div></td>
+                <td><span class="op" data-open="billDetail">详情</span> · <span class="op">推送</span></td>
+              </tr>
+              <tr>
+                <td class="num" style="font-weight:600">SD-XQ05-GY-2026-0118</td><td>2栋-401</td><td>张女士</td><td class="num">2026-09</td>
+                <td class="num">¥72.00</td><td class="num">¥27.00</td><td class="num">¥25.00</td><td class="num" style="font-weight:600">¥124.00</td>
+                <td><span class="tag blue">已推送</span><div style="font-size:12px;color:var(--ink3)">09-20 10:00 · 小程序</div></td>
+                <td><span class="op" data-open="billDetail">详情</span> · <span class="op">催缴</span></td>
+              </tr>
+              <tr>
+                <td class="num" style="font-weight:600">SD-XQ05-GY-2026-0121</td><td>2栋-410</td><td>周先生</td><td class="num">2026-09</td>
+                <td class="num">¥152.00</td><td class="num">¥33.75</td><td class="num">¥25.00</td><td class="num" style="font-weight:600">¥210.75</td>
+                <td><span class="tag blue">已推送</span><div style="font-size:12px;color:var(--ink3)">09-20 10:00 · 小程序</div></td>
+                <td><span class="op" data-open="billDetail">详情</span> · <span class="op">催缴</span></td>
+              </tr>
+              <tr>
+                <td class="num" style="font-weight:600">SD-XQ05-GY-2026-0089</td><td>1栋-301</td><td>张女士</td><td class="num">2026-08</td>
+                <td class="num">¥96.00</td><td class="num">¥31.05</td><td class="num">¥25.00</td><td class="num" style="font-weight:600">¥152.05</td>
+                <td><span class="tag green">已缴清</span><div style="font-size:12px;color:var(--ink3)">09-05 收费管理核销</div></td>
+                <td><span class="op" data-open="billDetail">详情</span></td>
+              </tr>
+              <tr class="sumrow">
+                <td colspan="4">本页合计（6 笔）</td>
+                <td class="num">¥1,031.00</td><td class="num">¥314.30</td><td class="num">¥150.00</td><td class="num">¥1,495.30</td>
+                <td colspan="2" style="font-weight:400;font-size:12.5px">待收 <b class="num" style="color:var(--red)">¥1,343.25</b>（收费管理统一收款）</td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pgbar">
+            <span>共 <b class="num" style="color:var(--ink2)">182</b> 笔（2026-09 账期）</span>
+            <span style="margin-left:auto"><span class="note">账单号 SD-XQ05-GY-年份-流水（含片区段，独立流水）；金额=用量×单价+公摊；单价来源于 收费管理-规则配置（电 ¥1.00/度、水 ¥4.50/吨）</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 页签 2：推送记录 ===== -->
+      <div class="tabpane" id="pane-push">
+        <div class="panel">
+          <div class="pb flush">
+            <table class="tb">
+              <thead>
+                <tr><th>推送时间</th><th>推送批次</th><th>账期</th><th>推送笔数</th><th>推送渠道</th><th>触达结果</th><th>操作人</th></tr>
+              </thead>
+              <tbody>
+                <tr><td class="num">2026-09-20 10:00</td><td class="num">PUSH-20260920-01</td><td class="num">2026-09</td><td class="num">180 笔</td><td>小程序服务通知</td><td>成功 <b class="num">178</b> · 失败 <b class="num" style="color:var(--orange)">2</b>（未订阅消息）</td><td>陈志远</td></tr>
+                <tr><td class="num">2026-08-20 10:00</td><td class="num">PUSH-20260820-01</td><td class="num">2026-08</td><td class="num">178 笔</td><td>小程序服务通知</td><td>成功 <b class="num">178</b></td><td>陈志远</td></tr>
+                <tr><td class="num">2026-07-20 10:00</td><td class="num">PUSH-20260720-01</td><td class="num">2026-07</td><td class="num">175 笔</td><td>小程序服务通知</td><td>成功 <b class="num">174</b> · 失败 <b class="num">1</b></td><td>陈志远</td></tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="pgbar">
+            <span style="margin-left:auto"><span class="note">推送失败（租户未订阅服务通知）的账单可短信补推，消息推送中心在 M1 系统底座；缴费状态由收费管理回传</span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== 弹窗：生成账单 ===== -->
+<div class="mask" id="genMask" style="display:none">
+  <div class="modal">
+    <div class="mh">生成水电账单<span class="x" data-close>✕</span></div>
+    <div class="mb">
+      <div class="f-grid">
+        <div class="f-item">
+          <label><span class="req">*</span>账期</label>
+          <select class="sel"><option>2026-09（抄表周期 08-20 ~ 09-20）</option><option>2026-08</option></select>
+        </div>
+        <div class="f-item">
+          <label><span class="req">*</span>生成范围</label>
+          <select class="sel"><option>滨江人才公寓（公寓）· 全部在租 182 户</option></select>
+        </div>
+        <div class="f-item full">
+          <label>算费预览（自动带出）</label>
+          <div class="settle">
+            <div class="sl"><span class="sk">电费<small>41,860 度 × ¥1.00</small></span><span class="sv num">¥41,860.00</span></div>
+            <div class="sl"><span class="sk">水费<small>1,672 吨 × ¥4.50</small></span><span class="sv num">¥7,524.00</span></div>
+            <div class="sl"><span class="sk">公摊<small>电费公摊 ¥20 + 水费公摊 ¥5，每户 ¥25</small></span><span class="sv num">¥4,550.00</span></div>
+            <div class="sl total"><span class="sk">本期待出账合计</span><span class="sv num">¥53,934.00</span></div>
+          </div>
+        </div>
+      </div>
+      <p style="margin:14px 0 0"><span class="note">生成前校验：6 块表抄表失败待补抄，其对应房源暂不出账，补抄后可单独补生成；公摊需先在 公摊管理 确认入账</span></p>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" data-close>取消</button>
+      <button class="btn primary" data-close>确认生成（180 笔）</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 弹窗：账单详情 ===== -->
+<div class="mask" id="billDetail" style="display:none">
+  <div class="modal">
+    <div class="mh">账单详情 · SD-XQ05-GY-2026-0112<span class="x" data-close>✕</span></div>
+    <div class="mb">
+      <div class="f-grid" style="margin-bottom:14px">
+        <div class="f-item"><label>房号 / 租户</label><input class="inp" value="滨江人才公寓 1栋-301 · 张女士" readonly></div>
+        <div class="f-item"><label>账期 / 抄表周期</label><input class="inp num" value="2026-09（08-20 ~ 09-20）" readonly></div>
+      </div>
+      <div class="settle">
+        <div class="sl"><span class="sk">电费<small>128.0 度 × ¥1.00 · 表 SB-XQ05-GY-0087</small></span><span class="sv num">¥128.00</span></div>
+        <div class="sl"><span class="sk">水费<small>8.9 吨 × ¥4.50 · 表 SB-XQ05-GY-1087</small></span><span class="sv num">¥40.05</span></div>
+        <div class="sl"><span class="sk">公共电费公摊<small>按户均摊 182 户 · 规则：公共电费公摊</small></span><span class="sv num">¥20.00</span></div>
+        <div class="sl"><span class="sk">公共水费公摊<small>按户均摊 182 户 · 规则：公共水费公摊</small></span><span class="sv num">¥5.00</span></div>
+        <div class="sl total"><span class="sk">应收合计</span><span class="sv num">¥193.05</span></div>
+      </div>
+      <p style="margin:14px 0 0"><span class="note">公摊费用在账单中单列展示（租户侧同样单列）；收款 / 核销 / 开票请前往 收费管理-账单管理，本模块只回显缴费状态</span></p>
+    </div>
+    <div class="mf">
+      <a class="btn ghost" href="../../03-收费管理（PC）/原型/pc-bills.html" style="text-decoration:none">前往 收费管理 ›</a>
+      <button class="btn primary" data-close>关闭</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('#billTabs .tb[data-t]').forEach(function (tb) {
+    tb.addEventListener('click', function () {
+      document.querySelectorAll('#billTabs .tb').forEach(function (x) { x.classList.remove('on'); });
+      tb.classList.add('on');
+      document.querySelectorAll('.tabpane').forEach(function (p) {
+        p.classList.toggle('show', p.id === 'pane-' + tb.dataset.t);
+      });
+    });
+  });
+  document.querySelectorAll('.mask').forEach(function (m) {
+    m.querySelectorAll('[data-close]').forEach(function (el) {
+      el.addEventListener('click', function () { m.style.display = 'none'; });
+    });
+    m.addEventListener('click', function (e) { if (e.target === m) m.style.display = 'none'; });
+  });
+  document.getElementById('btnGen').addEventListener('click', function () {
+    document.getElementById('genMask').style.display = 'flex';
+  });
+  document.querySelectorAll('[data-open]').forEach(function (b) {
+    b.addEventListener('click', function () { document.getElementById(b.getAttribute('data-open')).style.display = 'flex'; });
+  });
+</script>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>预警告警 · 智能设备 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  .tabpane{display:none}
+  .tabpane.show{display:block}
+  .pgbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3)}
+  .op:hover{color:var(--brand-d)}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="device-alarm" data-ver="V1.3 原型 · 本期范围：智能设备"></aside>
+
+  <div class="main">
+
+    <header class="topbar">
+      <div class="crumb"><span>智能设备 / </span>预警告警</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">4</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- 页签 -->
+      <div class="panel" style="margin-bottom:16px">
+        <div class="tabs" style="padding:10px 14px" id="alarmTabs">
+          <span class="tb on" data-t="usage">
+            用量预警 <span class="n">2</span>
+          </span>
+          <span class="tb" data-t="offline">
+            离线告警 <span class="n">6</span>
+          </span>
+          <span class="note" style="margin-left:auto;align-self:center">触发阈值：用量环比突增超 50% · 连续离线超 24 小时（规则配置可改）</span>
+        </div>
+      </div>
+
+      <!-- ===== 页签 1：用量预警 ===== -->
+      <div class="tabpane show" id="pane-usage">
+        <div class="panel">
+          <div class="fbar">
+            <select class="sel">
+              <option>业态：公寓</option><option disabled>厂房（待 M10）</option><option disabled>酒店（待 M11）</option>
+            </select>
+            <select class="sel"><option>全部状态</option><option>待处理</option><option>已处理</option></select>
+            <select class="sel"><option>本月</option><option>上月</option></select>
+            <button class="btn ghost">查询</button>
+            <span class="sp"></span>
+            <button class="btn ghost">导出</button>
+          </div>
+          <table class="tb">
+            <thead>
+              <tr><th>触发时间</th><th>房号</th><th>表号</th><th>上期用量</th><th>本期用量</th><th>环比</th><th>预警说明</th><th>状态</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="num">09-20 06:05</td><td>2栋-410</td><td class="num">SB-XQ05-GY-0158</td>
+                <td class="num">60.0 度</td><td class="num">152.0 度</td>
+                <td><span class="tag red">+153%</span></td>
+                <td>环比突增超阈值 50%</td>
+                <td><span class="tag red">待处理</span></td>
+                <td><span class="op" data-open="handleMask">处理</span> · <a class="op" href="pc-meter-detail.html" style="text-decoration:none">表具</a></td>
+              </tr>
+              <tr>
+                <td class="num">09-20 06:05</td><td>3栋-512（空置）</td><td class="num">SB-XQ05-GY-0176</td>
+                <td class="num">0.0 度</td><td class="num">28.0 度</td>
+                <td><span class="tag red">新增用量</span></td>
+                <td>空置房产生用量，疑似有人使用或漏电</td>
+                <td><span class="tag red">待处理</span></td>
+                <td><span class="op" data-open="handleMask">处理</span> · <a class="op" href="pc-meter-detail.html" style="text-decoration:none">表具</a></td>
+              </tr>
+              <tr>
+                <td class="num">08-21 06:05</td><td>1栋-302</td><td class="num">SB-XQ05-GY-0088</td>
+                <td class="num">58.0 度</td><td class="num">96.0 度</td>
+                <td><span class="tag orange">+66%</span></td>
+                <td>环比突增超阈值 50%</td>
+                <td><span class="tag green">已处理</span><div style="font-size:12px;color:var(--ink3)">王芳：租户新添电器，正常</div></td>
+                <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">表具</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pgbar">
+            <span style="margin-left:auto"><span class="note">用量预警同步推送至 小程序管理端（用量预警）与 用户端（我的水电表提醒条）；处理需登记结论留痕</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 页签 2：离线告警 ===== -->
+      <div class="tabpane" id="pane-offline">
+        <div class="panel">
+          <div class="fbar">
+            <select class="sel">
+              <option>业态：公寓</option><option disabled>厂房（待 M10）</option><option disabled>酒店（待 M11）</option>
+            </select>
+            <select class="sel"><option>全部状态</option><option>待处理</option><option>已恢复</option></select>
+            <button class="btn ghost">查询</button>
+            <span class="sp"></span>
+            <button class="btn ghost">导出</button>
+          </div>
+          <table class="tb">
+            <thead>
+              <tr><th>告警时间</th><th>表号</th><th>绑定房源</th><th>类型</th><th>离线时长</th><th>最近通讯</th><th>建议动作</th><th>状态</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="num">09-20 06:10</td><td class="num">SB-XQ05-GY-0145</td><td>3栋-508</td><td>电表</td>
+                <td class="num" style="color:var(--red);font-weight:600">26 h</td><td class="num">09-19 03:40</td>
+                <td>现场核查 + 手动补抄</td>
+                <td><span class="tag red">待处理</span></td>
+                <td><a class="op" href="pc-reading.html" style="text-decoration:none">去补抄</a> · <span class="op" data-open="repairMask">标记检修</span></td>
+              </tr>
+              <tr>
+                <td class="num">09-20 06:10</td><td class="num">SB-XQ05-GY-1203</td><td>2栋-410</td><td>水表</td>
+                <td class="num" style="color:var(--red);font-weight:600">30 h</td><td class="num">09-19 06:00</td>
+                <td>现场核查 + 手动补抄</td>
+                <td><span class="tag red">待处理</span></td>
+                <td><a class="op" href="pc-reading.html" style="text-decoration:none">去补抄</a> · <span class="op" data-open="repairMask">标记检修</span></td>
+              </tr>
+              <tr>
+                <td class="num">09-20 06:10</td><td class="num">SB-XQ05-GY-0189</td><td>3栋-614</td><td>电表</td>
+                <td class="num" style="color:var(--red);font-weight:600">25 h</td><td class="num">09-19 05:10</td>
+                <td>现场核查 + 手动补抄</td>
+                <td><span class="tag red">待处理</span></td>
+                <td><a class="op" href="pc-reading.html" style="text-decoration:none">去补抄</a> · <span class="op" data-open="repairMask">标记检修</span></td>
+              </tr>
+              <tr>
+                <td class="num">09-19 06:10</td><td class="num">SB-XQ05-GY-1177</td><td>3栋-512</td><td>水表</td>
+                <td class="num">27 h</td><td class="num">09-18 03:20</td>
+                <td>现场核查 + 手动补抄</td>
+                <td><span class="tag green">已恢复</span><div style="font-size:12px;color:var(--ink3)">09-19 15:42 通讯恢复</div></td>
+                <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">表具</a></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pgbar">
+            <span style="margin-left:auto"><span class="note">「标记检修」生成检修记录（与 M7 物业报修工单联动为预留接口）；表具恢复通讯后告警自动关闭</span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== 弹窗：处理用量预警 ===== -->
+<div class="mask" id="handleMask" style="display:none">
+  <div class="modal">
+    <div class="mh">处理用量预警 · 2栋-410<span class="x" data-close>✕</span></div>
+    <div class="mb">
+      <div class="f-grid">
+        <div class="f-item full">
+          <label>预警信息（自动带出）</label>
+          <input class="inp" value="用电 60.0 → 152.0 度，环比 +153%（阈值 50%）" readonly>
+        </div>
+        <div class="f-item full">
+          <label><span class="req">*</span>核实结论</label>
+          <select class="sel">
+            <option>正常 · 租户实际使用（新添电器 / 合租等）</option>
+            <option>异常 · 疑似有人偷住（转房态核查）</option>
+            <option>异常 · 疑似漏电 / 表具故障（标记检修）</option>
+            <option>误报 · 读数异常（转抄表记录核对）</option>
+          </select>
+        </div>
+        <div class="f-item full">
+          <label>处理备注</label>
+          <textarea class="ta" placeholder="现场核实情况说明"></textarea>
+        </div>
+      </div>
+      <p style="margin:14px 0 0"><span class="note">处理后预警关闭并留痕（处理人 + 时间 + 结论）；选择「疑似漏电 / 表具故障」时同步生成检修记录</span></p>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" data-close>取消</button>
+      <button class="btn primary" data-close>确认处理</button>
+    </div>
+  </div>
+</div>
+
+<!-- ===== 弹窗：标记检修 ===== -->
+<div class="mask" id="repairMask" style="display:none">
+  <div class="modal">
+    <div class="mh">标记检修 · SB-XQ05-GY-0145<span class="x" data-close>✕</span></div>
+    <div class="mb">
+      <div class="f-grid">
+        <div class="f-item full">
+          <label>表具（自动带出）</label>
+          <input class="inp" value="SB-XQ05-GY-0145 · 3栋-508 电表 · 离线 26h" readonly>
+        </div>
+        <div class="f-item full">
+          <label><span class="req">*</span>检修说明</label>
+          <textarea class="ta" placeholder="如：地下室信号弱，联系厂商排查通讯模块"></textarea>
+        </div>
+      </div>
+      <p style="margin:14px 0 0"><span class="note">检修期间该表自动抄表跳过，不重复告警；与 M7 物业报修工单联动为预留接口（接口对接后启用）</span></p>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" data-close>取消</button>
+      <button class="btn primary" data-close>确认标记</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('#alarmTabs .tb[data-t]').forEach(function (tb) {
+    tb.addEventListener('click', function () {
+      document.querySelectorAll('#alarmTabs .tb').forEach(function (x) { x.classList.remove('on'); });
+      tb.classList.add('on');
+      document.querySelectorAll('.tabpane').forEach(function (p) {
+        p.classList.toggle('show', p.id === 'pane-' + tb.dataset.t);
+      });
+    });
+  });
+  document.querySelectorAll('.mask').forEach(function (m) {
+    m.querySelectorAll('[data-close]').forEach(function (el) {
+      el.addEventListener('click', function () { m.style.display = 'none'; });
+    });
+    m.addEventListener('click', function (e) { if (e.target === m) m.style.display = 'none'; });
+  });
+  document.querySelectorAll('[data-open]').forEach(function (b) {
+    b.addEventListener('click', function () { document.getElementById(b.getAttribute('data-open')).style.display = 'flex'; });
+  });
+</script>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

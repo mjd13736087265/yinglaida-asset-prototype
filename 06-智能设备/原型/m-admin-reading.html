@@ -1,0 +1,148 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 抄表管理 · 英莱达资管</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .u-top{display:flex;align-items:center;gap:6px;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 10px;flex-shrink:0}
+  .u-top .u-tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .u-top .u-back{display:flex;color:var(--ink2);flex-shrink:0}
+  .u-top .u-back svg{width:20px;height:20px}
+  .u-top .esw summary{background:var(--line2);color:var(--ink2)}
+  .u-top .esw[open] summary{background:#e2e8f2;color:var(--ink)}
+  /* 抄表行 */
+  .rd{display:flex;align-items:center;gap:10px;padding:12px 14px;border-bottom:1px solid var(--line2);background:#fff}
+  .rd:last-child{border-bottom:none}
+  .rd .grow{flex:1;min-width:0}
+  .rd .t{font-size:14px;font-weight:600}
+  .rd .s{font-size:12px;color:var(--ink3);margin-top:2px}
+  .rd .amt{text-align:right;flex-shrink:0}
+  .rd .amt .v{font-size:15px;font-weight:700}
+  .rd .amt .u{font-size:11px;color:var(--ink3)}
+  /* 白色顶栏下 demo-mark 反色 */
+  .demo-mark{color:var(--ink3);border-color:var(--line);top:96px}
+  /* 画板 iframe 无缝嵌入模式（?embed=1） */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 抄表管理</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 白色顶栏 -->
+      <div class="u-top">
+        <a class="u-back" href="m-admin-device-home.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>
+        <div class="u-tt">抄表管理</div>
+        <details class="esw">
+          <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h11l-3.5-3.5"/><path d="M17 16H6l3.5 3.5"/></svg></summary>
+          <div class="esw-menu">
+            <a href="pc-reading.html">PC 管理端</a>
+            <a href="../../00-整体需求/主页原型/m-user-home.html">移动用户端</a>
+          </div>
+        </details>
+      </div>
+
+      <!-- 今日概况 -->
+      <div class="m-rsum">
+        <span>今日应抄 <b class="num">418</b></span>
+        <span>成功 <b class="num" style="color:var(--green)">412</b></span>
+        <span>失败 <b class="num" style="color:var(--red)">6</b></span>
+        <span style="margin-left:auto;color:var(--ink3)">2026-09-20</span>
+      </div>
+
+      <!-- 筛选 chips -->
+      <div class="chips">
+        <span class="chip on">全部</span>
+        <span class="chip">成功 <b class="num">412</b></span>
+        <span class="chip">失败待补抄 <b class="num">6</b></span>
+        <span class="chip">补抄 <b class="num">2</b></span>
+      </div>
+
+      <!-- 抄表记录 -->
+      <div style="background:#fff;margin-top:10px">
+        <div class="rd">
+          <div class="grow">
+            <div class="t">1栋-301 · 电表</div>
+            <div class="s num">SB-XQ05-GY-0087 · 09-20 06:00 · 自动</div>
+          </div>
+          <div class="amt"><div class="v num">1,286.0</div><div class="u">度 · 用 128.0</div></div>
+          <span class="tag green">成功</span>
+        </div>
+        <div class="rd">
+          <div class="grow">
+            <div class="t">1栋-301 · 水表</div>
+            <div class="s num">SB-XQ05-GY-1087 · 09-20 06:00 · 自动</div>
+          </div>
+          <div class="amt"><div class="v num">89.2</div><div class="u">吨 · 用 8.9</div></div>
+          <span class="tag green">成功</span>
+        </div>
+        <div class="rd">
+          <div class="grow">
+            <div class="t">2栋-410 · 水表</div>
+            <div class="s num">SB-XQ05-GY-1203 · 09-20 09:41 · 王芳补抄</div>
+          </div>
+          <div class="amt"><div class="v num">71.5</div><div class="u">吨 · 用 7.5</div></div>
+          <span class="tag orange">补抄</span>
+        </div>
+        <div class="rd" style="background:var(--red-bg)">
+          <div class="grow">
+            <div class="t">3栋-508 · 电表</div>
+            <div class="s num">SB-XQ05-GY-0145 · 09-20 06:00 · 自动失败</div>
+          </div>
+          <a class="btn primary" href="m-admin-reading-fix.html" style="height:34px;padding:0 14px;font-size:13px;text-decoration:none">去补抄</a>
+        </div>
+        <div class="rd" style="background:var(--red-bg)">
+          <div class="grow">
+            <div class="t">3栋-614 · 电表</div>
+            <div class="s num">SB-XQ05-GY-0189 · 09-20 06:00 · 自动失败</div>
+          </div>
+          <a class="btn primary" href="m-admin-reading-fix.html" style="height:34px;padding:0 14px;font-size:13px;text-decoration:none">去补抄</a>
+        </div>
+        <div class="rd">
+          <div class="grow">
+            <div class="t">公区总表 · 电表</div>
+            <div class="s num">SB-XQ05-GY-P001 · 09-20 06:00 · 自动</div>
+          </div>
+          <div class="amt"><div class="v num">28,640.0</div><div class="u">度 · 用 3,640.0</div></div>
+          <span class="tag green">成功</span>
+        </div>
+      </div>
+
+      <div class="note" style="margin:12px 14px 0">手动补抄提交即生效、可编辑（免审核），留痕操作人与时间；公摊规则配置与账单生成请在 PC 端处理</div>
+      <div style="height:14px"></div>
+
+    </div>
+
+    <div class="m-tab" id="amsTab" data-variant="admin" data-active="home"></div>
+
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.chips .chip').forEach(function (c) {
+    c.addEventListener('click', function () {
+      document.querySelectorAll('.chips .chip').forEach(function (x) { x.classList.remove('on'); });
+      c.classList.add('on');
+    });
+  });
+</script>
+<script src="../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>公摊管理 · 智能设备 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  .tabpane{display:none}
+  .tabpane.show{display:block}
+  .pgbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3)}
+  .op:hover{color:var(--brand-d)}
+  .radio-cards{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+  .rc{border:1px solid var(--line);border-radius:var(--r-md);padding:12px 14px;cursor:pointer}
+  .rc:hover{border-color:var(--brand)}
+  .rc.on{border-color:var(--brand);background:var(--brand-bg)}
+  .rc .rt{font-size:14px;font-weight:600;display:flex;align-items:center;gap:8px}
+  .rc .rs{font-size:12px;color:var(--ink3);margin-top:4px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="device-share" data-ver="V1.3 原型 · 本期范围：智能设备"></aside>
+
+  <div class="main">
+
+    <header class="topbar">
+      <div class="crumb"><span>智能设备 / </span>公摊管理</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">4</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- 页签 -->
+      <div class="panel" style="margin-bottom:16px">
+        <div class="tabs" style="padding:10px 14px" id="shareTabs">
+          <span class="tb on" data-t="rule">规则配置</span>
+          <span class="tb" data-t="calc">公摊计算</span>
+          <span class="tb" data-t="detail">公摊明细</span>
+          <span class="note" style="margin-left:auto;align-self:center">公摊=公寓公区水电费按规则分摊到租户；规则配置维度=片区 × 业态（本期仅公寓）</span>
+        </div>
+      </div>
+
+      <!-- ===== 页签 1：规则配置 ===== -->
+      <div class="tabpane show" id="pane-rule">
+        <div class="panel">
+          <div class="fbar">
+            <select class="sel">
+              <option>业态：滨江人才公寓（公寓）</option><option disabled>厂房业态（待 M10）</option><option disabled>酒店业态（待 M11）</option>
+            </select>
+            <select class="sel"><option>全部状态</option><option>启用</option><option>停用</option></select>
+            <button class="btn ghost">查询</button>
+            <span class="sp"></span>
+            <button class="btn primary" id="btnAddRule">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              新增公摊规则
+            </button>
+          </div>
+          <table class="tb">
+            <thead>
+              <tr><th>公摊项目</th><th>适用范围（片区 × 业态）</th><th>关联总表</th><th>分摊方式</th><th>生效周期</th><th>状态</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td style="font-weight:600">公共电费公摊</td><td>滨江科创园区 · 滨江人才公寓（公寓）</td>
+                <td class="num">SB-XQ05-GY-P001</td><td>按户均摊</td><td class="num">2026-01 起</td>
+                <td><span class="tag green">启用</span></td>
+                <td><span class="op">编辑</span> · <span class="op">停用</span></td>
+              </tr>
+              <tr>
+                <td style="font-weight:600">公共水费公摊</td><td>滨江科创园区 · 滨江人才公寓（公寓）</td>
+                <td class="num">SB-XQ05-GY-P002</td><td>按户均摊</td><td class="num">2026-01 起</td>
+                <td><span class="tag green">启用</span></td>
+                <td><span class="op">编辑</span> · <span class="op">停用</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pgbar">
+            <span style="margin-left:auto"><span class="note">同一业态可配置多条公摊规则；分摊方式支持 按户均摊 / 按面积分摊 / 按用量比例 三种；规则修改自下一账期生效，已入账不追溯</span></span>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 页签 2：公摊计算 ===== -->
+      <div class="tabpane" id="pane-calc">
+        <div class="panel" style="margin-bottom:16px">
+          <div class="fbar">
+            <select class="sel"><option>账期 2026-09</option><option>账期 2026-08</option></select>
+            <button class="btn ghost">查询</button>
+            <span class="sp"></span>
+            <button class="btn ghost">试算预览</button>
+            <button class="btn primary">确认入账</button>
+          </div>
+          <table class="tb">
+            <thead>
+              <tr><th>公摊项目</th><th>关联总表</th><th>本期总表用量</th><th>单价</th><th>本期总额</th><th>分摊方式</th><th>分摊户数</th><th>每户金额</th><th>入账状态</th></tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>公共电费公摊</td><td class="num">SB-XQ05-GY-P001</td><td class="num">3,640.0 度</td><td class="num">¥1.00/度</td>
+                <td class="num">¥3,640.00</td><td>按户均摊</td><td class="num">182 户</td><td class="num">¥20.00</td>
+                <td><span class="tag green">已入账</span></td>
+              </tr>
+              <tr>
+                <td>公共水费公摊</td><td class="num">SB-XQ05-GY-P002</td><td class="num">202.2 吨</td><td class="num">¥4.50/吨</td>
+                <td class="num">¥910.00</td><td>按户均摊</td><td class="num">182 户</td><td class="num">¥5.00</td>
+                <td><span class="tag green">已入账</span></td>
+              </tr>
+            </tbody>
+          </table>
+          <div class="pgbar">
+            <span style="margin-left:auto"><span class="note">分摊户数=账期内该业态在租户数（182 户）；确认入账后公摊金额进入各户当期水电账单（公摊单列），随账单一并推送</span></span>
+          </div>
+        </div>
+        <div class="panel">
+          <div class="ph"><h3>试算预览（按户均摊 · 前 5 户）</h3></div>
+          <div class="pb flush">
+            <table class="tb">
+              <thead>
+                <tr><th>房号</th><th>租户</th><th>电费公摊</th><th>水费公摊</th><th>公摊合计</th></tr>
+              </thead>
+              <tbody>
+                <tr><td>1栋-301</td><td>张女士</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num" style="font-weight:600">¥25.00</td></tr>
+                <tr><td>1栋-302</td><td>李先生</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num" style="font-weight:600">¥25.00</td></tr>
+                <tr><td>1栋-303</td><td>王同学</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num" style="font-weight:600">¥25.00</td></tr>
+                <tr><td>1栋-305</td><td>陈先生</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num" style="font-weight:600">¥25.00</td></tr>
+                <tr><td>2栋-401</td><td>张女士</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num" style="font-weight:600">¥25.00</td></tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+
+      <!-- ===== 页签 3：公摊明细 ===== -->
+      <div class="tabpane" id="pane-detail">
+        <div class="panel">
+          <div class="fbar">
+            <div class="search">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5L16 16"/></svg>
+              <input placeholder="房号 / 租户">
+            </div>
+            <select class="sel"><option>账期 2026-09</option><option>账期 2026-08</option></select>
+            <select class="sel"><option>全部楼栋</option><option>1 栋</option><option>2 栋</option><option>3 栋</option></select>
+            <button class="btn ghost">查询</button>
+            <span class="sp"></span>
+            <button class="btn ghost">导出</button>
+          </div>
+          <table class="tb">
+            <thead>
+              <tr><th>房号</th><th>租户</th><th>电费公摊</th><th>水费公摊</th><th>公摊合计</th><th>计入账单</th><th>操作</th></tr>
+            </thead>
+            <tbody>
+              <tr><td>1栋-301</td><td>张女士</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num">¥25.00</td><td class="num">SD-XQ05-GY-2026-0112</td><td><a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td></tr>
+              <tr><td>1栋-302</td><td>李先生</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num">¥25.00</td><td class="num">SD-XQ05-GY-2026-0113</td><td><a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td></tr>
+              <tr><td>1栋-305</td><td>陈先生</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num">¥25.00</td><td class="num">SD-XQ05-GY-2026-0115</td><td><a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td></tr>
+              <tr><td>2栋-401</td><td>张女士</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num">¥25.00</td><td class="num">SD-XQ05-GY-2026-0118</td><td><a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td></tr>
+              <tr><td>2栋-410</td><td>周先生</td><td class="num">¥20.00</td><td class="num">¥5.00</td><td class="num">¥25.00</td><td class="num">SD-XQ05-GY-2026-0121</td><td><a class="op" href="pc-meter-bills.html" style="text-decoration:none">账单</a></td></tr>
+            </tbody>
+          </table>
+          <div class="pgbar">
+            <span>共 <b class="num" style="color:var(--ink2)">182</b> 户（2026-09 账期）</span>
+            <span style="margin-left:auto"><span class="note">空置房不分摊；月中入住 / 退房按在租天数折算（演示口径，正式规则以规则配置为准）</span></span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== 弹窗：新增公摊规则 ===== -->
+<div class="mask" id="ruleMask" style="display:none">
+  <div class="modal" style="width:640px">
+    <div class="mh">新增公摊规则<span class="x" data-close>✕</span></div>
+    <div class="mb">
+      <div class="f-grid">
+        <div class="f-item">
+          <label><span class="req">*</span>适用范围 · 片区</label>
+          <select class="sel"><option selected>滨江科创园区</option></select>
+        </div>
+        <div class="f-item">
+          <label><span class="req">*</span>适用范围 · 业态</label>
+          <select class="sel">
+            <option selected>滨江人才公寓（公寓）</option>
+            <option disabled>厂房业态（待 M10）</option>
+            <option disabled>酒店业态（待 M11）</option>
+          </select>
+          <span class="help">规则按 片区 × 业态 配置；同片区多业态各自独立配置</span>
+        </div>
+        <div class="f-item">
+          <label><span class="req">*</span>公摊项目名称</label>
+          <input class="inp" placeholder="如：公共电费公摊">
+        </div>
+        <div class="f-item">
+          <label><span class="req">*</span>关联公区总表</label>
+          <select class="sel">
+            <option>SB-XQ05-GY-P001（电 · 公区总表）</option>
+            <option>SB-XQ05-GY-P002（水 · 公区总表）</option>
+          </select>
+        </div>
+        <div class="f-item full">
+          <label><span class="req">*</span>分摊方式</label>
+          <div class="radio-cards" id="shareWay">
+            <div class="rc on">
+              <div class="rt">按户均摊</div>
+              <div class="rs">总表金额 ÷ 在租户数，每户相同；公寓场景最常用</div>
+            </div>
+            <div class="rc">
+              <div class="rt">按面积分摊</div>
+              <div class="rs">按各户建筑面积占比分摊，户型差异大时更公平</div>
+            </div>
+            <div class="rc">
+              <div class="rt">按用量比例</div>
+              <div class="rs">按各户本期自身用量占比分摊，多用多摊</div>
+            </div>
+          </div>
+        </div>
+        <div class="f-item">
+          <label><span class="req">*</span>生效账期</label>
+          <input class="inp num" value="2026-10">
+          <span class="help">自生效账期起执行，已入账账期不追溯</span>
+        </div>
+      </div>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" data-close>取消</button>
+      <button class="btn primary" data-close>保存规则</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('#shareTabs .tb[data-t]').forEach(function (tb) {
+    tb.addEventListener('click', function () {
+      document.querySelectorAll('#shareTabs .tb').forEach(function (x) { x.classList.remove('on'); });
+      tb.classList.add('on');
+      document.querySelectorAll('.tabpane').forEach(function (p) {
+        p.classList.toggle('show', p.id === 'pane-' + tb.dataset.t);
+      });
+    });
+  });
+  document.querySelectorAll('#shareWay .rc').forEach(function (rc) {
+    rc.addEventListener('click', function () {
+      document.querySelectorAll('#shareWay .rc').forEach(function (x) { x.classList.remove('on'); });
+      rc.classList.add('on');
+    });
+  });
+  var mask = document.getElementById('ruleMask');
+  document.getElementById('btnAddRule').addEventListener('click', function () { mask.style.display = 'flex'; });
+  mask.querySelectorAll('[data-close]').forEach(function (el) {
+    el.addEventListener('click', function () { mask.style.display = 'none'; });
+  });
+  mask.addEventListener('click', function (e) { if (e.target === mask) mask.style.display = 'none'; });
+</script>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

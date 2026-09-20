@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动用户端 · 水电账单 · 英莱达公寓</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* 页面级补充样式（仅使用 app.css 已定义的 CSS 变量取色） */
+  .u-top{display:flex;align-items:center;gap:6px;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 10px;flex-shrink:0}
+  .u-top .u-tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .u-top .u-back{display:flex;color:var(--ink2);flex-shrink:0}
+  .u-top .u-back svg{width:20px;height:20px}
+  .u-top .esw summary{background:var(--line2);color:var(--ink2)}
+  .u-top .esw[open] summary{background:#e2e8f2;color:var(--ink)}
+  /* 汇总卡 */
+  .u-sum{margin:12px 14px 0;background:linear-gradient(135deg,#4f83f5,#2563eb);border-radius:var(--r-md);padding:16px;color:#fff}
+  .u-sum .lb{font-size:12.5px;opacity:.85}
+  .u-sum .vl{font-size:30px;font-weight:700;margin-top:2px;line-height:1.2}
+  .u-sum .vl small{font-size:13px;font-weight:400;opacity:.85;margin-left:4px}
+  .u-sum .sub{font-size:12px;opacity:.9;margin-top:8px;display:flex;gap:14px}
+  /* 账单卡 */
+  .bl{display:flex;flex-direction:column;gap:10px;margin:12px 14px 0}
+  .bc{background:var(--panel);border:1px solid var(--line);border-radius:var(--r-md);padding:13px 14px}
+  .bc .t{display:flex;align-items:center;gap:8px;font-size:15px;font-weight:600}
+  .bc .amt{font-size:18px;font-weight:700;margin-left:auto}
+  .bc .ln{display:flex;align-items:center;font-size:12.5px;color:var(--ink2);padding:5px 0 0}
+  .bc .ln .lv{margin-left:auto;font-weight:600;color:var(--ink)}
+  .bc .ln.share .lv{color:var(--orange)}
+  .bc .f{font-size:11.5px;color:var(--ink3);margin-top:8px;padding-top:8px;border-top:1px solid var(--line2);display:flex;align-items:center;gap:6px}
+  .bc .f .right{margin-left:auto}
+  .bc .pay{display:inline-flex;align-items:center;justify-content:center;height:30px;padding:0 14px;border-radius:8px;background:var(--brand);color:#fff;font-size:12.5px;font-weight:500;text-decoration:none}
+  .tabpane{display:none}
+  .tabpane.on{display:block}
+  /* 白色顶栏下 demo-mark 反色 */
+  .demo-mark{color:var(--ink3);border-color:var(--line);top:96px}
+  /* 画板 iframe 无缝嵌入模式（?embed=1） */
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">用户端 · 水电账单</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <!-- 白色顶栏 -->
+      <div class="u-top">
+        <a class="u-back" href="m-user-meter.html"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></a>
+        <div class="u-tt">水电账单</div>
+        <details class="esw">
+          <summary><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 8h11l-3.5-3.5"/><path d="M17 16H6l3.5 3.5"/></svg></summary>
+          <div class="esw-menu">
+            <a href="m-admin-device-home.html">移动管理端</a>
+            <a href="pc-meter-bills.html">PC 管理端</a>
+          </div>
+        </details>
+      </div>
+
+      <!-- 汇总卡 -->
+      <div class="u-sum">
+        <div class="lb">待缴水电费（张女士 · 滨江人才公寓）</div>
+        <div class="vl num">¥317.05<small>· 2 笔</small></div>
+        <div class="sub"><span>今年已缴 <span class="num">¥1,486</span></span><span>含公摊 ¥25/月 单列</span></div>
+      </div>
+
+      <!-- TAB：待缴 / 已缴 -->
+      <div class="chips" style="margin-top:12px;border:1px solid var(--line);border-radius:var(--r-md);margin-left:14px;margin-right:14px">
+        <span class="chip on" data-tab="p1">待缴 <b class="num">2</b></span>
+        <span class="chip" data-tab="p2">已缴</span>
+      </div>
+
+      <!-- ========== 待缴 ========== -->
+      <div class="tabpane on" id="p1">
+        <div class="bl">
+
+          <div class="bc">
+            <div class="t">1栋-301 · 2026-09 水电费<span class="amt num" style="color:var(--red)">¥193.05</span></div>
+            <div class="ln">电费 · 128.0 度 × ¥1.00<span class="lv num">¥128.00</span></div>
+            <div class="ln">水费 · 8.9 吨 × ¥4.50<span class="lv num">¥40.05</span></div>
+            <div class="ln share">公共电费公摊（按户均摊）<span class="lv num">¥20.00</span></div>
+            <div class="ln share">公共水费公摊（按户均摊）<span class="lv num">¥5.00</span></div>
+            <div class="f">账单号 SD-XQ05-GY-2026-0112 · 应收日 09-25<span class="right"><a class="pay" href="../../03-收费管理（APP）/用户端/原型/m-user-bills.html">去支付</a></span></div>
+          </div>
+
+          <div class="bc">
+            <div class="t">2栋-401 · 2026-09 水电费<span class="amt num" style="color:var(--red)">¥124.00</span></div>
+            <div class="ln">电费 · 72.0 度 × ¥1.00<span class="lv num">¥72.00</span></div>
+            <div class="ln">水费 · 6.0 吨 × ¥4.50<span class="lv num">¥27.00</span></div>
+            <div class="ln share">公共电费公摊（按户均摊）<span class="lv num">¥20.00</span></div>
+            <div class="ln share">公共水费公摊（按户均摊）<span class="lv num">¥5.00</span></div>
+            <div class="f">账单号 SD-XQ05-GY-2026-0118 · 合同至 09-19<span class="right"><a class="pay" href="../../03-收费管理（APP）/用户端/原型/m-user-bills.html">去支付</a></span></div>
+          </div>
+
+        </div>
+        <div class="note" style="margin:12px 14px 0">公摊=公寓公区水电费按户均摊（本期 182 户，每户 ¥25），费用构成全部单列，不揉杂；点「去支付」跳转收费管理统一缴费，房租水电一处缴清</div>
+      </div>
+
+      <!-- ========== 已缴 ========== -->
+      <div class="tabpane" id="p2">
+        <div class="bl">
+
+          <div class="bc">
+            <div class="t">1栋-301 · 2026-08 水电费<span class="amt num" style="color:var(--green)">¥152.05</span></div>
+            <div class="ln">电费 · 96.0 度<span class="lv num">¥96.00</span></div>
+            <div class="ln">水费 · 6.9 吨<span class="lv num">¥31.05</span></div>
+            <div class="ln share">公摊（电 ¥20 + 水 ¥5）<span class="lv num">¥25.00</span></div>
+            <div class="f">已缴清 · 09-05 银联支付 · 收据已开<span class="right" style="color:var(--brand)">查看 ›</span></div>
+          </div>
+
+          <div class="bc">
+            <div class="t">2栋-401 · 2026-08 水电费<span class="amt num" style="color:var(--green)">¥118.50</span></div>
+            <div class="ln">电费 · 68.0 度<span class="lv num">¥68.00</span></div>
+            <div class="ln">水费 · 5.7 吨<span class="lv num">¥25.50</span></div>
+            <div class="ln share">公摊（电 ¥20 + 水 ¥5）<span class="lv num">¥25.00</span></div>
+            <div class="f">已缴清 · 09-05 银联支付 · 收据已开<span class="right" style="color:var(--brand)">查看 ›</span></div>
+          </div>
+
+        </div>
+        <div class="note" style="margin:12px 14px 0">缴费状态由收费管理回显；凭证（收据 / 发票）在收费管理-凭证申请开具</div>
+      </div>
+
+      <div style="height:14px"></div>
+
+    </div>
+
+    <!-- 底部 Tab（共享组件 m-tab.js 渲染；二级页不高亮） -->
+    <div class="m-tab" id="amsTab" data-variant="user" data-active=""></div>
+
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll('.chips .chip[data-tab]').forEach(function (tb) {
+    tb.addEventListener('click', function () {
+      document.querySelectorAll('.chips .chip').forEach(function (x) { x.classList.remove('on') })
+      document.querySelectorAll('.tabpane').forEach(function (x) { x.classList.remove('on') })
+      tb.classList.add('on')
+      document.getElementById(tb.getAttribute('data-tab')).classList.add('on')
+    })
+  })
+</script>
+<script src="../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

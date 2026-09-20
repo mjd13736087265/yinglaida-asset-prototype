@@ -1,0 +1,151 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>规则配置 · 智能设备 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  .ro-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px 24px;padding:16px 18px}
+  .ro-item{display:flex;flex-direction:column;gap:6px}
+  .ro-item .k{font-size:13px;color:var(--ink2)}
+  .ro-item .v{font-size:14.5px;font-weight:600;color:var(--ink)}
+  .ro-item .h{font-size:12px;color:var(--ink3);font-weight:400}
+  .hold-line{display:flex;align-items:center;gap:10px;padding:12px 16px;border:1px dashed var(--line);border-radius:var(--r-md);background:#fafbfc;color:var(--ink2);font-size:13px}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="device-settings" data-ver="V1.3 原型 · 本期范围：智能设备"></aside>
+
+  <div class="main">
+
+    <header class="topbar">
+      <div class="crumb"><span>智能设备 / </span>规则配置</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">4</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <div class="col" style="max-width:860px">
+
+        <!-- 付费模式 -->
+        <div class="panel form" style="max-width:none">
+          <div class="f-sec">
+            <h4>付费模式（片区 × 业态维度生效）</h4>
+            <div class="f-grid">
+              <div class="f-item">
+                <label>当前模式 · 滨江人才公寓（公寓）</label>
+                <div class="sw-row">
+                  <span class="switch on"></span> 后付费（先抄表出账，后缴费）
+                </div>
+                <span class="help">本期仅开通后付费主流程</span>
+              </div>
+              <div class="f-item">
+                <label>预付费（先充值后用电）</label>
+                <div class="hold-line">
+                  <span class="switch" style="opacity:.45;cursor:not-allowed"></span>
+                  预付费模式
+                  <span class="mark-soon" style="position:static">预留</span>
+                </div>
+                <span class="help">余额 / 充值 / 余额不足提醒（用户端）随预付费模式一并启用，本期延后</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 预警阈值 -->
+          <div class="f-sec">
+            <h4>预警告警阈值</h4>
+            <div class="f-grid">
+              <div class="f-item">
+                <label><span class="req">*</span>用量环比突增阈值</label>
+                <div class="inp-wrap">
+                  <input class="inp num" value="50" style="width:120px;text-align:right"><span class="u">%</span>
+                </div>
+                <span class="help">本期用量较上期增幅超过该值触发用量预警；空置房产生用量直接预警</span>
+              </div>
+              <div class="f-item">
+                <label><span class="req">*</span>表具离线告警时长</label>
+                <div class="inp-wrap">
+                  <input class="inp num" value="24" style="width:120px;text-align:right"><span class="u">小时</span>
+                </div>
+                <span class="help">连续离线超过该时长触发离线告警，并同步抄表失败待补抄</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 抄表与出账 -->
+          <div class="f-sec">
+            <h4>抄表与出账</h4>
+            <div class="f-grid">
+              <div class="f-item">
+                <label><span class="req">*</span>自动抄表时间</label>
+                <select class="sel"><option selected>每日 06:00</option><option>每日 00:00</option><option>每月 1 日 06:00</option></select>
+                <span class="help">接口对接前为演示配置；对接后按厂商通讯协议执行</span>
+              </div>
+              <div class="f-item">
+                <label><span class="req">*</span>出账日</label>
+                <select class="sel"><option selected>每月 20 日（按抄表周期出账）</option><option>每月 1 日</option></select>
+                <span class="help">出账后进入待推送，推送由人工确认或定时执行</span>
+              </div>
+              <div class="f-item">
+                <label>抄表失败处理</label>
+                <div class="sw-row"><span class="switch on"></span> 自动转人工补抄待办</div>
+                <span class="help">补抄即生效、可编辑（免审核），全部留痕</span>
+              </div>
+              <div class="f-item">
+                <label>账单推送渠道</label>
+                <div class="sw-row"><span class="switch on"></span> 小程序服务通知</div>
+                <span class="help">未订阅的租户由消息推送中心（M1）短信补推</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 单价（只读引用） -->
+          <div class="f-sec">
+            <h4>水电单价（只读引用）</h4>
+            <div class="ro-grid" style="padding:0">
+              <div class="ro-item">
+                <span class="k">电费单价</span>
+                <span class="v num">¥1.00 / 度</span>
+                <span class="h">来源于 收费管理-规则配置，本模块只读引用</span>
+              </div>
+              <div class="ro-item">
+                <span class="k">水费单价</span>
+                <span class="v num">¥4.50 / 吨</span>
+                <span class="h">修改请前往 收费管理-规则配置，改后自下一账期生效</span>
+              </div>
+            </div>
+            <a class="btn ghost" href="../../03-收费管理（PC）/原型/pc-charge-settings.html" style="text-decoration:none;margin-top:12px">前往 收费管理-规则配置 ›</a>
+          </div>
+
+          <div class="f-actions">
+            <button class="btn primary">保存配置</button>
+            <button class="btn ghost">重置</button>
+            <span class="note" style="margin-left:auto;align-self:center">配置按 片区 × 业态 维度保存；演示数据</span>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

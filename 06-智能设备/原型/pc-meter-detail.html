@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>表具详情 · 智能设备 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  .ro-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px 24px;padding:16px 18px}
+  .ro-item{display:flex;flex-direction:column;gap:6px}
+  .ro-item .k{font-size:13px;color:var(--ink2)}
+  .ro-item .v{font-size:14.5px;font-weight:600;color:var(--ink)}
+  .ro-item .h{font-size:12px;color:var(--ink3);font-weight:400}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="device-list" data-ver="V1.3 原型 · 本期范围：智能设备"></aside>
+
+  <div class="main">
+
+    <header class="topbar">
+      <div class="crumb"><span>智能设备 / 设备管理 / </span>表具详情</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">4</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <p style="margin-bottom:16px;display:flex;gap:10px;align-items:center">
+        <a class="btn ghost" href="pc-meter-list.html" style="text-decoration:none;height:34px">‹ 返回设备管理</a>
+        <span class="note">水电表接口对接中，本页为演示数据；档案字段按接口对接口径预留</span>
+      </p>
+
+      <div class="row">
+        <!-- 表具档案 -->
+        <div class="col" style="flex:1.5">
+          <div class="panel">
+            <div class="ph">
+              <h3>表具档案</h3>
+              <span class="tag green">在线</span>
+              <a class="more" href="#">编辑档案 ›</a>
+            </div>
+            <div class="ro-grid">
+              <div class="ro-item"><span class="k">表号</span><span class="v num">SB-XQ05-GY-0087</span></div>
+              <div class="ro-item"><span class="k">表具类型</span><span class="v">电表</span></div>
+              <div class="ro-item"><span class="k">通讯方式</span><span class="v">NB-IoT</span></div>
+              <div class="ro-item"><span class="k">厂商</span><span class="v">—</span><span class="h">接口对接后回传</span></div>
+              <div class="ro-item"><span class="k">型号</span><span class="v">—</span><span class="h">接口对接后回传</span></div>
+              <div class="ro-item"><span class="k">倍率</span><span class="v num">1</span></div>
+              <div class="ro-item"><span class="k">安装位置</span><span class="v">1栋 3 层强电井</span></div>
+              <div class="ro-item"><span class="k">安装日期</span><span class="v num">2025-11-20</span></div>
+              <div class="ro-item"><span class="k">最近通讯时间</span><span class="v num">2026-09-20 06:00</span></div>
+              <div class="ro-item"><span class="k">初始读数</span><span class="v num">0.0 度</span></div>
+              <div class="ro-item"><span class="k">当前读数</span><span class="v num" style="color:var(--brand)">1,286.0 度</span><span class="h">= 表盘读数 × 倍率</span></div>
+              <div class="ro-item"><span class="k">本月用量</span><span class="v num">128.0 度</span></div>
+            </div>
+          </div>
+
+          <!-- 抄表历史 -->
+          <div class="panel">
+            <div class="ph">
+              <h3>抄表历史（近 6 期）</h3>
+              <a class="more" href="pc-reading.html">全部抄表记录 ›</a>
+            </div>
+            <div class="pb flush">
+              <table class="tb">
+                <thead>
+                  <tr><th>抄表时间</th><th>上期读数</th><th>本期读数</th><th>用量</th><th>来源</th><th>状态</th></tr>
+                </thead>
+                <tbody>
+                  <tr><td class="num">2026-09-20 06:00</td><td class="num">1,158.0</td><td class="num">1,286.0</td><td class="num">128.0 度</td><td>自动抄表</td><td><span class="tag green">正常</span></td></tr>
+                  <tr><td class="num">2026-08-20 06:00</td><td class="num">1,062.0</td><td class="num">1,158.0</td><td class="num">96.0 度</td><td>自动抄表</td><td><span class="tag green">正常</span></td></tr>
+                  <tr><td class="num">2026-07-20 06:00</td><td class="num">958.0</td><td class="num">1,062.0</td><td class="num">104.0 度</td><td>自动抄表</td><td><span class="tag green">正常</span></td></tr>
+                  <tr><td class="num">2026-06-20 06:00</td><td class="num">845.0</td><td class="num">958.0</td><td class="num">113.0 度</td><td>自动抄表</td><td><span class="tag green">正常</span></td></tr>
+                  <tr><td class="num">2026-05-20 06:00</td><td class="num">743.0</td><td class="num">845.0</td><td class="num">102.0 度</td><td>自动抄表</td><td><span class="tag green">正常</span></td></tr>
+                  <tr><td class="num">2026-04-22 10:15</td><td class="num">648.0</td><td class="num">743.0</td><td class="num">95.0 度</td><td>手动补抄 · 王芳</td><td><span class="tag orange">补抄</span></td></tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右栏：绑定房源 + 状态 -->
+        <div class="col" style="flex:1">
+          <div class="panel">
+            <div class="ph"><h3>绑定房源</h3></div>
+            <div class="pb">
+              <div class="bind-box">
+                <div class="bb-ic">
+                  <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M3 10.5L12 3l9 7.5"/><path d="M5 9.5V20a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V9.5"/><path d="M10 21v-6h4v6"/></svg>
+                </div>
+                <div>
+                  <div class="bb-t">滨江人才公寓 · 1栋-301</div>
+                  <div class="bb-s">在租 · 张女士 · 合同 HT-XQ05-GY-2025-1186</div>
+                </div>
+              </div>
+              <p style="margin-top:12px"><span class="note">绑定关系在 片区管理-房源 维护（房源-水电表-合同绑定），本模块只读引用</span></p>
+              <a class="btn ghost" href="../../02-片区管理/原型/pc-room-list.html" style="width:100%;text-decoration:none;margin-top:4px">前往 房源管理 查看 ›</a>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="ph"><h3>通讯状态</h3></div>
+            <div class="pb">
+              <div class="tl-flow">
+                <div class="tfi done"><span class="pt"></span><div class="bd">
+                  <div class="tt">自动抄表成功<span class="who num">09-20 06:00</span></div>
+                  <div class="ts">读数 1,286.0 度 · 信号强度正常</div>
+                </div></div>
+                <div class="tfi done"><span class="pt"></span><div class="bd">
+                  <div class="tt">自动抄表成功<span class="who num">09-19 06:00</span></div>
+                  <div class="ts">读数 1,281.4 度</div>
+                </div></div>
+                <div class="tfi warn"><span class="pt"></span><div class="bd">
+                  <div class="tt">通讯延迟<span class="who num">09-18 06:32</span></div>
+                  <div class="ts">超时 32 分钟后恢复，未触发离线告警（阈值 24h）</div>
+                </div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

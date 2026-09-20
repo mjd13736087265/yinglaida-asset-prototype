@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>抄表记录 · 智能设备 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  .pgbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3)}
+  .pgbar>span{white-space:nowrap}
+  .op:hover{color:var(--brand-d)}
+  .mini-kpi{display:flex;gap:24px;padding:12px 18px;border-bottom:1px solid var(--line2);font-size:13px;color:var(--ink2);flex-wrap:wrap}
+  .mini-kpi b{font-size:17px;color:var(--ink)}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="device-reading" data-ver="V1.3 原型 · 本期范围：智能设备"></aside>
+
+  <div class="main">
+
+    <header class="topbar">
+      <div class="crumb"><span>智能设备 / </span>抄表记录</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">4</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <p style="margin-bottom:16px"><span class="note">数据范围=当前所选片区 · 手动补抄数据即生效、可编辑（免审核），全部留痕可查</span></p>
+
+      <div class="panel">
+        <!-- 今日概况 -->
+        <div class="mini-kpi">
+          <span>今日应抄 <b class="num">418</b> 块</span>
+          <span>成功 <b class="num" style="color:var(--green)">412</b></span>
+          <span>失败 <b class="num" style="color:var(--red)">6</b></span>
+          <span>手动补抄 <b class="num" style="color:var(--orange)">2</b></span>
+          <span style="margin-left:auto;color:var(--ink3)">抄表周期：每日 06:00 自动抄表（规则配置可改）</span>
+        </div>
+
+        <!-- 筛选条 -->
+        <div class="fbar">
+          <div class="search">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5L16 16"/></svg>
+            <input placeholder="表号 / 房号">
+          </div>
+          <select class="sel">
+            <option>业态：公寓</option><option disabled>厂房（待 M10）</option><option disabled>酒店（待 M11）</option>
+          </select>
+          <select class="sel">
+            <option>抄表日期 2026-09-20</option><option>2026-09-19</option><option>2026-09-18</option>
+          </select>
+          <select class="sel">
+            <option>全部来源</option><option>自动抄表</option><option>手动补抄</option>
+          </select>
+          <select class="sel">
+            <option>全部状态</option><option>成功</option><option>失败待补抄</option>
+          </select>
+          <button class="btn ghost">查询</button>
+          <span class="sp"></span>
+          <button class="btn ghost">导出</button>
+          <button class="btn primary" id="btnFix">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20h9"/><path d="M16.5 3.5a2.1 2.1 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg>
+            手动补抄
+          </button>
+        </div>
+
+        <table class="tb">
+          <thead>
+            <tr><th>抄表时间</th><th>表号</th><th>绑定房源</th><th>类型</th><th>上期读数</th><th>本期读数</th><th>用量</th><th>来源</th><th>状态</th><th>操作</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="num">09-20 06:00</td><td class="num">SB-XQ05-GY-0087</td><td>1栋-301</td><td>电表</td>
+              <td class="num">1,158.0</td><td class="num">1,286.0</td><td class="num">128.0 度</td>
+              <td>自动</td><td><span class="tag green">成功</span></td>
+              <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a></td>
+            </tr>
+            <tr>
+              <td class="num">09-20 06:00</td><td class="num">SB-XQ05-GY-1087</td><td>1栋-301</td><td>水表</td>
+              <td class="num">80.3</td><td class="num">89.2</td><td class="num">8.9 吨</td>
+              <td>自动</td><td><span class="tag green">成功</span></td>
+              <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a></td>
+            </tr>
+            <tr>
+              <td class="num">09-20 06:00</td><td class="num">SB-XQ05-GY-0113</td><td>2栋-401</td><td>电表</td>
+              <td class="num">1,470.0</td><td class="num">1,542.0</td><td class="num">72.0 度</td>
+              <td>自动</td><td><span class="tag green">成功</span></td>
+              <td><a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a></td>
+            </tr>
+            <tr>
+              <td class="num">09-20 09:41</td><td class="num">SB-XQ05-GY-1203</td><td>2栋-410</td><td>水表</td>
+              <td class="num">64.0</td><td class="num">71.5</td><td class="num">7.5 吨</td>
+              <td>手动补抄 · 王芳</td><td><span class="tag orange">补抄</span></td>
+              <td><span class="op" data-open="fixMask">编辑</span> · <a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a></td>
+            </tr>
+            <tr style="background:var(--red-bg)">
+              <td class="num">09-20 06:00</td><td class="num">SB-XQ05-GY-0145</td><td>3栋-508</td><td>电表</td>
+              <td class="num">412.0</td><td class="num" style="color:var(--red)">—</td><td class="num" style="color:var(--red)">—</td>
+              <td>自动</td><td><span class="tag red">失败待补抄</span></td>
+              <td><span class="op" data-open="fixMask">去补抄</span> · <a class="op" href="pc-alarm.html" style="text-decoration:none">告警</a></td>
+            </tr>
+            <tr style="background:var(--red-bg)">
+              <td class="num">09-20 06:00</td><td class="num">SB-XQ05-GY-0189</td><td>3栋-614</td><td>电表</td>
+              <td class="num">96.0</td><td class="num" style="color:var(--red)">—</td><td class="num" style="color:var(--red)">—</td>
+              <td>自动</td><td><span class="tag red">失败待补抄</span></td>
+              <td><span class="op" data-open="fixMask">去补抄</span> · <a class="op" href="pc-alarm.html" style="text-decoration:none">告警</a></td>
+            </tr>
+            <tr>
+              <td class="num">09-20 08:15</td><td class="num">SB-XQ05-GY-0204</td><td>3栋-702</td><td>电表</td>
+              <td class="num">512.0</td><td class="num">518.0</td><td class="num">6.0 度</td>
+              <td>手动补抄 · 赵明远</td><td><span class="tag orange">补抄</span></td>
+              <td><span class="op" data-open="fixMask">编辑</span> · <a class="op" href="pc-meter-detail.html" style="text-decoration:none">详情</a></td>
+            </tr>
+            <tr>
+              <td class="num">09-20 06:00</td><td class="num">SB-XQ05-GY-P001</td><td>公区总表</td><td>电表</td>
+              <td class="num">25,000.0</td><td class="num">28,640.0</td><td class="num">3,640.0 度</td>
+              <td>自动</td><td><span class="tag green">成功</span></td>
+              <td><a class="op" href="pc-share.html" style="text-decoration:none">公摊</a></td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="pgbar">
+          <span>共 <b class="num" style="color:var(--ink2)">418</b> 条（2026-09-20）</span>
+          <span style="margin-left:auto"><span class="note">用量=本期读数−上期读数（×倍率）；抄表失败的表具同步触发离线告警（连续离线超 24h）</span></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<!-- ===== 弹窗：手动补抄 / 编辑补抄数据 ===== -->
+<div class="mask" id="fixMask" style="display:none">
+  <div class="modal">
+    <div class="mh">手动补抄<span class="x" data-close>✕</span></div>
+    <div class="mb">
+      <div class="f-grid">
+        <div class="f-item full">
+          <label><span class="req">*</span>表具</label>
+          <select class="sel">
+            <option selected>SB-XQ05-GY-0145 · 3栋-508（电表，今日抄表失败）</option>
+            <option>SB-XQ05-GY-0189 · 3栋-614（电表，今日抄表失败）</option>
+          </select>
+        </div>
+        <div class="f-item">
+          <label>上期读数（自动带出）</label>
+          <input class="inp num" value="412.0" readonly>
+        </div>
+        <div class="f-item">
+          <label><span class="req">*</span>本期读数</label>
+          <input class="inp num" placeholder="按表盘实读填写">
+        </div>
+        <div class="f-item full">
+          <label>现场照片</label>
+          <div class="upl">
+            <div class="ic"><svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M4 8h3l2-3h6l2 3h3a1 1 0 0 1 1 1v10a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1V9a1 1 0 0 1 1-1z"/><circle cx="12" cy="14" r="3.5"/></svg></div>
+            <div class="u-t">拍照上传表盘读数</div>
+            <div class="u-s">建议拍照留证，防扯皮；非必填</div>
+          </div>
+        </div>
+        <div class="f-item full">
+          <label>备注</label>
+          <textarea class="ta" placeholder="如：表具在地下室信号弱，已现场实读"></textarea>
+        </div>
+      </div>
+      <p style="margin:14px 0 0"><span class="note">补抄提交<b>即生效</b>并进入抄表记录（免审核）；补抄数据可再次编辑修正，每次修改留痕（操作人 + 时间）</span></p>
+    </div>
+    <div class="mf">
+      <button class="btn ghost" data-close>取消</button>
+      <button class="btn primary" data-close>提交补抄</button>
+    </div>
+  </div>
+</div>
+
+<script>
+  var mask = document.getElementById('fixMask');
+  document.getElementById('btnFix').addEventListener('click', function () { mask.style.display = 'flex'; });
+  document.querySelectorAll('[data-open]').forEach(function (b) {
+    b.addEventListener('click', function () { document.getElementById(b.getAttribute('data-open')).style.display = 'flex'; });
+  });
+  mask.querySelectorAll('[data-close]').forEach(function (el) {
+    el.addEventListener('click', function () { mask.style.display = 'none'; });
+  });
+  mask.addEventListener('click', function (e) { if (e.target === mask) mask.style.display = 'none'; });
+</script>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>
