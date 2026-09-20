@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>入住单详情 · 租务运营 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .op{color:var(--brand);cursor:pointer;font-size:13px}
+  .op:hover{color:var(--brand-d)}
+  .kv{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 24px}
+  .kv .i{display:flex;flex-direction:column;gap:4px}
+  .kv .i .k{font-size:12.5px;color:var(--ink3)}
+  .kv .i .v{font-size:14px}
+  .hd{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line2)}
+  .hd .t{font-size:17px;font-weight:700}
+  .hd .r{margin-left:auto;display:flex;gap:10px}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="checkin" data-ver="V1.2 原型 · 租务运营 / 合同管理"></aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb"><span><a href="pc-checkin-list.html" style="color:inherit">租务运营 / 入住办理</a> / </span>入住单详情</div>
+      <div class="right">
+        <div class="scope">片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="avatar">陈</span><span style="color:var(--ink)">陈志远 · 运营主管</span></div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- 单头 -->
+      <div class="panel" style="margin-bottom:16px">
+        <div class="hd">
+          <span class="t num">RZ-XQ05-2026-0087</span>
+          <span class="tag blue">待签约</span>
+          <span class="note">入住单状态：待签约 →（签署完成 / 后台补录上传）已生效；状态项来源于 系统管理-字典配置</span>
+          <div class="r">
+            <a class="btn ghost" href="../../05-合同管理/原型/pc-contract-fill.html">后台补录</a>
+            <a class="btn primary" href="../../05-合同管理/原型/pc-contract-sign.html">发起签署</a>
+          </div>
+        </div>
+        <div class="pb">
+          <div class="kv">
+            <div class="i"><span class="k">客户</span><span class="v">张女士 · <span class="num">138****8888</span></span></div>
+            <div class="i"><span class="k">房源</span><span class="v">滨江科创园区 · 3 栋-508</span></div>
+            <div class="i"><span class="k">合同模板</span><span class="v">滨江人才公寓 · 公寓租赁合同 v2.1</span></div>
+            <div class="i"><span class="k">租期</span><span class="v num">2026-09-16 ~ 2027-09-15（12 个月）</span></div>
+            <div class="i"><span class="k">月租金 / 押金</span><span class="v num">¥1,850 · 押一付一 ¥1,850</span></div>
+            <div class="i"><span class="k">首期应收</span><span class="v num" style="font-weight:700;color:var(--red)">¥3,700</span></div>
+            <div class="i"><span class="k">提交人 / 时间</span><span class="v">陈志远 · <span class="num">2026-09-15 10:12</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row">
+        <!-- 左：租务信息 -->
+        <div class="col" style="flex:2">
+
+          <!-- 租赁信息 -->
+          <div class="panel">
+            <div class="ph"><h3>租赁信息</h3><span class="more op">修改</span></div>
+            <div class="pb">
+              <div class="kv">
+                <div class="i"><span class="k">户型 / 面积</span><span class="v">一室一厅 · <span class="num">45㎡</span></span></div>
+                <div class="i"><span class="k">朝向 / 装修</span><span class="v">朝南 · 精装</span></div>
+                <div class="i"><span class="k">付款周期</span><span class="v">月付</span></div>
+                <div class="i"><span class="k">免租期 / 优惠</span><span class="v">— / —</span></div>
+                <div class="i"><span class="k">电表底数</span><span class="v num">12,480 度</span></div>
+                <div class="i"><span class="k">水表底数</span><span class="v num">386 吨</span></div>
+                <div class="i"><span class="k">同住人</span><span class="v">王先生 <span class="num">138****8889</span></span></div>
+                <div class="i"><span class="k">经办人</span><span class="v">陈志远</span></div>
+              </div>
+              <div style="margin-top:14px">
+                <div style="font-size:12.5px;color:var(--ink3);margin-bottom:4px">备注</div>
+                <div style="font-size:13.5px;color:var(--ink2)">客户为老租户增租（已租 1 栋-301、2 栋-401），本次新增 3 栋-508；首期租金与押金于签约当日一并收取。</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 账单计划 -->
+          <div class="panel">
+            <div class="ph"><h3>账单计划</h3><span class="note" style="margin-left:6px">账单名称不再带期次后缀；账单编号（合同号 + 期次）在生成合同后产生，用于与收费管理对账</span><span class="more op" style="margin-left:auto">同步至收费管理</span></div>
+            <table class="tb">
+              <thead><tr><th>账单名称</th><th>金额</th><th>应收日期</th><th>状态</th><th>操作</th></tr></thead>
+              <tbody>
+                <tr><td>押金</td><td class="num">¥1,850</td><td class="num">2026-09-16</td><td><span class="tag gray">待收款</span></td><td><span class="op">去收款</span></td></tr>
+                <tr><td>首期租金</td><td class="num">¥1,850</td><td class="num">2026-09-16</td><td><span class="tag gray">待收款</span></td><td><span class="op">去收款</span></td></tr>
+                <tr><td>第 2 期租金</td><td class="num">¥1,850</td><td class="num">2026-10-16</td><td><span class="tag gray">未出账</span></td><td>—</td></tr>
+                <tr><td>第 3 期租金</td><td class="num">¥1,850</td><td class="num">2026-11-16</td><td><span class="tag gray">未出账</span></td><td>—</td></tr>
+              </tbody>
+            </table>
+            <div class="pb" style="padding-top:12px"><span class="note">共 <span class="num">13</span> 条，提交入住时一次性生成；收款 / 核销在 收费管理 完成，本模块只读引用</span></div>
+          </div>
+
+        </div>
+
+        <!-- 右：合同 + 记录 -->
+        <div class="col" style="flex:1">
+
+          <div class="panel">
+            <div class="ph"><h3>关联合同</h3></div>
+            <div class="pb">
+              <div style="margin-top:2px"><span class="tag blue">待签署</span></div>
+              <div style="margin-top:12px;font-size:13px;color:var(--ink2);line-height:1.9">
+                模板：滨江人才公寓 · 公寓租赁合同 v2.1<br>
+                签署方式：待选择（小程序在线签 / 后台补录）<br>
+                签署人：张女士 · <span class="num">138****8888</span>
+              </div>
+              <div style="margin-top:12px;display:flex;gap:8px">
+                <a class="btn primary" style="flex:1" href="../../05-合同管理/原型/pc-contract-detail.html">查看合同</a>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="ph"><h3>办理记录</h3></div>
+            <div class="pb">
+              <div class="tl-flow">
+                <div class="tfi done"><span class="pt"></span><div class="bd">
+                  <div class="tt">提交入住单<span class="who num">2026-09-15 10:12</span></div>
+                  <div class="ts">陈志远 创建入住单 RZ-XQ05-2026-0087（从客户 张女士 发起）</div>
+                </div></div>
+                <div class="tfi done"><span class="pt"></span><div class="bd">
+                  <div class="tt">生成合同<span class="who num">2026-09-15 10:12</span></div>
+                  <div class="ts">按模板 v2.1 生成合同，正文待签署</div>
+                </div></div>
+                <div class="tfi done"><span class="pt"></span><div class="bd">
+                  <div class="tt">生成账单<span class="who num">2026-09-15 10:13</span></div>
+                  <div class="ts">押金 1 条 + 租金 12 期，共 13 条写入收费管理</div>
+                </div></div>
+                <div class="tfi cur"><span class="pt"></span><div class="bd">
+                  <div class="tt">待发起签署<span class="who">当前节点</span></div>
+                  <div class="ts">可选择小程序在线签署或后台补录；补录上传后信息即视为生效</div>
+                </div></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

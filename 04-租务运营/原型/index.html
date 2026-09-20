@@ -1,0 +1,132 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>公寓租务运营模块 · 原型导航 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .cover{justify-content:flex-start}
+  .grp{width:100%;max-width:1180px;margin-top:34px}
+  .grp .gt{font-size:13px;color:#7d92b8;letter-spacing:2px;display:flex;align-items:center;gap:12px}
+  .grp .gt::after{content:"";flex:1;height:1px;background:#24365c}
+  .grp .cards{margin-top:14px;justify-content:flex-start}
+  .cover .cd{width:262px}
+  .cover .cd .soon{display:inline-block;font-size:10.5px;color:#e0a53c;border:1px solid #5a4a24;border-radius:4px;padding:0 6px;line-height:1.7}
+</style>
+</head>
+<body>
+<div class="cover">
+  <h1>公寓租务运营模块 · 原型 V1.2</h1>
+  <div class="sub">英莱达资产管理系统 · 入住办理 · 租户管理 · 续租 · 退房办理 · 演示数据</div>
+
+  <!-- PC 管理后台 -->
+  <div class="grp">
+    <div class="gt">PC 管理后台</div>
+    <div class="cards">
+      <div class="cd" onclick="location.href='pc-checkin-list.html'">
+        <h3>入住办理台账</h3>
+        <p>入住单列表与状态（待签约 / 待补录 / 已生效 / 已取消），KPI 概览与超期未补录提醒。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-checkin-new.html'">
+        <h3>办理入住（三步向导）</h3>
+        <p>选客户 → 选房源 → 填租赁信息：房屋信息自动带出，含水电底数、资产点验、账单计划预览。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-checkin-detail.html'">
+        <h3>入住单详情</h3>
+        <p>租赁信息、关联合同与账单计划、办理记录时间线，可发起签署或后台补录。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-tenant-list.html'">
+        <h3>租户管理 · 列表</h3>
+        <p>在租 / 即将到期 / 欠费 / 已退租分档，支持一客多房展示与续租、退房快捷办理。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-tenant-detail.html'">
+        <h3>租户详情</h3>
+        <p>基本信息、在租房源卡、合同记录、近期账单与办理记录时间线。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-renew.html'">
+        <h3>续租办理</h3>
+        <p>原合同 → 新合同对比，租金可调并生成新合同号与账单计划，需重新签署或补录。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-checkout-list.html'">
+        <h3>退房办理台账</h3>
+        <p>退房单列表，状态 = 待验收 / 待退费 / 待补交 / 已完成，含结算结果。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-checkout-new.html'">
+        <h3>办理退房（验收 + 结算）</h3>
+        <p>卫生 / 设施 / 墙壁 / 门窗 / 钥匙门禁逐项点验，破损登记赔偿并拍照；抄表算水电 + 未缴账单 + 其他费用，押金强制抵扣后算退补。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='pc-checkout-detail.html'">
+        <h3>退房单详情</h3>
+        <p>验收明细、水电结算、结算结果与办理记录，可登记退款 / 生成应收 / 打印结算单。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 移动管理端 -->
+  <div class="grp">
+    <div class="gt">移动管理端（微信小程序）</div>
+    <div class="cards">
+      <div class="cd" onclick="location.href='m-admin-tenant-list.html'">
+        <h3>租户管理</h3>
+        <p>租户卡列表（月租金 / 房源 / 到期与欠费标记），现场快速续租、退房、催缴。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-tenant-detail.html'">
+        <h3>租户详情</h3>
+        <p>在租房源卡、基本信息与办理记录，底部「办理入住 / 续租办理」操作栏。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-checkin-new.html'">
+        <h3>办理入住（移动端）</h3>
+        <p>三步向导精简版：客户 / 房源 / 租赁信息，自动生成账单计划，现场生成合同。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-checkout-list.html'">
+        <h3>退房办理</h3>
+        <p>待验收 / 待退费 / 待补交分档，应退应补金额一目了然。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-checkout-new.html'">
+        <h3>退房验收（现场）</h3>
+        <p>五类验收项点验 + 拍照（非必填）+ 抄表录入，实时算出应退 / 应补金额。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-checkout-detail.html'">
+        <h3>退房单详情</h3>
+        <p>验收结果、水电结算明细、结算金额与办理记录，可通知租户 / 去退款。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+      <div class="cd" onclick="location.href='m-admin-renew.html'">
+        <h3>续租办理（移动端）</h3>
+        <p>原合同 → 新合同对比，租金可调并生成新账单计划，提交后签署或补录。</p>
+        <div class="go">打开页面 →</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 关联模块 -->
+  <div class="grp">
+    <div class="gt">关联模块</div>
+    <div class="cards">
+      <div class="cd" onclick="location.href='../../05-合同管理/原型/index.html'">
+        <h3>合同管理模块 →</h3>
+        <p>合同台账、发起签署、后台补录、合同变更、合同模板（片区 × 业态）与到期提醒。</p>
+        <div class="go">打开模块 →</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="foot">共享设计系统：00-整体需求/主页原型/assets/app.css</div>
+</div>
+</body>
+</html>

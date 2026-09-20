@@ -1,0 +1,197 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>入住办理 · 租务运营 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  .op{color:var(--brand);cursor:pointer;font-size:13px}
+  .op:hover{color:var(--brand-d)}
+  .pgbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3)}
+  .pgbar .pgs{display:flex;align-items:center;gap:6px}
+  .pgbar .pg{min-width:26px;height:26px;border:1px solid var(--line);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink2);cursor:pointer;background:var(--panel)}
+  .pgbar .pg.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  /* 待办提示条 */
+  .alert{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--line2);background:#fffbf2;font-size:13px;color:#8a6d1a}
+  .alert b{color:var(--orange)}
+  .alert .op{margin-left:auto}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ========== 左侧导航 ========== -->
+  <aside class="sidebar" id="amsNav" data-active="checkin" data-ver="V1.2 原型 · 租务运营 / 合同管理"></aside>
+
+  <!-- ========== 主区域 ========== -->
+  <div class="main">
+
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="crumb"><span>租务运营 / </span>入住办理</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：全部片区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 内容区 -->
+    <div class="content">
+
+      <!-- KPI -->
+      <div class="row">
+        <div class="kpi"><div class="lb">本月入住</div><div class="vl num">28<small> 单</small></div><div class="sub">较上月 <span class="up">+6</span></div></div>
+        <div class="kpi"><div class="lb">待签约</div><div class="vl num" style="color:var(--brand)">5</div><div class="sub">已发起小程序签署</div></div>
+        <div class="kpi"><div class="lb">待补录</div><div class="vl num" style="color:var(--orange)">3</div><div class="sub">纸质合同未上传</div></div>
+        <div class="kpi"><div class="lb">已生效</div><div class="vl num" style="color:var(--green)">20</div><div class="sub">本月完成入住</div></div>
+        <div class="kpi"><div class="lb">入住转化率</div><div class="vl num">93.3<small>%</small></div><div class="sub">生效 / 受理 <b class="num">28/30</b></div></div>
+      </div>
+
+      <!-- 入住单台账 -->
+      <div class="panel">
+        <div class="ph">
+          <h3>入住办理台账</h3>
+          <span class="note" style="margin-left:6px">数据范围=当前所选片区；本页不含退房，退房请走「退房办理」</span>
+        </div>
+
+        <!-- 待办提示条 -->
+        <div class="alert">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4.5"/><path d="M12 17h.01"/><path d="M10.3 3.8L2.6 17a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0z"/></svg>
+          <span><b>3</b> 单待补录超过 7 天未上传合同附件，信息暂未生效，请尽快处理</span>
+          <span class="op">查看待补录 →</span>
+        </div>
+
+        <!-- 筛选条 -->
+        <div class="fbar">
+          <div class="tabs">
+            <div class="tb on">全部 <span class="n num">36</span></div>
+            <div class="tb">待签约 <span class="n num">5</span></div>
+            <div class="tb">待补录 <span class="n num">3</span></div>
+            <div class="tb">已生效 <span class="n num">26</span></div>
+            <div class="tb">已取消 <span class="n num">2</span></div>
+          </div>
+          <span class="sp"></span>
+          <div class="search">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5L16 16"/></svg>
+            <input placeholder="入住单号 / 客户 / 房号">
+          </div>
+          <select class="sel"><option>全部片区</option><option>滨江科创园区</option><option>临港智造园区</option></select>
+          <select class="sel"><option>全部业态</option><option selected>公寓</option></select>
+          <button class="btn ghost">查询</button>
+          <a class="btn primary" href="pc-checkin-new.html">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+            办理入住
+          </a>
+        </div>
+
+        <table class="tb">
+          <thead>
+            <tr>
+              <th>入住单号</th><th>客户</th><th>片区 · 房号</th><th>租期</th><th>月租金</th><th>首期应收</th><th>合同状态</th><th>提交时间</th><th>操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="num" style="font-weight:600">RZ-XQ05-2026-0087</td>
+              <td>张女士 <span class="num">138****8888</span></td>
+              <td>滨江科创园区 · 3 栋-508</td>
+              <td class="num">2026-09-16 ~ 2027-09-15</td>
+              <td class="num">¥1,850</td>
+              <td class="num">¥3,700</td>
+              <td><span class="tag blue">待签约</span></td>
+              <td class="num">2026-09-15 10:12</td>
+              <td><a class="op" href="pc-checkin-detail.html">详情</a> · <a class="op" href="../../05-合同管理/原型/pc-contract-sign.html">发起签署</a></td>
+            </tr>
+            <tr>
+              <td class="num" style="font-weight:600">RZ-XQ05-2026-0086</td>
+              <td>李先生 <span class="num">139****2310</span></td>
+              <td>滨江科创园区 · 2 栋-606</td>
+              <td class="num">2026-09-10 ~ 2027-09-09</td>
+              <td class="num">¥1,380</td>
+              <td class="num">¥2,760</td>
+              <td><span class="tag orange">待补录</span></td>
+              <td class="num">2026-09-10 15:40</td>
+              <td><a class="op" href="pc-checkin-detail.html">详情</a> · <a class="op" href="../../05-合同管理/原型/pc-contract-fill.html">后台补录</a></td>
+            </tr>
+            <tr>
+              <td class="num" style="font-weight:600">RZ-XQ05-2026-0085</td>
+              <td>王女士 <span class="num">137****6621</span></td>
+              <td>滨江科创园区 · 1 栋-402</td>
+              <td class="num">2026-09-05 ~ 2027-09-04</td>
+              <td class="num">¥1,880</td>
+              <td class="num">¥3,760</td>
+              <td><span class="tag green">已生效</span></td>
+              <td class="num">2026-09-05 09:26</td>
+              <td><a class="op" href="pc-checkin-detail.html">详情</a> · <a class="op" href="../../05-合同管理/原型/pc-contract-detail.html">看合同</a></td>
+            </tr>
+            <tr>
+              <td class="num" style="font-weight:600">RZ-XQ04-2026-0031</td>
+              <td>赵先生 <span class="num">135****9077</span></td>
+              <td>临港智造园区 · 2 栋-305</td>
+              <td class="num">2026-09-01 ~ 2027-08-31</td>
+              <td class="num">¥1,650</td>
+              <td class="num">¥3,300</td>
+              <td><span class="tag green">已生效</span></td>
+              <td class="num">2026-09-01 14:08</td>
+              <td><a class="op" href="pc-checkin-detail.html">详情</a> · <a class="op" href="../../05-合同管理/原型/pc-contract-detail.html">看合同</a></td>
+            </tr>
+            <tr>
+              <td class="num" style="font-weight:600">RZ-XQ05-2026-0084</td>
+              <td>孙同学 <span class="num">188****4520</span></td>
+              <td>滨江科创园区 · 3 栋-512</td>
+              <td class="num">2026-08-28 ~ 2027-08-27</td>
+              <td class="num">¥1,400</td>
+              <td class="num">¥2,800</td>
+              <td><span class="tag gray">已取消</span></td>
+              <td class="num">2026-08-27 17:33</td>
+              <td><a class="op" href="pc-checkin-detail.html">详情</a></td>
+            </tr>
+            <tr>
+              <td class="num" style="font-weight:600">RZ-XQ05-2026-0083</td>
+              <td>周女士 <span class="num">186****7741</span></td>
+              <td>滨江科创园区 · 1 栋-307</td>
+              <td class="num">2026-08-20 ~ 2027-08-19</td>
+              <td class="num">¥1,880</td>
+              <td class="num">¥3,760</td>
+              <td><span class="tag green">已生效</span></td>
+              <td class="num">2026-08-20 11:02</td>
+              <td><a class="op" href="pc-checkin-detail.html">详情</a> · <a class="op" href="../../05-合同管理/原型/pc-contract-detail.html">看合同</a></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="pgbar">
+          <span>共 <b class="num" style="color:var(--ink2)">36</b> 条</span>
+          <div class="pgs">
+            <span class="pg on num">1</span><span class="pg num">2</span><span class="pg num">3</span>
+            <span class="pg"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span>
+          </div>
+          <span class="num">1/6 页</span>
+          <span style="margin-left:auto">
+            <span class="note">入住单号 RZ+片区编号+年份+流水，各片区独立流水；合同编号在「生成合同 / 后台补录」环节产生；账单编号（合同号+期次）用于系统内与收费管理对账，页面不展示</span>
+          </span>
+        </div>
+      </div>
+
+      <div style="margin-top:14px">
+        <span class="note">入住办理三个入口：①本页「办理入住」新建 ②租户详情「办理入住」带出客户 ③房源/房态「办理入住」带出房源；入住单状态项来源于 系统管理-字典配置</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>
