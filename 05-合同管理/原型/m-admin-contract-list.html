@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 合同管理 · 英莱达资管</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .w-top{display:flex;align-items:center;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 12px;flex-shrink:0}
+  .w-top .bk{width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink);flex-shrink:0}
+  .w-top .bk svg{width:20px;height:20px}
+  .w-top .tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .w-top .act{font-size:14px;color:var(--brand);flex-shrink:0;min-width:32px;text-align:right}
+  .demo-mark{color:var(--ink3);border-color:var(--line);top:84px}
+  .m-sum{display:flex;background:#fff;border-bottom:1px solid var(--line2);flex-shrink:0}
+  .m-sum .c{flex:1;text-align:center;padding:10px 4px}
+  .m-sum .c+.c{border-left:1px solid var(--line2)}
+  .m-sum .c .v{font-size:17px;font-weight:700}
+  .m-sum .c .l{font-size:11.5px;color:var(--ink3);margin-top:2px}
+  .c-card{background:#fff;margin-top:10px;padding:12px 14px;border-bottom:1px solid var(--line2)}
+  .c-card:first-child{border-top:1px solid var(--line2)}
+  .c-card .ch{display:flex;align-items:center;gap:8px}
+  .c-card .cn{font-size:14.5px;font-weight:600}
+  .c-card .cs{font-size:12.5px;color:var(--ink3);margin-top:6px}
+  .c-card .cr{display:flex;align-items:baseline;margin-top:8px}
+  .c-card .cr .p{color:var(--red);font-weight:700;font-size:16px}
+  .c-card .cr .d{margin-left:auto;font-size:12px;color:var(--ink3)}
+  .c-card .cf{display:flex;gap:8px;margin-top:10px}
+  .c-card .cf a{flex:1;text-align:center;height:32px;line-height:30px;border:1px solid var(--line);border-radius:8px;font-size:13px;color:var(--ink2)}
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 全部合同</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <div class="w-top">
+        <a class="bk" href="../../00-整体需求/主页原型/m-admin-home.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </a>
+        <div class="tt">合同管理</div>
+        <div class="act">搜索</div>
+      </div>
+
+      <div class="m-sel">
+        <div class="ms">滨江科创园区
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="ms">公寓
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+      </div>
+
+      <div class="m-sum">
+        <div class="c"><div class="v num">1,093</div><div class="l">合同总数</div></div>
+        <div class="c"><div class="v num" style="color:var(--brand)">12</div><div class="l">待签署</div></div>
+        <div class="c"><div class="v num" style="color:var(--orange)">8</div><div class="l">待补录</div></div>
+        <div class="c"><div class="v num" style="color:var(--orange)">41</div><div class="l">30 天到期</div></div>
+      </div>
+
+      <div class="chips">
+        <span class="chip on">全部</span>
+        <span class="chip">待签署</span>
+        <span class="chip">待补录</span>
+        <span class="chip">生效中</span>
+        <span class="chip">即将到期</span>
+        <span class="chip">已到期</span>
+      </div>
+
+      <div class="m-gt">全部合同 · 共 <span class="num">1,093</span> 份</div>
+      <div>
+        <div class="c-card">
+          <div class="ch"><span class="cn">张女士 · 3 栋-508</span><span class="tag blue">待签署</span></div>
+          <div class="cs num">HT-XQ05-GY-2026-0128 · 2026-09-16 ~ 2027-09-15</div>
+          <div class="cr"><span class="p num">¥1,850<small style="font-size:11px;color:var(--ink3)">/月</small></span><span class="d">待选择签署方式</span></div>
+          <div class="cf"><a href="m-admin-contract-detail.html">详情</a><a href="m-admin-contract-sign.html">发起签署</a><a href="m-admin-contract-fill.html">补录</a></div>
+        </div>
+
+        <div class="c-card">
+          <div class="ch"><span class="cn">李先生 · 2 栋-606</span><span class="tag orange">待补录</span></div>
+          <div class="cs num">HT-XQ05-GY-2026-0127 · 2026-09-10 ~ 2027-09-09</div>
+          <div class="cr"><span class="p num">¥1,380<small style="font-size:11px;color:var(--ink3)">/月</small></span><span class="d">纸质合同未上传</span></div>
+          <div class="cf"><a href="m-admin-contract-detail.html">详情</a><a href="m-admin-contract-fill.html">去补录</a></div>
+        </div>
+
+        <div class="c-card">
+          <div class="ch"><span class="cn">张女士 · 1 栋-301</span><span class="tag green">生效中</span></div>
+          <div class="cs num">HT-XQ05-GY-2025-1201 · 2025-12-01 ~ 2026-11-30</div>
+          <div class="cr"><span class="p num">¥1,850<small style="font-size:11px;color:var(--ink3)">/月</small></span><span class="d">小程序签署</span></div>
+          <div class="cf"><a href="m-admin-contract-detail.html">详情</a><a href="pc-contract-change.html">变更(PC)</a><a href="../../04-租务运营/原型/m-admin-renew.html">续租</a></div>
+        </div>
+
+        <div class="c-card">
+          <div class="ch"><span class="cn">张女士 · 2 栋-401</span><span class="tag due">即将到期</span></div>
+          <div class="cs num">HT-XQ05-GY-2025-0919 · 2025-09-20 ~ 2026-09-19</div>
+          <div class="cr"><span class="p num">¥1,380<small style="font-size:11px;color:var(--ink3)">/月</small></span><span class="d" style="color:var(--orange)">剩 15 天</span></div>
+          <div class="cf"><a href="m-admin-contract-detail.html">详情</a><a href="../../04-租务运营/原型/m-admin-renew.html">续租</a><a href="../../04-租务运营/原型/m-admin-checkout-new.html">退房</a></div>
+        </div>
+
+        <div class="c-card">
+          <div class="ch"><span class="cn">陈先生 · 1 栋-305</span><span class="tag gray">已终止</span></div>
+          <div class="cs num">HT-XQ05-GY-2025-0915 · 2025-09-16 ~ 2026-09-15</div>
+          <div class="cr"><span class="p num">¥2,600<small style="font-size:11px;color:var(--ink3)">/月</small></span><span class="d">到期退房已结算</span></div>
+          <div class="cf"><a href="m-admin-contract-detail.html">详情</a></div>
+        </div>
+      </div>
+
+      <div class="note" style="margin:12px 14px 0">数据范围=当前所选片区；合同号 = HT + 片区编号 + 业态简称 + 年份 + 流水；合同变更 / 模板配置 / 提醒规则为后台管理功能，标注(PC)的入口在 PC 端打开</div>
+      <div style="height:14px"></div>
+
+    </div>
+
+    <div class="m-cta">
+      <a class="btn ghost" style="flex:1" href="pc-contract-tpl-list.html">合同模板(PC)</a>
+      <a class="btn primary" style="flex:1" href="pc-contract-expire.html">到期提醒(PC)</a>
+    </div>
+
+    <div class="m-tab" id="amsTab" data-variant="admin" data-active="home"></div>
+  </div>
+</div>
+
+<script src="../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

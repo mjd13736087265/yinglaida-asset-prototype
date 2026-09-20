@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 合同详情 · 英莱达资管</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .w-top{display:flex;align-items:center;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 12px;flex-shrink:0}
+  .w-top .bk{width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink);flex-shrink:0}
+  .w-top .bk svg{width:20px;height:20px}
+  .w-top .tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .w-top .act{font-size:14px;color:var(--brand);flex-shrink:0;min-width:32px;text-align:right}
+  .demo-mark{color:var(--ink3);border-color:var(--line);top:84px}
+  .c-head{background:#fff;padding:14px;border-bottom:1px solid var(--line2)}
+  .c-head .cn{font-size:16px;font-weight:700}
+  .c-head .cs{font-size:12.5px;color:var(--ink3);margin-top:4px}
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 合同详情</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <div class="w-top">
+        <a class="bk" href="m-admin-contract-list.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </a>
+        <div class="tt">合同详情</div>
+        <div class="act">更多</div>
+      </div>
+
+      <!-- 合同头 -->
+      <div class="c-head">
+        <div class="cn">张女士 · 1 栋-301 <span class="tag green" style="margin-left:6px">生效中</span></div>
+        <div class="cs num">HT-XQ05-GY-2025-1201 · 滨江科创园区</div>
+      </div>
+
+      <!-- 合同信息 -->
+      <div class="m-gt">合同信息</div>
+      <div class="m-rows">
+        <div class="r"><span class="k">承租人</span><span class="v">张女士 <span class="num">138****8888</span></span></div>
+        <div class="r"><span class="k">房源</span><span class="v">滨江人才公寓 · 1 栋-301</span></div>
+        <div class="r"><span class="k">合同期</span><span class="v num">2025-12-01 ~ 2026-11-30</span></div>
+        <div class="r"><span class="k">月租金</span><span class="v num">¥1,850</span></div>
+        <div class="r"><span class="k">押金</span><span class="v num">¥1,850（押一付一）</span></div>
+        <div class="r"><span class="k">付款周期</span><span class="v">月付</span></div>
+        <div class="r"><span class="k">签署方式</span><span class="v">小程序签署</span></div>
+        <div class="r"><span class="k">签署时间</span><span class="v num">2025-11-28 15:22</span></div>
+        <div class="r"><span class="k">合同模板</span><span class="v">公寓租赁合同 v2.1</span></div>
+      </div>
+
+      <!-- 签署记录 -->
+      <div class="m-gt">签署记录</div>
+      <div class="m-sec">
+        <div class="tl-flow">
+          <div class="tfi done"><span class="pt"></span><div class="bd">
+            <div class="tt">合同生成<span class="who num">2025-11-28 14:30</span></div>
+            <div class="ts">按模板 v2.1 生成，系统自动</div>
+          </div></div>
+          <div class="tfi done"><span class="pt"></span><div class="bd">
+            <div class="tt">发起签署<span class="who num">2025-11-28 14:31</span></div>
+            <div class="ts">陈志远 推送小程序签署链接</div>
+          </div></div>
+          <div class="tfi done"><span class="pt"></span><div class="bd">
+            <div class="tt">租户签署完成<span class="who num">2025-11-28 15:22</span></div>
+            <div class="ts">张女士 小程序手写签名确认</div>
+          </div></div>
+          <div class="tfi done"><span class="pt"></span><div class="bd">
+            <div class="tt">合同生效<span class="who num">2025-12-01</span></div>
+            <div class="ts">起租日自动生效，账单已生成</div>
+          </div></div>
+        </div>
+      </div>
+
+      <!-- 账单 -->
+      <div class="m-gt">关联账单</div>
+      <div class="m-settle">
+        <div class="mr"><span class="mk">押金 <span class="num">-0</span></span><span class="mv num">¥1,850</span></div>
+        <div class="mr"><span class="mk">第 10 期 <span class="num">-10</span></span><span class="mv num">¥1,850</span></div>
+        <div class="mr"><span class="mk">第 9 期 <span class="num">-9</span></span><span class="mv num">¥1,850</span></div>
+      </div>
+
+      <!-- 附件 -->
+      <div class="m-gt">合同附件</div>
+      <div class="m-sec">
+        <div class="files">
+          <div class="file">
+            <span class="fi"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4"/></svg></span>
+            <div><div class="fn">租赁合同_HT-XQ05-GY-2025-1201.pdf</div><div class="fs num">2025-11-28 · 248 KB</div></div>
+            <div class="fo"><span class="op" style="color:var(--brand);cursor:pointer">预览</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="m-gt">变更记录</div>
+      <div class="m-sec"><div style="font-size:12.5px;color:var(--ink3)">暂无变更记录；变更需填写完整对比与变更协议，标注(PC)的入口在 PC 端打开</div></div>
+
+      <div style="height:14px"></div>
+    </div>
+
+    <div class="m-cta">
+      <a class="btn ghost" style="flex:1" href="pc-contract-change.html">合同变更(PC)</a>
+      <a class="btn primary" style="flex:1" href="../../04-租务运营/原型/m-admin-renew.html">续租办理</a>
+    </div>
+
+    <div class="m-tab" id="amsTab" data-variant="admin" data-active="home"></div>
+  </div>
+</div>
+
+<script src="../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

@@ -1,0 +1,195 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>编辑合同模板 · 合同管理 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  a.mi{color:var(--navy-tx)}
+  .f-sec .note{display:flex;margin-top:8px}
+  .inp.ro{background:var(--paper);color:var(--ink2);cursor:default}
+  /* 条款块 */
+  .clause{border:1px solid var(--line);border-radius:var(--r-md);margin-bottom:12px;overflow:hidden}
+  .clause .ch{display:flex;align-items:center;gap:10px;padding:10px 14px;background:#fafbfc;border-bottom:1px solid var(--line2)}
+  .clause .ch .cn{font-size:14px;font-weight:600}
+  .clause .ch .ops{margin-left:auto;display:flex;gap:12px;font-size:13px}
+  .clause .cb{padding:12px 14px}
+  .clause .cb textarea{min-height:88px;font-size:13px;line-height:1.9}
+  .add-clause{display:block;width:100%;padding:11px;text-align:center;border:1px dashed var(--line);border-radius:var(--r-md);background:var(--panel);font-size:13.5px;color:var(--brand)}
+  /* 变量 */
+  .vars{display:flex;flex-wrap:wrap;gap:8px}
+  .var{padding:4px 10px;border:1px solid var(--line);border-radius:999px;font-size:12.5px;color:var(--brand);background:var(--brand-bg);cursor:pointer}
+  /* 版本列表 */
+  .ver{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line2);font-size:13.5px}
+  .ver:last-child{border-bottom:none}
+  .ver .vn{font-weight:600}
+  .ver .vd{font-size:12.5px;color:var(--ink3)}
+  .ver .ops{margin-left:auto;display:flex;gap:12px;font-size:13px}
+  /* 上传 Word 模板 */
+  .doc-up{border:1.5px dashed var(--line);border-radius:var(--r-md);background:var(--panel);padding:22px;text-align:center;cursor:pointer;margin-bottom:8px}
+  .doc-up .du-ic{color:var(--brand);margin-bottom:6px}
+  .doc-up .du-t{font-size:14px;font-weight:600;color:var(--ink)}
+  .doc-up .du-s{font-size:12.5px;color:var(--ink3);margin-top:3px}
+  .doc-up .du-btn{display:inline-block;margin-top:12px;padding:7px 18px;border-radius:var(--r-sm);background:var(--brand);color:#fff;font-size:13px}
+  .du-done{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:10px 14px;border:1px solid var(--green);background:var(--green-bg);border-radius:var(--r-md);margin-bottom:4px}
+  .du-done .du-fn{font-size:13.5px;font-weight:500;color:var(--ink)}
+  .du-done .du-fs{font-size:12.5px;color:var(--ink3)}
+  .fm-head{font-size:13px;font-weight:600;color:var(--ink);margin:18px 0 10px}
+  .fm-list{display:flex;flex-direction:column;gap:10px;background:#fff;border:1px solid var(--line2);border-radius:var(--r-md);padding:12px 14px}
+  .fm{display:flex;align-items:flex-start;gap:12px}
+  .fm .fmk{flex:0 0 120px;font-size:12.5px;color:var(--brand);font-family:ui-monospace,SFMono-Regular,Menlo,monospace;padding-top:8px}
+  .fm .fv{flex:1;min-width:0}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="contract-tpl" data-ver="V1.2 原型 · 租务运营 / 合同管理"></aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb"><span><a href="pc-contract-tpl-list.html" style="color:inherit">合同管理 / 合同模板</a> / </span>编辑模板</div>
+      <div class="right">
+        <div class="scope">片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="avatar">陈</span><span style="color:var(--ink)">陈志远 · 运营主管</span></div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="row" style="align-items:flex-start">
+
+        <!-- 左：模板编辑 -->
+        <div class="col" style="flex:1.6">
+          <div class="panel">
+            <div class="ph"><h3>模板信息</h3></div>
+            <div class="form" style="max-width:100%">
+
+              <div class="f-sec">
+                <div class="f-grid">
+                  <div class="f-item"><label><span class="req">*</span>模板名称</label><input class="inp" value="滨江人才公寓 · 公寓租赁合同"></div>
+                  <div class="f-item"><label><span class="req">*</span>适用业态</label>
+                    <select class="sel"><option selected>公寓</option><option>写字楼（预留）</option><option>商业（预留）</option><option>厂房（预留）</option></select>
+                    <div class="help">业态类型来源于 系统管理-字典配置</div>
+                  </div>
+                  <div class="f-item"><label>状态</label>
+                    <select class="sel"><option selected>启用</option><option>停用</option></select>
+                    <div class="help">停用的模板不可用于新合同</div>
+                  </div>
+                  <div class="f-item full"><label>备注（版本内容）</label><textarea class="ta" style="min-height:60px">调整押金退还条款</textarea><div class="help">保存后作为本次版本说明，对应右侧「版本管理」中的版本内容</div></div>
+                </div>
+              </div>
+
+              <div class="f-sec">
+                <h4>合同条款</h4>
+                <div class="f-item full">
+                  <div style="margin-bottom:12px">
+                    <div style="font-size:12.5px;color:var(--ink3);margin-bottom:6px">可用变量（点击插入到光标处）</div>
+                    <div class="vars">
+                      <span class="var">${出租方}</span><span class="var">${承租人姓名}</span><span class="var">${证件号}</span>
+                      <span class="var">${联系电话}</span><span class="var">${项目名称}</span><span class="var">${房号}</span>
+                      <span class="var">${户型}</span><span class="var">${面积}</span><span class="var">${朝向}</span>
+                      <span class="var">${装修标准}</span><span class="var">${月租金}</span><span class="var">${押金}</span>
+                      <span class="var">${付款方式}</span><span class="var">${租期月数}</span><span class="var">${起租日}</span>
+                      <span class="var">${到期日}</span><span class="var">${电表底数}</span><span class="var">${水表底数}</span>
+                      <span class="var">${合同编号}</span><span class="var">${签订日期}</span>
+                    </div>
+                  </div>
+
+                  <!-- 上传 Word 模板 -->
+                  <div class="doc-up">
+                    <div class="du-ic">
+                      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 16V4"/><path d="M7 9l5-5 5 5"/><path d="M5 20h14"/></svg>
+                    </div>
+                    <div class="du-t">上传 Word 合同模板（.docx）</div>
+                    <div class="du-s">系统自动识别其中的 ${...} 占位符并生成填充字段</div>
+                    <div class="du-btn">选择文件</div>
+                  </div>
+
+                  <div class="du-done">
+                    <div class="du-fn">滨江人才公寓_租赁合同_v2.1.docx</div>
+                    <div class="du-fs num">已上传 · 2026-08-01 · 识别到 21 个填充字段 · <span style="color:var(--brand);cursor:pointer">重新上传</span></div>
+                  </div>
+
+                  <!-- 填充字段 -->
+                  <div class="fm-head">填充字段（从 Word 占位符自动识别，可核对映射）</div>
+                  <div class="fm-list">
+                    <div class="fm"><span class="fmk">${出租方}</span><div class="fv"><input class="inp" value="英莱达资产管理有限公司 · 滨江科创园区"></div></div>
+                    <div class="fm"><span class="fmk">${承租人姓名}</span><div class="fv"><input class="inp" value="张女士"></div></div>
+                    <div class="fm"><span class="fmk">${证件号}</span><div class="fv"><input class="inp" value="3301**********1234"></div></div>
+                    <div class="fm"><span class="fmk">${项目名称}</span><div class="fv"><input class="inp" value="滨江人才公寓"></div></div>
+                    <div class="fm"><span class="fmk">${房号}</span><div class="fv"><input class="inp" value="3 栋-508"></div></div>
+                    <div class="fm"><span class="fmk">${月租金}</span><div class="fv"><div class="inp-wrap"><input class="inp num" value="1850"><span class="u">元/月</span></div></div></div>
+                    <div class="fm"><span class="fmk">${押金}</span><div class="fv"><div class="inp-wrap"><input class="inp num" value="1850"><span class="u">元</span></div></div></div>
+                    <div class="fm"><span class="fmk">${租期月数}</span><div class="fv"><div class="inp-wrap"><input class="inp num" value="12"><span class="u">个月</span></div></div></div>
+                    <div class="fm"><span class="fmk">${起租日}</span><div class="fv"><input class="inp num" type="date" value="2026-09-16"></div></div>
+                    <div class="fm"><span class="fmk">${合同编号}</span><div class="fv"><input class="inp ro num" value="HT-XQ05-GY-2026-0128" readonly></div></div>
+                  </div>
+                  <span class="note">上传 Word 模板后，系统自动识别其中的 ${...} 占位符并生成填充字段；保存时校验变量是否存在于数据字典，未匹配字段以默认值填充</span>
+                </div>
+              </div>
+
+              <div class="f-actions">
+                <a class="btn primary" href="pc-contract-tpl-list.html">保存并启用</a>
+                <button class="btn ghost">保存草稿</button>
+                <button class="btn ghost">预览</button>
+                <a class="btn ghost" href="pc-contract-tpl-list.html">取消</a>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+        <!-- 右：版本 + 预览 -->
+        <div class="col" style="flex:1">
+
+          <div class="panel">
+            <div class="ph"><h3>版本管理</h3><span class="note" style="margin-left:6px">可查看历史版本并回退启用</span></div>
+            <div class="pb flush">
+              <div class="ver">
+                <div><div class="vn">v2.1 <span class="tag green" style="margin-left:6px">当前</span></div><div class="vd num">2026-08-01 · 陈志远 · 调整押金退还条款</div></div>
+                <div class="ops"><span style="color:var(--brand);cursor:pointer">查看</span></div>
+              </div>
+              <div class="ver">
+                <div><div class="vn">v2.0</div><div class="vd num">2026-03-12 · 陈志远 · 新增水电结算条款</div></div>
+                <div class="ops"><span style="color:var(--brand);cursor:pointer">查看</span><span style="color:var(--brand);cursor:pointer">回退启用</span></div>
+              </div>
+              <div class="ver">
+                <div><div class="vn">v1.1</div><div class="vd num">2025-11-20 · 李慧敏 · 补充设施验收条款</div></div>
+                <div class="ops"><span style="color:var(--brand);cursor:pointer">查看</span><span style="color:var(--brand);cursor:pointer">回退启用</span></div>
+              </div>
+              <div class="ver">
+                <div><div class="vn">v1.0</div><div class="vd num">2025-09-01 · 系统 · 初始版本</div></div>
+                <div class="ops"><span style="color:var(--brand);cursor:pointer">查看</span><span style="color:var(--brand);cursor:pointer">复用</span></div>
+              </div>
+            </div>
+            <div class="pb" style="padding-top:12px"><span class="note">回退启用历史版本后，新合同按该版本生成，已生成的合同不受影响</span></div>
+          </div>
+
+          <div class="panel">
+            <div class="ph"><h3>预览（示例数据）</h3></div>
+            <div class="pb">
+              <div class="paper" style="padding:18px 20px;font-size:12.5px;line-height:1.9">
+                <div class="pt" style="font-size:15px">房屋租赁合同</div>
+                <div class="pno">合同编号：<span class="num">HT-XQ05-GY-2026-0128</span></div>
+                <div class="pc"><div class="h">第一条 合同主体</div><p>出租方（甲方）：英莱达资产管理有限公司 · 滨江科创园区<br>承租方（乙方）：张女士（身份证号 3301**********1234，联系电话 138****8888）</p></div>
+                <div class="pc"><div class="h">第四条 租金与押金</div><p>月租金为人民币 1,850 元，付款方式为 押一付一 · 月付；押金为人民币 1,850 元，合同期满且无违约、无欠费、房屋验收合格后 15 个工作日内无息退还。</p></div>
+                <div class="pc"><div class="h">第五条 水电费用</div><p>入住电表底数 12,480 度，水表底数 386 吨；租赁期内水电费按实结算，单价以园区公示标准执行。</p></div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

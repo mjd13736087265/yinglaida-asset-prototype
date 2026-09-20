@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>合同模板 · 合同管理 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .op{color:var(--brand);cursor:pointer;font-size:13px}
+  .op:hover{color:var(--brand-d)}
+  .alert{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--line2);background:#fffbf2;font-size:13px;color:#8a6d1a}
+  .alert b{color:var(--orange)}
+  .mark-off{display:inline-block;font-size:12px;color:var(--ink3);border:1px solid var(--line);border-radius:4px;padding:0 6px;line-height:1.7;margin-left:6px}
+  .fbar .sp{flex:1}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="contract-tpl" data-ver="V1.2 原型 · 租务运营 / 合同管理"></aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb"><span>合同管理 / </span>合同模板</div>
+      <div class="right">
+        <div class="scope">片区范围：全部片区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="avatar">陈</span><span style="color:var(--ink)">陈志远 · 运营主管</span></div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <div class="panel">
+        <div class="ph">
+          <h3>合同模板</h3>
+          <span class="note" style="margin-left:6px">模板按业态配置：未单独配置时继承系统通用模板；未配置且无继承时，入住办理将提醒并拦截提交</span>
+          <div style="margin-left:auto;display:flex;gap:10px">
+            <a class="btn primary" href="pc-contract-tpl-edit.html">
+              <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 5v14M5 12h14"/></svg>
+              新建模板
+            </a>
+          </div>
+        </div>
+
+        <div class="alert">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4.5"/><path d="M12 17h.01"/><path d="M10.3 3.8L2.6 17a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0z"/></svg>
+          <span><b>1</b> 个片区业态组合尚未配置合同模板（临港人才公寓），相关房源办理入住时会拦截并提示先配置模板</span>
+        </div>
+
+        <div class="fbar">
+          <select class="sel"><option>全部业态</option><option selected>公寓</option><option>写字楼</option><option>商业</option><option>厂房</option></select>
+          <select class="sel"><option>全部状态</option><option>已启用</option><option>已停用</option><option>未配置</option></select>
+          <span class="sp"></span>
+          <div class="search">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5L16 16"/></svg>
+            <input placeholder="模板名称">
+          </div>
+          <button class="btn ghost">查询</button>
+        </div>
+
+        <table class="tb">
+          <thead>
+            <tr><th>业态</th><th>模板名称</th><th>当前版本</th><th>历史版本</th><th>关联合同</th><th>状态</th><th>更新时间</th><th>操作</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td><span class="tag-business">公寓</span></td>
+              <td>滨江人才公寓 · 公寓租赁合同</td><td class="num">v2.1</td><td class="num">3 个</td><td class="num">182</td>
+              <td><span class="tag green">已启用</span></td><td class="num">2026-08-01</td>
+              <td><a class="op" href="pc-contract-tpl-edit.html">编辑</a> · <span class="op">版本</span> · <span class="op">停用</span></td>
+            </tr>
+            <tr>
+              <td><span class="tag-business">公寓</span></td>
+              <td>兴业公寓 · 公寓租赁合同</td><td class="num">v1.3</td><td class="num">2 个</td><td class="num">295</td>
+              <td><span class="tag green">已启用</span></td><td class="num">2026-06-18</td>
+              <td><a class="op" href="pc-contract-tpl-edit.html">编辑</a> · <span class="op">版本</span> · <span class="op">停用</span></td>
+            </tr>
+            <tr>
+              <td><span class="tag-business">公寓</span></td>
+              <td>云谷人才公寓 · 公寓租赁合同</td><td class="num">v2.0</td><td class="num">2 个</td><td class="num">230</td>
+              <td><span class="tag green">已启用</span></td><td class="num">2026-07-05</td>
+              <td><a class="op" href="pc-contract-tpl-edit.html">编辑</a> · <span class="op">版本</span> · <span class="op">停用</span></td>
+            </tr>
+            <tr>
+              <td><span class="tag-business">公寓</span></td>
+              <td>学府青年公寓 · 公寓租赁合同</td><td class="num">v1.1</td><td class="num">1 个</td><td class="num">204</td>
+              <td><span class="tag green">已启用</span></td><td class="num">2026-05-22</td>
+              <td><a class="op" href="pc-contract-tpl-edit.html">编辑</a> · <span class="op">版本</span> · <span class="op">停用</span></td>
+            </tr>
+            <tr style="background:#fffbf2">
+              <td><span class="tag-business">公寓</span></td>
+              <td style="color:var(--ink3)">未配置<span class="mark-off">入住将拦截</span></td><td>—</td><td>—</td><td class="num">88</td>
+              <td><span class="tag orange">待配置</span></td><td>—</td>
+              <td><a class="op" href="pc-contract-tpl-edit.html">去配置</a></td>
+            </tr>
+            <tr>
+              <td><span class="tag-business">公寓</span></td>
+              <td>梧桐公寓 · 公寓租赁合同</td><td class="num">v1.0</td><td class="num">1 个</td><td class="num">97</td>
+              <td><span class="tag green">已启用</span></td><td class="num">2026-04-10</td>
+              <td><a class="op" href="pc-contract-tpl-edit.html">编辑</a> · <span class="op">版本</span> · <span class="op">停用</span></td>
+            </tr>
+            <tr>
+              <td><span class="tag-business">公寓</span></td>
+              <td>系统通用 · 公寓租赁合同</td><td class="num">v1.0</td><td class="num">4 个</td><td class="num">—</td>
+              <td><span class="tag green">已启用</span></td><td class="num">2025-12-01</td>
+              <td><a class="op" href="pc-contract-tpl-edit.html">编辑</a> · <span class="op">版本</span></td>
+            </tr>
+            <tr>
+              <td><span class="tag gray">写字楼</span></td>
+              <td style="color:var(--ink3)">—（业态未开通）</td><td>—</td><td>—</td><td>—</td>
+              <td><span class="tag gray">预留</span></td><td>—</td><td style="color:var(--ink3)">不可配置</td>
+            </tr>
+            <tr>
+              <td><span class="tag gray">商业</span></td>
+              <td style="color:var(--ink3)">—（业态未开通）</td><td>—</td><td>—</td><td>—</td>
+              <td><span class="tag gray">预留</span></td><td>—</td><td style="color:var(--ink3)">不可配置</td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="pb" style="padding-top:12px">
+          <span class="note">本期仅「公寓」业态可配置模板，写字楼 / 商业 / 厂房等业态置灰预留（待 M10/M11）；模板支持版本号管理，可查看历史版本并回退启用；业态类型来源于 系统管理-字典配置</span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

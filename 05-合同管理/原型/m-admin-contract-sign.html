@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 发起签署 · 英莱达资管</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .w-top{display:flex;align-items:center;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 12px;flex-shrink:0}
+  .w-top .bk{width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink);flex-shrink:0}
+  .w-top .bk svg{width:20px;height:20px}
+  .w-top .tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .w-top .side{width:32px;flex-shrink:0}
+  .demo-mark{color:var(--ink3);border-color:var(--line);top:84px}
+  .f-row{display:flex;align-items:center;gap:10px;padding:11px 14px;border-bottom:1px solid var(--line2);font-size:13.5px;background:#fff}
+  .f-row:last-child{border-bottom:none}
+  .f-row .fk{width:92px;color:var(--ink3);flex-shrink:0}
+  .f-row .fv{flex:1;display:flex;align-items:center;gap:6px}
+  .f-row .fv .sel,.f-row .fv .inp{height:34px;font-size:13px;flex:1}
+  /* 签署方式卡 */
+  .way{border:1px solid var(--line);border-radius:var(--r-md);padding:13px;margin-bottom:10px}
+  .way.on{border-color:var(--brand);background:var(--brand-bg)}
+  .way .wh{display:flex;align-items:center;gap:10px}
+  .way .wi{width:34px;height:34px;border-radius:10px;background:var(--brand-bg);color:var(--brand);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .way.on .wi{background:var(--brand);color:#fff}
+  .way .wt{font-size:14.5px;font-weight:600}
+  .way .ws{font-size:12.5px;color:var(--ink2);margin-top:6px;line-height:1.7}
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 发起签署</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <div class="w-top">
+        <a class="bk" href="m-admin-contract-list.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </a>
+        <div class="tt">发起签署</div>
+        <div class="side"></div>
+      </div>
+
+      <!-- 合同信息 -->
+      <div class="m-gt">合同信息</div>
+      <div class="m-rows">
+        <div class="r"><span class="k">合同编号</span><span class="v num">HT-XQ05-GY-2026-0128</span></div>
+        <div class="r"><span class="k">承租人</span><span class="v">张女士 <span class="num">138****8888</span></span></div>
+        <div class="r"><span class="k">房源</span><span class="v">滨江科创园区 · 3 栋-508</span></div>
+        <div class="r"><span class="k">合同期</span><span class="v num">2026-09-16 ~ 2027-09-15</span></div>
+        <div class="r"><span class="k">月租金</span><span class="v num">¥1,850</span></div>
+        <div class="r"><span class="k">押金</span><span class="v num">¥1,850（押一付一）</span></div>
+        <div class="r"><span class="k">合同模板</span><span class="v">公寓租赁合同 v2.1</span></div>
+      </div>
+
+      <!-- 签署方式 -->
+      <div class="m-gt">选择签署方式</div>
+      <div style="padding:0 14px;margin-top:6px">
+        <div class="way on">
+          <div class="wh">
+            <span class="wi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span>
+            <span class="wt">小程序在线签署</span>
+          </div>
+          <div class="ws">推送至租户「英莱达公寓」小程序，租户核对条款后手写签名确认；签署完成合同自动生效。</div>
+        </div>
+        <div class="way">
+          <div class="wh">
+            <span class="wi"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 21h16"/></svg></span>
+            <span class="wt">跳过签署 · 后台补录</span>
+          </div>
+          <div class="ws">线下已签纸质合同的，上传扫描件后信息即视为生效。</div>
+        </div>
+        <div class="note">本期不对接第三方电子签，仅支持内部小程序签署与后台补录两条路径</div>
+      </div>
+
+      <!-- 签署设置 -->
+      <div class="m-gt">签署设置</div>
+      <div>
+        <div class="f-row"><span class="fk">签署有效期</span><div class="fv"><select class="sel"><option selected>7 天</option><option>3 天</option><option>15 天</option></select></div></div>
+      </div>
+
+      <div class="note" style="margin:10px 14px 0">发起后合同状态 = 待签署，租户小程序收到签署提醒；签署完成 → 生效中</div>
+      <div style="height:14px"></div>
+
+    </div>
+
+    <div class="m-cta">
+      <a class="btn ghost" style="flex:1" href="m-admin-contract-fill.html">改为后台补录</a>
+      <a class="btn primary" style="flex:1" href="m-admin-contract-detail.html">发起签署</a>
+    </div>
+
+    <div class="m-tab" id="amsTab" data-variant="admin" data-active="home"></div>
+  </div>
+</div>
+
+<script src="../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>

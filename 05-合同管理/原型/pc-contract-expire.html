@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>到期提醒 · 合同管理 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .op{color:var(--brand);cursor:pointer;font-size:13px}
+  .op:hover{color:var(--brand-d)}
+  .mini{font-size:12.5px;color:var(--ink3)}
+  .days{font-weight:700;font-size:15px}
+  .days.d7{color:var(--red)} .days.d15{color:var(--orange)} .days.d30{color:var(--brand)}
+  .rule{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid var(--line2);font-size:13.5px}
+  .rule:last-child{border-bottom:none}
+  .rule .rk{width:110px;color:var(--ink2)}
+  .rule .rv{display:flex;align-items:center;gap:8px}
+  .rule .rv .inp{height:34px;width:90px}
+  .rule .ro{margin-left:auto;display:flex;gap:12px;font-size:13px}
+  .pgbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3)}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="contract-expire" data-ver="V1.2 原型 · 租务运营 / 合同管理"></aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb"><span>合同管理 / </span>到期提醒</div>
+      <div class="right">
+        <div class="scope">片区范围：全部片区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="avatar">陈</span><span style="color:var(--ink)">陈志远 · 运营主管</span></div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <div class="row">
+        <div class="kpi"><div class="lb">7 天内到期</div><div class="vl num" style="color:var(--red)">9</div><div class="sub">紧急跟进续签</div></div>
+        <div class="kpi"><div class="lb">8 ~ 15 天到期</div><div class="vl num" style="color:var(--orange)">14</div><div class="sub">已推送提醒</div></div>
+        <div class="kpi"><div class="lb">16 ~ 30 天到期</div><div class="vl num" style="color:var(--brand)">18</div><div class="sub">待首次提醒</div></div>
+        <div class="kpi"><div class="lb">本月已续签</div><div class="vl num" style="color:var(--green)">19</div><div class="sub">续签率 <b class="num">63.3%</b></div></div>
+        <div class="kpi"><div class="lb">预计流失</div><div class="vl num">11<small> 户</small></div><div class="sub">未响应续签提醒</div></div>
+      </div>
+
+      <div class="row" style="align-items:flex-start">
+        <!-- 左：到期台账 -->
+        <div class="col" style="flex:1.7">
+          <div class="panel">
+            <div class="ph">
+              <h3>到期合同</h3>
+              <span class="note" style="margin-left:6px">按剩余天数分档提醒，档位与提醒通道可在右侧配置</span>
+              <div style="margin-left:auto;display:flex;gap:10px">
+                <button class="btn ghost">导出</button>
+                <button class="btn primary">批量发送续签提醒</button>
+              </div>
+            </div>
+            <div class="fbar">
+              <div class="tabs">
+                <div class="tb on">全部 <span class="n num">41</span></div>
+                <div class="tb">7 天内 <span class="n num">9</span></div>
+                <div class="tb">15 天内 <span class="n num">14</span></div>
+                <div class="tb">30 天内 <span class="n num">18</span></div>
+              </div>
+              <span class="sp"></span>
+              <select class="sel"><option>全部片区</option><option selected>滨江科创园区</option></select>
+              <select class="sel"><option>全部跟进状态</option><option>未跟进</option><option>已提醒</option><option>已确认续签</option><option>确认退租</option></select>
+              <button class="btn ghost">查询</button>
+            </div>
+
+            <table class="tb">
+              <thead>
+                <tr><th>合同编号</th><th>承租人</th><th>片区 · 房号</th><th>到期日</th><th>剩余</th><th>月租金</th><th>提醒记录</th><th>跟进状态</th><th>操作</th></tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td class="num" style="font-weight:600">HT-XQ05-GY-2025-0915</td><td>陈先生</td><td>滨江科创园区 · 1 栋-305</td>
+                  <td class="num">2026-09-15</td><td><span class="days d7 num">今日到期</span></td><td class="num">¥2,600</td>
+                  <td class="num">3 次</td><td><span class="tag orange">确认退租</span></td>
+                  <td><a class="op" href="../../04-租务运营/原型/pc-checkout-new.html">退房</a></td>
+                </tr>
+                <tr>
+                  <td class="num" style="font-weight:600">HT-XQ05-GY-2025-0924</td><td>王同学</td><td>滨江科创园区 · 1 栋-303</td>
+                  <td class="num">2026-09-23</td><td><span class="days d7 num">8 天</span></td><td class="num">¥1,380</td>
+                  <td class="num">2 次</td><td><span class="tag blue">已提醒</span></td>
+                  <td><a class="op" href="../../04-租务运营/原型/pc-renew.html">续租</a> · <span class="op">提醒</span></td>
+                </tr>
+                <tr>
+                  <td class="num" style="font-weight:600">HT-XQ05-GY-2025-0919</td><td>张女士</td><td>滨江科创园区 · 2 栋-401</td>
+                  <td class="num">2026-09-19</td><td><span class="days d15 num">4 天</span></td><td class="num">¥1,380</td>
+                  <td class="num">2 次</td><td><span class="tag green">已确认续签</span></td>
+                  <td><a class="op" href="../../04-租务运营/原型/pc-renew.html">去续签</a></td>
+                </tr>
+                <tr>
+                  <td class="num" style="font-weight:600">HT-XQ05-GY-2025-1002</td><td>刘女士</td><td>滨江科创园区 · 2 栋-508</td>
+                  <td class="num">2026-09-28</td><td><span class="days d15 num">13 天</span></td><td class="num">¥1,850</td>
+                  <td class="num">1 次</td><td><span class="tag blue">已提醒</span></td>
+                  <td><a class="op" href="../../04-租务运营/原型/pc-renew.html">续租</a></td>
+                </tr>
+                <tr>
+                  <td class="num" style="font-weight:600">HT-XQ05-GY-2025-1015</td><td>何先生</td><td>滨江科创园区 · 3 栋-602</td>
+                  <td class="num">2026-10-10</td><td><span class="days d30 num">25 天</span></td><td class="num">¥1,400</td>
+                  <td class="num">—</td><td><span class="tag gray">未跟进</span></td>
+                  <td><span class="op">提醒</span></td>
+                </tr>
+                <tr>
+                  <td class="num" style="font-weight:600">HT-XQ05-GY-2025-1028</td><td>杨女士</td><td>滨江科创园区 · 1 栋-705</td>
+                  <td class="num">2026-10-14</td><td><span class="days d30 num">29 天</span></td><td class="num">¥2,600</td>
+                  <td class="num">—</td><td><span class="tag gray">未跟进</span></td>
+                  <td><span class="op">提醒</span></td>
+                </tr>
+              </tbody>
+            </table>
+
+            <div class="pgbar">
+              <span>共 <b class="num" style="color:var(--ink2)">41</b> 条</span>
+              <span style="margin-left:auto"><span class="note">数据范围=当前所选片区；提醒记录展示已推送次数与最近一次时间</span></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右：规则配置 -->
+        <div class="col" style="flex:1">
+          <div class="panel">
+            <div class="ph"><h3>提醒规则</h3><span class="note" style="margin-left:6px">天数与通道均可配置</span></div>
+            <div class="pb">
+              <div style="border:1px solid var(--line);border-radius:var(--r-md);padding:6px 14px;margin-bottom:14px">
+                <div class="rule">
+                  <span class="rk">第一档</span>
+                  <div class="rv"><span>到期前</span><input class="inp num" value="30"><span>天</span></div>
+                  <div class="ro"><span class="op" style="color:var(--brand);cursor:pointer">删除</span></div>
+                </div>
+                <div class="rule">
+                  <span class="rk">第二档</span>
+                  <div class="rv"><span>到期前</span><input class="inp num" value="15"><span>天</span></div>
+                  <div class="ro"><span class="op" style="color:var(--brand);cursor:pointer">删除</span></div>
+                </div>
+                <div class="rule">
+                  <span class="rk">第三档</span>
+                  <div class="rv"><span>到期前</span><input class="inp num" value="7"><span>天</span></div>
+                  <div class="ro"><span class="op" style="color:var(--brand);cursor:pointer">删除</span></div>
+                </div>
+                <div class="rule">
+                  <span class="rk">到期当日</span>
+                  <div class="rv"><span class="switch on"></span><span>发送当日提醒</span></div>
+                  <div class="ro"></div>
+                </div>
+              </div>
+              <button class="btn ghost" style="width:100%">＋ 增加提醒档位</button>
+
+              <div style="margin-top:16px">
+                <div style="font-size:13px;font-weight:600;margin-bottom:8px">提醒通道</div>
+                <div style="display:flex;flex-direction:column;gap:8px">
+                  <div class="sw-row"><span class="switch on"></span>小程序消息（租户端「我的合同」）</div>
+                  <div class="sw-row"><span class="switch on"></span>站内待办（管理端工作台）</div>
+                  <div class="sw-row"><span class="switch on"></span>短信通知</div>
+                  <div class="sw-row"><span class="switch"></span>自动拨号（预留）</div>
+                </div>
+              </div>
+
+              <div style="margin-top:16px">
+                <div style="font-size:13px;font-weight:600;margin-bottom:6px">提醒话术</div>
+                <textarea class="ta" style="min-height:64px">尊敬的 ${承租人姓名}，您租住的 ${房号} 合同将于 ${到期日} 到期，如需续租请在小程序「我的合同」中提交续租申请或联系管家，逾期将按新价格对外展示。</textarea>
+              </div>
+
+              <div style="margin-top:14px;display:flex;gap:10px">
+                <button class="btn primary" style="flex:1">保存规则</button>
+                <button class="btn ghost">恢复默认</button>
+              </div>
+              <span class="note" style="margin-top:12px">规则按片区生效，各片区可独立配置；短信通道需先在 系统管理 开通</span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="ph"><h3>最近提醒记录</h3></div>
+            <div class="pb">
+              <div class="tl-flow">
+                <div class="tfi done"><span class="pt"></span><div class="bd">
+                  <div class="tt">张女士 · 2 栋-401<span class="who num">2026-09-14</span></div>
+                  <div class="ts">第二档提醒（小程序 + 短信）· 租户已确认续签</div>
+                </div></div>
+                <div class="tfi warn"><span class="pt"></span><div class="bd">
+                  <div class="tt">陈先生 · 1 栋-305<span class="who num">2026-09-15</span></div>
+                  <div class="ts">到期当日提醒 · 租户确认到期退房</div>
+                </div></div>
+                <div class="tfi done"><span class="pt"></span><div class="bd">
+                  <div class="tt">王同学 · 1 栋-303<span class="who num">2026-09-14</span></div>
+                  <div class="ts">第二档提醒（小程序 + 短信）· 待租户响应</div>
+                </div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>
