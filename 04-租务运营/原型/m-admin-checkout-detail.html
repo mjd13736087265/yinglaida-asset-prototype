@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 退房单详情 · 英莱达资管</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .w-top{display:flex;align-items:center;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 12px;flex-shrink:0}
+  .w-top .bk{width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink);flex-shrink:0}
+  .w-top .bk svg{width:20px;height:20px}
+  .w-top .tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .w-top .act{font-size:14px;color:var(--brand);flex-shrink:0;min-width:32px;text-align:right}
+  .demo-mark{color:var(--ink3);border-color:var(--line);top:84px}
+  .o-head{background:#fff;padding:14px;border-bottom:1px solid var(--line2)}
+  .o-head .on2{font-size:16px;font-weight:700}
+  .o-head .os{font-size:12.5px;color:var(--ink3);margin-top:4px}
+  .mini{font-size:12.5px;color:var(--ink3)}
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 退房单详情</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <div class="w-top">
+        <a class="bk" href="m-admin-checkout-list.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </a>
+        <div class="tt">退房单详情</div>
+        <div class="act">打印</div>
+      </div>
+
+      <!-- 单头 -->
+      <div class="o-head">
+        <div class="on2">陈先生 · 1 栋-305 <span class="tag green" style="margin-left:6px">待退费</span></div>
+        <div class="os num">TF-XQ05-2026-0042 · 到期退房 · 退住 2026-09-15</div>
+      </div>
+
+      <!-- 验收结果 -->
+      <div class="m-gt">验收结果</div>
+      <div class="m-rows">
+        <div class="r"><span class="k">① 卫生</span><span class="v"><span class="tag red">破损</span> ¥120 · 厨房油污重需保洁 · 2 张照片</span></div>
+        <div class="r"><span class="k">② 设施</span><span class="v"><span class="tag red">有损坏</span> 双门衣柜 ¥260 · 合页断裂</span></div>
+        <div class="r"><span class="k">③ 墙壁</span><span class="v"><span class="tag green">完好</span> 无新增破损</span></div>
+        <div class="r"><span class="k">④ 门窗</span><span class="v"><span class="tag green">完好</span> 锁具完好</span></div>
+        <div class="r"><span class="k">⑤ 钥匙门禁</span><span class="v"><span class="tag green">已归还</span> 钥匙 2 把 + 门禁卡 1 张</span></div>
+        <div class="r"><span class="k">赔偿合计</span><span class="v num" style="color:var(--red);font-weight:700">¥380</span></div>
+      </div>
+
+      <!-- 水电 -->
+      <div class="m-gt">水电结算</div>
+      <div class="m-settle">
+        <div class="mr"><span class="mk">电 <span class="num">12,180 → 12,640</span></span><span class="mv num">¥460</span></div>
+        <div class="mr"><span class="mk">水 <span class="num">372 → 398</span></span><span class="mv num">¥117</span></div>
+        <div class="mr"><span class="mk">未缴水电账单</span><span class="mv num">¥86</span></div>
+        <div class="mr total"><span class="mk">水电合计</span><span class="mv pay num">¥663</span></div>
+      </div>
+      <div class="note" style="margin:10px 14px 0">按「上期抄表底数 → 本次读数 + 未缴账单」计算；单价来源于 收费管理-规则配置</div>
+
+      <!-- 结算 -->
+      <div class="m-gt">费用结算</div>
+      <div class="m-settle">
+        <div class="mr"><span class="mk">押金（强制抵扣）</span><span class="mv num">¥2,600</span></div>
+        <div class="mr"><span class="mk">欠租</span><span class="mv num">−¥0</span></div>
+        <div class="mr"><span class="mk">水电费</span><span class="mv num minus">−¥663</span></div>
+        <div class="mr"><span class="mk">设施赔偿</span><span class="mv num minus">−¥260</span></div>
+        <div class="mr"><span class="mk">卫生保洁</span><span class="mv num minus">−¥120</span></div>
+        <div class="mr"><span class="mk">其他费用</span><span class="mv num">−¥0</span></div>
+        <div class="mr total"><span class="mk">应退金额</span><span class="mv refund num">¥1,557</span></div>
+      </div>
+
+      <!-- 办理记录 -->
+      <div class="m-gt">办理记录</div>
+      <div class="m-sec">
+        <div class="tl-flow">
+          <div class="tfi done"><span class="pt"></span><div class="bd">
+            <div class="tt">提交退房办理<span class="who num">09-15 16:20</span></div>
+            <div class="ts">陈志远 现场验收完成，结算应退 ¥1,557</div>
+          </div></div>
+          <div class="tfi done"><span class="pt"></span><div class="bd">
+            <div class="tt">押金抵扣申请<span class="who num">09-15 16:21</span></div>
+            <div class="ts">抵扣 ¥1,043，押金余额 ¥2,600 → ¥1,557，已推送收费管理</div>
+          </div></div>
+          <div class="tfi cur"><span class="pt"></span><div class="bd">
+            <div class="tt">待财务退款<span class="who">当前节点</span></div>
+            <div class="ts">退款完成后状态更新为「已完成」，房源转空置</div>
+          </div></div>
+        </div>
+      </div>
+
+      <div style="height:14px"></div>
+    </div>
+
+    <div class="m-cta">
+      <button class="btn ghost" style="flex:1">通知租户</button>
+      <button class="btn primary" style="flex:1">去退款</button>
+    </div>
+
+    <div class="m-tab" id="amsTab" data-variant="admin" data-active="home"></div>
+  </div>
+</div>
+
+<script src="../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>
