@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>办理入住 · 租务运营 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  /* ===== 页面级补充样式（仅取色 CSS 变量） ===== */
+  a.mi{color:var(--navy-tx)}
+  .inp.ro{background:var(--paper);color:var(--ink2);cursor:default}
+  .inp-wrap{position:relative}
+  .inp-wrap .inp{padding-right:40px}
+  .inp-wrap .u{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--ink3);pointer-events:none}
+  /* 入口方式 tabs */
+  .entry{display:flex;gap:10px;align-items:center;padding:14px 18px;border-bottom:1px solid var(--line2);flex-wrap:wrap}
+  .entry .el{font-size:12.5px;color:var(--ink3)}
+  .entry .tabs{margin-left:4px}
+  /* 已选客户 / 已选房源 卡 */
+  .picked{display:flex;align-items:center;gap:14px;border:1px solid var(--brand);background:var(--brand-bg);border-radius:var(--r-md);padding:12px 14px}
+  .picked .pa{width:40px;height:40px;border-radius:50%;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:15px;font-weight:600;flex-shrink:0}
+  .picked .pb{flex:1;min-width:0}
+  .picked .pb .t{font-size:15px;font-weight:600}
+  .picked .pb .s{font-size:12.5px;color:var(--ink2);margin-top:2px}
+  .picked .pc{display:flex;gap:8px;flex-shrink:0}
+  /* 未配置模板提醒 */
+  .warn{display:flex;align-items:flex-start;gap:10px;border:1px solid #f0d5a8;background:#fffbf2;border-radius:var(--r-sm);padding:12px 14px;font-size:13px;color:#8a6d1a}
+  .warn .wt{font-weight:600;color:var(--ink)}
+  .warn .wb{margin-left:auto;display:flex;gap:8px;flex-shrink:0}
+  /* 账单计划表 */
+  .plan td:first-child{font-family:inherit}
+  .f-sec .note{display:flex;margin-top:8px}
+  .mini{font-size:12px;color:var(--ink3)}
+  /* 同住人行 */
+  .mate{display:flex;gap:10px;align-items:center;margin-bottom:8px}
+  .mate .inp{height:34px;font-size:13px}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <!-- ========== 左侧导航 ========== -->
+  <aside class="sidebar" id="amsNav" data-active="checkin" data-ver="V1.2 原型 · 租务运营 / 合同管理"></aside>
+
+  <!-- ========== 主区域 ========== -->
+  <div class="main">
+
+    <!-- 顶栏 -->
+    <header class="topbar">
+      <div class="crumb"><span><a href="pc-checkin-list.html" style="color:inherit">租务运营 / 入住办理</a> / </span>办理入住</div>
+      <div class="right">
+        <div class="scope">
+          片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px">
+          <span class="avatar">陈</span>
+          <span style="color:var(--ink)">陈志远 · 运营主管</span>
+        </div>
+      </div>
+    </header>
+
+    <!-- 内容区 -->
+    <div class="content">
+
+      <div class="panel">
+        <div class="entry">
+          <span class="el">发起方式</span>
+          <div class="tabs">
+            <div class="tb">＋ 新建（先选客户）</div>
+            <div class="tb on">从客户发起</div>
+            <a class="tb" href="javascript:void(0)">从房源发起</a>
+          </div>
+          <span class="note" style="margin-left:auto">演示路径：租户 张女士 →「办理入住」，客户信息已预填；新建为空表单，从房源发起则房源信息预填</span>
+        </div>
+
+        <div class="form" style="max-width:100%">
+
+          <!-- 步骤条 -->
+          <div class="f-sec">
+            <div class="steps">
+              <div class="sp on">1 选择客户</div>
+              <div class="sp on">2 选择房源</div>
+              <div class="sp on">3 填写租赁信息 · 生成合同</div>
+            </div>
+          </div>
+
+          <!-- ============ 步骤 1：客户 ============ -->
+          <div class="f-sec">
+            <h4>步骤 1 · 选择客户</h4>
+            <div class="f-grid">
+              <div class="f-item full">
+                <div class="picked">
+                  <span class="pa">张</span>
+                  <div class="pb">
+                    <div class="t">张女士</div>
+                    <div class="s"><span class="num">138****8888</span> · 身份证 <span class="num">3301**********1234</span> · 紧急联系人 王先生 <span class="num">138****8889</span></div>
+                  </div>
+                  <div class="pc">
+                    <button class="btn ghost">更换客户</button>
+                    <button class="btn ghost">编辑资料</button>
+                  </div>
+                </div>
+                <span class="note">客户可搜索姓名 / 手机号从租户库选择，也可「＋ 新增客户」现场建档（姓名 / 手机号 / 证件号 / 紧急联系人）；证件 OCR 与人脸核验为预留能力</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ 步骤 2：房源 ============ -->
+          <div class="f-sec">
+            <h4>步骤 2 · 选择房源</h4>
+            <div class="f-grid">
+              <div class="f-item full">
+                <div class="picked">
+                  <span class="pa" style="background:var(--green)">房</span>
+                  <div class="pb">
+                    <div class="t">滨江科创园区 · 滨江人才公寓 · 3 栋 - 508 <span class="tag free" style="margin-left:6px">空置</span></div>
+                    <div class="s">一室一厅 · <span class="num">45㎡</span> · 朝南 · 精装 · <span class="num">5F</span> · 标准月租金 <span class="num">¥1,850</span></div>
+                  </div>
+                  <div class="pc"><button class="btn ghost">更换房源</button></div>
+                </div>
+                <span class="note">仅可选当前片区内「空置」房源；选中后月租金、押金方式、户型面积、配套设施、房间资产、水电表读数全部自动带出</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ 步骤 3：租赁信息 ============ -->
+          <div class="f-sec">
+            <h4>步骤 3 · 填写租赁信息（灰底项由房源自动带出，不可修改）</h4>
+            <div class="f-grid">
+              <div class="f-item"><label>所属片区</label><input class="inp ro" value="滨江科创园区" readonly></div>
+              <div class="f-item"><label>所属业态</label><input class="inp ro" value="滨江人才公寓（公寓）" readonly></div>
+              <div class="f-item"><label>楼栋 / 单元</label><input class="inp ro" value="3 栋 1 单元" readonly></div>
+              <div class="f-item"><label>房号 / 楼层</label><input class="inp ro num" value="508 · 5F" readonly></div>
+              <div class="f-item"><label>户型</label><input class="inp ro" value="一室一厅" readonly></div>
+              <div class="f-item"><label>建筑面积</label><div class="inp-wrap"><input class="inp ro num" value="45" readonly><span class="u">㎡</span></div></div>
+              <div class="f-item"><label>朝向 / 装修</label><input class="inp ro" value="朝南 · 精装" readonly></div>
+              <div class="f-item"><label>标准月租金</label><div class="inp-wrap"><input class="inp ro num" value="1850" readonly><span class="u">元/月</span></div></div>
+
+              <div class="f-item"><label><span class="req">*</span>起租日</label><input class="inp num" type="date" value="2026-09-16"></div>
+              <div class="f-item"><label><span class="req">*</span>租期</label>
+                <div class="inp-wrap"><input class="inp num" value="12"><span class="u">个月</span></div>
+                <div class="help">到期日自动计算：<span class="num">2027-09-15</span></div>
+              </div>
+              <div class="f-item"><label><span class="req">*</span>成交月租金</label>
+                <div class="inp-wrap"><input class="inp num" value="1850"><span class="u">元/月</span></div>
+                <div class="help">低于标准租金需备注原因（议价 / 活动优惠）</div>
+              </div>
+              <div class="f-item"><label><span class="req">*</span>押金方式</label>
+                <select class="sel"><option selected>押一付一</option><option>押一付三</option><option>押二付一</option><option>免押金</option></select>
+                <div class="help">押金标准来源于房源设置，可按合同调整</div>
+              </div>
+              <div class="f-item"><label><span class="req">*</span>付款周期</label>
+                <select class="sel"><option selected>月付</option><option>季付</option><option>半年付</option><option>年付</option></select>
+              </div>
+              <div class="f-item"><label>经办人</label><input class="inp ro" value="陈志远（运营主管）" readonly></div>
+
+              <div class="f-item"><label>电表当前读数（入住底数）</label><div class="inp-wrap"><input class="inp num" value="12480"><span class="u">度</span></div><div class="help">自动带出，可现场复核修改</div></div>
+              <div class="f-item"><label>水表当前读数（入住底数）</label><div class="inp-wrap"><input class="inp num" value="386"><span class="u">吨</span></div><div class="help">自动带出，可现场复核修改</div></div>
+
+              <div class="f-item full">
+                <label>房间资产（自动带出，入住即视为点验通过）</label>
+                <table class="tb">
+                  <thead><tr><th>资产名称</th><th>类别</th><th>数量</th><th>状态</th><th>备注</th></tr></thead>
+                  <tbody>
+                    <tr><td>美的空调 KFR-35GW</td><td>电器</td><td class="num">1</td><td><span class="tag-asset ok">完好</span></td><td>壁挂式 · 2019 年购置</td></tr>
+                    <tr><td>海尔电热水器 60L</td><td>电器</td><td class="num">1</td><td><span class="tag-asset ok">完好</span></td><td>—</td></tr>
+                    <tr><td>实木床 1.5m（含床垫）</td><td>家具</td><td class="num">1</td><td><span class="tag-asset ok">完好</span></td><td>—</td></tr>
+                    <tr><td>双门衣柜</td><td>家具</td><td class="num">1</td><td><span class="tag-asset ok">完好</span></td><td>—</td></tr>
+                    <tr><td>淋浴花洒套装</td><td>卫浴</td><td class="num">1</td><td><span class="tag-asset ok">完好</span></td><td>—</td></tr>
+                  </tbody>
+                </table>
+              </div>
+
+              <div class="f-item full">
+                <label>备注</label>
+                <textarea class="ta">客户为老租户增租（已租 1 栋-301、2 栋-401），本次新增 3 栋-508；首期租金与押金于签约当日一并收取。</textarea>
+              </div>
+            </div>
+          </div>
+
+          <!-- ============ 合同与账单 ============ -->
+          <div class="f-sec">
+            <h4>合同与账单计划</h4>
+            <div class="f-grid">
+              <div class="f-item">
+                <label><span class="req">*</span>合同模板</label>
+                <select class="sel">
+                  <option>请选择模板</option>
+                  <option selected>滨江人才公寓 · 公寓租赁合同 v2.1</option>
+                  <option>系统通用 · 公寓租赁合同 v1.0</option>
+                </select>
+                <div class="help">模板按 片区 × 业态 配置，可在合同管理维护</div>
+              </div>
+              <div class="f-item full">
+                <div class="warn">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4.5"/><path d="M12 17h.01"/><path d="M10.3 3.8L2.6 17a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0z"/></svg>
+                  <div>
+                    <div class="wt">所选业态「临港人才公寓」尚未配置合同模板</div>
+                    <div class="mini">未配置模板时无法生成合同正文，请先配置模板或选择系统通用模板继续（原型演示：切换片区/业态时会触发此提醒并拦截提交）</div>
+                  </div>
+                  <div class="wb">
+                    <a class="btn ghost" href="../../05-合同管理/原型/pc-contract-tpl-edit.html">前往配置模板</a>
+                    <button class="btn ghost">使用系统通用模板</button>
+                  </div>
+                </div>
+              </div>
+              <div class="f-item full">
+                <label>账单计划（提交后自动生成；账单编号 = 合同号 + 期次，在生成合同环节产生）</label>
+                <table class="tb plan">
+                  <thead><tr><th>账单名称</th><th>金额</th><th>应收日期</th><th>账期</th></tr></thead>
+                  <tbody>
+                    <tr><td>押金</td><td class="num">¥1,850</td><td class="num">2026-09-16</td><td>—</td></tr>
+                    <tr><td>第 1 期房租</td><td class="num">¥1,850</td><td class="num">2026-09-16</td><td class="num">2026-09-16 ~ 2026-10-15</td></tr>
+                    <tr><td>第 2 期房租</td><td class="num">¥1,850</td><td class="num">2026-10-16</td><td class="num">2026-10-16 ~ 2026-11-15</td></tr>
+                    <tr><td>第 3 期房租</td><td class="num">¥1,850</td><td class="num">2026-11-16</td><td class="num">2026-11-16 ~ 2026-12-15</td></tr>
+                    <tr><td colspan="4" class="mini" style="text-align:center;color:var(--ink3)">… 共 <span class="num">13</span> 条（1 条押金 + 12 期租金），提交后写入 收费管理-账单管理</td></tr>
+                  </tbody>
+                </table>
+                <span class="note">首期应收 = 押金 ¥1,850 + 首期租金 ¥1,850 = <b class="num">¥3,700</b>；先付后用规则下首期未缴将生成待办并提醒，由运营判断是否放行（校验动作在本模块执行，规则来源于 收费管理-规则配置）</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- 操作 -->
+          <div class="f-actions">
+            <a class="btn primary" href="../../05-合同管理/原型/pc-contract-sign.html">提交并生成合同</a>
+            <a class="btn ghost" href="../../05-合同管理/原型/pc-contract-fill.html">提交并后台补录</a>
+            <a class="btn ghost" href="pc-checkin-list.html">取消</a>
+            <span class="note" style="margin-left:8px">提交后生成入住单 + 合同 + 全部期账单；下一步可选「发起小程序签署」或「后台补录纸质合同」</span>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

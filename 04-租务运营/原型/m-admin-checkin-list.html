@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>移动管理端 · 入住办理 · 英莱达资管</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .w-top{display:flex;align-items:center;background:var(--panel);border-bottom:1px solid var(--line);padding:46px 14px 12px;flex-shrink:0}
+  .w-top .bk{width:32px;height:32px;display:flex;align-items:center;justify-content:center;color:var(--ink);flex-shrink:0}
+  .w-top .bk svg{width:20px;height:20px}
+  .w-top .tt{flex:1;text-align:center;font-size:16px;font-weight:600}
+  .w-top .act{font-size:14px;color:var(--brand);flex-shrink:0;min-width:32px;text-align:right}
+  .demo-mark{color:var(--ink3);border-color:var(--line);top:84px}
+  /* 入住单卡 */
+  .o-card{background:#fff;margin-top:10px;padding:12px 14px;border-bottom:1px solid var(--line2)}
+  .o-card:first-child{border-top:1px solid var(--line2)}
+  .o-card .oh{display:flex;align-items:center;gap:8px}
+  .o-card .on2{font-size:14px;font-weight:600}
+  .o-card .on2 .rno{color:var(--ink3);font-weight:400;font-size:12.5px;margin-left:6px}
+  .o-card .os{font-size:12.5px;color:var(--ink3);margin-top:6px}
+  .o-card .or{display:flex;align-items:baseline;margin-top:8px}
+  .o-card .or .lb{font-size:12.5px;color:var(--ink2)}
+  .o-card .or .v{margin-left:auto;font-weight:700;font-size:16px}
+  .o-card .or .v.refund{color:var(--green)}
+  .o-card .or .v.pay{color:var(--red)}
+  .o-card .of{margin-top:10px;display:flex;gap:8px}
+  .o-card .of a{flex:1;text-align:center;height:32px;line-height:30px;border:1px solid var(--line);border-radius:8px;font-size:13px;color:var(--ink2)}
+  .m-sum{display:flex;background:#fff;border-bottom:1px solid var(--line2);flex-shrink:0}
+  .m-sum .c{flex:1;text-align:center;padding:10px 4px}
+  .m-sum .c+.c{border-left:1px solid var(--line2)}
+  .m-sum .c .v{font-size:17px;font-weight:700}
+  .m-sum .c .l{font-size:11.5px;color:var(--ink3);margin-top:2px}
+  body.embed{display:block;padding:0;min-height:auto;background:transparent}
+  body.embed .cap{display:none}
+  body.embed .device{gap:0}
+  body.embed .phone{width:100%;height:100vh;border:0;border-radius:0;box-shadow:none}
+  body.embed .notch{display:none}
+  body.embed .demo-mark{display:none}
+</style>
+</head>
+<body class="stage">
+<script>
+  if(/[?&]embed=1/.test(location.search))document.body.classList.add('embed');
+</script>
+
+<div class="device">
+  <div class="cap">管理端 · 入住办理</div>
+  <div class="phone">
+    <div class="notch"></div>
+    <div class="demo-mark">演示数据</div>
+
+    <div class="screen">
+
+      <div class="w-top">
+        <a class="bk" href="../../00-整体需求/主页原型/m-admin-home.html">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg>
+        </a>
+        <div class="tt">入住办理</div>
+        <div class="act">筛选</div>
+      </div>
+
+      <!-- 片区行（统一入口，不含页面级片区筛选） -->
+      <div class="m-sel">
+        <div class="ms">滨江科创园区
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="ms">公寓
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+      </div>
+
+      <!-- 汇总 -->
+      <div class="m-sum">
+        <div class="c"><div class="v num">5</div><div class="l">待签约</div></div>
+        <div class="c"><div class="v num" style="color:var(--orange)">3</div><div class="l">待补录</div></div>
+        <div class="c"><div class="v num" style="color:var(--green)">20</div><div class="l">已生效</div></div>
+        <div class="c"><div class="v num">2</div><div class="l">已取消</div></div>
+      </div>
+
+      <!-- 状态 chips -->
+      <div class="chips">
+        <span class="chip on">全部</span>
+        <span class="chip">待签约</span>
+        <span class="chip">待补录</span>
+        <span class="chip">已生效</span>
+        <span class="chip">已取消</span>
+      </div>
+
+      <!-- 入住单列表 -->
+      <div class="m-gt">入住单 · 共 <span class="num">36</span> 单</div>
+      <div>
+        <div class="o-card">
+          <div class="oh"><span class="on2">张女士 · 3 栋-508<span class="rno num">RZ-XQ05-2026-0087</span></span><span class="tag blue">待签约</span></div>
+          <div class="os num">租期 2026-09-16 ~ 2027-09-15</div>
+          <div class="or"><span class="lb">首期应收</span><span class="v num" style="color:var(--red)">¥3,700</span></div>
+          <div class="of"><a href="m-admin-checkin-detail.html">详情</a><a href="../../05-合同管理/原型/m-admin-contract-sign.html">发起签署</a></div>
+        </div>
+
+        <div class="o-card">
+          <div class="oh"><span class="on2">李先生 · 2 栋-606<span class="rno num">RZ-XQ05-2026-0086</span></span><span class="tag orange">待补录</span></div>
+          <div class="os num">租期 2026-09-10 ~ 2027-09-09</div>
+          <div class="or"><span class="lb">首期应收</span><span class="v num" style="color:var(--red)">¥2,760</span></div>
+          <div class="of"><a href="m-admin-checkin-detail.html">详情</a><a href="../../05-合同管理/原型/m-admin-contract-fill.html">后台补录</a></div>
+        </div>
+
+        <div class="o-card">
+          <div class="oh"><span class="on2">王女士 · 1 栋-402<span class="rno num">RZ-XQ05-2026-0085</span></span><span class="tag green">已生效</span></div>
+          <div class="os num">租期 2026-09-05 ~ 2027-09-04</div>
+          <div class="or"><span class="lb">首期应收</span><span class="v num">¥3,760</span></div>
+          <div class="of"><a href="m-admin-checkin-detail.html">详情</a><a href="../../05-合同管理/原型/m-admin-contract-detail.html">看合同</a></div>
+        </div>
+
+        <div class="o-card">
+          <div class="oh"><span class="on2">孙同学 · 3 栋-512<span class="rno num">RZ-XQ05-2026-0084</span></span><span class="tag gray">已取消</span></div>
+          <div class="os num">租期 2026-08-28 ~ 2027-08-27</div>
+          <div class="or"><span class="lb">首期应收</span><span class="v num">¥2,800</span></div>
+          <div class="of"><a href="m-admin-checkin-detail.html">详情</a></div>
+        </div>
+
+        <div class="o-card">
+          <div class="oh"><span class="on2">周女士 · 1 栋-307<span class="rno num">RZ-XQ05-2026-0083</span></span><span class="tag green">已生效</span></div>
+          <div class="os num">租期 2026-08-20 ~ 2027-08-19</div>
+          <div class="or"><span class="lb">首期应收</span><span class="v num">¥3,760</span></div>
+          <div class="of"><a href="m-admin-checkin-detail.html">详情</a><a href="../../05-合同管理/原型/m-admin-contract-detail.html">看合同</a></div>
+        </div>
+      </div>
+
+      <div class="note" style="margin:12px 14px 0">入住办理三个入口：①本列表「办理入住」新建 ②租户详情「办理入住」带出客户 ③房源/房态「办理入住」带出房源；数据范围=当前所选片区</div>
+      <div style="height:14px"></div>
+
+    </div>
+
+    <div class="m-cta">
+      <a class="btn primary" style="flex:1" href="m-admin-checkin-new.html">＋ 办理入住</a>
+    </div>
+
+    <div class="m-tab" id="amsTab" data-variant="admin" data-active="home"></div>
+  </div>
+</div>
+
+<script src="../../00-整体需求/主页原型/assets/m-tab.js"></script>
+</body>
+</html>
