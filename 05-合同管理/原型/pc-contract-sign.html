@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>发起签署 · 合同管理 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .inp.ro{background:var(--paper);color:var(--ink2);cursor:default}
+  .f-sec .note{display:flex;margin-top:8px}
+  /* 签署方式选择大卡 */
+  .ways{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .way{border:1px solid var(--line);border-radius:var(--r-md);padding:16px;cursor:pointer;transition:.15s}
+  .way:hover{border-color:var(--brand)}
+  .way.on{border-color:var(--brand);background:var(--brand-bg)}
+  .way .wh{display:flex;align-items:center;gap:10px}
+  .way .wi{width:38px;height:38px;border-radius:11px;background:var(--brand-bg);color:var(--brand);display:flex;align-items:center;justify-content:center;flex-shrink:0}
+  .way.on .wi{background:var(--brand);color:#fff}
+  .way .wt{font-size:15px;font-weight:600}
+  .way .ws{font-size:12.5px;color:var(--ink2);margin-top:8px;line-height:1.7}
+  /* 用户端签署预览 */
+  .pv-phone{width:240px;border:8px solid #14181f;border-radius:26px;overflow:hidden;flex-shrink:0;position:relative}
+  .pv-phone .pv-screen{background:#f6f7f9;height:400px;overflow:hidden}
+  .pv-top{background:linear-gradient(180deg,#2f6df0,#2563eb);color:#fff;padding:20px 12px 12px;text-align:center;font-size:13px;font-weight:600}
+  .pv-body{padding:10px}
+  .pv-card{background:#fff;border-radius:10px;padding:10px;margin-bottom:8px;font-size:11.5px;color:var(--ink2)}
+  .pv-card b{font-size:12.5px;color:var(--ink)}
+  .pv-sign{margin-top:10px;background:#fff;border-radius:10px;padding:10px;text-align:center}
+  .pv-sign .pl{border:1px dashed var(--line);border-radius:8px;height:64px;display:flex;align-items:center;justify-content:center;color:var(--brand);font-family:"Kaiti SC",cursive;font-size:22px}
+  .pv-btn{margin:0 10px;height:34px;border-radius:8px;background:var(--brand);color:#fff;display:flex;align-items:center;justify-content:center;font-size:12.5px}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="contract-sign" data-ver="V1.2 原型 · 租务运营 / 合同管理"></aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb"><span><a href="pc-contract-list.html" style="color:inherit">合同管理</a> / </span>发起签署</div>
+      <div class="right">
+        <div class="scope">片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="avatar">陈</span><span style="color:var(--ink)">陈志远 · 运营主管</span></div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="row" style="align-items:flex-start">
+
+        <!-- 左：签署配置 -->
+        <div class="col" style="flex:1.5">
+          <div class="panel">
+            <div class="ph"><h3>发起合同签署</h3></div>
+            <div class="form" style="max-width:100%">
+
+              <!-- 合同信息 -->
+              <div class="f-sec">
+                <h4>合同信息</h4>
+                <div class="f-grid">
+                  <div class="f-item"><label>合同编号</label><input class="inp ro num" value="HT-XQ05-GY-2026-0128" readonly></div>
+                  <div class="f-item"><label>承租人</label><input class="inp ro" value="张女士 · 138****8888" readonly></div>
+                  <div class="f-item"><label>房源</label><input class="inp ro" value="滨江科创园区 · 3 栋-508" readonly></div>
+                  <div class="f-item"><label>合同期</label><input class="inp ro num" value="2026-09-16 ~ 2027-09-15" readonly></div>
+                  <div class="f-item"><label>月租金 / 押金</label><input class="inp ro num" value="¥1,850 · 押金 ¥1,850" readonly></div>
+                  <div class="f-item"><label>合同模板</label><input class="inp ro" value="滨江人才公寓 · 公寓租赁合同 v2.1" readonly></div>
+                </div>
+              </div>
+
+              <!-- 签署方式 -->
+              <div class="f-sec">
+                <h4>选择签署方式</h4>
+                <div class="f-grid">
+                  <div class="f-item full">
+                    <div class="ways">
+                      <div class="way on">
+                        <div class="wh">
+                          <span class="wi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="7" y="2.5" width="10" height="19" rx="2.5"/><path d="M11 18.5h2"/></svg></span>
+                          <span class="wt">小程序在线签署</span>
+                        </div>
+                        <div class="ws">推送至租户「英莱达公寓」小程序，租户核对条款后手写签名确认；签署完成合同自动生效，用户端「我的合同」可查看。</div>
+                      </div>
+                      <div class="way">
+                        <div class="wh">
+                          <span class="wi"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12"/><path d="M7 10l5 5 5-5"/><path d="M4 21h16"/></svg></span>
+                          <span class="wt">跳过签署 · 后台补录</span>
+                        </div>
+                        <div class="ws">线下已签纸质合同的，上传扫描件后信息即视为生效；适用于不走线上签署的房源。</div>
+                      </div>
+                    </div>
+                    <span class="note">本期不对接第三方电子签（e签宝 / 法大大），仅支持内部小程序签署与后台补录两条路径，第三方能力预留</span>
+                  </div>
+                </div>
+              </div>
+
+              <!-- 签署设置 -->
+              <div class="f-sec">
+                <h4>签署设置</h4>
+                <div class="f-grid">
+                  <div class="f-item"><label>签署有效期</label>
+                    <select class="sel"><option selected>7 天</option><option>3 天</option><option>15 天</option><option>30 天</option></select>
+                    <div class="help">超期未签自动提醒运营跟进</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="f-actions">
+                <a class="btn primary" href="pc-contract-detail.html">发起签署</a>
+                <a class="btn ghost" href="pc-contract-fill.html">改为后台补录</a>
+                <a class="btn ghost" href="pc-contract-list.html">取消</a>
+                <span class="note" style="margin-left:8px">发起后合同状态 = 待签署，租户小程序收到签署提醒；签署完成 → 生效中</span>
+              </div>
+
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

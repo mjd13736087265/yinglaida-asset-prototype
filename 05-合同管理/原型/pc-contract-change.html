@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>合同变更 · 合同管理 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .inp.ro{background:var(--paper);color:var(--ink2);cursor:default}
+  .inp-wrap{position:relative}
+  .inp-wrap .inp{padding-right:44px}
+  .inp-wrap .u{position:absolute;right:12px;top:50%;transform:translateY(-50%);font-size:13px;color:var(--ink3);pointer-events:none}
+  .f-sec .note{display:flex;margin-top:8px}
+  /* 变更对比表 */
+  .cmp{border:1px solid var(--line);border-radius:var(--r-md);overflow:hidden}
+  .cmp .ch{display:grid;grid-template-columns:1fr 1fr 1fr;background:#fafbfc;border-bottom:1px solid var(--line);font-size:12.5px;color:var(--ink3)}
+  .cmp .ch div{padding:10px 14px}
+  .cmp .cr{display:grid;grid-template-columns:1fr 1fr 1fr;border-bottom:1px solid var(--line2)}
+  .cmp .cr:last-child{border-bottom:none}
+  .cmp .cr div{padding:11px 14px;font-size:13.5px}
+  .cmp .cr .ck{color:var(--ink2)}
+  .cmp .cr .co{color:var(--ink3)}
+  .cmp .cr .cn2{font-weight:600;color:var(--brand)}
+  .cmp .cr .cn2.no{color:var(--ink2);font-weight:400}
+  .tip{display:flex;align-items:flex-start;gap:10px;border:1px solid #f0d5a8;background:#fffbf2;border-radius:var(--r-sm);padding:12px 14px;font-size:13px;color:#8a6d1a;margin-top:10px}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="contract-list" data-ver="V1.2 原型 · 租务运营 / 合同管理"></aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb"><span><a href="pc-contract-list.html" style="color:inherit">合同管理</a> / </span>合同变更</div>
+      <div class="right">
+        <div class="scope">片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="avatar">陈</span><span style="color:var(--ink)">陈志远 · 运营主管</span></div>
+      </div>
+    </header>
+
+    <div class="content">
+      <div class="panel">
+        <div class="ph">
+          <h3>合同变更</h3>
+          <span class="note" style="margin-left:6px">变更生成《合同变更协议》并保留历史版本；新口径自下期生效，已出账不追溯</span>
+        </div>
+
+        <div class="form" style="max-width:100%">
+
+          <!-- 合同信息 -->
+          <div class="f-sec">
+            <h4>原合同</h4>
+            <div class="f-grid">
+              <div class="f-item"><label>合同编号</label><input class="inp ro num" value="HT-XQ05-GY-2025-1201" readonly></div>
+              <div class="f-item"><label>承租人</label><input class="inp ro" value="张女士 · 138****8888" readonly></div>
+              <div class="f-item"><label>房源</label><input class="inp ro" value="滨江科创园区 · 1 栋-301（一室一厅 45㎡）" readonly></div>
+              <div class="f-item"><label>当前状态</label><input class="inp ro" value="生效中（2025-12-01 ~ 2026-11-30）" readonly></div>
+            </div>
+          </div>
+
+          <!-- 变更内容 -->
+          <div class="f-sec">
+            <h4>变更内容</h4>
+            <div class="f-grid">
+              <div class="f-item full">
+                <div class="cmp">
+                  <div class="ch"><div>变更项</div><div>变更前</div><div>变更后</div></div>
+                  <div class="cr"><div class="ck">月租金</div><div class="co num">¥1,850</div><div class="cn2 num">¥1,680</div></div>
+                  <div class="cr"><div class="ck">付款周期</div><div class="co">月付</div><div class="cn2">季付</div></div>
+                  <div class="cr"><div class="ck">押金</div><div class="co num">¥1,850</div><div class="cn2 num">¥1,680</div></div>
+                  <div class="cr"><div class="ck">租赁期限</div><div class="co num">至 2026-11-30</div><div class="cn2 no">不变</div></div>
+                  <div class="cr"><div class="ck">承租人</div><div class="co">张女士</div><div class="cn2 no">不变</div></div>
+                </div>
+                <div class="tip">
+                  <svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4.5"/><path d="M12 17h.01"/><path d="M10.3 3.8L2.6 17a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0z"/></svg>
+                  <div>押金由 ¥1,850 调整为 ¥1,680，差额 <b class="num">¥170</b> 需在变更生效后退还租户（走 收费管理-押金管理）；已出账的租金账单不追溯，新租金自 <b class="num">2026-10-01</b> 起执行。</div>
+                </div>
+              </div>
+
+              <div class="f-item"><label><span class="req">*</span>变更后月租金</label>
+                <div class="inp-wrap"><input class="inp num" value="1680"><span class="u">元/月</span></div>
+              </div>
+              <div class="f-item"><label><span class="req">*</span>变更后付款周期</label>
+                <select class="sel"><option>月付</option><option selected>季付</option><option>半年付</option><option>年付</option></select>
+              </div>
+              <div class="f-item"><label><span class="req">*</span>生效日期</label><input class="inp num" type="date" value="2026-10-01"><div class="help">自该日起按新口径执行</div></div>
+              <div class="f-item"><label>变更后押金</label><div class="inp-wrap"><input class="inp num" value="1680"><span class="u">元</span></div></div>
+              <div class="f-item"><label><span class="req">*</span>变更原因</label>
+                <select class="sel"><option selected>租客协商调价</option><option>户型 / 面积调整</option><option>付款方式调整</option><option>承租人变更</option><option>其他</option></select>
+              </div>
+              <div class="f-item"><label>是否需租户确认</label>
+                <select class="sel"><option selected>是（推送小程序确认）</option><option>否（运营直接生效）</option></select>
+              </div>
+              <div class="f-item full"><label>变更说明</label><textarea class="ta">因同栋房源租金下调，经与租户协商一致，自 2026-10-01 起月租金由 1,850 元调整为 1,680 元，付款方式改为季付；押金同步调整为 1,680 元，差额 170 元退还租户。</textarea></div>
+            </div>
+          </div>
+
+          <!-- 变更协议 -->
+          <div class="f-sec">
+            <h4>变更协议</h4>
+            <div class="f-grid">
+              <div class="f-item full">
+                <div class="paper" style="padding:20px 24px">
+                  <div class="pt" style="font-size:15px">房屋租赁合同变更协议</div>
+                  <div class="pno">原合同编号：<span class="num">HT-XQ05-GY-2025-1201</span> · 变更版本：V2</div>
+                  <div class="pc"><p>经甲乙双方协商一致，对原合同作如下变更，未涉及条款继续有效：</p></div>
+                  <div class="pc"><p>一、月租金由人民币 <span class="pv num">1,850</span> 元调整为人民币 <span class="pv num">1,680</span> 元；<br>二、付款方式由 <span class="pv">月付</span> 变更为 <span class="pv">季付</span>；<br>三、押金由人民币 <span class="pv num">1,850</span> 元调整为人民币 <span class="pv num">1,680</span> 元，差额 <span class="pv num">170</span> 元于本协议生效后退还乙方；<br>四、本协议自 <span class="pv num">2026-10-01</span> 起生效。</p></div>
+                  <div class="signs">
+                    <div class="sg"><div class="sgt">甲方签章</div><div class="sgv">英莱达资产管理有限公司</div></div>
+                    <div class="sg"><div class="sgt">乙方签章</div><div class="sgv"><span class="hand">张女士</span></div></div>
+                  </div>
+                </div>
+                <span class="note">变更协议按合同模板自动生成；签署完成后归档为合同 V2 版本，历史版本可随时查看</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="f-actions">
+            <a class="btn primary" href="pc-contract-detail.html">提交变更</a>
+            <a class="btn ghost" href="pc-contract-list.html">取消</a>
+            <span class="note" style="margin-left:8px">提交后推送租户小程序确认；确认完成生成合同 V2 版本，账单自生效日起按新口径执行</span>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

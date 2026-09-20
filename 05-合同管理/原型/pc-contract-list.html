@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>合同台账 · 合同管理 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .op{color:var(--brand);cursor:pointer;font-size:13px}
+  .op:hover{color:var(--brand-d)}
+  .pgbar{display:flex;align-items:center;gap:14px;padding:12px 18px;border-top:1px solid var(--line2);font-size:12.5px;color:var(--ink3)}
+  .pgbar .pgs{display:flex;align-items:center;gap:6px}
+  .pgbar .pg{min-width:26px;height:26px;border:1px solid var(--line);border-radius:6px;display:inline-flex;align-items:center;justify-content:center;font-size:12px;color:var(--ink2);cursor:pointer;background:var(--panel)}
+  .pgbar .pg.on{background:var(--brand);border-color:var(--brand);color:#fff}
+  .tname{display:flex;align-items:center;gap:10px}
+  .tname .av{width:32px;height:32px;border-radius:50%;background:var(--brand-bg);color:var(--brand);display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:600;flex-shrink:0}
+  .tname .n{font-weight:600}
+  .tname .p{font-size:12px;color:var(--ink3)}
+  .alert{display:flex;align-items:center;gap:10px;padding:12px 18px;border-bottom:1px solid var(--line2);background:#fffbf2;font-size:13px;color:#8a6d1a}
+  .alert b{color:var(--orange)}
+  .alert .op{margin-left:auto}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="contract-list" data-ver="V1.2 原型 · 租务运营 / 合同管理"></aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb"><span>合同管理 / </span>合同台账</div>
+      <div class="right">
+        <div class="scope">片区范围：全部片区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="avatar">陈</span><span style="color:var(--ink)">陈志远 · 运营主管</span></div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <div class="row">
+        <div class="kpi"><div class="lb">合同总数</div><div class="vl num">1,093<small> 份</small></div><div class="sub">在租房源对应合同</div></div>
+        <div class="kpi"><div class="lb">生效中</div><div class="vl num" style="color:var(--green)">1,052</div><div class="sub">含即将到期 <b class="num">41</b></div></div>
+        <div class="kpi"><div class="lb">待签署</div><div class="vl num" style="color:var(--brand)">12</div><div class="sub">已发起小程序签署</div></div>
+        <div class="kpi"><div class="lb">待补录</div><div class="vl num" style="color:var(--orange)">8</div><div class="sub">纸质合同待上传</div></div>
+        <div class="kpi"><div class="lb">本月新签</div><div class="vl num">28</div><div class="sub">续签 <b class="num">19</b> · 新增 <b class="num">9</b></div></div>
+      </div>
+
+      <div class="panel">
+        <div class="ph">
+          <h3>合同台账</h3>
+          <span class="note" style="margin-left:6px">支持查看全部合同；数据范围=当前所选片区</span>
+        </div>
+
+        <div class="alert">
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M12 9v4.5"/><path d="M12 17h.01"/><path d="M10.3 3.8L2.6 17a2 2 0 0 0 1.7 3h15.4a2 2 0 0 0 1.7-3L13.7 3.8a2 2 0 0 0-3.4 0z"/></svg>
+          <span><b>41</b> 份合同 30 天内到期，<b>12</b> 份待签署超过 3 天，<b>8</b> 份待补录未上传</span>
+          <span class="op">查看到期提醒 →</span>
+        </div>
+
+        <div class="fbar">
+          <div class="tabs">
+            <div class="tb on">全部 <span class="n num">1,093</span></div>
+            <div class="tb">待签署 <span class="n num">12</span></div>
+            <div class="tb">待补录 <span class="n num">8</span></div>
+            <div class="tb">生效中 <span class="n num">1,052</span></div>
+            <div class="tb">即将到期 <span class="n num">41</span></div>
+            <div class="tb">已到期 / 终止 <span class="n num">21</span></div>
+          </div>
+          <span class="sp"></span>
+          <div class="search">
+            <svg width="15" height="15" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="7"/><path d="M20.5 20.5L16 16"/></svg>
+            <input placeholder="合同编号 / 租户 / 房号">
+          </div>
+          <select class="sel"><option>全部业态</option><option selected>公寓</option></select>
+          <select class="sel"><option>签署方式</option><option>小程序签署</option><option>后台补录</option></select>
+          <select class="sel"><option>到期区间</option><option>7 天内</option><option>15 天内</option><option>30 天内</option></select>
+          <button class="btn ghost">查询</button>
+        </div>
+
+        <table class="tb">
+          <thead>
+            <tr><th>合同编号</th><th>承租人</th><th>片区 · 房号</th><th>合同期</th><th>月租金</th><th>模板</th><th>签署方式</th><th>状态</th><th>操作</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td class="num" style="font-weight:600">HT-XQ05-GY-2026-0128</td>
+              <td><div class="tname"><span class="av">张</span><div><div class="n">张女士</div><div class="p num">138****8888</div></div></div></td>
+              <td>滨江科创园区 · 3 栋-508</td><td class="num">2026-09-16 ~ 2027-09-15</td><td class="num">¥1,850</td>
+              <td>公寓租赁合同 v2.1</td><td style="color:var(--ink3)">待选择</td><td><span class="tag blue">待签署</span></td>
+              <td><a class="op" href="pc-contract-detail.html">详情</a> · <a class="op" href="pc-contract-sign.html">发起签署</a></td>
+            </tr>
+            <tr>
+              <td class="num" style="font-weight:600">HT-XQ05-GY-2026-0127</td>
+              <td><div class="tname"><span class="av">李</span><div><div class="n">李先生</div><div class="p num">139****2310</div></div></div></td>
+              <td>滨江科创园区 · 2 栋-606</td><td class="num">2026-09-10 ~ 2027-09-09</td><td class="num">¥1,380</td>
+              <td>公寓租赁合同 v2.1</td><td style="color:var(--ink3)">待补录</td><td><span class="tag orange">待补录</span></td>
+              <td><a class="op" href="pc-contract-detail.html">详情</a> · <a class="op" href="pc-contract-fill.html">去补录</a></td>
+            </tr>
+            <tr>
+              <td class="num" style="font-weight:600">HT-XQ05-GY-2025-1201</td>
+              <td><div class="tname"><span class="av">张</span><div><div class="n">张女士</div><div class="p num">138****8888</div></div></div></td>
+              <td>滨江科创园区 · 1 栋-301</td><td class="num">2025-12-01 ~ 2026-11-30</td><td class="num">¥1,850</td>
+              <td>公寓租赁合同 v2.1</td><td>小程序签署</td><td><span class="tag green">生效中</span></td>
+              <td><a class="op" href="pc-contract-detail.html">详情</a> · <a class="op" href="pc-contract-change.html">变更</a></td>
+            </tr>
+            <tr>
+              <td class="num" style="font-weight:600">HT-XQ05-GY-2025-0919</td>
+              <td><div class="tname"><span class="av">张</span><div><div class="n">张女士</div><div class="p num">138****8888</div></div></div></td>
+              <td>滨江科创园区 · 2 栋-401</td><td class="num">2025-09-20 ~ 2026-09-19</td><td class="num">¥1,380</td>
+              <td>公寓租赁合同 v1.0</td><td>小程序签署</td><td><span class="tag due">即将到期</span></td>
+              <td><a class="op" href="pc-contract-detail.html">详情</a> · <a class="op" href="../../04-租务运营/原型/pc-renew.html">续租</a></td>
+            </tr>
+            <tr>
+              <td class="num" style="font-weight:600">HT-XQ05-GY-2025-0915</td>
+              <td><div class="tname"><span class="av">陈</span><div><div class="n">陈先生</div><div class="p num">135****4412</div></div></div></td>
+              <td>滨江科创园区 · 1 栋-305</td><td class="num">2025-09-16 ~ 2026-09-15</td><td class="num">¥2,600</td>
+              <td>公寓租赁合同 v1.0</td><td>小程序签署</td><td><span class="tag gray">已终止</span></td>
+              <td><a class="op" href="pc-contract-detail.html">详情</a></td>
+            </tr>
+            <tr>
+              <td class="num" style="font-weight:600">HT-XQ04-GY-2026-0021</td>
+              <td><div class="tname"><span class="av">赵</span><div><div class="n">赵先生</div><div class="p num">135****9077</div></div></div></td>
+              <td>临港智造园区 · 2 栋-305</td><td class="num">2026-09-01 ~ 2027-08-31</td><td class="num">¥1,650</td>
+              <td>临港公寓合同 v1.2</td><td>后台补录</td><td><span class="tag green">生效中</span></td>
+              <td><a class="op" href="pc-contract-detail.html">详情</a> · <a class="op" href="pc-contract-change.html">变更</a></td>
+            </tr>
+          </tbody>
+        </table>
+
+        <div class="pgbar">
+          <span>共 <b class="num" style="color:var(--ink2)">1,093</b> 条</span>
+          <div class="pgs"><span class="pg on num">1</span><span class="pg num">2</span><span class="pg num">3</span><span class="pg"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M9 6l6 6-6 6"/></svg></span></div>
+          <span class="num">1/183 页</span>
+          <span style="margin-left:auto"><span class="note">合同号 = HT + 片区编号 + 业态简称（GY 公寓）+ 年份 + 流水，各片区独立流水；账单号 = 合同号 + 期次；合同状态项来源于 系统管理-字典配置</span></span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</div>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+</body>
+</html>

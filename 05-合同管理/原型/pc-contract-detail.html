@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>合同详情 · HT-XQ05-GY-2026-0128 · 合同管理 · 英莱达资产管理系统</title>
+<link rel="stylesheet" href="../../00-整体需求/主页原型/assets/app.css">
+<style>
+  .op{color:var(--brand);cursor:pointer;font-size:13px}
+  .op:hover{color:var(--brand-d)}
+  .kv{display:grid;grid-template-columns:repeat(4,1fr);gap:14px 24px}
+  .kv .i{display:flex;flex-direction:column;gap:4px}
+  .kv .i .k{font-size:12.5px;color:var(--ink3)}
+  .kv .i .v{font-size:14px}
+  .hd{display:flex;align-items:center;gap:12px;padding:16px 18px;border-bottom:1px solid var(--line2)}
+  .hd .t{font-size:17px;font-weight:700}
+  .hd .r{margin-left:auto;display:flex;gap:10px}
+  .mini{font-size:12.5px;color:var(--ink3)}
+</style>
+</head>
+<body>
+<div class="layout">
+
+  <aside class="sidebar" id="amsNav" data-active="contract-list" data-ver="V1.2 原型 · 租务运营 / 合同管理"></aside>
+
+  <div class="main">
+    <header class="topbar">
+      <div class="crumb"><span><a href="pc-contract-list.html" style="color:inherit">合同管理 / 合同台账</a> / </span>合同详情</div>
+      <div class="right">
+        <div class="scope">片区范围：滨江科创园区
+          <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M6 9.5l6 6 6-6"/></svg>
+        </div>
+        <div class="bell">
+          <svg width="19" height="19" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M18 9a6 6 0 1 0-12 0c0 6-2.5 7-2.5 7h17S18 15 18 9z"/><path d="M10 20a2.2 2.2 0 0 0 4 0"/></svg>
+          <span class="bdg">6</span>
+        </div>
+        <div style="display:flex;align-items:center;gap:8px"><span class="avatar">陈</span><span style="color:var(--ink)">陈志远 · 运营主管</span></div>
+      </div>
+    </header>
+
+    <div class="content">
+
+      <!-- 合同头 -->
+      <div class="panel" style="margin-bottom:16px">
+        <div class="hd">
+          <span class="t num">HT-XQ05-GY-2026-0128</span>
+          <span class="tag blue">待签署</span>
+          <span class="note">合同状态：待签署 → 生效中 / 待补录 → 生效中；后台补录上传后信息即视为生效</span>
+          <div class="r">
+            <button class="btn ghost">下载 PDF</button>
+            <button class="btn ghost" id="btnTplDownload" type="button">模板下载（Word）</button>
+            <a class="btn ghost" href="pc-contract-fill.html">后台补录</a>
+            <a class="btn ghost" href="pc-contract-change.html">合同变更</a>
+            <a class="btn primary" href="pc-contract-sign.html">发起签署</a>
+          </div>
+        </div>
+        <div class="pb">
+          <div class="kv">
+            <div class="i"><span class="k">承租人</span><span class="v">张女士 · <span class="num">138****8888</span></span></div>
+            <div class="i"><span class="k">房源</span><span class="v">滨江科创园区 · 3 栋-508（一室一厅 45㎡）</span></div>
+            <div class="i"><span class="k">合同期</span><span class="v num">2026-09-16 ~ 2027-09-15（12 个月）</span></div>
+            <div class="i"><span class="k">月租金 / 押金</span><span class="v num">¥1,850 · 押一付一 ¥1,850</span></div>
+            <div class="i"><span class="k">合同模板</span><span class="v">滨江人才公寓 · 公寓租赁合同 v2.1</span></div>
+            <div class="i"><span class="k">签署方式</span><span class="v" style="color:var(--ink3)">待选择</span></div>
+            <div class="i"><span class="k">关联入住单</span><span class="v"><a href="../../04-租务运营/原型/pc-checkin-detail.html">RZ-XQ05-2026-0087</a></span></div>
+            <div class="i"><span class="k">创建人 / 时间</span><span class="v">陈志远 · <span class="num">2026-09-15 10:12</span></span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="row" style="align-items:flex-start">
+
+        <!-- 左：合同正文 -->
+        <div class="col" style="flex:1.6">
+          <div class="panel">
+            <div class="ph">
+              <h3>合同正文</h3>
+              <span class="note" style="margin-left:6px">按所选模板自动生成，变量已替换为实际信息</span>
+              <span class="more op" style="margin-left:auto">全屏预览</span>
+            </div>
+            <div class="pb">
+              <div class="paper">
+                <div class="pt">房屋租赁合同</div>
+                <div class="pno">合同编号：<span class="num">HT-XQ05-GY-2026-0128</span></div>
+
+                <div class="pc">
+                  <div class="h">第一条 合同主体</div>
+                  <p>出租方（甲方）：<span class="pv">英莱达资产管理有限公司 · 滨江科创园区</span><br>
+                  承租方（乙方）：<span class="pv">张女士</span>（身份证号 <span class="pv num">3301**********1234</span>，联系电话 <span class="pv num">138****8888</span>）</p>
+                </div>
+
+                <div class="pc">
+                  <div class="h">第二条 租赁标的</div>
+                  <p>甲方将位于 <span class="pv">滨江区江南大道 1288 号 · 滨江人才公寓 3 栋-508</span> 的房屋出租给乙方使用，户型 <span class="pv">一室一厅</span>，建筑面积 <span class="pv num">45㎡</span>，朝向 <span class="pv">朝南</span>，装修标准 <span class="pv">精装</span>。</p>
+                </div>
+
+                <div class="pc">
+                  <div class="h">第三条 租赁期限</div>
+                  <p>租赁期共 <span class="pv num">12</span> 个月，自 <span class="pv num">2026-09-16</span> 起至 <span class="pv num">2027-09-15</span> 止。实际租赁周期以本合同签约周期为准。</p>
+                </div>
+
+                <div class="pc">
+                  <div class="h">第四条 租金与押金</div>
+                  <p>月租金为人民币 <span class="pv num">1,850</span> 元，付款方式为 <span class="pv">押一付一 · 月付</span>；押金为人民币 <span class="pv num">1,850</span> 元，合同期满且无违约、无欠费、房屋验收合格后 <span class="pv num">15</span> 个工作日内无息退还。</p>
+                </div>
+
+                <div class="pc">
+                  <div class="h">第五条 水电费用</div>
+                  <p>入住电表底数 <span class="pv num">12,480</span> 度，水表底数 <span class="pv num">386</span> 吨；租赁期内水电费按实结算，单价以园区公示标准执行。</p>
+                </div>
+
+                <div class="pc">
+                  <div class="h">第六条 房屋及设施验收</div>
+                  <p>入住时房屋及附属设施（空调、热水器、床、衣柜、书桌等）经双方点验确认完好；退住时须保持卫生、设施、墙壁、门窗完好，钥匙与门禁卡如数归还，如有破损由乙方照价赔偿。</p>
+                </div>
+
+                <div class="pc">
+                  <div class="h">第七条 合同变更与终止</div>
+                  <p>本合同履行期内如需变更，须双方协商一致并签署《合同变更协议》；乙方需提前退租的，应提前 <span class="pv num">30</span> 日书面通知甲方。</p>
+                </div>
+
+                <div class="signs">
+                  <div class="sg">
+                    <div class="sgt">出租方（甲方）签章</div>
+                    <div class="sgv">英莱达资产管理有限公司<br><span class="mini">待签署</span></div>
+                  </div>
+                  <div class="sg">
+                    <div class="sgt">承租方（乙方）签章</div>
+                    <div class="sgv"><span class="hand">张女士</span><br><span class="mini">待签署</span></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- 账单 -->
+          <div class="panel">
+            <div class="ph"><h3>关联账单</h3><span class="note" style="margin-left:6px">编号 = 合同号 + 期次，<span class="num">-0</span> 为押金</span></div>
+            <table class="tb">
+              <thead><tr><th>账单编号</th><th>类型</th><th>金额</th><th>应收日期</th><th>状态</th></tr></thead>
+              <tbody>
+                <tr><td class="num">HT-XQ05-GY-2026-0128-0</td><td>押金</td><td class="num">¥1,850</td><td class="num">2026-09-16</td><td><span class="tag gray">待收款</span></td></tr>
+                <tr><td class="num">HT-XQ05-GY-2026-0128-1</td><td>首期租金</td><td class="num">¥1,850</td><td class="num">2026-09-16</td><td><span class="tag gray">待收款</span></td></tr>
+                <tr><td class="num">HT-XQ05-GY-2026-0128-2</td><td>租金</td><td class="num">¥1,850</td><td class="num">2026-10-16</td><td><span class="tag gray">未出账</span></td></tr>
+              </tbody>
+            </table>
+            <div class="pb" style="padding-top:12px"><span class="note">共 <span class="num">13</span> 条，由入住办理一次性生成；收款与核销在 收费管理 完成</span></div>
+          </div>
+        </div>
+
+        <!-- 右：签署 / 附件 / 记录 -->
+        <div class="col" style="flex:1">
+
+          <div class="panel">
+            <div class="ph"><h3>签署信息</h3></div>
+            <div class="pb">
+              <div class="tl-flow">
+                <div class="tfi done"><span class="pt"></span><div class="bd">
+                  <div class="tt">合同生成<span class="who num">2026-09-15 10:12</span></div>
+                  <div class="ts">按模板 v2.1 生成，系统自动</div>
+                </div></div>
+                <div class="tfi cur"><span class="pt"></span><div class="bd">
+                  <div class="tt">待发起签署<span class="who">当前节点</span></div>
+                  <div class="ts">可选小程序在线签署或后台补录</div>
+                </div></div>
+                <div class="tfi"><span class="pt"></span><div class="bd">
+                  <div class="tt">合同生效</div>
+                  <div class="ts">签署完成或补录上传后自动生效</div>
+                </div></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="ph"><h3>合同附件</h3><span class="more op" style="margin-left:auto">上传</span></div>
+            <div class="pb">
+              <div class="files">
+                <div class="file">
+                  <span class="fi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><path d="M7 3h8l4 4v13a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1z"/><path d="M15 3v4h4"/></svg></span>
+                  <div><div class="fn">租赁合同_HT-XQ05-GY-2026-0128.pdf</div><div class="fs num">系统生成 · 2026-09-15 10:12 · 248 KB</div></div>
+                  <div class="fo"><span class="op">预览</span><span class="op">下载</span></div>
+                </div>
+                <div class="file">
+                  <span class="fi"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="6" width="18" height="14" rx="2"/><circle cx="12" cy="13" r="3.2"/><path d="M8 6l1.5-2h5L16 6"/></svg></span>
+                  <div><div class="fn">承租人身份证正面.jpg</div><div class="fs num">陈志远上传 · 2026-09-15 10:10</div></div>
+                  <div class="fo"><span class="op">预览</span><span class="op">删除</span></div>
+                </div>
+              </div>
+              <span class="note" style="margin-top:12px">已签署的合同仍可继续后台补录其他纸质合同附件，补录内容作为附件留痕，不改变合同状态</span>
+            </div>
+          </div>
+
+          <div class="panel">
+            <div class="ph"><h3>变更记录</h3><span class="more op" style="margin-left:auto">发起变更</span></div>
+            <div class="pb">
+              <div class="mini">暂无变更记录。合同变更将生成《合同变更协议》并保留历史版本。</div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+<script src="../../00-整体需求/主页原型/assets/nav.js"></script>
+<script>
+(function(){
+  var btn = document.getElementById('btnTplDownload');
+  if(!btn) return;
+  btn.addEventListener('click', function(){
+    var data = {
+      no:'HT-XQ05-GY-2026-0128',
+      title:'房屋租赁合同',
+      partyA:'英莱达资产管理有限公司 · 滨江科创园区',
+      partyB:'张女士',
+      partyBId:'3301**********1234',
+      partyBPhone:'138****8888',
+      addr:'滨江区江南大道 1288 号 · 滨江人才公寓 3 栋-508',
+      layout:'一室一厅', area:'45', orient:'朝南', deco:'精装',
+      months:'12', start:'2026-09-16', end:'2027-09-15',
+      rent:'1,850', pay:'押一付一 · 月付', deposit:'1,850', depositDays:'15',
+      elec:'12,480', water:'386', advance:'30'
+    };
+    var body =
+      '<p><b>出租方（甲方）：</b>'+data.partyA+'<br>'+
+      '<b>承租方（乙方）：</b>'+data.partyB+'（身份证号 '+data.partyBId+'，联系电话 '+data.partyBPhone+'）</p>'+
+      '<p><b>第二条 租赁标的</b><br>甲方将位于 '+data.addr+' 的房屋出租给乙方使用，户型 '+data.layout+'，建筑面积 '+data.area+'㎡，朝向 '+data.orient+'，装修标准 '+data.deco+'。</p>'+
+      '<p><b>第三条 租赁期限</b><br>租赁期共 '+data.months+' 个月，自 '+data.start+' 起至 '+data.end+' 止。实际租赁周期以本合同签约周期为准。</p>'+
+      '<p><b>第四条 租金与押金</b><br>月租金为人民币 '+data.rent+' 元，付款方式为 '+data.pay+'；押金为人民币 '+data.deposit+' 元，合同期满且无违约、无欠费、房屋验收合格后 '+data.depositDays+' 个工作日内无息退还。</p>'+
+      '<p><b>第五条 水电费用</b><br>入住电表底数 '+data.elec+' 度，水表底数 '+data.water+' 吨；租赁期内水电费按实结算，单价以园区公示标准执行。</p>'+
+      '<p><b>第六条 房屋及设施验收</b><br>入住时房屋及附属设施（空调、热水器、床、衣柜、书桌等）经双方点验确认完好；退住时须保持卫生、设施、墙壁、门窗完好，钥匙与门禁卡如数归还，如有破损由乙方照价赔偿。</p>'+
+      '<p><b>第七条 合同变更与终止</b><br>本合同履行期内如需变更，须双方协商一致并签署《合同变更协议》；乙方需提前退租的，应提前 '+data.advance+' 日书面通知甲方。</p>';
+
+    var html =
+      '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">'+
+      '<head><meta charset="utf-8"><title>'+data.title+'</title></head>'+
+      '<body style="font-family:SimSun;font-size:14px;line-height:1.8">'+
+      '<h2 style="text-align:center">'+data.title+'</h2>'+
+      '<p style="text-align:center">合同编号：'+data.no+'</p>'+
+      '<h4>第一条 合同主体</h4>'+body+
+      '<table style="width:100%;margin-top:40px">'+
+      '<tr><td style="width:50%"><b>出租方（甲方）签章</b><br>'+data.partyA+'<br>________________</td>'+
+      '<td style="width:50%"><b>承租方（乙方）签章</b><br>'+data.partyB+'<br>________________</td></tr></table>'+
+      '</body></html>';
+
+    var blob = new Blob(['\ufeff'+html], {type:'application/msword'});
+    var url = URL.createObjectURL(blob);
+    var a = document.createElement('a');
+    a.href = url;
+    a.download = '租赁合同模板_'+data.no+'.doc';
+    document.body.appendChild(a);
+    a.click();
+    document.body.removeChild(a);
+    setTimeout(function(){ URL.revokeObjectURL(url); }, 1000);
+  });
+})();
+</script>
+</body>
+</html>
