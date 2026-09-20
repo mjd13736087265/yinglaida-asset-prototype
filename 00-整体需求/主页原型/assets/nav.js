@@ -84,7 +84,15 @@
       { id: 'charge-invoice',  text: '票据管理',   href: root + '03-收费管理（PC）/原型/pc-invoice.html' },
       { id: 'charge-settings', text: '规则配置',   href: root + '03-收费管理（PC）/原型/pc-charge-settings.html' }
     ] },
-    { id: 'meter',    text: '水电管理',       icon: IC.meter },
+    { id: 'meter',    text: '智能设备',       icon: IC.meter, children: [
+      { id: 'device-home',     text: '设备总览', href: root + '06-智能设备/原型/pc-device-home.html' },
+      { id: 'device-list',     text: '设备管理', href: root + '06-智能设备/原型/pc-meter-list.html' },
+      { id: 'device-reading',  text: '抄表记录', href: root + '06-智能设备/原型/pc-reading.html' },
+      { id: 'device-share',    text: '公摊管理', href: root + '06-智能设备/原型/pc-share.html' },
+      { id: 'device-bills',    text: '水电账单', href: root + '06-智能设备/原型/pc-meter-bills.html' },
+      { id: 'device-alarm',    text: '预警告警', href: root + '06-智能设备/原型/pc-alarm.html' },
+      { id: 'device-settings', text: '规则配置', href: root + '06-智能设备/原型/pc-meter-settings.html' }
+    ] },
     { g: '服务' },
     { id: 'service',  text: '物业服务（报修）', icon: IC.service },
     { id: 'approval', text: '审批中心',       icon: IC.approval },
